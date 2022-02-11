@@ -20,7 +20,7 @@ buildscript {
 		webResourceConfig = [
 	        staticFilesDir : "src/main/webapp",
 	        baseDir: "META-INF/resources",
-	        name : "varsql-web-"+appVersion
+	        name : "vartool-static"+appVersion
 	    ]
     }
 
@@ -336,7 +336,7 @@ clean.doLast {
 
 jar{
 	enabled=true
-	baseName ='vtool-static-resource'+appVersion
+	baseName ='vartool-app'+appVersion
 }
 
 //web resource jar packaging
