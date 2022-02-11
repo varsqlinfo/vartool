@@ -1,0 +1,11 @@
+{
+    "version": 3,
+    "mappings": "AAAA;;EAEE;AAMF,AAAA,IAAI,EAAC,IAAI,CAAA;EACP,MAAM,EAAC,IAAI;EACX,KAAK,EAAC,IAAI;CACX;;AAED,AAAA,WAAW,CAAA;EACT,MAAM,EAAC,IAAI;EACX,KAAK,EAAC,IAAI;CACX",
+    "sources": [
+        "vt-mgmt.scss",
+        "_var_vt.global.scss",
+        "_variables.scss"
+    ],
+    "names": [],
+    "file": "vt-mgmt.css"
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<project name="varsqlcompile" default="deploy">
+	
+	<target name="deploy">
+		{{#projects}} 
+			<antcall target="{{prjectName}}"/>
+		{{/projects}} 	
+	</target>
+	
+	{{#projects}}
+		<target name="{{prjectName}}" description="">
+			<copy todir="{{deployPath}}">
+				<fileset dir="{{srcPath}}">
+					<modified />
+				</fileset>
+			</copy>
+		</target>
+	{{/projects}}
+
+</project>

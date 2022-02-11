@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>validation check</title>
+<style>
+
+</style>
+</head>
+
+
+
+
+</body>
+</html>
+<script>
+
+function stringValue (val){
+	return String(val);
+}
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+function hasProperty(obj , key){
+	return hasOwnProperty.call(obj, key);
+}
+
+var pubValidatorI18n ={
+	notEmpty : 'Please enter a value'
+	,length : {
+		less: 'Please enter less than {min} characters'
+        ,more: 'Please enter more than {max} characters'
+        ,between: 'Please enter value between {min} and {max} characters long'
+	}
+}
+
+var pubValidator = {
+	notEmpty : function (val, role, options, chkObj){
+		val = String(val);
+		val = val.replaceAll(/\s/g,'');
+		if(val.length < 1){
+			return true; 
+		}
+	}
+	,length : function (val, role, options, chkObj){
+		
+		if(options.type =='number'){
+			val = Number(val);
+		}else{
+			val = stringValue(val);
+			val = val.length; 	
+		}
+
+		if((hasProperty(role,'min') && hasProperty(role,'max'))){
+			if(role.min > val || val > role.max){
+				return true; 
+			}
+		}else{
+			if(hasProperty(role,'min') && role.min > val){
+				return true; 
+			}
+
+			if(hasProperty(role,'max') && val > role.max){
+				return true; 
+			}
+		}
+	}
+}
+
+function validation(chkObj, chkRoles){
+	var notValidInfo = [];
+
+	for(var key in chkRoles){
+		var val = chkObj[key];
+
+		var optItem = chkRoles[key];
+		var validators = optItem.validators;
+		
+		for(var chkRoleKey in validators){
+			var chkRoleItem = validators[chkRoleKey]; 
+			var chkFn = pubValidator[chkRoleKey]; 
+			if(chkFn){
+				var validFlag=chkFn(val, chkRoleItem, optItem, chkObj);
+
+				if(validFlag === true){
+					notValidInfo.push(chkRoleItem);
+					break; 
+				}
+			}
+		}
+	}
+	
+	return notValidInfo;
+}
+
+var role = {
+	title :{
+		type : 'number'
+		,validators :{
+			notEmpty :{
+				message : '제목을 입력하세요.'
+			}
+			,length :{
+				min : 3
+				,max : 10
+				,message : '입력문자는 {min} 보다 크고 {max} 보다 작아야 합니다.'
+			}
+			,customValid : function (val){
+
+			}
+			,callback : function (val){
+
+			}
+		}
+	}
+}
+
+console.log(validation({title: 11} , role));
+
+</script>

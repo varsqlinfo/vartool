@@ -1,0 +1,770 @@
+/* 
+ vt-tool: 0.0.1 
+*/
+
+@import "_var_vt.global.scss";
+
+html ,body{
+  height: 100%;
+  width: 100%;
+  font-size: 14px;
+}
+
+input, textarea, select {
+  border : 1px solid colorInfo($g_default_theme_name , "border_thick_color");
+  border-radius: 2px;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  background: colorInfo($g_default_theme_name , "background_color");
+  color:colorInfo($g_default_theme_name , "font_color");
+}
+
+select {
+  padding: 2px 2px;
+}
+
+button {
+  border-radius: 2px;
+  cursor: pointer;
+  outline: none;
+  display: inline-block;
+  padding: 2px 5px;
+  margin-bottom: 0;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-decoration: none;
+  line-height: 18px;
+}
+
+button:hover, button:focus, button:active {
+  background: colorInfo($g_default_theme_name , "column_active_background");
+	color:  colorInfo($g_default_theme_name , "font_active");
+  border: 1px solid colorInfo($g_default_theme_name , "border_thick_color");
+}
+
+button.disabled, button[disabled] {
+  pointer-events: none;
+  cursor: not-allowed;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  opacity: .65;
+}
+
+button.btn-sm {
+  padding: 0px 5px;
+}
+
+button.btn-md {
+  padding: 4px 10px;
+}
+
+button.btn-lg {
+  padding: 8px 15px;
+}
+
+.w100{
+  width: 100%;
+}
+.h100{
+  height:100%;
+}
+.wh100{
+	height:100%;
+	width: 100%;
+}
+
+.ta-l{
+  text-align: left;
+}
+.ta-c{
+  text-align: center;
+}
+.ta-r{
+  text-align: right;
+}
+
+.text-ellipsis {
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  max-width: calc(100% - 20px);
+  overflow: hidden;
+  
+  &.ellipsis5 {
+    max-width: calc(100% - 5px);
+  }
+  &.ellipsis10 {
+    max-width: calc(100% - 10px);
+  }
+}
+
+
+.error {
+  color: #ff3400;
+}
+
+.centerLoading {
+  background-color: colorInfo($g_default_theme_name , "background_color");
+  opacity: 0.3;
+  z-index: 100;
+}
+
+.vue-display-off, .display-off{
+	display: none;
+}
+
+.dis-hidden{
+	display: none;
+}
+.dis-block{
+	display: block;
+}
+
+.margin0{
+	margin:0px;
+}
+.padding0{
+	padding:0px;
+}
+
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.vartool-main {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  overflow-x: auto;
+  margin: 0px;
+  padding: 0px;
+  min-width: 900px;
+
+  background: colorInfo($g_default_theme_name , "background_color");
+  font-size:colorInfo($g_default_theme_name , "font_size");
+  font-family: sans-serif;
+  color:colorInfo($g_default_theme_name , "font_color");
+
+  .lm_content {
+    padding: 1px;
+    border: 1px solid colorInfo($g_default_theme_name , "border_thick_color");
+    background: colorInfo($g_default_theme_name , "background_color");
+  }
+  
+  .lm_goldenlayout{
+    background: colorInfo($g_default_theme_name , "background_color");
+  }
+  
+  .vartool-menu-wrapper {
+    z-index: 1000;
+    width: 100%;
+    height: 33px;
+    position: absolute;
+    margin-bottom: 1px;
+    border-bottom: 1px solid colorInfo($g_default_theme_name , "border_thick_color");
+    @include background_gradident($g_default_theme_name);
+    .navbar{
+      border:0px solid colorInfo($g_default_theme_name , "border_thick_color");
+      height: 33px;
+      min-height: 33px;
+      margin-bottom:0px;
+      padding-right: 5px;
+    }
+
+    .navbar-brand {
+        float: left;
+        height: 33px;
+        font-size: 18px;
+        line-height: 0px;
+        color: colorInfo($g_default_theme_name , "font_thin_color");
+
+        &:hover{
+          color: colorInfo($g_default_theme_name , "font_active");
+        }
+    }
+
+    .navbar-default{
+      background: transparent;
+    }
+
+    .nav-second-btn{
+      float: right;
+      margin-top: -5px;
+    }
+    
+    .second-menu-item{
+      position:relative;
+      padding: 5px 10px 5px 10px;
+    }
+
+    a:hover,a:focus{
+      background-color: colorInfo($g_default_theme_name , "a_hover_background_color") !important;
+      border-color: colorInfo($g_default_theme_name , "a_hover_border_color") !important;
+      color: colorInfo($g_default_theme_name , "a_hover_font_color") !important;
+    }
+
+    .top-menu {
+      >li{
+        float: left;
+        >a{
+          color: colorInfo($g_default_theme_name , "font_thin_color");
+          height: 32px;
+          line-height: 33px;
+          font-size: 13px;
+          padding: 0px 10px;
+          &:hover , &:focus {
+            color :colorInfo($g_default_theme_name , "font_active");
+            background-color: colorInfo($g_default_theme_name , "a_hover_background_color");
+          }
+        }
+      }
+    }
+  }
+
+  .navbar-right .open>a{
+    background-color: colorInfo($g_default_theme_name , "a_hover_background_color");
+  }
+
+  .vartool-body-wrapper {
+    height: calc(100% - 35px);
+    width: calc(100% - 2px);
+    margin: 34px 1px 0px 1px;
+    z-index: 9;
+  }
+
+  .dropdown-menu {
+    background-color: colorInfo($g_default_theme_name , "background_color");
+    border: 1px solid colorInfo($g_default_theme_name , "border_thin_color");
+    >li>a {
+      color: colorInfo($g_default_theme_name , "font_color");
+      &:hover{
+        color :colorInfo($g_default_theme_name , "font_active");
+      }
+    }
+  }
+  
+  .header-layout-info{
+    min-width: 250px;
+    max-width: 700px;
+    display: none;
+    position: absolute;
+    right: 0px;
+    margin-top: 2px;
+    background: colorInfo($g_default_theme_name , "background_color");
+    border-radius: 4px;
+    border: 1px solid colorInfo($g_default_theme_name , "border_thin_color");
+
+    &.header-menu{
+      min-width: 170px;
+      border-radius: 0px;
+      margin-top: 0px;
+
+      a{
+        color: colorInfo($g_default_theme_name , "font_color");
+      }
+    }
+
+    thead{
+      display: table;
+      width: 100%;
+      border-bottom: 1px solid colorInfo($g_default_theme_name , "border_thin_color");
+      .header-layout-title{
+        font-weight: bold; 
+        text-align:center; 
+        padding: 7px 10px;
+      }
+    }
+    
+    >tbody{
+      display: table;
+      width: 100%;
+
+      tr{
+        color: colorInfo($g_default_theme_name , "font_color");
+        &:hover{
+          color: colorInfo($g_default_theme_name , "a_hover_font_color");
+          background-color :colorInfo($g_default_theme_name , "a_hover_background_color");
+        }
+      }
+
+      td {
+        padding: 5px 10px;
+        white-space: pre;    
+
+        &.name{
+        
+        }
+    
+        &.event-btn-area{
+         text-align: right;
+        }
+      }
+     
+    }
+  }
+
+  .open .header-layout-info{
+    display: block;
+  }
+
+  .log-view-area{
+    height:calc(100% - 27px);
+    width:100%;
+    position:relative;
+    
+    &.full{
+      height:100%;
+    }
+  }
+  
+  .log-tab-area{
+    height:  27px;
+  }
+  
+  .log-view-item{
+    width:100%;
+    height:100%;
+    z-index:0;
+    position:absolute;
+    visibility: hidden;
+    
+    &.on{
+      visibility: visible;
+      z-index:1;
+    }
+  }
+}
+
+.pub-context-menu a {
+	color: colorInfo($g_default_theme_name , "font_color");
+}
+
+.lm_goldenlayout {
+  background: colorInfo($g_default_theme_name , "background_color");
+}
+
+.lm_content {
+  background: colorInfo($g_default_theme_name , "background_color");
+  width: 100%;
+  height: 100%
+}
+
+.lm_maximised .lm_header {
+  background: colorInfo($g_default_theme_name , "background_color");
+}
+
+.lm_header .lm_tab {
+  background: colorInfo($g_default_theme_name , "background_disable_tab_color")
+}
+
+.lm_header .lm_tab:hover {
+  background: colorInfo($g_default_theme_name , "background_active_tab_color")
+}
+
+.lm_tab:hover,.lm_tab.lm_active {
+  color:colorInfo($g_default_theme_name , "font_enable_tab_color");
+  background: colorInfo($g_default_theme_name , "background_active_tab_color")
+}
+
+.lm_splitter.lm_horizontal .lm_drag_handle {
+  left: 0px !important;
+  width: 6px !important
+}
+
+.lm_splitter.lm_vertical .lm_drag_handle {
+  top: 0px !important
+}
+
+.lm_header {
+  z-index: 1
+}
+
+.lm_items {
+  z-index: 0;
+  position: relative
+}
+
+.lm_header .lm_tabdropdown_list {
+  border-bottom: 1px solid colorInfo($g_default_theme_name , "border_thin_color")
+}
+
+.lm_header .lm_controls .lm_tabdropdown:before {
+  color: colorInfo($g_default_theme_name , "font_thin_color")
+}
+
+.lm_header .lm_tab .lm_close_tab {
+  margin-top: -1px;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 10pt;
+  @include opacity_val(0.6);
+}
+
+.lm_header .lm_tab .lm_close_tab:hover {
+  color: colorInfo($g_default_theme_name , "font_thin_color");
+  @include opacity_val(1.0);
+}
+
+.lm_header .lm_tab .lm_close_tab:before {
+  content: "\f00d"
+}
+
+.lm_header .lm_controls {
+  padding-top: 3px;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 9pt
+}
+
+.lm_header .lm_controls>li {
+  @include opacity_val(0.5);
+}
+
+.lm_header .lm_controls>li:hover {
+  color: colorInfo($g_default_theme_name , "font_thin_color");
+  @include opacity_val(1.0);
+}
+
+.lm_header .lm_controls .lm_popout {
+  background-image: none
+}
+
+.lm_header .lm_controls .lm_popout:before {
+  content: "\f2d2"
+}
+
+.lm_header .lm_controls .lm_maximise {
+  background-image: none
+}
+
+.lm_header .lm_controls .lm_maximise:before {
+  content: "\f2d0"
+}
+
+.lm_header .lm_controls .lm_close {
+  background-image: none
+}
+
+.lm_header .lm_controls .lm_close:before {
+  content: "\f00d"
+}
+
+.lm_maximised .lm_controls .lm_maximise {
+  background-image: none
+}
+
+.lm_maximised .lm_controls .lm_maximise:before {
+  content: "\f2d1"
+}
+
+
+/* for MS계열 브라우저 */
+@include keyframe (blinkframe) {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1.0; } 
+}
+
+.blinkcss {
+  *{
+    color : colorInfo($g_default_theme_name,"blink_color");
+  }
+  @include animation (blinkframe, 0s, 2s, infinite);
+  animation-timing-function: linear;
+  background-color: colorInfo($g_default_theme_name,"blink_background") !important;
+}
+
+
+
+.ui-widget-overlay {
+  background: colorInfo($g_default_theme_name , "background_overlay");
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 2000;
+  opacity: .3;
+  -moz-opacity: .3;
+  -khtml-opacity: .3;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+  filter: alpha(opacity=30)
+}
+
+.ui-dialog {
+  z-index: 1000;
+  padding: 0px;
+  background: colorInfo($g_default_theme_name , "background_color");
+  border: 1px solid colorInfo($g_default_theme_name , "border_thick_color");
+  outline: none;
+  .ui-dialog-titlebar {
+    background:colorInfo($g_default_theme_name , "background_thin");
+    font-weight: bold;
+    padding: 7px 8px;
+    border-bottom: 1px solid colorInfo($g_default_theme_name , "border_thick_color");
+
+    .ui-dialog-titlebar-close {
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: 13pt;
+      float: right;
+      content: "";
+      cursor: pointer;
+      width: 23px;
+      height: 24px;
+      margin-top: -3px;
+      padding: 2px 4px;
+      overflow: hidden;
+      line-height: 18px;
+
+    }
+  }
+  .ui-dialog-content {
+    position: relative;
+    padding: 5px 5px;
+    overflow: auto;
+    background: colorInfo($g_default_theme_name , "background_color");
+  }
+
+  .ui-dialog-buttonpane {
+    border-top: 1px solid colorInfo($g_default_theme_name , "border_thick_color");
+    padding: 10px 8px;
+    height: 43px;
+
+    .ui-dialog-buttonset {
+      float: right;
+    }
+  }
+
+  .ui-button, .ui-dialog-titlebar-close {
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border: 1px solid colorInfo($g_default_theme_name , "border_thick");
+    background: colorInfo($g_default_theme_name , "background_color");
+    padding: 2px 11px;
+    margin-left: 5px;
+  }
+
+  .ui-dialog-titlebar-close:before {
+    content: "";
+  }
+
+  .ui-button:hover, .ui-dialog-titlebar-close:hover {
+    color: colorInfo($g_default_theme_name , "font_active");
+    background-color: colorInfo($g_default_theme_name , "background_active");
+    border-color: colorInfo($g_default_theme_name , "border_thick");
+  }  
+}
+
+
+
+@each $pThemeName in $g_theme_list_info {
+
+	#{fn_themeName($pThemeName)}{
+    
+    input, textarea, select {
+      border : 1px solid colorInfo($pThemeName , "border_thick_color");
+      background: colorInfo($pThemeName , "background_color");
+      color:colorInfo($pThemeName , "font_color");
+
+    }
+    
+    button:hover, button:focus, button:active {
+      background: colorInfo($pThemeName , "column_active_background");
+      color:  colorInfo($pThemeName , "font_active");
+      border: 1px solid colorInfo($pThemeName , "border_thick_color");
+    }
+    
+    .centerLoading {
+      background-color: colorInfo($pThemeName , "background_color");
+    }
+
+    .vartool-main {
+    
+      background: colorInfo($pThemeName , "background_color");
+      font-size:colorInfo($pThemeName , "font_size");
+      color:colorInfo($pThemeName , "font_color");
+    
+      .lm_content {
+        padding: 1px;
+        border: 1px solid colorInfo($pThemeName , "border_thick_color");
+        background: colorInfo($pThemeName , "background_color");
+      }
+      
+      .lm_goldenlayout{
+        background: colorInfo($pThemeName , "background_color");
+      }
+      
+      .vartool-menu-wrapper {
+        border-bottom: 1px solid colorInfo($pThemeName , "border_thick_color");
+        @include background_gradident($pThemeName);
+        .navbar{
+          border:0px solid colorInfo($pThemeName , "border_thick_color");
+        }
+    
+        .navbar-brand {
+            color: colorInfo($pThemeName , "font_color");
+    
+            &:hover , &:focus {
+              color :colorInfo($pThemeName , "font_active");
+              background-color: colorInfo($pThemeName , "a_hover_background_color");
+            }
+        }
+            
+        .navbar-right {
+          >li{
+            float: left;
+            >a{
+              color: colorInfo($pThemeName , "font_color");
+              
+              &:hover , &:focus {
+                color :colorInfo($pThemeName , "font_active");
+                background-color: colorInfo($pThemeName , "a_hover_background_color");
+              }
+            }
+          }
+        }
+      }
+
+      a:hover,a:focus{
+        background-color: colorInfo($pThemeName , "a_hover_background_color") !important;
+        border-color: colorInfo($pThemeName , "a_hover_border_color") !important;
+        color: colorInfo($pThemeName , "a_hover_font_color") !important;
+      }
+        
+      .header-layout-info{
+        background: colorInfo($pThemeName , "background_color");
+        border: 1px solid colorInfo($pThemeName , "border_thin_color");
+
+        &.header-menu{
+          a{
+            color: colorInfo($pThemeName , "font_color");
+          }
+        }
+    
+        thead{
+          border-bottom: 1px solid colorInfo($pThemeName , "border_thin_color");
+        }
+        
+        >tbody{
+          tr{
+            color: colorInfo($pThemeName , "font_color");
+            &:hover{
+              color: colorInfo($pThemeName , "a_hover_font_color");
+              background-color :colorInfo($pThemeName , "a_hover_background_color");
+            }
+          }
+        }
+      }
+    }
+
+    .navbar-right .open>a{
+      background-color: colorInfo($pThemeName , "a_hover_background_color");
+    }
+
+    .dropdown-menu {
+      background-color: colorInfo($pThemeName , "background_color");
+      border: 1px solid colorInfo($pThemeName , "border_thin_color");
+      >li>a {
+        color: colorInfo($pThemeName , "font_color");
+        &:hover{
+          color :colorInfo($pThemeName , "font_active");
+        }
+      }
+    }
+    
+    .lm_goldenlayout {
+      background: colorInfo($pThemeName , "background_color");
+    }
+
+    .lm_content {
+      background: colorInfo($pThemeName , "background_color");
+    }
+
+    .lm_maximised .lm_header {
+      background: colorInfo($pThemeName , "background_color")
+    }
+
+    .lm_header .lm_tab {
+      background: colorInfo($pThemeName , "background_disable_tab_color")
+    }
+
+    .lm_header .lm_tab:hover {
+      background: colorInfo($pThemeName , "background_active_tab_color")
+    }
+
+    .lm_tab:hover,.lm_tab.lm_active {
+      color:colorInfo($pThemeName , "font_enable_tab_color");
+      background: colorInfo($pThemeName , "background_active_tab_color")
+    }
+
+    .lm_header .lm_tabdropdown_list {
+      border-bottom: 1px solid colorInfo($pThemeName , "border_thin_color")
+    }
+
+    .lm_header .lm_controls .lm_tabdropdown:before {
+      color: colorInfo($pThemeName , "font_thin_color")
+    }
+
+    .lm_header .lm_tab .lm_close_tab:hover {
+      color: colorInfo($pThemeName , "font_thin_color");
+    }
+
+    .lm_header .lm_controls>li:hover {
+      color: colorInfo($pThemeName , "font_thin_color");
+    }
+
+    .pub-context-menu a {
+      color: colorInfo($pThemeName , "font_color");
+    }
+
+    .blinkcss {
+      *{
+        color : colorInfo($pThemeName,"blink_color");
+      }
+      background-color: colorInfo($pThemeName,"blink_background") !important;
+    }
+
+    .ui-widget-overlay {
+      background: colorInfo($pThemeName , "background_overlay");
+    }
+    
+    .ui-dialog {
+      background: colorInfo($pThemeName , "background_color");
+      border: 1px solid colorInfo($pThemeName , "border_thick_color");
+      
+      .ui-dialog-titlebar {
+        background:colorInfo($pThemeName , "background_thin");
+        border-bottom: 1px solid colorInfo($pThemeName , "border_thick_color");
+      }
+
+      .ui-dialog-content {
+        background: colorInfo($pThemeName , "background_color");
+      }
+    
+      .ui-dialog-buttonpane {
+        border-top: 1px solid colorInfo($pThemeName , "border_thick_color");
+      }
+    
+      .ui-button , .ui-dialog-titlebar-close {
+        border: 1px solid colorInfo($pThemeName , "border_thick");
+        background: colorInfo($pThemeName , "background_color");
+      }
+         
+      .ui-button:hover, .ui-dialog-titlebar-close:hover {
+        color: colorInfo($pThemeName , "font_active");
+        background-color: colorInfo($pThemeName , "background_active");
+        border-color: colorInfo($pThemeName , "border_thick");
+      }  
+    }
+
+	}
+}
+

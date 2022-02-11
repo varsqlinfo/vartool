@@ -1,0 +1,57 @@
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<!-- login -->
+	<definition name="/login/**" template="/WEB-INF/views/common/templates/noTemplate.jsp">
+		<put-attribute name="body" value="/WEB-INF/views/login/{1}.jsp" />
+	</definition>
+	
+	<!-- mgmt jsp path -->
+	<definition name="/admin/*" template="/WEB-INF/views/admin/_templates/mainTemplate.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/admin/_templates/header.jsp" />
+		<put-attribute name="left" value="/WEB-INF/views/admin/_templates/left.jsp" />
+        <put-attribute name="body"	value="/WEB-INF/views/admin/{1}.jsp" />
+    </definition>
+    
+    <!-- mgmt -->
+	<definition name="mgmt-template" template="/WEB-INF/views/mgmt/_templates/mainTemplate.jsp">
+		<put-attribute name="title" value="user" type="string" />
+		<put-attribute name="header" value="/WEB-INF/views/mgmt/_templates/header.jsp" />
+		<put-attribute name="left" value="/WEB-INF/views/mgmt/_templates/left.jsp" />
+	</definition>
+	<!-- mgmt jsp path -->
+	<definition name="/mgmt/*" extends="mgmt-template">
+        <put-attribute name="body"	value="/WEB-INF/views/mgmt/{1}.jsp" />
+    </definition>
+	
+	<!-- user main layout -->
+	<definition name="main-template" template="/WEB-INF/views/main/_templates/mainPageTemplate.jsp">
+		<put-attribute name="title" value="user" type="string" />
+		<put-attribute name="header" value="/WEB-INF/views/main/_templates/header.jsp" />
+	</definition>
+	
+	<!-- user main path -->
+	<definition name="/main/*" extends="main-template">
+        <put-attribute name="body"	value="/WEB-INF/views/main/{1}.jsp" />
+    </definition>
+    
+    <definition name="/board/*" template="/WEB-INF/views/app/board/_templates/mainTemplate.jsp">
+        <put-attribute name="body"	value="/WEB-INF/views/app/board/{1}.jsp" />
+    </definition>
+	
+	<!-- default template -->
+	<definition name="default-template" template="/WEB-INF/views/common/templates/defaultPageTemplate.jsp">
+		<put-attribute name="title" value="user" type="string" />
+		<put-attribute name="header" value="/WEB-INF/views/common/templates/header.jsp" />
+	</definition>
+	
+    <definition name="/*/*" extends="default-template">
+        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+    </definition>
+    
+    <definition name="/*" extends="default-template">
+        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+    </definition>
+
+</tiles-definitions>

@@ -1,0 +1,286 @@
+@charset "UTF-8";
+
+html,body{
+	height:100%;
+	width:100%;
+}
+
+.vt-setting{
+	
+}
+
+input, textarea, select {
+  border: 1px solid #d5d5d8;
+  background: #ffffff;
+  color: #000000;
+  border-radius: 2px;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+select {
+  padding: 2px 2px;
+}
+
+button {
+  border-radius: 2px;
+  cursor: pointer;
+  outline: none;
+  color: #000000;
+  border: 1px solid #dedede;
+  background-color: #ffffff;
+  display: inline-block;
+  padding: 2px 5px;
+  margin-bottom: 0;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-decoration: none;
+  line-height: 18px;
+}
+
+button:hover, button:focus, button:active {
+  color: #000000;
+  background-color: #c1c3c4;
+  border: 1px solid #827e7e;
+}
+
+button.disabled, button[disabled] {
+  pointer-events: none;
+  cursor: not-allowed;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  opacity: .65;
+}
+
+button.btn-sm {
+  padding: 0px 5px;
+}
+
+button.btn-md {
+  padding: 4px 10px;
+}
+
+button.btn-lg {
+  padding: 8px 15px;
+}
+
+button.varsql-btn-trans {
+  background-color: transparent;
+}
+
+button.varsql-btn-trans:hover {
+  color: #000000;
+  background-color: #c1c3c4;
+}
+
+button.varsql-btn-default {
+  background-color: #ffffff;
+}
+
+button.varsql-btn-default:hover {
+  color: #000000;
+  background-color: #c1c3c4;
+}
+
+button.varsql-btn-info {
+  color: #000000;
+  border-color: #b1eafb;
+  background-color: #b1eafb;
+}
+
+button.varsql-btn-info:hover, button.varsql-btn-info:focus {
+  color: #000000;
+  background-color: #8fd2e6;
+}
+
+button.on {
+  color: #000000;
+  border-color: #827e7e !important;
+  background-color: #ffffff;
+}
+
+button.on:hover, button.on:focus {
+  color: #000000;
+  background-color: #a0a0a0;
+}
+
+.text-ellipsis {
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  max-width: calc(100% - 20px);
+  overflow: hidden;
+}
+
+.text-ellipsis.ellipsis10 {
+  max-width: calc(100% - 10px);
+}
+
+.text-ellipsis.ellipsis5 {
+  max-width: calc(100% - 5px);
+}
+
+.error {
+  color: #ff3400;
+}
+
+.centerLoading {
+  background-color: #d5d5d8;
+  opacity: 0.3;
+  z-index: 100;
+}
+
+.varsql-setting {
+  height: 100%;
+  width: 100%;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  overflow: auto;
+  margin: 0px;
+  padding: 0px;
+  background-color: #fbfbfb;
+  color: #000000;
+  min-width: 900px;
+}
+
+.varsql-body-wrapper {
+  z-index: 9;
+  padding: 0 15px !important;
+  height: 100%;
+  min-height: auto !important;
+}
+
+.sidebar{
+	margin-top: 50px;
+}
+
+.navbar{
+	min-height:0px;
+	height: 50px;
+	line-height: 30px;
+}
+.navbar-brand {
+    float: left;
+    padding: 10px;
+    font-size: 18px;
+    line-height: inherit;
+}
+
+.navbar-top-links{
+	padding-top: 5px;
+}
+
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 4px 15px;
+}
+.gnb-menu {
+	width:650px;
+	padding: 10px;
+}
+.gnb-menu .main-menu{
+	width:100%;
+	display:flex;
+}
+.gnb-menu .main-menu> li{
+	float:left;
+	width: 250px;
+}
+
+.gnb-menu .main-menu> li{
+	border-left: 1px solid #000;
+	padding-left:3px;
+	position:relative;
+}
+
+.gnb-menu .main-menu> li:first-child{
+	border-left: 0px solid #000;
+}
+
+.navbar-right > li{
+	float:left;
+}
+
+.second-menu-item {
+    position: relative;
+    padding: 5px 10px 10px 10px;
+}
+
+.menu-title{
+	font-weight: bold; 
+	text-align:center; 
+}
+
+.bottomHeight5{
+	margin-bottom:7px;
+}
+
+.vue-display-off{
+	display: none;
+}
+
+.dis-hidden{
+	display: none;
+}
+.dis-block{
+	display: block;
+}
+
+.margin0{
+	margin-left:0px;
+	margin-right:0px;
+	margin-bottom:0px;
+	margin-top:0px;
+}
+.padding0{
+	padding-left:0px;
+	padding-right:0px;
+	padding-bottom:0px;
+	padding-top:0px;
+}
+
+.paddingl0{
+	padding-left:0px;
+}
+
+.paddingr0{
+	padding-right:0px;
+}
+
+.gain-ellipsis, .gain-ellipsis >* {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0px;
+    margin: 0px;
+}
+
+.text-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  max-width: calc(100% - 20px);
+  overflow: hidden;
+}
+
+.text-ellipsis.ellipsis10 {
+  max-width: calc(100% - 10px);
+}
+
+.text-ellipsis.ellipsis5 {
+  max-width: calc(100% - 5px);
+}
+
+
+#varsqlViewArea .panel-body {
+   padding: 3px;
+}
+
+.scroll-on{
+	overflow: auto !important;	
+}

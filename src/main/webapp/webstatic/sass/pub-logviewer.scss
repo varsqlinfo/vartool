@@ -1,0 +1,643 @@
+/* * pub.grid.fxied.css: 1.0.0 * ======================================================================== * Copyright 2016-2019 ytkim * Licensed under MIT * http://www.opensource.org/licenses/mit-license.php*/
+
+@import "_var_vt.global.scss";
+.pubLogViewer-wrapper {
+  background-color: colorInfo($g_default_theme_name , "background_color");
+  color: colorInfo($g_default_theme_name , "font_color");
+  * {
+		border-spacing:0;
+		border-collapse:separate;
+		font-size:colorInfo($g_default_theme_name , "font_size");
+		@include box-sizing($box_sizing_border)
+  }
+  
+  input, textarea{
+    -webkit-touch-callout: all;
+      -webkit-user-select: all;
+      -moz-user-select: all;
+      -ms-user-select: all;
+      user-select: all;
+  }
+
+  input, button {
+      padding: 0px 5px;
+      margin: 0px;      
+      color: colorInfo($g_default_theme_name , "font_color");
+      border: 1px solid colorInfo($g_default_theme_name , "border_thick_color");
+      overflow: visible;
+  }
+
+  input[type=search] {
+      &::-ms-clear, &::-ms-reveal{
+        display: inline;
+      }
+      &::-webkit-search-cancel-button,&::-webkit-search-decoration {
+        -webkit-appearance: auto;
+    }
+  }
+
+  button {
+      border-radius: 2px;
+      cursor: pointer;
+      outline: none;
+      display: inline-block;
+      padding: 2px 5px;
+      margin-bottom: 0;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      text-decoration: none;
+      line-height: 18px;
+  }
+
+  .pubLogViewer {
+    position: relative;
+    border : 1px solid colorInfo($g_default_theme_name , "border_thick_color");
+		background: transparent;
+		@include box-sizing($box_sizing_border);
+  }
+
+  .pubLogViewer-noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .pubLogViewer-container-wrapper {
+    border-width: 1px;
+    border-style: solid;
+    border-color: colorInfo($g_default_theme_name , "border_thick_color");
+    display: table;
+  }
+
+  .pubLogViewer-container {
+    position: relative;
+    vertical-align: top;
+    height: 100%;
+    border-bottom: 0px none transparent;
+    padding: 0px;
+  }
+  
+  .pubLogViewer-body{
+    width:100%;
+    height:100%;
+    padding: 0px 0px 0px 4px;
+    z-index:2;
+  }
+
+  .pubLogViewer-setting-wrapper{
+    position:absolute;
+    left: 3px;
+    top: 13px;
+    z-index:20;
+    display:block;
+    background-color: colorInfo($g_default_theme_name , "background_color");;
+	
+		.pubLogViewer-setting{
+			cursor:pointer;
+			line-height: 1;
+		}
+	
+		.pubLogViewer-setting-area{
+			position:absolute;  
+			width:200px;
+			top: 15px;;
+			left: 0px;
+			border: 1px solid colorInfo($g_default_theme_name , "border_thick_color");
+      padding: 0px 0px;
+      margin: 0px;
+      background: inherit;
+      display: none;
+			
+			>li{
+        margin-top:3px;
+        list-style: none;
+        line-height: 24px;
+				border-bottom: 1px solid colorInfo($g_default_theme_name , "border_thin_color");
+				padding:3px;
+			}
+	
+			select {
+				height:23px;
+				margin:0 5px;
+      }
+      
+      input{
+        width:145px;
+        vertical-align: top;
+        height:23px;
+        margin: 0px 5px;
+      }
+    }
+	
+		&.open .pubLogViewer-setting-area{
+			display:block;
+    }
+
+    .pubLogViewer-setting{
+      svg path {
+        fill: colorInfo($g_default_theme_name , "font_thin_color");
+        stroke:colorInfo($g_default_theme_name , "font_thin_color");
+      }
+      
+      &.search-on svg path {
+        fill: colorInfo($g_default_theme_name , "font_warning_color");
+        stroke:colorInfo($g_default_theme_name , "font_warning_color");
+      }
+    } 
+	}
+		
+  .pubLogViewer-header-container {
+    position: relative;
+    z-index: 1;
+    border-bottom:1px solid colorInfo($g_default_theme_name , "border_thick_color");
+    padding: 2px 5px 2px 22px;
+    height: 29px;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 24px;
+    .search-area{
+      max-width: 400px;
+      width: 100%;
+      position: relative;
+
+      >input {
+          height: 23px;
+          width :calc(100% - 107px);
+      }
+
+      .search-btn-area{
+        position: absolute;
+        right: 0px;
+        top: 1px;
+        width: 107px;
+        
+        >button{
+          height: 23px;
+          line-height: 16px;
+          margin-left: 3px;
+          min-width: 23px;
+          float: left;
+          font-family: Consolas, "Courier New", monospace;
+
+          &::after{
+            clear: both;
+          }
+        }
+  
+        .pubLogViewer-sch-btn{
+          &[data-sch-mode]{
+            font-size: 20px;
+          }
+  
+          &[data-sch-mode="next"]::after{
+            content: "\2193";
+            
+          }
+          &[data-sch-mode="prev"]::after{
+            content: "\2191";
+          }
+        }
+      }
+    }
+  }
+
+  .pubLogViewer-body-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding-right: 13px;
+    padding-bottom: 13px;
+    overflow:hidden;
+  }
+
+  [tabindex="0"]:focus {
+      box-shadow: 0px 2px 0px colorInfo($g_default_theme_name , "outline_color") inset;
+      outline: none;
+  }
+
+  .pubLog-body-cont{
+    height:19px;
+    line-height:19px;
+    position: relative;
+  }
+  
+  
+.pubLog-body-cont-overlay{
+    width:100%;
+    height: 17px;
+    position: absolute;
+    z-index: 1;
+
+    .match-word, .selected-text{
+      display: block;
+      width: 0px;
+      height: 100%;
+      position: absolute;
+      @include opacity_val(0.5);
+    }
+
+    .match-word{
+      z-index: 2;
+      width: 100%;
+
+      > .word-highlight{
+        height: 100%;
+        position: absolute;
+        background: colorInfo($g_default_theme_name , "word_highlight");
+        opacity: 0.7;
+
+        &.filter{
+          background: colorInfo($g_default_theme_name , "word_highlight_filter");
+          opacity: 0.7;
+        }
+
+        &.search{
+          background: colorInfo($g_default_theme_name , "word_highlight_search");
+          opacity: 1;
+        }
+      }
+      
+    }
+    .selected-text{
+      z-index: 5;
+      opacity: 0.7;
+      background: colorInfo($g_default_theme_name , "selected_text");
+    }
+  }
+
+  .pubLog-body-cont-log{
+    white-space:pre;
+    font-family:inherit;
+    padding: 0px;
+    padding-right: 5px;
+    margin: 0px;
+    height: 17px;
+    position: relative;
+    background: transparent;
+    z-index: 3;
+    border:0px solid transparent;
+    border-radius: 0px;
+    overflow: initial;
+  }
+
+  .pubLogViewer-hscroll {
+    width: 100%;
+    height: 12px;
+    position: absolute;
+    vertical-align: middle;
+    border-top: 1px solid colorInfo($g_default_theme_name , "border_thick_color");
+    bottom: 0px;
+    z-index:10;
+    padding: 1px 0px 1px 0px;
+    background: colorInfo($g_default_theme_name , "scroll_background_color");
+    padding-right:13px;
+  }
+
+  .pubLogViewer-hscroll-btn {
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    line-height: 0.3;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .pubLogViewer-hscroll-left {
+    left: 0px;
+  }
+
+  .pubLogViewer-hscroll-right {
+    right: 0px;
+  }
+
+  .pubLogViewer-hscroll-bar-area {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    padding: 0px 10px 0px 10px;
+    margin-top: 0px;
+  }
+
+  .pubLogViewer-hscroll-bar-bg {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+
+  .pubLogViewer-hscroll-bar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100px;
+    margin: 0px 10px 0px 10px;
+    @include opacity_val(0.6);
+		height: 100%;
+		border: 1px solid colorInfo($g_default_theme_name , "scrollbar_border_color");
+		background: colorInfo($g_default_theme_name , "scrollbar_background_color");
+		border-radius: 0.5em !important;
+    touch-action: none;
+
+    &.active , &:hover {
+			background: colorInfo($g_default_theme_name , "scrollbar_active_color");
+		}
+  }
+   
+  .pubLogViewer-vscroll {
+    height: 100%;
+    width: 12px;
+    position: absolute;
+    text-align: center;
+    right: 0px;
+    top: 0px;
+    border-left: 1px solid colorInfo($g_default_theme_name , "border_thick_color");
+    z-index:10;
+    padding: 1px;
+    background:colorInfo($g_default_theme_name , "scroll_background_color");
+    padding-bottom:13px;
+  }
+
+  .pubLogViewer-vscroll-btn {
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    line-height: 0.3;
+    cursor: pointer;
+  }
+
+  .pubLogViewer-vscroll-up {
+    top: 0px;
+  }
+
+  .pubLogViewer-vscroll-down {
+    bottom: 0px;
+  }
+
+  .pubLogViewer-vscroll-bar-area {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    padding: 10px 0 10px 0;
+    border-bottom: 1px solid transparent;
+  }
+
+  .pubLogViewer-vscroll-bar-bg {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+
+  .pubLogViewer-vscroll-bar {
+    position: absolute;
+    margin: 10px 0 10px 0;
+    top: 0px;
+    width: 100%;
+    height: 100px;
+    @include opacity_val(0.6);
+		border: 1px solid colorInfo($g_default_theme_name , "scrollbar_border_color");
+		background:colorInfo($g_default_theme_name , "scrollbar_background_color");
+		border-radius: 0.5em !important;
+		touch-action: none;
+		
+		&.active , &:hover {
+			background: colorInfo($g_default_theme_name , "scrollbar_active_color");
+		}
+
+		.pubLogViewer-vscroll-bar-tip{
+			position:absolute;
+			min-width: 30px;
+			height: 21px;
+			border: 1px solid colorInfo($g_default_theme_name , "border_thin_color");
+			top: 0px;
+			background: colorInfo($g_default_theme_name , "background_color");
+			display:none;
+			padding: 2px 4px;
+			border-radius: 4px;
+			text-align: center;
+		}
+
+  }
+
+  
+  .pubLogViewer-body-message{
+    text-align: center;
+    position: absolute;
+    font-size: 12px;
+    top: 0px;
+    left: 0px;
+    padding: 0px 3px;
+    margin-left: 3px;
+    color: colorInfo($g_default_theme_name , "font_warning_color");
+    background: colorInfo($g_default_theme_name , "background_color");
+    border: 1px solid colorInfo($g_default_theme_name , "border_thin_color");
+    vertical-align: middle;
+    z-index: 10;
+    display: none;
+  }
+    
+  .pubLogViewer-body-cont-wrapper{
+    position: relative;
+    display: table;
+    width: 100%;
+  }
+
+  .pubLogViewer-body-cont-cursor{
+    position:absolute;
+    top:0px;
+    left:0px;
+    height:17px;
+    width: 3px;
+    background: colorInfo($g_default_theme_name , "cursor_color");
+    display:none;
+    z-index: 2;
+    @include opacity_val(0.5);
+  }
+
+  .pubLog-body-cont-area{
+    display: inline-block;
+    position: relative;
+  }
+
+  .pubLogViewer-statusbar{
+    display: none;
+    height: 17px;
+    padding: 0px 5px;
+    background-color: colorInfo($g_default_theme_name , "status_bar_bg_color");
+    border-top: 1px solid colorInfo($g_default_theme_name , "border_thin_color");;
+    
+    .pubLogViewer-message-info{
+      display: inline-block;
+    }
+
+		.pubLogViewer-count-info{
+      float:right;
+    }
+
+    &:after{
+      clear:both;
+    }
+    
+    .pubLogViewer-status-icon {
+      border-radius: 50%; display: inline-block; 
+      width: 12px; height: 12px;
+      &.small { width: 8px; height: 8px; }
+      &.green {
+        background-color: #4FCE67;
+        border: 2px solid #4FCE67;
+      }
+      &.orange {
+        background-color: #F7A443;
+        border: 2px solid #F7A443;
+      }
+      &.red {
+        background-color: #FF5858;  
+        border: 2px solid #FF5858;
+      }
+      &.gray {
+        background-color: #d4d1d1;  
+        border: 2px solid #d4d1d1;
+      }
+    }
+
+  }
+
+  .hidden-measure-area{
+    padding: 0px
+  }
+}
+
+
+@each $pThemeName in $g_theme_list_info {
+
+	#{fn_themeName($pThemeName)} .pubLogViewer-wrapper{
+      background-color: colorInfo($pThemeName , "background_color");
+      color: colorInfo($pThemeName , "font_color");
+
+      input, button {
+          color: colorInfo($pThemeName , "font_color");
+          border: 1px solid colorInfo($pThemeName , "border_thick_color");
+          background-color: colorInfo($pThemeName , "background_color");
+      }
+          
+      .pubLogViewer {
+          border : 1px solid colorInfo($pThemeName , "border_thick_color");
+          @include box-sizing($box_sizing_border);
+      }
+    
+      .pubLogViewer-container-wrapper {
+          border-color: colorInfo($pThemeName , "border_thick_color");
+      }
+          
+      .pubLogViewer-body{
+          border-right: 1px solid colorInfo($pThemeName , "border_thick_color");
+      }
+
+      .pubLogViewer-setting-wrapper{
+        background-color: colorInfo($pThemeName , "background_color");;
+      
+        .pubLogViewer-setting{
+          cursor:pointer;
+          line-height: 1;
+        }
+      
+        .pubLogViewer-setting-area{
+          border: 1px solid colorInfo($pThemeName , "border_thick_color");
+          
+          >li{
+            border-bottom: 1px solid colorInfo($pThemeName , "border_thin_color");  
+          }
+
+          .pubLogViewer-setting{
+            svg path {
+              fill: colorInfo($pThemeName , "font_thin_color");
+              stroke:colorInfo($pThemeName , "font_thin_color");
+            }
+            
+            &.search-on svg path {
+              fill: colorInfo($pThemeName , "font_warning_color");
+              stroke:colorInfo($pThemeName , "font_warning_color");
+            }
+          }
+        }
+      }
+    
+      .pubLogViewer-header-container {
+        border-bottom:1px solid colorInfo($pThemeName , "border_thick_color");
+      }
+
+      [tabindex="0"]:focus {
+        box-shadow: 0px 2px 0px colorInfo($pThemeName , "outline_color") inset;
+      }
+
+      .pubLog-body-cont-overlay{
+        .match-word{
+          > .word-highlight{
+            background: colorInfo($pThemeName , "word_highlight");
+
+            &.filter{
+              background: colorInfo($pThemeName , "word_highlight_filter");
+            }
+    
+            &.search{
+              background: colorInfo($pThemeName , "word_highlight_search");
+            }
+          }
+        }
+        .selected-text{
+          background: colorInfo($pThemeName , "selected_text");
+        }
+      }
+    
+      .pubLogViewer-hscroll {
+        background: colorInfo($pThemeName , "scroll_background_color");
+        border-top: 1px solid colorInfo($pThemeName , "border_thick_color");
+      }
+    
+      .pubLogViewer-hscroll-bar {
+        border: 1px solid colorInfo($pThemeName , "scrollbar_border_color");
+        background: colorInfo($pThemeName , "scrollbar_background_color");
+    
+        &.active , &:hover {
+          background: colorInfo($pThemeName , "scrollbar_active_color");
+        }
+      }
+       
+      .pubLogViewer-vscroll {
+        background:colorInfo($pThemeName , "scroll_background_color");
+        border-left: 1px solid colorInfo($pThemeName , "border_thick_color");
+      }
+    
+    
+      .pubLogViewer-vscroll-bar {
+       
+        border: 1px solid colorInfo($pThemeName , "scrollbar_border_color");
+        background:colorInfo($pThemeName , "scrollbar_background_color");
+        
+        &.active , &:hover {
+          background: colorInfo($pThemeName , "scrollbar_active_color");
+        }
+    
+        .pubLogViewer-vscroll-bar-tip{
+          border: 1px solid colorInfo($pThemeName , "border_thin_color");
+          background: colorInfo($pThemeName , "background_color");
+        }
+      }
+
+      .pubLogViewer-body-message{
+        color: colorInfo($pThemeName , "font_warning_color");
+        background: colorInfo($pThemeName , "background_color");
+        border: 1px solid colorInfo($pThemeName , "border_thin_color");;
+      }
+   
+      .pubLogViewer-body-cont-cursor{
+        background: colorInfo($pThemeName , "cursor_color");
+      }
+
+      .pubLogViewer-statusbar{
+        background-color: colorInfo($pThemeName , "status_bar_bg_color");
+        border-top: 1px solid colorInfo($pThemeName , "border_thin_color");
+      }
+	}
+}

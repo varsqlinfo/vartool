@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="../css/pub.all.min.css" rel="stylesheet" type="text/css" />
+<link href="../css/pub-splitter.min.css" rel="stylesheet" type="text/css" />
+
+<script>
+var $vartoolConfig = {
+	context : '/vtool'
+	,logoutUrl : "/vtool/logout"
+	,logoutUrl : "/vtool/logout"
+	,file : {
+		maxUploadSize : 1000
+		,sizePerFile : 1000
+	}
+}
+</script>
+<script src="../js/plugins/polyfill/polyfill.min.js"></script>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/plugins/file/dropzone.js"></script>
+<script src="../i18n/vartool.lang.js"></script>
+<script src="../js/vartool.web.js"></script>
+
+<script src="../js/vue.min.js"></script>
+<script src="../js/vartool-ui-component.js"></script>
+
+<script src="../js/vue.vartool.js"></script>
+
+<title>drop zone</title>
+<style>
+html, body{
+	padding: 0px;
+	margin: 0px;
+}
+.wh100{
+	width: 100%;
+	height: 100%;
+}
+.file-drop-area{
+	padding: 10px;
+}
+</style>
+</head>
+
+
+<style>
+
+
+.file-upload-area .file-upload-btn-area {
+	text-align:right;
+	margin:5px 0px
+}
+.file-upload-area .file-upload-preview {
+	position:relative;
+	height:100px;
+	overflow-x:hidden;
+	overflow-y:auto;
+	border:1px solid #d5d5d8;
+	padding:5px
+}
+.file-upload-area .file-upload-preview .file-upload-preview-msg {
+	position:absolute;
+	width:100%;
+	text-align:center;
+	font-size:25px;
+	top:calc(50% - 25px)
+}
+.file-upload-area .file-upload-list {
+	overflow-x:hidden;
+	overflow-y:auto;
+	border:1px solid #d5d5d8;
+	height:100px;
+	padding:5px
+}
+.file-upload-area .file-upload-list .file-upload-list-item {
+	padding-bottom:3px
+}
+.file-upload-area .file-row {
+	position:relative;
+	display:block;
+	width:100%;
+	margin-bottom:4px;
+	height:22px;
+	padding:0px;
+	margin:0px;
+}
+.file-upload-area .progress {
+	margin-bottom: 10px;
+}
+
+.file-upload-area .file-row>li {
+	float:left;
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+
+}
+.file-upload-area .file-row.dz-success .start,
+.file-upload-area .file-row.dz-success .cancel {
+	display:none
+}
+.file-upload-area .file-row .file-progress>.error-view-area {
+	display:none
+}
+.file-upload-area .file-row.dz-error .file-progress>.error-view-area {
+	display:block;
+	padding-top:3px
+}
+.file-upload-area .file-row.dz-error .file-progress>.progress {
+	display:none
+}
+.file-upload-area .file-row .file-action-btn {
+	width:90px;
+}
+.file-upload-area .file-row .file-info {
+	width:230px
+}
+.file-upload-area .file-row .file-info .file-name {
+	width:calc(230px - 80px)
+}
+.file-upload-area .file-row .file-info .file-size {
+	width:80px
+}
+.file-upload-area .file-row .file-progress {
+	width:calc(100% - 320px)
+}
+
+.btn {
+	border-radius:2px;
+	cursor:pointer;
+	outline:none;
+	color:#000;
+	border:1px solid #dedede;
+	background-color:#fff;
+	display:inline-block;
+	padding:2px 5px;
+	margin-bottom:0;
+	text-align:center;
+	white-space:nowrap;
+	vertical-align:middle;
+	text-decoration:none;
+	line-height:18px
+}
+
+</style>
+<body>
+<div class="display-off" id="vueArea">
+	
+	<div style="clear:both;padding-top: 15px;"></div>
+	<button type="button" @click="save()">저장</button>
+	<div class="col-lg-12">
+		<form id="writeForm" name="writeForm" role="form" class="form-horizontal bv-form">
+			<div class="form-group">
+				<input v-model="articleInfo.title" placeholder="제목" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="noticeId"><input type="checkbox" id="noticeId" v-model="articleInfo.noticeYn" true-value="Y" false-value="N">공지사항</label>
+			</div>
+			<div class="form-group">
+				<button type="button" @click="download()">보기</button>
+				<textarea id="fileUploadArea" v-model="articleInfo.contents" rows="5" style="width:100%"></textarea>
+			</div>
+		</form>
+		<div class="row">
+			<div id="fileUploadPreview"></div>
+		</div>
+	</div>
+</div>
+	
+<script>
+
+$(document).on('dragover', function (){
+	return false; 
+}).on('drop', function (){
+	return false; 
+})
+
+var vueObj = VartoolAPP.vueServiceBean({
+	el: '#vueArea'
+	,data: {
+		articleInfo :{fileList :[]}
+		,comment :{contents : ''}
+	}
+	,methods:{
+		init : function (){
+			var _this =this; 
+
+			VARTOOLUI.file.create('#fileUploadArea',{
+			extensions : ''
+			,files: [
+				{name : 'aa22222a.jpg' , size:11231, text:'asdf',status : Dropzone.SUCCESS, accepted:true}
+				,{name : 'bbb.txt' , size:22222, accepted:true}
+			]
+			,options : {
+				url : '<vartool:boardUrl addUrl="save"/>'
+				,params : {
+					div : 'board'
+					, fileExtensions : ''
+					, contGroupId : '<vartool:boardCode/>'
+				}
+				,previewsContainer :'#fileUploadPreview'
+			}
+			,callback : {
+				fail : function (){}
+				,complete : function (){}
+				,removeFile : function (file){
+					console.log(file)
+				}
+			}
+		});
+
+		}
+		,save : function (){
+						
+			var dropzoneObj = VARTOOLUI.file.forElement('#fileUploadArea');  
+
+			
+			console.log(dropzoneObj.getRejectedFiles());
+			console.log(dropzoneObj.files);
+
+			
+		}
+		,download : function (item){
+			console.log(this.mix_getFiles());
+		}
+		,deleteItem : function(){
+			if(!confirm('삭제하시겠습니까?')){
+				return ; 
+			}
+			
+			var param = {
+				'articleId' : this.articleInfo.articleId
+			};
+			
+			this.$ajax({
+				url: '<vartool:boardUrl addUrl="delete" contextPath="false"/>' 
+				,method :'delete'
+				,data: param
+				,success: function(resData) {
+					location.href='test';
+				}
+			})		
+		}
+	}
+});
+
+
+</script>

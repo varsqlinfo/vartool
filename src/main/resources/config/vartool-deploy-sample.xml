@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vartool-config>
+	<antBuildxml><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="common" basedir="." default="compile">
+
+	<!-- 
+	<property file="build.properties" />
+	 -->
+	<!-- // 직접 설정.--> 
+	<property name="project.dir" value="{{sourcePath}}" />
+	<property name="src.dir" value="${project.dir}/src" />
+	<property name="webcontent.dir" value="${project.dir}/WebContent" />
+	<property name="lib.dir" value="${webcontent.dir}/WEB-INF/lib" />
+	
+	<property name="default.dependency.dir" value="{{defaultDependencyPath}}" />
+	<property name="dependency.dir" value="{{dependencyPath}}" />
+	<property name="build.classes.dir" value="{{buildPath}}" />
+	<property name="deploy.dir" value="{{deployPath}}" />
+	<property name="deploy.classes.dir" value="${deploy.dir}/WEB-INF/classes" />
+	 
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="*.jar" />
+		<fileset dir="${default.dependency.dir}" includes="*.jar" />
+		<fileset dir="${dependency.dir}" includes="*.jar" />
+		<fileset dir="${build.classes.dir}" includes="**/*.class" />
+	</path>
+
+	<target name="clean" description="Clean output directories">
+		<delete dir="${build.classes.dir}" />
+	</target>
+
+	<target name="compile" description="Compile main source tree java files">
+		<mkdir dir="${build.classes.dir}" />
+		<javac destdir="${build.classes.dir}" debug="true" optimize="true"
+			deprecation="false" failonerror="true" encoding="UTF-8"
+			classpathref="classpath" includeantruntime="true" verbose="true"> 
+			<src path="${src.dir}" />
+		</javac>
+		
+		<echo message="build classes dir : ${build.classes.dir}"/>
+		
+		<copy todir="${deploy.classes.dir}" verbose="true">
+			<fileset dir="${src.dir}" includes="**/*.properties" excludes="**/config/config.properties,**/*.dev,**/*.test,**/*.prod"/>
+			<fileset dir="${src.dir}" includes="**/*.xml"  excludes="**/*.dev,**/*.test,**/*.prod"/>
+			<fileset dir="${build.classes.dir}" includes="**/*.*" excludes="**/*.properties,**/*.xml,**/.settings/**,**/.git/**,**/.project, $$export/*.*"/>
+		</copy>
+		
+		<!-- 
+			web.xml 배포 하지 않고 서버에 맞는 걸로 배포. 
+		-->
+		<copy todir="${deploy.dir}" verbose="true">
+			<fileset dir="${webcontent.dir}" includes="**/*.*" excludes="**/License/*.xml,**/*.jar,**/*.dev,**/*.test,**/*.prod" />
+			
+			<!-- was weblogic 일때 처리 xml 관련 jar가 올라가면 에러남.그래서 필터.-->
+			<fileset dir="${webcontent.dir}" includes="**/*.jar" excludes="**/xerces.jar,**/xercesImpl.jar,**/xml-apis-*.jar" />
+		</copy>
+		
+		<!--
+			properties 배포.
+		-->
+		<copy todir="${deploy.classes.dir}" verbose="true">
+			<mappedresources>
+		        <fileset dir="${src.dir}">
+		            <include name="**/*.properties.dev"/>
+		        </fileset>
+		        <globmapper from="*.properties.dev" to="*.properties"/>
+		    </mappedresources>
+		</copy>
+		
+		<!-- 
+			xml 배포
+		-->
+		<copy todir="${deploy.classes.dir}" verbose="true">
+			<mappedresources>
+		        <fileset dir="${src.dir}">
+		            <include name="**/*.xml.dev"/>
+		        </fileset>
+		        <globmapper from="*.xml.dev" to="*.xml"/>
+		    </mappedresources>
+		</copy>
+	</target>
+</project>]]></antBuildxml>
+	  <antWebBuildxml><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="common" basedir="." default="deploy">
+
+	<!-- 
+	<property file="build.properties" />
+	 -->
+	<!-- // 직접 설정.--> 
+	<property name="project.dir" value="{{sourcePath}}" />
+	<property name="deploy.dir" value="{{deployPath}}" />
+	 
+	<target name="deploy" description="web resource deploy">
+		<mkdir dir="${deploy.dir}" />
+		
+		<copy todir="${deploy.dir}" verbose="true">
+			<fileset dir="${project.dir}" includes="**/*.*" excludes="**/.settings/**,**/.git/**,**/.project"/>
+		</copy>
+		
+		<chmod perm="755" parallel="true">
+			<fileset dir="{{deployPath}}" includes="*.*">
+				
+			</fileset>
+		</chmod>
+		
+		<exec executable="chmod" dir="${deploy.dir}" failonerror="true">
+			<arg line="-R 0755 ./wsrv"/>
+		</exec>
+
+		
+	</target>
+</project>]]></antWebBuildxml>
+</vartool-config>
+

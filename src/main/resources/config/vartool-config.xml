@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vartool-config>
+	<javaHome />
+	<osType />
+	<uploadPath />
+	<fileUploadSize>-1</fileUploadSize>
+	<fileUploadSizePerFile>-1</fileUploadSizePerFile>
+	<fileUploadMaxInMemorySize>5242880</fileUploadMaxInMemorySize>
+	
+	<deploy-config>
+	  <sourcePath></sourcePath>
+	  <defaultDependencyPath>C:/0.server/apache-tomcat-8.5.54/lib</defaultDependencyPath>
+	  <antExeFile>C:/zzz/apache-ant-1.10.2/bin/ant.bat</antExeFile>
+	  <gradleExeFile>C:/zzz/apache-ant-1.10.2/bin/ant.bat</gradleExeFile>
+	  <buildFileCreatePath></buildFileCreatePath>
+	</deploy-config>
+</vartool-config>
+

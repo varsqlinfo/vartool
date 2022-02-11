@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd" >
+<properties>
+
+<comment>vartool</comment>
+<entry key="home.title">VarTOOL</entry>
+
+<entry key="screen">화면</entry>
+<entry key="screen.user">사용자</entry>
+<entry key="screen.manage">매니저</entry>
+<entry key="screen.admin">관리자</entry>
+
+<!-- join form -->
+<entry key="join.form.title">회원가입</entry>
+<entry key="join.form.uid">아이디</entry>
+<entry key="join.form.email">이메일</entry>
+<entry key="join.form.name">이름</entry>
+<entry key="join.form.dept">소속</entry>
+<entry key="join.form.desc">설명</entry>
+<entry key="join.form.locale">언어선택</entry>
+
+<entry key="join.form.password">비밀번호</entry>
+<entry key="join.form.password.confirm">비밀번호 확인</entry>
+<entry key="btn.join">가입신청</entry>
+<entry key="btn.main">메인으로</entry>
+
+<!-- user form  -->
+<entry key="user.form.password.current">현재 비밀번호</entry>
+<entry key="user.form.password.new">신규 비밀번호</entry>
+<entry key="user.form.password.confirm">확인 비밀번호</entry>
+
+<entry key="msg.analyzing">분석 중입니다.</entry>
+<entry key="msg.auth_db_list">권한 있는 DB 목록</entry>
+
+<!-- editor msg -->
+<entry key="msg.editor.newfile">새파일</entry>
+<entry key="msg.editor.info">새 파일을 클릭하시면 쿼리를 실행하실수 있는 에디터가 열립니다.</entry>
+
+
+<entry key="msg.email.empty">이메일을 입력하세요</entry>
+<entry key="msg.title.empty">제목을 입력하세요</entry>
+<entry key="msg.contactus.empty">문의사항을 입력하세요</entry>
+<entry key="msg.name.empty">이름을 입력하세요</entry>
+<entry key="msg.password.empty">패스워드를 입력하세요</entry>
+<entry key="msg.password.differrent">패스워드가 같지 않습니다</entry>
+<entry key="msg.password.length.check">패스워드는 6자리 이상되어야 합니다</entry>
+<entry key="msg.login.fail">아이디 또는 비밀번호를 잘못 입력하셨습니다</entry>
+<entry key="msg.save.confirm">저장 하시겠습니까?</entry>
+<entry key="msg.saveandclose.confirm">저장하고 닫으시겠습니까?</entry>
+<entry key="msg.save.success">저장 되었습니다</entry>
+<entry key="msg.save.fail">저장을 실패 하였습니다</entry>
+<entry key="msg.delete.confirm">삭제  하시겠습니까?</entry>
+<entry key="msg.nodata">데이타가 없습니다.</entry>
+<entry key="msg.success">성공</entry>
+<entry key="msg.search.placeholder">검색어를 입려하시오...</entry>
+<entry key="msg.data.select">데이터를 선택하시오.</entry>
+<entry key="msg.accept.msg">선택된 사용자를 수락하시겠습니까?</entry>
+<entry key="msg.denial.msg">선택된 사용자를 거부하시겠습니까?</entry>
+<entry key="msg.add.manager.confirm">선택된 사용자를  매니저로 등록하시겠습니까?</entry>
+<entry key="msg.del.manager.confirm">선택된 사용자를  매니저에서 삭제하시겠습니까?</entry>
+<entry key="msg.saveAndpoolInit.confirm"><![CDATA[저장하시면 현재 풀정보가 초기화 되고 새로운 풀이 생성 됩니다.\n계속하시겠습니까?]]></entry>
+<entry key="msg.table.export.info"><![CDATA[기본정보]]></entry>
+<entry key="msg.confirm.block.y">차단하시겠습니까?</entry>
+<entry key="msg.confirm.block.n">차단을 해제 하시겠습니까?</entry>
+<entry key="msg.confirm.block.n">스키마를 선택하세요.</entry>
+<entry key="msg.note.arrived">메모가 도착했습니다.</entry>
+
+<entry key="error.message404">등록되지 않은 페이지 입니다.</entry>
+
+
+</properties>

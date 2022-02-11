@@ -1,0 +1,386 @@
+@charset "UTF-8";
+
+input, textarea, select {
+  border: 1px solid #d5d5d8;
+  background: #ffffff;
+  color: #000000;
+  border-radius: 2px;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+select {
+  padding: 2px 2px;
+}
+
+button {
+  border-radius: 2px;
+  cursor: pointer;
+  outline: none;
+  color: #000000;
+  border: 1px solid #dedede;
+  background-color: #ffffff;
+  display: inline-block;
+  padding: 2px 5px;
+  margin-bottom: 0;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-decoration: none;
+  line-height: 18px;
+}
+
+button:hover, button:focus, button:active {
+  color: #000000;
+  background-color: #c1c3c4;
+  border: 1px solid #827e7e;
+}
+
+button.disabled, button[disabled] {
+  pointer-events: none;
+  cursor: not-allowed;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  opacity: .65;
+}
+
+button.btn-sm {
+  padding: 0px 5px;
+}
+
+button.btn-md {
+  padding: 4px 10px;
+}
+
+button.btn-lg {
+  padding: 8px 15px;
+}
+
+button.varsql-btn-trans {
+  background-color: transparent;
+}
+
+button.varsql-btn-trans:hover {
+  color: #000000;
+  background-color: #c1c3c4;
+}
+
+button.varsql-btn-default {
+  background-color: #ffffff;
+}
+
+button.varsql-btn-default:hover {
+  color: #000000;
+  background-color: #c1c3c4;
+}
+
+button.varsql-btn-info {
+  color: #000000;
+  border-color: #b1eafb;
+  background-color: #b1eafb;
+}
+
+button.varsql-btn-info:hover, button.varsql-btn-info:focus {
+  color: #000000;
+  background-color: #8fd2e6;
+}
+
+button.on {
+  color: #000000;
+  border-color: #827e7e !important;
+  background-color: #ffffff;
+}
+
+button.on:hover, button.on:focus {
+  color: #000000;
+  background-color: #a0a0a0;
+}
+
+.text-ellipsis {
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  max-width: calc(100% - 20px);
+  overflow: hidden;
+}
+
+.text-ellipsis.ellipsis10 {
+  max-width: calc(100% - 10px);
+}
+
+.text-ellipsis.ellipsis5 {
+  max-width: calc(100% - 5px);
+}
+
+.error {
+  color: #ff3400;
+}
+
+.centerLoading {
+  background-color: #d5d5d8;
+  opacity: 0.3;
+  z-index: 100;
+}
+
+.varsql-main {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+  background-color: #fbfbfb;
+  color: #000000;
+  min-width: 900px;
+}
+
+
+.varsql-menu-wrapper {
+  z-index: 1000;
+  width: 100%;
+  height: 30px;
+  position: absolute;
+  margin-bottom: 1px;
+  border-bottom: 1px solid #bcbcbd;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f1f1f1));
+  background-image: linear-gradient(#ffffff, #f1f1f1);
+  -webkit-filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffff', endColorstr='#f1f1f1', GradientType=0);
+          filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffff', endColorstr='#f1f1f1', GradientType=0);
+}
+
+.varsql-body-wrapper {
+  height: calc(100% - 33px);
+  width: calc(100% - 2px);
+  margin: 32px 1px 0px 1px;
+  z-index: 9;
+}
+
+
+.navbar{
+	min-height:0px;
+}
+.navbar-brand {
+    float: left;
+    height: 30px;
+    padding: 4px 10px;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 4px 15px;
+}
+.gnb-menu {
+	width:100%;
+	padding: 10px;
+}
+.gnb-menu .main-menu{
+	width:100%;
+	display:flex;
+}
+.gnb-menu .main-menu> li{
+	float:left;
+	width: 250px;
+}
+
+.gnb-menu .main-menu> li{
+	border-left: 1px solid #000;
+	padding-left:3px;
+	position:relative;
+}
+
+.gnb-menu .main-menu> li:first-child{
+	border-left: 0px solid #000;
+}
+
+.navbar-right > li{
+	float:left;
+}
+
+.second-menu-item {
+    position: relative;
+    padding: 5px 10px 10px 10px;
+}
+
+.menu-title{
+	font-weight: bold; 
+	text-align:center; 
+}
+
+.bottomHeight5{
+	margin-bottom:7px;
+}
+
+.vue-display-off{
+	display: none;
+}
+
+.dis-hidden{
+	display: none;
+}
+.dis-block{
+	display: block;
+}
+
+.margin0{
+	margin-left:0px;
+	margin-right:0px;
+	margin-bottom:0px;
+	margin-top:0px;
+}
+.padding0{
+	padding-left:0px;
+	padding-right:0px;
+	padding-bottom:0px;
+	padding-top:0px;
+}
+
+.paddingl0{
+	padding-left:0px;
+}
+
+.paddingr0{
+	padding-right:0px;
+}
+
+.gain-ellipsis, .gain-ellipsis >* {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0px;
+    margin: 0px;
+}
+
+.text-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  max-width: calc(100% - 20px);
+  overflow: hidden;
+}
+
+.text-ellipsis.ellipsis10 {
+  max-width: calc(100% - 10px);
+}
+
+.text-ellipsis.ellipsis5 {
+  max-width: calc(100% - 5px);
+}
+
+.nav-second-btn{
+	float: right;
+	margin-top: -5px;
+}
+
+.second-menu-item{
+	position:relative;
+	padding: 5px 10px 10px 25px;
+}
+
+.list-group-item{
+	padding: 1px 1px;
+}
+
+.action-btn-area {
+    margin-top: 10px;
+}
+
+.action-btn-area .btn{
+	    padding: 5px 5px !important;
+}
+
+#tabArea .btn{
+	margin-right:5px;
+	padding: 5px 7px;
+}
+.btn-secondary {
+    color: #2f2d2d;
+    background-color: #e1e4e6;
+    border-color: #e1e4e6;
+}
+
+#varsqlViewArea .panel-body {
+   padding: 3px;
+}
+
+.scroll-on{
+	overflow: auto !important;	
+}
+
+/* for MS계열 브라우저 */
+@keyframes blink {
+	0% {background-color: #e8e4e4;}
+	50% {background-color: #c7c7c4;}
+}
+ 
+/* for Chrome, Safari */
+@-webkit-keyframes blink {
+	0% {background-color: #e8e4e4;}
+	50% {background-color: #c7c7c4;}
+}
+ 
+/* blink CSS 브라우저 별로 각각 애니메이션을 지정해 주어야 동작한다. */
+.blinkcss {
+	font-weight:bold;
+	animation: blink 1s step-end infinite;
+	-webkit-animation: blink 1s step-end infinite;
+	-moz-animation: blink 1s step-end infinite;
+}
+
+.varsql-main .lm_content {
+  padding: 1px;
+  border: 1px solid #cccccc;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+.main-container{
+	height:100%;
+	width:100%;
+}
+.component-item{
+	height:100%;
+	width:100%;
+}
+.log-view-area{
+	height:calc(100% - 27px);
+	width:100%;
+	position:relative;
+}
+.search-group{
+	float:right;	
+}
+.log-search-area{
+	height:  26px;
+}
+.log-item{
+	float:left;
+	width: calc(100%);
+}
+.log-view-item{
+	width:100%;
+	height:100%;
+	z-index:0;
+	position:absolute;
+}
+
+.log-view-item.on{
+	z-index:1;
+}
+
+.pubTab-move-area{
+	display : block !important;
+}
+
+.pub-context-menu a {
+	color: #000;
+}
