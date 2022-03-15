@@ -11,13 +11,15 @@
 	<property name="project.dir" value="{{sourcePath}}" />
 	<property name="src.dir" value="${project.dir}/src/main/java" />
 	<property name="webcontent.dir" value="${project.dir}/src/main/webapp" />
-	<property name="lib.dir" value="C:/01.devtool/dependency_lib" />
+	<property name="lib.dir" value="${webcontent.dir}/WEB-INF/lib" />
+	<property name="resource.dir" value="${project.dir}/src/main/resources" />
 	
 	<property name="default.dependency.dir" value="{{defaultDependencyPath}}" />
 	<property name="dependency.dir" value="{{dependencyPath}}" />
 	<property name="build.classes.dir" value="{{buildPath}}" />
 	<property name="deploy.dir" value="{{deployPath}}" />
-	<property name="deploy.resource.dir" value="${deploy.dir}/src/main/resources" />
+	<property name="deploy.classes.dir" value="${deploy.dir}/WEB-INF/classes" />
+	
 	 
 	<path id="classpath">
 		<fileset dir="${lib.dir}" includes="*.jar" />
@@ -40,10 +42,8 @@
 		
 		<echo message="build classes dir : ${build.classes.dir}"/>
 		
-		<copy todir="${deploy.resource.dir}" verbose="true">
-			<fileset dir="${src.dir}" includes="**/*.properties" excludes="**/config/ep_config.properties,**/*.dev,**/*.test,**/*.prod"/>
-			<fileset dir="${src.dir}" includes="**/*.xml"  excludes="**/*.dev,**/*.test,**/*.prod"/>
-			<fileset dir="${build.classes.dir}" includes="**/*.*" excludes="**/*.properties,**/*.xml,**/.settings/**,**/.git/**,**/.project, $$export/*.*"/>
+		<copy todir="${deploy.classes.dir}" verbose="true">
+			<fileset dir="${resource.dir}" includes="**/*.*" excludes="**/config/ep_config.properties,**/*.dev,**/*.test,**/*.prod"/>
 		</copy>
 		
 		<!-- 
@@ -59,7 +59,7 @@
 		<!--
 			properties 배포.
 		-->
-		<copy todir="${deploy.resource.dir}" verbose="true">
+		<copy todir="${deploy.classes.dir}" verbose="true">
 			<mappedresources>
 		        <fileset dir="${src.dir}">
 		            <include name="**/*.properties.dev"/>
@@ -71,7 +71,7 @@
 		<!-- 
 			xml 배포
 		-->
-		<copy todir="${deploy.resource.dir}" verbose="true">
+		<copy todir="${deploy.classes.dir}" verbose="true">
 			<mappedresources>
 		        <fileset dir="${src.dir}">
 		            <include name="**/*.xml.dev"/>

@@ -156,6 +156,9 @@
 										</div>
 										<div class="col-lg-12">
 											<div style="position:relative;">
+												<b>Ctrl-F</b> : searching ,
+      											<b>Ctrl-G</b> : Find next,
+      											<b>Shift-Ctrl-G</b> : Find previous
 												<textarea id="buildScript" name="buildScript" rows="10" class="form-control input-init-type"></textarea>
 											</div>
 										</div>
@@ -252,12 +255,6 @@ VartoolAPP.vueServiceBean({
 				theme: "night",
 				extraKeys: {
 					"Ctrl-Space": "autocomplete"
-					,"Ctrl-F": function (){
-						// 검색 재정의
-					}
-					,"Shift-Ctrl-F" : function (){
-						// 검색 재정의
-					}
 					,"Shift-Ctrl-R" : function (){
 						// 검색 재정의
 					}

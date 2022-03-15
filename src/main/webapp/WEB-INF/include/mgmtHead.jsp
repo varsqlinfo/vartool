@@ -10,6 +10,9 @@
 <link href="${pageContextPath}/webstatic/css/editor/show-hint.css" rel="stylesheet" type="text/css">
 <link href="${pageContextPath}/webstatic/css/editor/theme/night.css" rel="stylesheet" type="text/css">
 
+<link href="${pageContextPath}/webstatic/css/editor/dialog.css" rel="stylesheet">
+<link href="${pageContextPath}/webstatic/css/editor/matchesonscrollbar.css" rel="stylesheet">
+
 <!-- Custom Fonts -->
 <link href="${pageContextPath}/webstatic/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -40,8 +43,12 @@
 <script src="${pageContextPath}/webstatic/js/plugins/codeeditor/show-hint.js"></script>
 <script src="${pageContextPath}/webstatic/js/plugins/codeeditor/search/search.js"></script>
 <script src="${pageContextPath}/webstatic/js/plugins/codeeditor/search/searchcursor.js"></script>
+<script src="${pageContextPath}/webstatic/js/plugins/codeeditor/search/matchesonscrollbar.js"></script>
+<script src="${pageContextPath}/webstatic/js/plugins/codeeditor/annotatescrollbar.js"></script>
+<script src="${pageContextPath}/webstatic/js/plugins/codeeditor/search/jump-to-line.js"></script>
 <script src="${pageContextPath}/webstatic/js/plugins/codeeditor/matchbrackets.js"></script>
 <script src="${pageContextPath}/webstatic/js/plugins/codeeditor/closebrackets.js"></script>
+<script src="${pageContextPath}/webstatic/js/plugins/codeeditor/dialog.js"></script>
 
 <script src="${pageContextPath}/webstatic/js/pub.ep.js"></script>
 <script src="${pageContextPath}/webstatic/js/pub.tab.js"></script>
