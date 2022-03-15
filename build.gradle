@@ -109,8 +109,8 @@ def def_version = [
 	,junit : '5.2.0'
 	,junitPlatform : '1.5.0'
 	,mockito: '3.3.3'
-	,lombok : '1.18.10'
-	,querydslSql : '4.3.1'
+	,lombok : '1.18.22'
+	,querydslSql : '5.0.0'
 	,jstl : '1.2.5'
 ]
 

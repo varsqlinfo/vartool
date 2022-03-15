@@ -13,6 +13,7 @@ import com.vartool.web.app.handler.log.tail.TailLogOutputHandler;
 import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
 import com.vartool.web.dto.response.CmpLogResponseDTO;
 import com.vartool.web.dto.websocket.LogMessageDTO;
+import com.vartool.web.module.LogFilenameUtils;
 
 /**
  * 
@@ -36,9 +37,9 @@ public class CmpLogComponent {
 	private WebSocketServiceImpl webSocketServiceImpl;
 	
 	public Object startAppLog(String cmpId, CmpLogResponseDTO dto) {
-		
+	
 		String logPath = dto.getLogPath(); 
-		if(!StringUtils.isBlank(logPath) && new File(logPath).exists()) {
+		if(!StringUtils.isBlank(logPath) && (new File(logPath).exists() || LogFilenameUtils.isIncludePattern(logPath))) {
 			LogCmpManager.getInstance().createLogInfo(cmpId, null);
 			new Thread(new TailLogOutputHandler(webSocketServiceImpl, dto, 1000)).start();
 		}else {

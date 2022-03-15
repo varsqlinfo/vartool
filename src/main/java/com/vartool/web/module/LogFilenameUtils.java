@@ -77,7 +77,8 @@ public class LogFilenameUtils {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(LogFilenameUtils.name("/old/varsql-tool.%d{yyyy-MM-dd}.%i.log"));
+		System.out.println(LogFilenameUtils.name("C:/app/apache-tomcat-9.0.58/logs/catalina.%d{yyyy-MM-dd}.log"));
+		System.out.println(LogFilenameUtils.isDatePattern("C:/app/apache-tomcat-9.0.58/logs/catalina.%d{yyyy-MM-dd}.log"));
 	}
 
 	private LogFilenameUtils() {
@@ -157,6 +158,12 @@ public class LogFilenameUtils {
 		}
 		return dest.toString();
 	}
+	
+	
+	public static boolean isIncludePattern(String fileName) {
+		return isDatePattern(fileName) || isIncludeIdxStr(fileName);
+	}
+	
 
 	/**
 	 * 
