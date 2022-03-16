@@ -1,38 +1,24 @@
 package com.vartool.web.app.mgmt.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.app.beans.SearchParameter;
-import com.vartool.web.constants.ResourceConfigConstants;
-import com.vartool.web.dto.request.CmpGroupRequestDTO;
 import com.vartool.web.dto.response.UserResponseDTO;
 import com.vartool.web.exception.ComponentNotFoundException;
 import com.vartool.web.model.entity.board.BoardEntity;
-import com.vartool.web.model.entity.cmp.CmpEntity;
-import com.vartool.web.model.entity.cmp.CmpGroupEntity;
-import com.vartool.web.model.entity.cmp.CmpGroupMappingEntity;
 import com.vartool.web.model.entity.cmp.CmpGroupUserMappingEntity;
 import com.vartool.web.model.entity.user.UserEntity;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.repository.UserInfoRepository;
-import com.vartool.web.repository.cmp.CmpGroupCmpMappingRepository;
-import com.vartool.web.repository.cmp.CmpGroupRepository;
 import com.vartool.web.repository.cmp.CmpGroupUserMappingRepository;
-import com.vartool.web.repository.cmp.CmpRepository;
-import com.vartool.web.security.auth.Authority;
 import com.vartool.web.security.auth.AuthorityType;
 
 /**

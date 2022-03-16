@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
-import com.vartool.web.model.entity.cmp.CmpEntity;
 import com.vartool.web.model.entity.cmp.CmpItemCommandEntity;
 import com.vartool.web.repository.DefaultJpaRepository;
 

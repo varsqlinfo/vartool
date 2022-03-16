@@ -1,6 +1,4 @@
 package com.vartool.web.dto.response;
-import java.io.Serializable;
-
 import com.vartool.web.model.entity.user.UserEntity;
 
 import lombok.Getter;

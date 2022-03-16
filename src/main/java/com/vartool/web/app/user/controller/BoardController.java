@@ -1,14 +1,7 @@
 package com.vartool.web.app.user.controller;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,12 +30,10 @@ import com.vartech.common.utils.HttpUtils;
 import com.vartech.common.utils.VartechUtils;
 import com.vartool.web.app.user.service.BoardService;
 import com.vartool.web.constants.AppCode;
-import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.dto.request.BoardCommentRequestDTO;
 import com.vartool.web.dto.request.BoardRequestDTO;
 import com.vartool.web.model.entity.FileBaseEntity;
 import com.vartool.web.model.entity.board.BoardFileEntity;
-import com.vartool.web.module.CommonUtils;
 import com.vartool.web.module.FileServiceUtils;
 import com.vartool.web.module.HttpUtil;
 import com.vartool.web.module.VartoolUtils;

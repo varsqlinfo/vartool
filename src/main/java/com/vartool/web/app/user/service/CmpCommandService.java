@@ -9,11 +9,7 @@ import com.vartech.common.app.beans.ParamMap;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartool.web.app.handler.command.CommandCmpManager;
 import com.vartool.web.app.mgmt.component.CmpCommandComponent;
-import com.vartool.web.dto.response.CmpCommandResponseDTO;
 import com.vartool.web.dto.websocket.LogMessageDTO;
-import com.vartool.web.model.entity.cmp.CmpItemCommandEntity;
-import com.vartool.web.repository.cmp.CmpItemCommandRepository;
-import com.vartool.web.repository.cmp.CmpItemLogRepository;
 
 /**
  * 

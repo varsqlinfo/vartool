@@ -46,10 +46,11 @@ public class HttpUtil {
 	 *
 	 * @param   s   <code>String</code> to be translated.
 	 * @return  the translated <code>String</code>.
+	 * @throws UnsupportedEncodingException 
 	 * @see		java.net.URLEncoder#encode(java.lang.String)
 	 */
-	public static String encode(String s) {
-		return java.net.URLEncoder.encode(s);
+	public static String encode(String s) throws UnsupportedEncodingException {
+		return java.net.URLEncoder.encode(s, CHAR_SET);
 	}
 	
 	/**

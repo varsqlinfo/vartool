@@ -19,7 +19,6 @@ import com.vartool.web.dto.response.CmpDeployResponseDTO;
 import com.vartool.web.exception.ComponentNotFoundException;
 import com.vartool.web.model.entity.base.AbstractRegAuditorModel;
 import com.vartool.web.model.entity.cmp.CmpItemDeployEntity;
-import com.vartool.web.model.entity.cmp.CmpItemLogEntity;
 import com.vartool.web.module.VarsqlBeanUtils;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.repository.cmp.CmpItemDeployRepository;

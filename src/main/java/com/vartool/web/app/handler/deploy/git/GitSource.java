@@ -143,8 +143,9 @@ public class GitSource {
 		}
 		
 		boolean isFileExists = false; 
-		try {
-			isFileExists= new FileRepository(sourceDir.getAbsolutePath() +File.separator +".git").getObjectDatabase().exists();
+		try (FileRepository fileRepository = new FileRepository(sourceDir.getAbsolutePath() +File.separator +".git")){
+			isFileExists= fileRepository.getObjectDatabase().exists();
+			fileRepository.close();
 		}catch(Exception e) {
 			isFileExists = false; 
 		}
@@ -274,26 +275,29 @@ public class GitSource {
     	
     	Repository repo = git.getRepository();
     	
-        DiffFormatter diffFormatter = new DiffFormatter(System.out);
-        diffFormatter.setRepository(repo);
-        RevWalk walk = new RevWalk(repo);
-        RevCommit fromCommit = walk.parseCommit(repo.resolve(localMaster));
-        RevCommit toCommit = walk.parseCommit(repo.resolve(orginMater));
-        RevTree fromTree = fromCommit.getTree();
-        RevTree toTree = toCommit.getTree();
-        List<DiffEntry> list = diffFormatter.scan(fromTree, toTree);
-        
-        ArrayList<ChangeInfo> changeInfoList = new ArrayList<ChangeInfo>();
-        
-        list.forEach((diffEntry) -> {
-        	changeInfoList.add(new ChangeInfo(diffEntry.getChangeType().name(), diffEntry.getOldPath(), diffEntry.getNewPath()));
-        	
-        	this.msgData.setLog(diffEntry.getChangeType() +" : " + diffEntry.getOldPath() +" -> " + diffEntry.getNewPath());
-        	
-			this.deployAbstract.sendLogMessage(this.msgData, this.recvId);
-			
-        });
-        walk.dispose();
+    	ArrayList<ChangeInfo> changeInfoList = new ArrayList<ChangeInfo>();
+    	
+        try(DiffFormatter diffFormatter = new DiffFormatter(System.out);
+        		RevWalk walk = new RevWalk(repo);){
+	        
+	        diffFormatter.setRepository(repo);
+	        
+	        RevCommit fromCommit = walk.parseCommit(repo.resolve(localMaster));
+	        RevCommit toCommit = walk.parseCommit(repo.resolve(orginMater));
+	        RevTree fromTree = fromCommit.getTree();
+	        RevTree toTree = toCommit.getTree();
+	        List<DiffEntry> list = diffFormatter.scan(fromTree, toTree);
+	        
+	        list.forEach((diffEntry) -> {
+	        	changeInfoList.add(new ChangeInfo(diffEntry.getChangeType().name(), diffEntry.getOldPath(), diffEntry.getNewPath()));
+	        	
+	        	this.msgData.setLog(diffEntry.getChangeType() +" : " + diffEntry.getOldPath() +" -> " + diffEntry.getNewPath());
+	        	
+				this.deployAbstract.sendLogMessage(this.msgData, this.recvId);
+				
+	        });
+	        walk.dispose();
+        }
         
         return changeInfoList;
     }

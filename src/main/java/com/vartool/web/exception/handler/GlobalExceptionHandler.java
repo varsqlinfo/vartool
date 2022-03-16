@@ -178,8 +178,6 @@ public class GlobalExceptionHandler{
 	@ExceptionHandler(MultipartException.class)
     public @ResponseBody ResponseResult multipartexceptionHandler(HttpServletRequest request, Throwable ex) {
 
-        HttpStatus status = getStatus(request);
-
         ResponseResult result = new ResponseResult();
         result.setResultCode(RequestResultCode.ERROR);
         result.setMessage(ex.getMessage());

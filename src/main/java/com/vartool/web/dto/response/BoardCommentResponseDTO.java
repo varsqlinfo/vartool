@@ -2,16 +2,9 @@ package com.vartool.web.dto.response;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-
-import org.springframework.web.multipart.MultipartFile;
-
 import com.vartool.web.model.entity.board.BoardCommentEntity;
-import com.vartool.web.model.entity.board.BoardEntity;
 import com.vartool.web.module.SecurityUtil;
 
 import lombok.Getter;

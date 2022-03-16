@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.vartech.common.app.beans.ParamMap;
 import com.vartool.web.app.user.service.LogDownloadService;
-import com.vartool.web.model.entity.FileBaseEntity;
-import com.vartool.web.module.FileServiceUtils;
 import com.vartool.web.module.HttpUtil;
 
 @Controller

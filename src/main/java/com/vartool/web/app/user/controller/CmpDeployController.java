@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartool.web.app.user.service.CmpDeployService;
 import com.vartool.web.module.HttpUtil;
-import com.vartool.web.module.VartoolUtils;
 
 @Controller
 @RequestMapping("/cmp/deploy")

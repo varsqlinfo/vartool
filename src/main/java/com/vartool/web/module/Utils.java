@@ -1,6 +1,5 @@
 package com.vartool.web.module;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.UUID;

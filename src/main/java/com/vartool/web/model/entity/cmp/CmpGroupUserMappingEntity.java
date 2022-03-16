@@ -12,7 +12,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.vartool.web.model.entity.base.AbstractRegAuditorModel;
 import com.vartool.web.model.entity.user.UserEntity;
-import com.vartool.web.model.id.CmpGroupIdNCmpIdID;
 import com.vartool.web.model.id.CmpGroupIdNViewIdID;
 
 import lombok.Builder;

@@ -1,6 +1,5 @@
 package com.vartool.web.dto.response;
 
-import com.vartool.web.model.entity.cmp.CmpEntity;
 import com.vartool.web.model.entity.cmp.CmpItemCommandEntity;
 
 import lombok.Getter;

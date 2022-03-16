@@ -55,7 +55,7 @@ public class ManagerMgmtController extends AbstractController {
 	public ResponseResult managerRoleMgmt(
 			@RequestParam(value = "mode", required = true, defaultValue = "del") String mode,
 			@RequestParam(value = "viewid", required = true) String viewid) throws Exception {
-		this.logger.debug("managerRoleMgmt mode: {} , viewid : {}", mode, viewid);
+		logger.debug("managerRoleMgmt mode: {} , viewid : {}", mode, viewid);
 		return this.managerMgmtService.updateManagerRole(mode, viewid);
 	}
 	

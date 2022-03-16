@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.vartech.common.app.beans.ParamMap;
 import com.vartech.common.app.beans.ResponseResult;
-import com.vartool.web.app.handler.command.CommandCmpManager;
 import com.vartool.web.app.handler.deploy.DeployCmpManager;
 import com.vartool.web.app.handler.deploy.DeployInterface;
 import com.vartool.web.app.handler.deploy.git.GitDeployComponent;

@@ -1,6 +1,5 @@
 package com.vartool.web.dto.request;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
@@ -9,7 +8,6 @@ import javax.validation.constraints.Size;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.vartool.web.model.entity.board.BoardEntity;
-import com.vartool.web.model.entity.board.BoardFileEntity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

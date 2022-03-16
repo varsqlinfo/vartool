@@ -25,7 +25,6 @@ import com.vartech.common.exception.VartechRuntimeException;
 import com.vartech.common.utils.FileUtils;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.model.entity.FileBaseEntity;
-import com.vartool.web.model.entity.FileInfoEntity;
 import com.vartool.web.model.entity.board.BoardFileEntity;
 
 /**

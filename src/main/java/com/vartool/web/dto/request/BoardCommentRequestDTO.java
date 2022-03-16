@@ -3,14 +3,12 @@ package com.vartool.web.dto.request;
 import java.util.List;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NegativeOrZero;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import com.vartool.web.model.entity.board.BoardCommentEntity;
-import com.vartool.web.model.entity.board.BoardEntity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

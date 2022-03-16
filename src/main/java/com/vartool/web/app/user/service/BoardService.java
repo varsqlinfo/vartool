@@ -10,14 +10,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.app.beans.SearchParameter;
 import com.vartech.common.utils.StringUtils;
-import com.vartech.common.utils.VartechReflectionUtils;
 import com.vartool.web.app.common.service.FileUploadService;
 import com.vartool.web.constants.FilePathCode;
 import com.vartool.web.constants.ResourceConfigConstants;
