@@ -15,6 +15,7 @@ bin/
 
 /target-notused/
 
+/target
 
 #compile directory
 */target
