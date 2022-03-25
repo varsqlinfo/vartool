@@ -108,13 +108,13 @@ public class HttpUtil {
 	public static String[] getStringValues(HttpServletRequest req , String name)  {
 		String[] v = req.getParameterValues(name);
 		
-		return (v = v==null || "".equals(v)? new String[0]: v); 
+		return (v==null || v.length < 1)? new String[0]: v; 
 	}
 	
 	public static String[] getStringValues(HttpServletRequest req , String name , String[] initval)  {
 		String[] v = req.getParameterValues(name);
 		
-		return (v = v==null || "".equals(v)? initval: v); 
+		return (v==null || v.length < 1)? initval: v; 
 	}
 	
 	/**
