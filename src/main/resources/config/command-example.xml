@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vartool-config>
+	<window-command id="tomcatBackground" desc="tomcat background 실행">
+		<start>
+cd "C:\app\apache-tomcat-9.0.58\bin"
+set "CATALINA_HOME=C:\app\apache-tomcat-9.0.58"
+set "CATALINA_BASE=C:\app\apache-tomcat-9.0.58"
+
+@START /b cmd /c catalina.bat run
+		</start>
+		<stop>
+cd "C:\app\apache-tomcat-9.0.58\bin"
+set "CATALINA_HOME=C:\app\apache-tomcat-9.0.58"
+set "CATALINA_BASE=C:\app\apache-tomcat-9.0.58"
+
+cmd /c shutdown.bat
+		</stop>
+	</window-command>
+	
+	<linux-command id="tomcatBackground" desc="tomcat background 실행">
+		<start>
+#!/bin/sh
+ 
+export CATALINA_HOME=/app/tools/apache-tomcat-9.0.58
+export JAVA_OPTS="-Djava.awt.headless=true -server -Xms512m -Xmx1024m -XX:NewSize=256m -XX:MaxNewSize=256m -XX:PermSize=256m -XX:MaxPermSize=512m -XX:+DisableExplicitGC"
+export CATALINA_OPTS=$CATALINA_OPTS" -Dfile.encoding=UTF-8"
+
+cd $CATALINA_HOME/bin
+ 
+./startup.sh
+
+		</start>
+		<stop>
+#!/bin/sh
+ 
+ 
+export CATALINA_HOME=/app/tools/apache-tomcat-9.0.58
+ 
+$CATALINA_HOME/bin/./shutdown.sh
+
+		</stop>
+	</linux-command>
+	
+</vartool-config>
+
