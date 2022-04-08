@@ -65,7 +65,7 @@ public class JPAConfigurer {
 	@PostConstruct
 	public void initialize() {
 		String driver = "org.h2.Driver";
-		String url = "jdbc:h2:file:" + VartoolConfiguration.getConfigRootPath() + File.separator + "db" + File.separator + "vartool;MODE=PostgreSQL;MV_STORE=FALSE;CACHE_SIZE=131072;";
+		String url = "jdbc:h2:file:" + VartoolConfiguration.getConfigRootPath() + File.separator + "db" + File.separator + "vartool;MODE=PostgreSQL;CACHE_SIZE=131072;AUTO_SERVER=TRUE;";
 		String id = "sa";
 		String pw = "sa";
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();

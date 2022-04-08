@@ -41,5 +41,19 @@ $CATALINA_HOME/bin/./shutdown.sh
 		</stop>
 	</linux-command>
 	
+	<windowssh>
+		#openssh 설치
+		Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+		
+		# 서비스 시작
+		Start-Service sshd
+		
+		# 부팅시 시작되게 설정. 
+		Set-Service -Name sshd -StartupType 'Automatic'
+		
+		# default 커맨드를  powershell로 변경. 
+		New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force
+	</windowssh>
+	
 </vartool-config>
 
