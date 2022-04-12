@@ -410,8 +410,12 @@ _ui.layout ={
 		
 		this.layoutObj = vartoolLayout; 
 		
+		var windowResizeTimer;
 		$(window).resize(function() {
-			vartoolLayout.updateSize();
+			clearTimeout(windowResizeTimer);
+			windowResizeTimer = setTimeout(function() {
+				vartoolLayout.updateSize();
+			}, 20);
 		})
 		
 		$('#mainContainer').on('click','.delete-component', function (e){
