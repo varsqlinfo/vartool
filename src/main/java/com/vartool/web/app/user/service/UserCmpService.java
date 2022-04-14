@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vartool.web.constants.ComponentConstants;
 import com.vartool.web.constants.ComponentConstants.TYPE;
 import com.vartool.web.constants.PreferencesConstants;
@@ -79,7 +80,12 @@ public class UserCmpService{
 		if(pref== null) {
 			return null;
 		}else {
-			return pref.getPrefVal();
+			try {
+				new ObjectMapper().readTree(pref.getPrefVal()); // json check
+				return pref.getPrefVal();
+			}catch(Exception e) {
+				return null; 
+			}
 		}
 	}
 

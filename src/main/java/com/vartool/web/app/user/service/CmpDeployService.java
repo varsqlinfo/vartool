@@ -72,9 +72,8 @@ public class CmpDeployService{
 		}
 		
 		CmpDeployResponseDTO dto = CmpDeployResponseDTO.toDto(entity);
-		dto.setClientIp(HttpUtil.getClientIP(req));
 		
-		logger.info("deploy info ip:{}, loginId: {}, action:{},  cmpId: {}, name: {}", dto.getClientIp(), SecurityUtil.loginName(), action, dto.getCmpId(), dto.getName());
+		logger.info("deploy info ip:{}, loginId: {}, action:{},  cmpId: {}, name: {}", SecurityUtil.clientIp(), SecurityUtil.loginName(), action, dto.getCmpId(), dto.getName());
 		
 		if(DeployCmpManager.getInstance().isRunning(dto.getCmpId())) {
 			result.setMessage("already running");

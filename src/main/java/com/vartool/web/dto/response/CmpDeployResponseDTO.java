@@ -18,7 +18,6 @@ public class CmpDeployResponseDTO extends CmpResponseDTO {
 	
 	// 추가 적인 정보
 	private String action;
-	private String clientIp;
 	
 	public static CmpDeployResponseDTO toDto(CmpItemDeployEntity entity) {
 		CmpDeployResponseDTO dto= new CmpDeployResponseDTO();

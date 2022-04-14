@@ -307,15 +307,20 @@ public final class SecurityUtil {
 	public static Map<String, String> runningUserInfo() {
 		Map<String, String> userInfo = new HashMap<String, String>();
 		
-		User vud = loginInfo();
+		User user = loginInfo();
 		
-		if(vud != null) {
-			userInfo.put("userId", vud.getUsername());
-			userInfo.put("userIp", vud.getUserIp());
+		if(user != null) {
+			userInfo.put("userId", user.getUsername());
+			userInfo.put("userIp", user.getUserIp());
 			return userInfo;
 		}
 		
 		return null;
+	}
+
+	// client ip
+	public static String clientIp() {
+		return loginInfo().getUserIp();
 	}
 
 }

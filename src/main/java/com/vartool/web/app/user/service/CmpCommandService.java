@@ -10,6 +10,7 @@ import com.vartech.common.app.beans.ResponseResult;
 import com.vartool.web.app.handler.command.CommandCmpManager;
 import com.vartool.web.app.mgmt.component.CmpCommandComponent;
 import com.vartool.web.dto.websocket.LogMessageDTO;
+import com.vartool.web.module.SecurityUtil;
 
 /**
  * 
@@ -39,8 +40,6 @@ public class CmpCommandService {
 	}
 
 	public ResponseResult startAndStop(String cmpId, String action, ParamMap allParameter) {
-		
-		
 		return cmpCommandComponent.startAndStop(cmpId, action);
 	}
 }
