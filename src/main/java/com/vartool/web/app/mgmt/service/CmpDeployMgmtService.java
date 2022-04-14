@@ -1,5 +1,10 @@
 package com.vartool.web.app.mgmt.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -137,6 +142,26 @@ public class CmpDeployMgmtService {
 	    cmpItemDeployRepository.save(copyEntity);
 	    
 	    return VartoolUtils.getResponseResultItemOne(CmpDeployResponseDTO.toDto(copyEntity));
+	}
+
+	public ResponseResult removeDeployDir(String cmpId, String mode) throws IOException {
+		CmpItemDeployEntity dto = cmpItemDeployRepository.findByCmpId(cmpId);
+		
+		File file = null; 
+		if("all".equals(mode)) {
+			file = new File(dto.getDeployPath());
+		}else if("class".equals(mode)) {
+			file = new File(dto.getDeployPath()+"/WEB-INF/classes");
+		}
+		
+		if(file != null && file.exists()) {
+			Files.walk(file.toPath())
+		    .sorted(Comparator.reverseOrder())
+		    .map(Path::toFile)
+		    .forEach(File::delete);
+		}
+		
+		return VartoolUtils.getResponseResultItemOne(1);
 	}
 
 }

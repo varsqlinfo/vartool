@@ -12,14 +12,13 @@ public class CmpDeployResponseDTO extends CmpResponseDTO {
 	private String scmUrl;
 	private String scmId;
 	private String scmPw;
-	private boolean useDeployPath; 
 	private String dependencyPath;
 	private String deployPath;
 	private String buildScript;
 	
 	// 추가 적인 정보
 	private String action;
-	private String ip;
+	private String clientIp;
 	
 	public static CmpDeployResponseDTO toDto(CmpItemDeployEntity entity) {
 		CmpDeployResponseDTO dto= new CmpDeployResponseDTO();
@@ -34,7 +33,6 @@ public class CmpDeployResponseDTO extends CmpResponseDTO {
 		dto.setScmUrl(entity.getScmUrl());
 		dto.setScmId(entity.getScmId());
 		dto.setScmPw(entity.getScmPw());
-		dto.setUseDeployPath(entity.isUseDeployPath());
 		dto.setDependencyPath(entity.getDependencyPath());
 		dto.setDeployPath(entity.getDeployPath());
 		dto.setBuildScript(entity.getBuildScript());

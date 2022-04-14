@@ -1,12 +1,10 @@
 package com.vartool.web.app.mgmt.service;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,14 +20,14 @@ import com.vartech.common.utils.VartechUtils;
 import com.vartool.web.app.handler.command.CommandCmpManager;
 import com.vartool.web.app.handler.deploy.DeployCmpManager;
 import com.vartool.web.app.handler.log.LogCmpManager;
-import com.vartool.web.app.handler.log.tail.TailLogOutputHandler;
+import com.vartool.web.app.mgmt.component.CmpLogComponent;
 import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
 import com.vartool.web.constants.ComponentConstants;
 import com.vartool.web.constants.ResourceConfigConstants;
 import com.vartool.web.dto.response.CmpLogResponseDTO;
 import com.vartool.web.dto.response.CmpMonitorDTO;
 import com.vartool.web.dto.response.CmpResponseDTO;
-import com.vartool.web.dto.websocket.LogMessageDTO;
+import com.vartool.web.exception.ComponentNotFoundException;
 import com.vartool.web.model.entity.cmp.CmpEntity;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.repository.cmp.CmpItemLogRepository;
@@ -65,6 +63,9 @@ public class CmpMonitoringService {
 	
 	@Autowired
 	private WebSocketServiceImpl webSocketServiceImpl;
+	
+	@Autowired
+	private CmpLogComponent cmpLogComponent;
 	
 	/**
 	 * 
@@ -184,8 +185,11 @@ public class CmpMonitoringService {
 			return VartoolUtils.getResponseResultItemOne("running");
 		}else {
 			CmpLogResponseDTO dto = CmpLogResponseDTO.toDto(cmpItemLogRepository.findByCmpId(cmpId));
-			Object result = startAppLog( cmpId, dto);
-			return VartoolUtils.getResponseResultItemOne(result);
+			if(dto != null) {
+				return VartoolUtils.getResponseResultItemOne(cmpLogComponent.startAppLog(cmpId, dto));
+			}else {
+				throw new ComponentNotFoundException(cmpId);
+			}
 		}
 	}
 	
@@ -209,17 +213,5 @@ public class CmpMonitoringService {
 	public ResponseResult killProcess(String cmpId) {
 		CommandCmpManager.getInstance().killCommand(cmpId);
 		return VartoolUtils.getResponseResultItemOne(1);
-	}
-	
-	public Object startAppLog(String cmpId, CmpLogResponseDTO dto) {
-		
-		String logPath = dto.getLogPath(); 
-		if(!StringUtils.isBlank(logPath) && new File(logPath).exists()) {
-			new Thread(new TailLogOutputHandler(webSocketServiceImpl, dto, 1000)).start();
-		}else {
-			return LogMessageDTO.builder().cmpId(cmpId).log("log path not found : " + logPath).build();
-		}
-		
-		return null;
 	}
 }

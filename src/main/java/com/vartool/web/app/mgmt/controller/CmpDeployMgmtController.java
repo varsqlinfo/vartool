@@ -119,4 +119,10 @@ public class CmpDeployMgmtController {
 	public @ResponseBody ResponseResult copy(@RequestParam(value = "cmpId", required = true) String cmpId, HttpServletRequest req) throws Exception {
 		return cmpDeployMgmtService.copyInfo(cmpId);
 	}
+	
+	@PostMapping({"/removeDeployDir" })
+	public @ResponseBody ResponseResult removeDeployDir(@RequestParam(value = "cmpId", required = true) String cmpId,
+			@RequestParam(value = "mode", required = true) String mode, HttpServletRequest req) throws Exception {
+		return cmpDeployMgmtService.removeDeployDir(cmpId, mode);
+	}
 }

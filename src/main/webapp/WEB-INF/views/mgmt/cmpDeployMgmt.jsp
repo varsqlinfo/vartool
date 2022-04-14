@@ -141,17 +141,20 @@
 									<div class="row bottomHeight5">
 										<label class="col-lg-3 control-label" for="inputError">배포경로</label>
 										<div class="col-lg-9 control-value">
-											<input type="checkbox" v-model="detailItem.useDeployPath" value="Y">
-											<template v-if="detailItem.useDeployPath">
-												<input type="text" v-model="detailItem.deployPath" style="width:calc(100% - 30px); display: inline-block; margin-left: 10px;" class="form-control input-init-type">
-											</template>
+											<input type="text" v-model="detailItem.deployPath" class="form-control input-init-type">
+											
+											<div style="padding-top:10px;" v-if="detailFlag===true">
+												<button type="button" class="btn btn-info btn-sm" @click="removeDeployDir('all')">배포 경로 파일 삭제</button>
+												<button type="button" class="btn btn-info  btn-sm" @click="removeDeployDir('class')">classes 경로 삭제(/WEB-INF/classes)</button>
+											</div>
 										</div>
 									</div>
+									
 									<div class="row bottomHeight5">
 										<div>
 											<label class="col-lg-3 control-label" for="inputError">빌드 Source</label>
 											<div class="col-lg-9 control-value">
-												&nbsp;<button type="button" class="btn btn-sm btn-default" :class="detailFlag==true?'':'hidden'" @click="xmlDownload()">다운로드</button>
+												<button type="button" class="btn btn-sm btn-success" :class="detailFlag==true?'':'hidden'" @click="xmlDownload()">다운로드</button>
 											</div>
 										</div>
 										<div class="col-lg-12">
@@ -288,23 +291,37 @@ VartoolAPP.vueServiceBean({
 		init : function (){
 			this.fieldClear(); 
 		}
-		
 		,fieldClear : function (){
 			this.viewItem();
+		}
+		,removeDeployDir : function (mode){
+			var param = {
+				cmpId : this.detailItem.cmpId
+				,mode : mode
+			};
+			
+			if(!confirm('배포 경로 하위의 모든 파일이 삭제 됩니다\n삭제하시겠습니까?\n')) return ; 
+			
+			this.$ajax({
+				url:  {type:VARTOOL.uri.manager, url:'/cmp/deployMgmt/removeDeployDir'}
+				,data : param
+				,success: function(resData) {
+					console.log(resData);
+				}
+			})
 		}
 		,viewItem : function (item, typeChangeFlag){
 			if(VARTOOL.isUndefined(item)){
 				this.detailFlag = false;
 				this.viewMode = 'save';
 				this.detailItem ={
-					cmpId : ""
+					cmpId : ''
 					,name :''
 					,description :''
 					,scmType :'GIT'
 					,scmUrl :''
 					,scmId :''
 					,scmPw :''
-					,useDeployPath : false
 					,deployPath :''
 					,buildScript :''
 					,dependencyPath :''

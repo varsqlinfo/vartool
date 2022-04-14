@@ -12,7 +12,6 @@ public class CmpDeployRequestDTO extends CmpRequestDTO {
 	private String scmUrl;
 	private String scmId;
 	private String scmPw;
-	private boolean useDeployPath;
 	private String dependencyPath;
 	private String deployPath;
 	private String buildScript;
@@ -26,7 +25,7 @@ public class CmpDeployRequestDTO extends CmpRequestDTO {
 			.scmUrl(scmUrl)
 			.scmId(scmId)
 			.scmPw(scmPw)
-			.useDeployPath(useDeployPath)
+			.useDeployPath(true)
 			.dependencyPath(dependencyPath)
 			.deployPath(deployPath)
 			.buildScript(buildScript)

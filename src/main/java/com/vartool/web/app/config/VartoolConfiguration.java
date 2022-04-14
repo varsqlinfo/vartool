@@ -37,6 +37,8 @@ public class VartoolConfiguration extends AbstractConfiguration {
 	
 	private final static Logger logger = LoggerFactory.getLogger(VartoolConfiguration.class);
 	
+	private final static String CHARSET = "utf-8";
+	
 	private Object lock = new Object();
 	
 	private static String CONFIG_ROOT_PATH = getConfigRootPath();
@@ -155,7 +157,7 @@ public class VartoolConfiguration extends AbstractConfiguration {
 				logger.error("vartool config info", e);
 				
 				try {
-					FileUtils.write(new File(configInfo.getConfigFilePath()+"."+DateUtils.getCurrentDate()), xml, VartoolConstants.CHAR_SET);
+					FileUtils.write(new File(configInfo.getConfigFilePath()+"."+DateUtils.getCurrentDate()), xml, CHARSET);
 				} catch (IOException e1) {
 					logger.error("backup xml path:{} , error message: {}", configInfo.getConfigFilePath(), e1.getMessage());
 				}
@@ -180,7 +182,7 @@ public class VartoolConfiguration extends AbstractConfiguration {
 		}
 		
 		if(StringUtils.isBlank(vartoolConfig.getCharset())) {
-			vartoolConfig.setCharset(VartoolConstants.CHAR_SET);
+			vartoolConfig.setCharset(CHARSET);
 		}
 		
 		if(StringUtils.isBlank(vartoolConfig.getCommandSavePath())) {

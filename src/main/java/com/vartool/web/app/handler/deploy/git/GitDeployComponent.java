@@ -11,11 +11,14 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vartech.common.app.beans.ResponseResult;
+import com.vartech.common.utils.StringUtils;
+import com.vartool.web.app.config.ConfigProp;
 import com.vartool.web.app.config.VartoolConfiguration;
 import com.vartool.web.app.handler.deploy.AbstractDeploy;
 import com.vartool.web.app.handler.deploy.DeployCmpManager;
 import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
 import com.vartool.web.constants.TemplateConvertKeyCode;
+import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.dto.response.CmpDeployResponseDTO;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 import com.vartool.web.module.LogFilenameUtils;
@@ -52,6 +55,7 @@ public class GitDeployComponent extends AbstractDeploy{
 			DeployCmpManager.getInstance().enable(cmpId);
 			
 			msgData.setLog(dateFormat.format(System.currentTimeMillis())+"-==deploy start==-");
+			
 			sendLogMessage( msgData, recvId);
 			
 			if("pull".equals(actionMode) || "all".equals(actionMode)){
@@ -72,13 +76,19 @@ public class GitDeployComponent extends AbstractDeploy{
 				
 				Map replaceInfo = mapper.convertValue(dto, Map.class);
 				
-				replaceInfo.put(TemplateConvertKeyCode.DEPLOY.DEFAULT_DEPENDENCY_PATH.getKey(), VartoolConfiguration.getInstance().getConfigInfo().getDeployConfig().getDefaultDependencyPath());
+				String dependencyPath = dto.getDependencyPath();
+				
+				if(StringUtils.isBlank(dependencyPath)) {
+					dependencyPath = VartoolConfiguration.getInstance().getConfigInfo().getDeployConfig().getDefaultDependencyPath();
+				}
+				
+				replaceInfo.put(TemplateConvertKeyCode.DEPLOY.DEFAULT_DEPENDENCY_PATH.getKey(), dependencyPath);
 				replaceInfo.put(TemplateConvertKeyCode.DEPLOY.SOURCE_PATH.getKey(), LogFilenameUtils.getDeploySourcePath(dto).getAbsolutePath());
 				replaceInfo.put(TemplateConvertKeyCode.DEPLOY.BUILD_PATH.getKey(), LogFilenameUtils.getDeployBuildPath(dto).getAbsolutePath());
 				
 				buildScript  = DeploySourceReplaceUtils.getInstance().getBuildSource(buildScript, replaceInfo);
 				
-				FileUtils.write(new File(outputBuildFile), buildScript, "UTF-8");
+				FileUtils.write(new File(outputBuildFile), buildScript, VartoolConstants.CHAR_SET);
 				
 				logger.debug("deploy ant xml output file : {}", outputBuildFile);
 				// build path 

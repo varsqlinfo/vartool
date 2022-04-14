@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 import org.apache.commons.lang3.StringUtils;
 
 import com.vartool.web.app.config.VartoolConfiguration;
+import com.vartool.web.constants.VartoolConstants;
 
 public class CommandByteOutputStream extends OutputStream {
 	private static final int INTIAL_SIZE = 132;
@@ -28,7 +29,7 @@ public class CommandByteOutputStream extends OutputStream {
 	private StringBuffer sb = new StringBuffer();
 
 	public CommandByteOutputStream() {
-		this(VartoolConfiguration.getInstance().getDefaultCharset());
+		this(VartoolConstants.CHAR_SET);
 	}
 
 	public CommandByteOutputStream(String charset) {
@@ -39,7 +40,7 @@ public class CommandByteOutputStream extends OutputStream {
 		if(!StringUtils.isBlank(charset) && Charset.isSupported(charset)) {
 			this.charset = charset;
 		}else {
-			this.charset = VartoolConfiguration.getInstance().getDefaultCharset();
+			this.charset = VartoolConstants.CHAR_SET;
 		}
 	}
 

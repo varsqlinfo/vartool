@@ -30,6 +30,7 @@ import com.vartech.common.utils.HttpUtils;
 import com.vartech.common.utils.VartechUtils;
 import com.vartool.web.app.user.service.BoardService;
 import com.vartool.web.constants.AppCode;
+import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.dto.request.BoardCommentRequestDTO;
 import com.vartool.web.dto.request.BoardRequestDTO;
 import com.vartool.web.model.entity.FileBaseEntity;
@@ -225,7 +226,7 @@ public class BoardController {
 			downFileName = fileList.get(0).getFileName();
 		}else {
 			downFileName = param.getString("downFileName" ,"downloadFile");
-			downFileName =java.net.URLDecoder.decode(downFileName,"UTF-8");
+			downFileName =java.net.URLDecoder.decode(downFileName, VartoolConstants.CHAR_SET);
 			downFileName = downFileName + ".zip";
 		}
 		FileServiceUtils.fileDownload(req, res, downFileName, fileList.toArray(new FileBaseEntity[0]));

@@ -9,7 +9,7 @@ public interface VartoolConstants {
     
 	final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     
-	final String CHAR_SET = "utf-8";
+	final String CHAR_SET = VartoolConfiguration.getInstance().getDefaultCharset();
 	
 	final String FILE_ID_DELIMITER = ",";
 	

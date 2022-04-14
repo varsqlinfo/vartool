@@ -38,7 +38,7 @@ public class CmpDeployController {
 			@RequestParam(value = "action", required = true) String action,
 			HttpServletRequest req) throws Exception {
 		
-		return cmpDeployService.deploy(cmpId, action);
+		return cmpDeployService.deploy(cmpId, action, req);
 	}
 	
 }

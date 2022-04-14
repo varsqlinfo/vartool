@@ -12,11 +12,15 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.charset.Charset;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.commons.io.comparator.NameFileComparator;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,9 +43,10 @@ public class Tail implements Runnable {
     private boolean stopped = false;
     private boolean isIncludeDatePattern = false;
     private final TailOutputStream output; 
-    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
     
-    private String currentDate;
+    final static DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("yyyyMMdd");
+    
+    private DateTime currentDate;
     
     private Charset defCharset = Charset.defaultCharset();
 
@@ -66,7 +71,7 @@ public class Tail implements Runnable {
         this.output = output;
         this.isIncludeDatePattern = LogFilenameUtils.isDatePattern(filePath);
         
-        currentDate = sdf.format(new Date());
+        currentDate = new DateTime();
         
         if(charset != null && !"".equals(charset)) {
         	defCharset = Charset.forName(charset);
@@ -98,12 +103,11 @@ public class Tail implements Runnable {
             boolean fileNotFound = false; 
             while (!this.stopped) {
 
-                // The file might be temporarily gone during rotation. Wait, then decide
-                // whether the file is considered gone permanently or whether a rotation has occurred.
+                // file check
                 if (!this.file.exists()) {
-                    sleep(AWAIT_FILE_ROTATION_MILLIS);
-                }
-                if (!this.file.exists()) {
+                	
+                	sleep(AWAIT_FILE_ROTATION_MILLIS);
+                	
                 	if(!fileNotFound) {
                 		this.output.handle("file not found : "+filePath);
                 	}
@@ -122,8 +126,12 @@ public class Tail implements Runnable {
                 if (read == -1) {
                     sleep(TAIL_CHECK_INTERVAL_MILLIS);
                     
-                    if(this.isIncludeDatePattern && !currentDate.equals(sdf.format(new Date()))) {
-                    	currentDate = sdf.format(new Date());
+                    DateTime chkDate = new DateTime();
+                    
+                    //System.out.println(file.getAbsolutePath()+ " :: "+this.isIncludeDatePattern + " :: " + currentDate.toString(dateFormatter)+ " :: " + chkDate.toString(dateFormatter) + " :: "+ new Period(currentDate, chkDate, PeriodType.days()).getDays());
+                    
+                    if(this.isIncludeDatePattern && new Period(currentDate, chkDate, PeriodType.days()).getDays() != 0) {
+                    	currentDate = new DateTime();
                     	position = 0;
 						closeQuietly(channel);
 						channel = getChannel();
