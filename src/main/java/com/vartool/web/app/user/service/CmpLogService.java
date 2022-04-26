@@ -1,18 +1,28 @@
 package com.vartool.web.app.user.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.List;
+
+import org.apache.commons.io.input.ReversedLinesFileReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.github.jknack.handlebars.internal.lang3.StringUtils;
 import com.vartech.common.app.beans.ParamMap;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.constants.RequestResultCode;
 import com.vartool.web.app.handler.log.LogCmpManager;
 import com.vartool.web.app.mgmt.component.CmpLogComponent;
+import com.vartool.web.constants.BlankConstants;
+import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.dto.response.CmpLogResponseDTO;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 import com.vartool.web.model.entity.cmp.CmpItemLogEntity;
+import com.vartool.web.module.FileServiceUtils;
 import com.vartool.web.repository.cmp.CmpItemLogRepository;
 
 /**
@@ -55,6 +65,30 @@ public class CmpLogService {
 			Object result = cmpLogComponent.startAppLog(cmpId, dto);
 			if(result != null) {
 				responseResult.setItemOne(result);
+				return responseResult; 
+			}else {
+				File file = FileServiceUtils.logFile(dto.getLogPath());
+				
+				if(file.exists()) {
+					String charset = dto.getCharset();
+					charset = StringUtils.isBlank(charset) ? VartoolConstants.CHAR_SET : charset;
+					try (ReversedLinesFileReader  reader = new ReversedLinesFileReader(file, Charset.forName(charset))){
+						
+						List<String> readLogs = reader.readLines(1000);
+						
+						if(readLogs.size() > 0) {
+							StringBuilder sb = new StringBuilder();
+							
+							readLogs.forEach(logCont ->{
+								sb.append(logCont).append(BlankConstants.NEW_LINE_CHAR);
+							});
+							responseResult.setItemOne(LogMessageDTO.builder().cmpId(cmpId).log(sb.toString()).build());
+						}
+						return responseResult; 
+					} catch (IOException e) {
+						logger.error("log load fail logPath : {}, error message : {}", dto.getLogPath() , e.getMessage());
+					}
+				}
 			}
 		}
 		

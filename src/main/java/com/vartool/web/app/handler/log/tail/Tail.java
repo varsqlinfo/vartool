@@ -24,6 +24,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vartool.web.module.FileServiceUtils;
 import com.vartool.web.module.LogFilenameUtils;
 
 
@@ -85,10 +86,16 @@ public class Tail implements Runnable {
         SeekableByteChannel channel = null;
         
         try {
-            channel = getChannel();
+            channel = getChannel(channel);
             
-            logger.info("tail start path : {}, readFile : {}" ,this.filePath, this.file.getAbsoluteFile() );
-            long position = getStartInByte() ;
+            long position = -1;
+            
+            if(this.file==null) {
+            	logger.info("tail start file does not exists path : {} " ,this.filePath);
+            }else {
+            	logger.info("tail start path : {}, readFile : {}" ,this.filePath, this.file.getAbsoluteFile() );
+            	position = getStartInByte() ;
+            }
             
             if(channel != null) {
             	channel.position(position);
@@ -104,7 +111,7 @@ public class Tail implements Runnable {
             while (!this.stopped) {
 
                 // file check
-                if (!this.file.exists()) {
+                if (this.file==null || !this.file.exists()) {
                 	
                 	sleep(AWAIT_FILE_ROTATION_MILLIS);
                 	
@@ -117,8 +124,7 @@ public class Tail implements Runnable {
 
                 if (fileNotFound || position > this.file.length()) {
                     position = 0;
-                    closeQuietly(channel);
-                    channel = getChannel();
+                    channel = getChannel(channel);
                 }
                 
                 int read = channel.read(readBuffer);
@@ -131,10 +137,8 @@ public class Tail implements Runnable {
                     //System.out.println(file.getAbsolutePath()+ " :: "+this.isIncludeDatePattern + " :: " + currentDate.toString(dateFormatter)+ " :: " + chkDate.toString(dateFormatter) + " :: "+ new Period(currentDate, chkDate, PeriodType.days()).getDays());
                     
                     if(this.isIncludeDatePattern && new Period(currentDate, chkDate, PeriodType.days()).getDays() != 0) {
-                    	currentDate = new DateTime();
                     	position = 0;
-						closeQuietly(channel);
-						channel = getChannel();
+						channel = getChannel(channel);
                     }else {
                     	continue;
                     }
@@ -200,37 +204,21 @@ public class Tail implements Runnable {
         }
     }
 
-    private SeekableByteChannel getChannel() throws IOException {
-    	String newFilePath = LogFilenameUtils.name(filePath);
-    	
-    	if(LogFilenameUtils.isIncludeIdxStr(newFilePath)) {
-    		
-    		String prefix =  newFilePath.substring(0 , newFilePath.indexOf(LogFilenameUtils.FILENAME_INDEX_STR));
-    		
-    		File[] files = new File(new File(newFilePath).getParent()).listFiles(new FilenameFilter() {
-				
-				@Override
-				public boolean accept(File dir, String name) {
-					return name.startsWith(prefix);
-				}
-			});
-    		
-    		if(files.length > 0) {
-    			Arrays.sort(files , NameFileComparator.NAME_REVERSE);
-    			newFilePath = files[0].getAbsolutePath();
-    		}
-    	}
-    	
-    	file = new File(newFilePath);
-    	if (!this.file.exists()) {
-            return null;
+    private SeekableByteChannel getChannel(SeekableByteChannel channel) throws IOException {
+    	File newFile = FileServiceUtils.logFile(this.filePath);// new File(newFilePath);
+    	if (!newFile.exists()) {
+            return channel;
         }
+    	currentDate = new DateTime();
     	
-    	SeekableByteChannel channel =newByteChannel(this.file.toPath(), READ);
-		return channel;
+    	closeQuietly(channel);
+    	this.file = newFile;
+    	
+		return newByteChannel(this.file.toPath(), READ);
 	}
     
-    private long getStartInByte() {
+
+	private long getStartInByte() {
     	long availableInByte = this.file.length();
         long startingFromInByte = max(availableInByte - this.bytesToTail, 0);
          

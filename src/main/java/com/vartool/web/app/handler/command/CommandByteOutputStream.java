@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 import org.apache.commons.lang3.StringUtils;
 
 import com.vartool.web.app.config.VartoolConfiguration;
+import com.vartool.web.constants.BlankConstants;
 import com.vartool.web.constants.VartoolConstants;
 
 public class CommandByteOutputStream extends OutputStream {
@@ -107,7 +108,7 @@ public class CommandByteOutputStream extends OutputStream {
 	}
 	
 	public void processLine(String line, int arg1) {
-		sb.append(line).append("\n");
+		sb.append(line).append(BlankConstants.NEW_LINE_CHAR);
 	}
 	
 	public String getLog() {

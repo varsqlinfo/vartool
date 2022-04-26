@@ -3,6 +3,7 @@ package com.vartool.web.app.handler.deploy.git;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
 
 import com.vartool.web.app.handler.deploy.AbstractDeploy;
+import com.vartool.web.constants.BlankConstants;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 
 public class GitProgressMoniter extends BatchingProgressMonitor {
@@ -26,7 +27,7 @@ public class GitProgressMoniter extends BatchingProgressMonitor {
 	protected void onEndTask(String taskName, int workCurr) {
 		StringBuilder s = new StringBuilder();
 		format(s, taskName, workCurr);
-		s.append("\n");
+		s.append(BlankConstants.NEW_LINE_CHAR);
 		send(s);
 	}
 
@@ -48,7 +49,7 @@ public class GitProgressMoniter extends BatchingProgressMonitor {
 	protected void onEndTask(String taskName, int cmp, int totalWork, int pcnt) {
 		StringBuilder s = new StringBuilder();
 		format(s, taskName, cmp, totalWork, pcnt);
-		s.append("\n");
+		s.append(BlankConstants.NEW_LINE_CHAR);
 		send(s);
 	}
 

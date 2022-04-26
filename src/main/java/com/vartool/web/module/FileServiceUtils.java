@@ -5,6 +5,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.charset.Charset;
@@ -12,12 +13,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.comparator.NameFileComparator;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
@@ -231,5 +234,29 @@ public final class FileServiceUtils {
 				}
 			}
 		}
+	}
+	
+	
+	public static File logFile(String filePath) {
+    	String newFilePath = LogFilenameUtils.name(filePath);
+    	
+    	if(LogFilenameUtils.isIncludeIdxStr(newFilePath)) {
+    		
+    		String prefix =  newFilePath.substring(0 , newFilePath.indexOf(LogFilenameUtils.FILENAME_INDEX_STR));
+    		
+    		File[] files = new File(new File(newFilePath).getParent()).listFiles(new FilenameFilter() {
+				
+				@Override
+				public boolean accept(File dir, String name) {
+					return name.startsWith(prefix);
+				}
+			});
+    		
+    		if(files.length > 0) {
+    			Arrays.sort(files , NameFileComparator.NAME_REVERSE);
+    			newFilePath = files[0].getAbsolutePath();
+    		}
+    	}
+    	return new File(newFilePath);
 	}
 }

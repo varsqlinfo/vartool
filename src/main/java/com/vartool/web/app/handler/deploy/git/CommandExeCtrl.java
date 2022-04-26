@@ -68,7 +68,11 @@ public class CommandExeCtrl {
 		PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(outputStream, errorStream);
 		executor.setStreamHandler(pumpStreamHandler);
 
-		executor.execute(command);
+		try{
+			executor.execute(command);
+		}catch(Exception e) {
+			logger.error("command fail command :{}, message : {} ",command.toString(),  e.getMessage());
+		}
 		return rtnStr;
 
 	}

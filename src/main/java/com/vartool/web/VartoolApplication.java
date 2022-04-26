@@ -21,7 +21,7 @@ public class VartoolApplication extends SpringBootServletInitializer {
 		}
 	}
 
-	public void onStartup(ServletContext servletContext) throws ServletException {
+	public void onStartup(ServletContext servletContext) throws ServletException { 
 		super.onStartup(servletContext);
 	}
 

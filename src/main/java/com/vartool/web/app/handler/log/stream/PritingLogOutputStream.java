@@ -2,6 +2,8 @@ package com.vartool.web.app.handler.log.stream;
 
 import org.apache.commons.exec.LogOutputStream;
 
+import com.vartool.web.constants.BlankConstants;
+
 public class PritingLogOutputStream extends LogOutputStream {
 
 	private StringBuilder output = new StringBuilder();
@@ -17,7 +19,7 @@ public class PritingLogOutputStream extends LogOutputStream {
 		if(viewFlag) {
 			System.out.println(line);
 		}
-		output.append(line).append("\n");
+		output.append(line).append(BlankConstants.NEW_LINE_CHAR);
 	}
 
 	public String getOutput() {

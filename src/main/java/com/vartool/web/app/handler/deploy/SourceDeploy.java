@@ -244,7 +244,7 @@ public class SourceDeploy {
 		
 		autoDeployThread.start();
 		
-		System.out.println("자동 배포 시작");
+		logger.info("자동 배포 시작");
 
 	}
 	

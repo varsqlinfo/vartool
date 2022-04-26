@@ -32,6 +32,7 @@ import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.util.io.NullOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -277,7 +278,7 @@ public class GitSource {
     	
     	ArrayList<ChangeInfo> changeInfoList = new ArrayList<ChangeInfo>();
     	
-        try(DiffFormatter diffFormatter = new DiffFormatter(System.out);
+        try(DiffFormatter diffFormatter = new DiffFormatter(NullOutputStream.INSTANCE);
         		RevWalk walk = new RevWalk(repo);){
 	        
 	        diffFormatter.setRepository(repo);

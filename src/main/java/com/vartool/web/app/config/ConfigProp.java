@@ -23,6 +23,8 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vartool.web.constants.BlankConstants;
+
 public class ConfigProp{
 	
 	private final static Logger logger = LoggerFactory.getLogger(ConfigProp.class);
@@ -91,7 +93,7 @@ public class ConfigProp{
 				is.close();
 			}catch(Exception e){
 				logger.error("ConfigProp : ",e);
-				throw new Exception( this.getClass().getName() + e.getLocalizedMessage()+"\n"+ e.getMessage());
+				throw new Exception( this.getClass().getName() + e.getLocalizedMessage()+BlankConstants.NEW_LINE_CHAR+ e.getMessage());
 			}
 		} // end of sunchronized(lock);
 	}
