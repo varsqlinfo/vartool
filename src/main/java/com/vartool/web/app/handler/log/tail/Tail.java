@@ -24,6 +24,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vartech.common.utils.DateUtils;
 import com.vartool.web.module.FileServiceUtils;
 import com.vartool.web.module.LogFilenameUtils;
 
@@ -91,7 +92,7 @@ public class Tail implements Runnable {
             long position = -1;
             
             if(this.file==null) {
-            	logger.info("tail start file does not exists path : {} " ,this.filePath);
+            	logger.info("tail start file does not exists path : {}, absolute path : {} ", this.filePath, FileServiceUtils.logFile(this.filePath).getAbsolutePath() );
             }else {
             	logger.info("tail start path : {}, readFile : {}" ,this.filePath, this.file.getAbsoluteFile() );
             	position = getStartInByte() ;
@@ -115,8 +116,10 @@ public class Tail implements Runnable {
                 	
                 	sleep(AWAIT_FILE_ROTATION_MILLIS);
                 	
+                	this.file = FileServiceUtils.logFile(this.filePath); 
+                	
                 	if(!fileNotFound) {
-                		this.output.handle("file not found : "+filePath);
+                		this.output.handle("file not found : "+this.file.getAbsolutePath());
                 	}
                 	fileNotFound = true; 
                     continue; 
@@ -136,9 +139,16 @@ public class Tail implements Runnable {
                     
                     //System.out.println(file.getAbsolutePath()+ " :: "+this.isIncludeDatePattern + " :: " + currentDate.toString(dateFormatter)+ " :: " + chkDate.toString(dateFormatter) + " :: "+ new Period(currentDate, chkDate, PeriodType.days()).getDays());
                     
-                    if(this.isIncludeDatePattern && new Period(currentDate, chkDate, PeriodType.days()).getDays() != 0) {
-                    	position = 0;
-						channel = getChannel(channel);
+                    if(new Period(currentDate, chkDate, PeriodType.days()).getDays() != 0) {
+                    	
+                    	logger.info("file info last file path :{} , date : {} , current date  :{} ", this.file.getAbsolutePath(), new DateTime(this.file.lastModified()).toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS")), currentDate.toString(dateFormatter));
+                    	
+                    	if(this.isIncludeDatePattern ) {
+                        	position = 0;
+    						channel = getChannel(channel);
+                        }else {
+                        	channel = reloadByteChannel(channel);
+                        }
                     }else {
                     	continue;
                     }
@@ -216,6 +226,12 @@ public class Tail implements Runnable {
     	
 		return newByteChannel(this.file.toPath(), READ);
 	}
+    
+    private SeekableByteChannel reloadByteChannel(SeekableByteChannel channel) throws IOException {
+    	currentDate = new DateTime();
+    	closeQuietly(channel);
+    	return newByteChannel(this.file.toPath(), READ);
+    }
     
 
 	private long getStartInByte() {

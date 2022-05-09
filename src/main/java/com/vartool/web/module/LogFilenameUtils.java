@@ -77,6 +77,7 @@ public class LogFilenameUtils {
 	}
 
 	public static void main(String[] args) {
+		System.out.println(LogFilenameUtils.name("C:/app/apache-tomcat-9.0.58/logs/catalina.log"));
 		System.out.println(LogFilenameUtils.name("C:/app/apache-tomcat-9.0.58/logs/catalina.%d{yyyy-MM-dd}.log"));
 		System.out.println(LogFilenameUtils.isDatePattern("C:/app/apache-tomcat-9.0.58/logs/catalina.%d{yyyy-MM-dd}.log"));
 	}
