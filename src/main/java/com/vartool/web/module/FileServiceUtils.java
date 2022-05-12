@@ -237,8 +237,13 @@ public final class FileServiceUtils {
 	}
 	
 	
-	public static File logFile(String filePath) {
-    	String newFilePath = LogFilenameUtils.name(filePath);
+	public static File logFile(String fileNamePattern) {
+    	return new File(getLogFileName(fileNamePattern));
+	}
+
+
+	public static String getLogFileName(String fileNamePattern) {
+		String newFilePath = LogFilenameUtils.name(fileNamePattern);
     	
     	if(LogFilenameUtils.isIncludeIdxStr(newFilePath)) {
     		
@@ -253,10 +258,13 @@ public final class FileServiceUtils {
 			});
     		
     		if(files.length > 0) {
-    			Arrays.sort(files , NameFileComparator.NAME_REVERSE);
+    			if(files.length  >  1) {
+    				Arrays.sort(files , NameFileComparator.NAME_REVERSE);
+    			}
+    			
     			newFilePath = files[0].getAbsolutePath();
     		}
     	}
-    	return new File(newFilePath);
+		return newFilePath;
 	}
 }

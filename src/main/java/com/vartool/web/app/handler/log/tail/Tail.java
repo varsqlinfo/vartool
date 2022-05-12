@@ -7,24 +7,17 @@ import static java.nio.file.StandardOpenOption.READ;
 import static org.apache.commons.io.IOUtils.closeQuietly;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.Date;
 
-import org.apache.commons.io.comparator.NameFileComparator;
 import org.joda.time.DateTime;
-import org.joda.time.Period;
-import org.joda.time.PeriodType;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vartech.common.utils.DateUtils;
 import com.vartool.web.module.FileServiceUtils;
 import com.vartool.web.module.LogFilenameUtils;
 
@@ -39,18 +32,19 @@ public class Tail implements Runnable {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final String filePath;
+    private final String fileNamePattern;
+    private String filePath;
     private final long bytesToTail;
 
     private boolean stopped = false;
     private boolean isIncludeDatePattern = false;
     private final TailOutputStream output; 
     
+    private String currentYMD; 
+    
     final static DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("yyyyMMdd");
     
-    private DateTime currentDate;
-    
-    private Charset defCharset = Charset.defaultCharset();
+    private Charset logCharset = Charset.defaultCharset();
 
     private File file;
     
@@ -63,23 +57,29 @@ public class Tail implements Runnable {
     	this(filePath, bytesToTail, output, null);
     }
     
-    public Tail(String filePath, long bytesToTail, TailOutputStream output, String charset) {
-        if (filePath == null) {
+    public Tail(String fileNamePattern, long bytesToTail, TailOutputStream output, String charset) {
+        if (fileNamePattern == null) {
             throw new IllegalArgumentException("constructor parameter file must not be null");
         }
 
         this.bytesToTail = bytesToTail;
-        this.filePath = filePath;
+        this.fileNamePattern = fileNamePattern;
         this.output = output;
-        this.isIncludeDatePattern = LogFilenameUtils.isDatePattern(filePath);
+        this.isIncludeDatePattern = LogFilenameUtils.isDatePattern(fileNamePattern);
         
-        currentDate = new DateTime();
-        
-        if(charset != null && !"".equals(charset)) {
-        	defCharset = Charset.forName(charset);
+        if(this.isIncludeDatePattern) {
+        	this.file = new File(FileServiceUtils.getLogFileName(this.fileNamePattern));
+        }else {
+        	this.file = new File(fileNamePattern);
         }
         
-        logger.info("tail charset : {} , filePath : {}, defCharset : {}" ,charset ,filePath, defCharset);
+        currentYMD = new DateTime().toString(dateFormatter);
+        
+        if(charset != null && !"".equals(charset)) {
+        	logCharset = Charset.forName(charset);
+        }
+        
+        logger.info("tail charset : {} , filePath : {}, logCharset : {}", charset, fileNamePattern, logCharset);
     }
 
     @Override
@@ -91,10 +91,10 @@ public class Tail implements Runnable {
             
             long position = -1;
             
-            if(this.file==null) {
-            	logger.info("tail start file does not exists path : {}, absolute path : {} ", this.filePath, FileServiceUtils.logFile(this.filePath).getAbsolutePath() );
+            if(!this.file.exists()) {
+            	logger.info("tail start file does not exists path : {}, absolute path : {} ", this.fileNamePattern, FileServiceUtils.logFile(this.fileNamePattern).getAbsolutePath() );
             }else {
-            	logger.info("tail start path : {}, readFile : {}" ,this.filePath, this.file.getAbsoluteFile() );
+            	logger.info("tail start path : {}, readFile : {}" ,this.fileNamePattern, this.file.getAbsoluteFile() );
             	position = getStartInByte() ;
             }
             
@@ -110,50 +110,46 @@ public class Tail implements Runnable {
             String afterLog = "";
             boolean fileNotFound = false; 
             while (!this.stopped) {
+            	
+            	if(this.isIncludeDatePattern ) {
+            		String newYMD = new DateTime().toString(dateFormatter); 
+            		if(!currentYMD.equals(newYMD)){
+            			File newFile = FileServiceUtils.logFile(this.fileNamePattern);
+            			if(newFile.exists()) {
+            				this.file = newFile;
+            				this.currentYMD = newYMD;
+            				channel = getChannel(channel);
+            			}
+            		}
+            	}
 
                 // file check
-                if (this.file==null || !this.file.exists()) {
+                if (!this.file.exists()) {
                 	
                 	sleep(AWAIT_FILE_ROTATION_MILLIS);
                 	
-                	this.file = FileServiceUtils.logFile(this.filePath); 
-                	
-                	if(!fileNotFound) {
+            		if(!fileNotFound) {
                 		this.output.handle("file not found : "+this.file.getAbsolutePath());
                 	}
                 	fileNotFound = true; 
-                    continue; 
-                }
-
-                if (fileNotFound || position > this.file.length()) {
-                    position = 0;
-                    channel = getChannel(channel);
+                    continue;
                 }
                 
+                if(fileNotFound ||  position > this.file.length()) {
+                	if(fileNotFound) {
+                		channel = getChannel(channel);
+                	}
+                	position = 0;
+                }
+                
+                fileNotFound = false;
+
                 int read = channel.read(readBuffer);
                 
                 if (read == -1) {
                     sleep(TAIL_CHECK_INTERVAL_MILLIS);
-                    
-                    DateTime chkDate = new DateTime();
-                    
-                    //System.out.println(file.getAbsolutePath()+ " :: "+this.isIncludeDatePattern + " :: " + currentDate.toString(dateFormatter)+ " :: " + chkDate.toString(dateFormatter) + " :: "+ new Period(currentDate, chkDate, PeriodType.days()).getDays());
-                    
-                    if(new Period(currentDate, chkDate, PeriodType.days()).getDays() != 0) {
-                    	
-                    	logger.info("file info last file path :{} , date : {} , current date  :{} ", this.file.getAbsolutePath(), new DateTime(this.file.lastModified()).toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS")), currentDate.toString(dateFormatter));
-                    	
-                    	if(this.isIncludeDatePattern ) {
-                        	position = 0;
-    						channel = getChannel(channel);
-                        }else {
-                        	channel = reloadByteChannel(channel);
-                        }
-                    }else {
-                    	continue;
-                    }
+                   	continue;
                 }
-                fileNotFound = false;
                 
                 boolean needCompact = true; 
                 int currPosition = readBuffer.position();
@@ -183,17 +179,17 @@ public class Tail implements Runnable {
                 	
                 	// new line before read
                 	readBuffer.limit(newPosition);
-                	logInfo = afterLog+ defCharset.decode(readBuffer).toString();
+                	logInfo = afterLog+ logCharset.decode(readBuffer).toString();
                 	
                 	// new line after read
                 	afterBuffer.position(0);
                 	afterBuffer.limit(limitLen);
-                	afterLog = defCharset.decode(afterBuffer).toString();
+                	afterLog = logCharset.decode(afterBuffer).toString();
                     afterBuffer.clear();
                 }else {
                 	readBuffer.position(0);
                 	readBuffer.limit(currPosition);
-                	logInfo = afterLog+ defCharset.decode(readBuffer).toString();
+                	logInfo = afterLog+ logCharset.decode(readBuffer).toString();
                 	afterLog ="";
                 }
                 
@@ -214,26 +210,14 @@ public class Tail implements Runnable {
         }
     }
 
-    private SeekableByteChannel getChannel(SeekableByteChannel channel) throws IOException {
-    	File newFile = FileServiceUtils.logFile(this.filePath);// new File(newFilePath);
-    	if (!newFile.exists()) {
-            return channel;
-        }
-    	currentDate = new DateTime();
-    	
+	private SeekableByteChannel getChannel(SeekableByteChannel channel) throws IOException {
+		if(!this.file.exists()) {
+			return channel;
+		}
     	closeQuietly(channel);
-    	this.file = newFile;
-    	
 		return newByteChannel(this.file.toPath(), READ);
 	}
     
-    private SeekableByteChannel reloadByteChannel(SeekableByteChannel channel) throws IOException {
-    	currentDate = new DateTime();
-    	closeQuietly(channel);
-    	return newByteChannel(this.file.toPath(), READ);
-    }
-    
-
 	private long getStartInByte() {
     	long availableInByte = this.file.length();
         long startingFromInByte = max(availableInByte - this.bytesToTail, 0);
