@@ -96,7 +96,9 @@ public class VarsqlWebMvcConfigurer extends VarsqlWebConfigurer {
         messageSource.setBasenames("classpath:nl/messages", "classpath:nl/label/label");
         messageSource.setDefaultEncoding(VartoolConstants.CHAR_SET);
 
-        messageSource.setCacheMillis(180);
+        if("local".equals(System.getProperty("vartool.runtime"))) {
+        	messageSource.setCacheSeconds(3);
+        }
         messageSource.setFallbackToSystemLocale(false);
         return messageSource;
     }
@@ -131,7 +133,7 @@ public class VarsqlWebMvcConfigurer extends VarsqlWebConfigurer {
     @Override
 	public void addInterceptors(InterceptorRegistry registry) {
     	registry.addInterceptor(boardInterceptor()).addPathPatterns("/board/**");
-	    registry.addInterceptor(languageInterceptor()).addPathPatterns("/**");
+    	registry.addInterceptor(languageInterceptor()).excludePathPatterns(SecurityConfigurer.WEB_RESOURCES).addPathPatterns("/**");
 	}
 
 
