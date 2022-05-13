@@ -33,7 +33,6 @@ public class Tail implements Runnable {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final String fileNamePattern;
-    private String filePath;
     private final long bytesToTail;
 
     private boolean stopped = false;
@@ -111,16 +110,20 @@ public class Tail implements Runnable {
             boolean fileNotFound = false; 
             while (!this.stopped) {
             	
-            	if(this.isIncludeDatePattern ) {
-            		String newYMD = new DateTime().toString(dateFormatter); 
-            		if(!currentYMD.equals(newYMD)){
-            			File newFile = FileServiceUtils.logFile(this.fileNamePattern);
-            			if(newFile.exists()) {
-            				this.file = newFile;
-            				this.currentYMD = newYMD;
-            				channel = getChannel(channel);
-            			}
-            		}
+            	String newYMD = new DateTime().toString(dateFormatter);
+            	if(!currentYMD.equals(newYMD)){
+            		if(this.isIncludeDatePattern ) {
+	            		if(!currentYMD.equals(newYMD)){
+	            			File newFile = FileServiceUtils.logFile(this.fileNamePattern);
+	            			if(newFile.exists()) {
+	            				this.file = newFile;
+	            				this.currentYMD = newYMD;
+	            				channel = getChannel(channel);
+	            			}
+	            		}
+	            	}else {
+	            		
+	            	}
             	}
 
                 // file check
@@ -135,17 +138,24 @@ public class Tail implements Runnable {
                     continue;
                 }
                 
-                if(fileNotFound ||  position > this.file.length()) {
-                	if(fileNotFound) {
-                		channel = getChannel(channel);
-                	}
+                int read = -1;
+                
+                if(fileNotFound) {
+                	channel = getChannel(channel);
                 	position = 0;
+                	read = channel.read(readBuffer);
+                }else {
+                	read = channel.read(readBuffer);
+                	
+                	if(read ==-1 && position != this.file.length()){
+                		channel = getChannel(channel);
+                    	position = 0;
+                    	read = channel.read(readBuffer);
+                	}
                 }
                 
                 fileNotFound = false;
 
-                int read = channel.read(readBuffer);
-                
                 if (read == -1) {
                     sleep(TAIL_CHECK_INTERVAL_MILLIS);
                    	continue;
