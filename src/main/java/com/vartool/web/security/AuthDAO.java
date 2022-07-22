@@ -16,7 +16,7 @@ import com.vartool.web.constants.ResourceConfigConstants;
 import com.vartool.web.model.entity.user.UserEntity;
 import com.vartool.web.security.auth.Authority;
 import com.vartool.web.security.auth.AuthorityType;
-import com.vartool.web.security.repository.UserRepository;
+import com.vartool.web.security.repository.UserSecurityRepository;
 
 /**
  * 로그인 사용자 체크.
@@ -31,7 +31,7 @@ public final class AuthDAO {
 	private final Logger logger = LoggerFactory.getLogger(AuthDAO.class);
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserSecurityRepository userRepository;
 
 
 	@Autowired

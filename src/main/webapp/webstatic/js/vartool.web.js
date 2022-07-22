@@ -61,6 +61,7 @@ var _$base = {
 		,'ignore' :''
 		,'cmp' :'/cmp'
 		,'user' :'/user'
+		,'join' :'/join'
 	}
 }
 ,_defaultAjaxOption ={
@@ -454,7 +455,9 @@ _$base.req ={
 		var ajaxOpt =_$base.util.objectMerge({}, _defaultAjaxOption ,option);
 
 		ajaxOpt.beforeSend = function (xhr){
-			xhr.setRequestHeader($$csrf_header, $$csrf_token);
+			if($$csrf_header){
+				xhr.setRequestHeader($$csrf_header, $$csrf_token);
+			}
 			xhr.setRequestHeader('WWW-Authenticate', 'Basic realm=vartool');
 
 			if($(loadSelector).length > 0){
@@ -483,7 +486,7 @@ _$base.req ={
 				if(option.error){
 					option.error.call(this, xhr, e);
 				}else{
-					throw e; 
+					throw new Error(xhr.statusText); 
 				}
 
 				return ;

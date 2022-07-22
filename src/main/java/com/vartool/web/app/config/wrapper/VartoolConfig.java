@@ -1,7 +1,6 @@
 package com.vartool.web.app.config.wrapper;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import lombok.Getter;
@@ -39,5 +38,14 @@ public class VartoolConfig {
 	
 	@JacksonXmlProperty(localName = "uploadPath")
 	private String uploadPath;
+	
+	@JacksonXmlProperty(localName = "passwordResetMode")
+	private String passwordResetMode;
+	
+	@JacksonXmlProperty(localName = "passwordType")
+	private String passwordType;
+	
+	@JacksonXmlProperty(localName = "passwordSize")
+	private int passwordSize;
 }
 

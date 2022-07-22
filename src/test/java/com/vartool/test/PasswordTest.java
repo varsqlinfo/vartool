@@ -8,7 +8,7 @@ public class PasswordTest {
 	@Test
 	public void contextLoads() {
 		//String password = "admin1234!"; 
-		String password = "user1!"; 
+		String password = "user3!"; 
 		
 		String encPw = new BCryptPasswordEncoder().encode(password);
 		

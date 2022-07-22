@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.utils.StringUtils;
-import com.vartool.web.app.config.ConfigProp;
 import com.vartool.web.app.config.VartoolConfiguration;
 import com.vartool.web.app.handler.deploy.AbstractDeploy;
 import com.vartool.web.app.handler.deploy.DeployCmpManager;
@@ -28,13 +27,12 @@ import com.vartool.web.template.DeploySourceReplaceUtils;
 @Component
 public class GitDeployComponent extends AbstractDeploy{
 	
-	private final static Logger logger = LoggerFactory.getLogger(GitSource.class);
+	private final static Logger logger = LoggerFactory.getLogger(GitDeployComponent.class);
 	
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm:sss");
 	
 	public GitDeployComponent(WebSocketServiceImpl webSocketServiceImpl) {
 		super(webSocketServiceImpl);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

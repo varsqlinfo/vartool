@@ -6,71 +6,82 @@
 	</h1>
 </div>
 <div class="display-off" id="varsqlViewArea">
-	<div class="col-lg-5">
+	<div class="col-lg-6">
 		<div class="panel panel-default">
 			<div class="panel-body" >
-				<div class="dataTables_filter">
-					<label style="float:left; margin-right: 5px;"><select v-model="list_count" @change="search()" class="form-control"><option
-							value="10">10</option>
-						<option value="25">25</option>
-						<option value="50">50</option>
-						<option value="100">100</option></select>
-					</label>
-					<div class="input-group floatright">
-						<input type="text" v-model="searchVal" class="form-control" @keyup.enter="search()" autofocus="autofocus" placeholder="Search...">
-						<span class="input-group-btn">
-							<button class="btn btn-default" @click="search()" type="button">
-								<span class="glyphicon glyphicon-search"></span>
-							</button>
-						</span>
+				<div class="row search-area">
+					<div class="col-sm-6">
+						<label>
+							<button type="button" class="btn btn-xs btn-primary" @click="acceptYn('Y')"><spring:message code="btn.accept" text="수락"/></button>
+						</label>
+						<label>
+							<button type="button" class="btn btn-xs btn-danger" @click="acceptYn('N')"><spring:message code="btn.denial" text="거부"/></button>
+						</label>
+					</div>
+					<div class="col-sm-6">	
+						<div class="dataTables_filter">
+							<label style="float:left; margin-right: 5px;"><select v-model="list_count" @change="search()" class="form-control"><option
+									value="10">10</option>
+								<option value="25">25</option>
+								<option value="50">50</option>
+								<option value="100">100</option></select>
+							</label>
+							<div class="input-group floatright">
+								<input type="text" v-model="searchVal" class="form-control" @keyup.enter="search()" autofocus="autofocus" placeholder="Search...">
+								<span class="input-group-btn">
+									<button class="btn btn-default" @click="search()" type="button">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</span>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="table-responsive">
 					<div id="dataTables-example_wrapper"
 						class="dataTables_wrapper form-inline" role="grid">
-						<table
-							class="table table-striped table-bordered table-hover dataTable no-footer"
-							id="dataTables-example">
+						<table class="table table-striped table-bordered table-hover dataTable no-footer" style="table-layout: fixed;">
+							<colgroup>
+								<col style="width: 30px;">
+								<col>
+								<col style="width: 150px;">
+								<col style="width: 70px;">
+								<col style="width: 120px;" v-if="enableInitPassword">
+							</colgroup>
 							<thead>
 								<tr role="row">
-									<th  style="width: 10px;"><div
-											class="text-center">
+									<th>
+										<div class="text-center">
 											<input type="checkbox" :checked="selectAllCheck" @click="selectAll()">
 										</div>
 									</th>
-									<th style="width: 195px;">
-										사용자명
+									<th>
+										사용자명(ID)
 									</th>
-									<th style="width: 150px;">
-										ID
-									</th>
-									<th style="width: 179px;">
+									<th>
 										등록일
 									</th>
-									<th style="width: 50px;">
-										
+									<th>
+										수락여부
 									</th>
-									<th style="width: 150px;">
-										
+									<th class="text-center" v-if="enableInitPassword">
+										<spring:message	code="manage.userlist.init.password" />
 									</th>
 								</tr>
 							</thead>
 							<tbody class="dataTableContent">
 								<tr v-for="(item,index) in gridData" class="gradeA" :class="(index%2==0?'add':'even')">
 									<td><input type="checkbox" :value="item.viewid" v-model="selectItem"></td>
-									<td><a href="javascript:;" @click="detailView(item)">{{item.uname}}</a></td>
-									<td>{{item.uid}}</td>
+									<td><a href="javascript:;" @click="detailView(item)">{{item.uname}}({{item.uid}})</a></td>
 									<td class="center">{{item.regDt}}</td>
 									<td class="center">{{item.acceptYn?'Y':'N'}}</td>
-									<td class="center">
-										<!-- 
+									<td class="center" v-if="enableInitPassword">
 										<button class="btn btn-xs btn-default" @click="initPassword(item)" >초기화</button>
 										<span>{{item.initpw}}</span>
-										-->
 									</td>
 								</tr>
 								<tr v-if="gridData.length === 0">
-									<td colspan="10"><div class="text-center">데이터가 없습니다.</div></td>
+									<td :colspan="enableInitPassword?5:4"><div class="text-center"><spring:message code="msg.nodata"/></div></td>
 								</tr>
 							</tbody>
 						</table>
@@ -81,7 +92,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-7">
+	<div class="col-lg-6">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<span>사용자 정보<span style="font-weight:bold;" v-if="detailFlag !== false"> [{{detailItem.uname}}]</span></span>
@@ -163,7 +174,6 @@ VartoolAPP.vueServiceBean({
 	,data: {
 		list_count :10
 		,searchVal : ''
-		,selectAllCheck : ''
 		,selectItem : []
 		,userGroup : []
 		,pageInfo : {}
@@ -171,6 +181,12 @@ VartoolAPP.vueServiceBean({
 		,detailItem :{}
 		,detailFlag : false 
 		,selectObj : {}
+		,enableInitPassword : ${vartoolfn:isPasswordResetModeManager()}
+	}
+	,computed :{
+		selectAllCheck : function (){
+			return this.gridData.length > 0 && this.gridData.length == this.selectItem.length;
+		}
 	}
 	,methods:{
 		init : function (){
@@ -241,6 +257,65 @@ VartoolAPP.vueServiceBean({
 					_self.mappingInfo();
 				}
 			});
+		}
+		,selectAll : function (){
+			if(this.selectAllCheck){
+				this.selectItem = [];
+			}else{
+				this.selectItem = [];
+
+				for(var i =0 ;i <this.gridData.length; i++){
+					this.selectItem.push(this.gridData[i].viewid)
+				}
+			}
+		}
+		// 수락/거부
+		,acceptYn : function(obj){
+			var _self = this;
+			var selectItem = _self.selectItem;
+
+			if(VARTOOL.isDataEmpty(selectItem)){
+				VARTOOLUI.alert.open('<spring:message code="msg.data.select" />');
+				return ;
+			}
+
+			if(!confirm(obj=='Y'?'<spring:message code="msg.accept.msg" />':'<spring:message code="msg.denial.msg" />')){
+				return ;
+			}
+
+			var param = {
+				acceptyn:obj
+				,selectItem:selectItem.join(',')
+			};
+			
+			this.$ajax({
+				data:param
+				,url : {type:VARTOOL.uri.manager, url:'/userInfoMgmt/acceptYn'}
+				,success:function (response){
+					_self.search();
+				}
+			});
+		}
+		// pasword 초기화
+		,initPassword :function(sItem){
+			var _self = this;
+
+			if(!confirm(VARTOOL.messageFormat('vartool.m.0009', {userName : sItem.uname}))){
+				return ;
+			}
+
+			this.$ajax({
+				url : {type:VARTOOL.uri.manager, url:'/userInfoMgmt/initPassword'}
+				,data : sItem
+				,success: function(resData) {
+
+					_self.$set(sItem, "initpw", resData.item);
+
+					setTimeout(function (){
+						sItem.initpw ='';
+					}, 5000);
+				}
+			})
 		}
 	}
 });

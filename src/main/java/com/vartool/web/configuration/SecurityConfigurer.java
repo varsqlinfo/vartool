@@ -120,7 +120,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 		.and()
 			.csrf()
 			.csrfTokenRepository(getCookieCsrfTokenRepository())
-			.ignoringAntMatchers("/login/**","/logout")
+			.ignoringAntMatchers("/login/**","/join/**","/logout")
 			.ignoringRequestMatchers(staticRequestMatcher)
 			.requireCsrfProtectionMatcher(ajaxRequestMatcher)
 		.and()

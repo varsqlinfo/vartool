@@ -110,6 +110,10 @@ public final class VartoolUtils {
 		return returnVal.toString();
 	}
 
+	public static ResponseResult getResponseResultValidItem(BindingResult result) {
+		return getResponseResultValidItem(new ResponseResult(), result);
+		
+	}
 	public static ResponseResult getResponseResultValidItem(ResponseResult resultObject, BindingResult result) {
 		resultObject.setResultCode((CodeEnumValue) RequestResultCode.DATA_NOT_VALID);
 		List<FieldError> fieldErrors = result.getFieldErrors();

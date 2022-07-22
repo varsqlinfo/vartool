@@ -27,7 +27,7 @@ import com.vartool.web.model.entity.cmp.CmpGroupMappingEntity;
 import com.vartool.web.model.entity.cmp.CmpGroupUserMappingEntity;
 import com.vartool.web.model.entity.user.UserEntity;
 import com.vartool.web.module.VartoolUtils;
-import com.vartool.web.repository.UserInfoRepository;
+import com.vartool.web.repository.UserMgmtRepository;
 import com.vartool.web.repository.cmp.CmpGroupCmpMappingRepository;
 import com.vartool.web.repository.cmp.CmpGroupRepository;
 import com.vartool.web.repository.cmp.CmpGroupUserMappingRepository;
@@ -58,7 +58,7 @@ public class CmpGrpMgmtService {
 	private CmpRepository cmpRepository;
 	
 	@Autowired
-	private UserInfoRepository userInfoRepository; 
+	private UserMgmtRepository userInfoRepository; 
 	
 	@Autowired
 	private CmpGroupCmpMappingRepository cmpGroupMappingRepository;

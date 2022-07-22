@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -16,7 +15,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import com.vartech.common.crypto.password.PasswordType;
 import com.vartech.common.utils.DateUtils;
+import com.vartech.common.utils.StringUtils;
 import com.vartool.web.app.config.wrapper.DeployConfig;
 import com.vartool.web.app.config.wrapper.VartoolConfig;
 import com.vartool.web.constants.VartoolConstants;
@@ -74,6 +75,12 @@ public class VartoolConfiguration extends AbstractConfiguration {
 	private XmlMapper xmlMapper;
 	
 	private VartoolConfig vartoolConfig;
+	
+	private VartoolConstants.PASSWORD_RESET_MODE passwordResetMode;
+	
+	private PasswordType passwordType;
+
+	private int passowrdSize;
 	
 	public static VartoolConfiguration getInstance() {
 		return VartoolConfigHolder.instance;
@@ -205,6 +212,10 @@ public class VartoolConfiguration extends AbstractConfiguration {
 			vartoolConfig.setFileUploadMaxInMemorySize(0);
 		}
 		
+		this.passwordResetMode = VartoolConstants.PASSWORD_RESET_MODE.getMode(vartoolConfig.getPasswordResetMode());
+		this.passwordType = StringUtils.isBlank(vartoolConfig.getPasswordType()) ? PasswordType.LOWERORNUMBER : PasswordType.valueOf(vartoolConfig.getPasswordType().toUpperCase());
+		this.passowrdSize = vartoolConfig.getPasswordSize() < 8 ? 8 :vartoolConfig.getPasswordSize();
+		
 		DeployConfig deployConfig = vartoolConfig.getDeployConfig();
 		if(deployConfig == null) {
 			deployConfig = new DeployConfig();
@@ -275,5 +286,17 @@ public class VartoolConfiguration extends AbstractConfiguration {
 	
 	public int getCommandSavePath() {
 		return vartoolConfig.getFileUploadMaxInMemorySize();
+	}
+
+	public VartoolConstants.PASSWORD_RESET_MODE getPasswordResetMode() {
+		return passwordResetMode;
+	}
+	
+	public PasswordType passwordType (){
+		return passwordType;
+	}
+
+	public int passwordInitSize (){
+		return passowrdSize;
 	}
 }

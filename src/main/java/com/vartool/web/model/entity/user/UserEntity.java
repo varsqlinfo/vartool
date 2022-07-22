@@ -64,6 +64,12 @@ public class UserEntity extends AabstractAuditorModel{
 
 	@Column(name ="USER_ROLE")
 	private String userRole;
+	
+	@Column(name ="ORG_NM")
+	private String orgNm;
+	
+	@Column(name ="DEPT_NM")
+	private String deptNm;
 
 	@Column(name ="DESCRIPTION")
 	private String description;
@@ -77,7 +83,7 @@ public class UserEntity extends AabstractAuditorModel{
 	private boolean blockYn;
 
 	@Builder
-	public UserEntity(String viewid, String uid, String upw, String uname, String lang, String uemail, String userRole, String description, boolean acceptYn, boolean blockYn) {
+	public UserEntity(String viewid, String uid, String upw, String uname, String lang, String uemail, String userRole, String description, String orgNm, String deptNm, boolean acceptYn, boolean blockYn) {
 		this.viewid = viewid;
 		this.uid = uid;
 		this.upw = upw;
@@ -86,6 +92,8 @@ public class UserEntity extends AabstractAuditorModel{
 		this.uemail = uemail;
 		this.userRole = userRole;
 		this.description = description;
+		this.orgNm = orgNm;
+		this.deptNm = deptNm;
 		this.acceptYn = acceptYn;
 		this.blockYn = blockYn;
 
@@ -106,6 +114,10 @@ public class UserEntity extends AabstractAuditorModel{
 	public final static String USER_ROLE="userRole";
 
 	public final static String DESCRIPTION="description";
+	
+	public final static String ORG_NM="orgNm";
+	
+	public final static String DEPT_NM="deptNm";
 
 	public final static String ACCEPT_YN="acceptYn";
 

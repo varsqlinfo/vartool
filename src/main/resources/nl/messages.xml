@@ -15,7 +15,8 @@
 <entry key="join.form.uid">아이디</entry>
 <entry key="join.form.email">이메일</entry>
 <entry key="join.form.name">이름</entry>
-<entry key="join.form.dept">소속</entry>
+<entry key="join.form.organization">조직</entry>
+<entry key="join.form.dept">부서</entry>
 <entry key="join.form.desc">설명</entry>
 <entry key="join.form.locale">언어선택</entry>
 
@@ -74,7 +75,10 @@
 
 <entry key="user.list">사용자 목록</entry>
 <entry key="manager.list">사용자 목록</entry>
+<entry key="manage.userlist.init.password">패스워드 초기화</entry>
 
 <entry key="error.message404">등록되지 않은 페이지 입니다.</entry>
 
+<entry key="msg.lost.password">비밀번호를 잊어버리셨나요?</entry>
+<entry key="password.reset">비밀번호 재설정</entry>
 </properties>

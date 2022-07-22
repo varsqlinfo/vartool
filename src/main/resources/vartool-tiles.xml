@@ -2,9 +2,22 @@
 
 <tiles-definitions>
 
+	<definition name="no-template" template="/WEB-INF/views/common/templates/noTemplate.jsp">
+	</definition>
+
 	<!-- login -->
-	<definition name="/login/**" template="/WEB-INF/views/common/templates/noTemplate.jsp">
+	<definition name="/login/**" extends="no-template">
 		<put-attribute name="body" value="/WEB-INF/views/login/{1}.jsp" />
+	</definition>
+	
+	<!-- join -->
+	<definition name="/join/**" extends="no-template">
+		<put-attribute name="body" value="/WEB-INF/views/join/{1}.jsp" />
+	</definition>
+	
+	<!-- guest -->
+	<definition name="/guest/**" extends="no-template">
+		<put-attribute name="body" value="/WEB-INF/views/guest/{1}.jsp" />
 	</definition>
 	
 	<!-- mgmt jsp path -->

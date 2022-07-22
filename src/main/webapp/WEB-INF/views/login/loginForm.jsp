@@ -83,9 +83,20 @@ body {
 					<p>
 				</div>
 			</c:if>
-			<button class="btn btn-lg btn-primary btn-block login-btn" type="button">
-				로그인
-			</button>
+			<div style="padding-bottom:10px;">
+				<button class="btn btn-lg btn-primary btn-block login-btn" type="button">
+					로그인
+				</button>
+			</div>
+			<div>
+				<a href="./join/" class="btn btn-block btn-success"><spring:message code="btn.signup" /></a>
+				
+				<c:if test="${vartoolfn:isPasswordResetModeEmail()}">
+					<span style="float:right;margin-top:10px;">
+						<a href="<c:url value="/lostPassword" />"><spring:message code="msg.lost.password" /></a>
+					</span>
+				</c:if>
+			</div>
 			
 			<!-- div class="text-center panel-footer">
 				<a href="javascript:;" class="">아이디찾기</a>

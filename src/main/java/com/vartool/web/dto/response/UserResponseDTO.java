@@ -1,4 +1,5 @@
 package com.vartool.web.dto.response;
+import com.vartech.common.utils.DateUtils;
 import com.vartool.web.model.entity.user.UserEntity;
 
 import lombok.Getter;
@@ -14,13 +15,16 @@ public class UserResponseDTO{
 	private String uname; 
 	private String lang; 
 	private String uemail; 
+	private String regDt; 
 	private String description;
+	private boolean acceptYn;
 	
 	public static UserResponseDTO toSimpleDto(UserEntity user) {
 		UserResponseDTO dto = new UserResponseDTO();
 		dto.setViewid(user.getViewid());
 		dto.setUid(user.getUid());
 		dto.setUname(user.getUname());
+		dto.setRegDt(DateUtils.toStringDateTime(user.getRegDt()));
 		
 		return dto; 
 	}
@@ -34,6 +38,8 @@ public class UserResponseDTO{
 		dto.setLang(user.getLang());
 		dto.setUemail(user.getUemail());
 		dto.setDescription(user.getDescription());
+		dto.setRegDt(DateUtils.toStringDateTime(user.getRegDt()));
+		dto.setAcceptYn(user.isAcceptYn());
 		
 		return dto; 
 	}

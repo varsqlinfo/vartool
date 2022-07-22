@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.vartech.common.utils.DateUtils;
 import com.vartech.common.utils.VartechUtils;
+import com.vartool.web.app.config.VartoolConfiguration;
+import com.vartool.web.constants.VartoolConstants;
 
 /**
  * -----------------------------------------------------------------------------
@@ -41,5 +43,13 @@ public final class VarTagFn{
 
 	public static String logoutUrl(HttpServletRequest request) {
 		return request.getContextPath()+"/logout";
+	}
+	
+	public static boolean isPasswordResetModeManager() {
+		return VartoolConfiguration.getInstance().getPasswordResetMode().equals(VartoolConstants.PASSWORD_RESET_MODE.MANAGER);
+	}
+	
+	public static boolean isPasswordResetModeEmail() {
+		return VartoolConfiguration.getInstance().getPasswordResetMode().equals(VartoolConstants.PASSWORD_RESET_MODE.EMAIL);
 	}
 }

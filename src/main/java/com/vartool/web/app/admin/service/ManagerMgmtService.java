@@ -15,7 +15,7 @@ import com.vartech.common.app.beans.SearchParameter;
 import com.vartool.web.dto.response.UserResponseDTO;
 import com.vartool.web.model.entity.user.UserEntity;
 import com.vartool.web.module.VartoolUtils;
-import com.vartool.web.repository.UserInfoRepository;
+import com.vartool.web.repository.UserMgmtRepository;
 import com.vartool.web.security.auth.AuthorityType;
 
 /**
@@ -38,7 +38,7 @@ public class ManagerMgmtService {
 	private final static Logger logger = LoggerFactory.getLogger(ManagerMgmtService.class);
 
 	@Autowired
-	private UserInfoRepository userInfoRepository;
+	private UserMgmtRepository userInfoRepository;
 
 	public ResponseResult searchRoleUserList(AuthorityType auth, SearchParameter searchParameter) {
 		Sort sort = Sort.by(Sort.Direction.DESC, UserEntity.UNAME);
