@@ -45,7 +45,7 @@ public abstract class AabstractAuditorModel extends AbstractRegAuditorModel{
     @Column(name="UPD_ID")
     private String updId;
 	
-	@JsonFormat(shape = Shape.STRING ,pattern=VartoolConstants.DATE_TIME_FORMAT)
+	@JsonFormat(shape = Shape.STRING, pattern=VartoolConstants.TIMESTAMP_FORMAT)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @LastModifiedDate

@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 
 import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.constants.LocaleConstants;
-import com.vartool.web.module.HttpUtil;
+import com.vartool.web.module.CommonUtils;
 import com.vartool.web.module.SecurityUtil;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.security.auth.AuthorityType;
@@ -49,7 +49,7 @@ public class VartoolAuthenticationSuccessHandler extends SimpleUrlAuthentication
 
 		User userInfo = SecurityUtil.loginInfo();
 		
-		userInfo.setUserIp(HttpUtil.getClientIP(request));
+		userInfo.setUserIp(CommonUtils.getClientIp(request));
 		String targetUrl = userRedirectTargetUrl(request ,response, userInfo, authentication);
 
 		if (response.isCommitted()) {

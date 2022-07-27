@@ -11,7 +11,7 @@ import org.springframework.core.io.Resource;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
-import com.vartool.web.app.config.ConfigProp;
+import com.vartool.web.app.config.VartoolConfiguration;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.module.ResourceUtils;
 
@@ -28,12 +28,12 @@ public final class AntBuildTemplate {
 		for (HandlebarsHelpers helper : HandlebarsHelpers.values()) {
 		     handlebars.registerHelper(helper.name(), helper); 
 		}
-		
+		String path =VartoolConfiguration.CONFIG_DIR_PATH+"build_template.template"; 
 		try {
-			Resource resource = ResourceUtils.getResource(ConfigProp.jdf_file_directory+"build_template.template");
+			Resource resource = ResourceUtils.getResource(path);
 			BUILD_TEMPLATE = FileUtils.readFileToString(resource.getFile(), VartoolConstants.CHAR_SET);
 		} catch (IOException e) {
-			throw new Error("template not found path: "+ ConfigProp.jdf_file_directory+"build_template.template");
+			throw new Error("template not found path: "+ path);
 		}
 	}
 	

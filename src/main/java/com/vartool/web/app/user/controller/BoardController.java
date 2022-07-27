@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.vartech.common.app.beans.ParamMap;
+import com.vartech.common.app.beans.DataMap;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.utils.HttpUtils;
 import com.vartech.common.utils.VartechUtils;
@@ -36,7 +36,6 @@ import com.vartool.web.dto.request.BoardRequestDTO;
 import com.vartool.web.model.entity.FileBaseEntity;
 import com.vartool.web.model.entity.board.BoardFileEntity;
 import com.vartool.web.module.FileServiceUtils;
-import com.vartool.web.module.HttpUtil;
 import com.vartool.web.module.VartoolUtils;
 
 @Controller
@@ -207,7 +206,7 @@ public class BoardController {
 			, HttpServletRequest req, HttpServletResponse res) throws Exception {
 		logger.debug("fileDownload");			
 		
-		ParamMap param = HttpUtil.getAllParameter(req);
+		DataMap param = HttpUtils.getServletRequestParam(req);
 
 		List<BoardFileEntity>  fileList = boardService.findFileList(articleId, Long.parseLong(fileId));
 		

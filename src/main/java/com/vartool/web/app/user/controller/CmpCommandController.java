@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vartech.common.app.beans.ResponseResult;
+import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.app.user.service.CmpCommandService;
-import com.vartool.web.module.HttpUtil;
 
 @Controller
 @RequestMapping("/cmp/command")
@@ -30,7 +30,7 @@ public class CmpCommandController {
 	@PostMapping({"/load" })
 	@ResponseBody
 	public ResponseResult loadAppLog(@RequestParam(value = "cmpId", required = true) String cmpId, HttpServletRequest req) throws Exception {
-		return cmpCommandService.loadLog(cmpId, HttpUtil.getAllParameter(req));
+		return cmpCommandService.loadLog(cmpId, HttpUtils.getServletRequestParam(req));
 	}
 	
 	@PreAuthorize("hasAnyAuthority('MANAGER','ADMIN')")
@@ -38,6 +38,6 @@ public class CmpCommandController {
 	@ResponseBody
 	public ResponseResult startAndStop(@RequestParam(value = "cmpId", required = true) String cmpId,
 			@RequestParam(value = "action", required = true) String action, HttpServletRequest req) throws Exception {
-		return cmpCommandService.startAndStop(cmpId, action, HttpUtil.getAllParameter(req));
+		return cmpCommandService.startAndStop(cmpId, action, HttpUtils.getServletRequestParam(req));
 	}
 }

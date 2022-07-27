@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.vartech.common.app.beans.ResponseResult;
+import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.app.mgmt.service.CmpMonitoringService;
-import com.vartool.web.module.HttpUtil;
+import com.vartool.web.module.VartoolUtils;
 
 @Controller
 @RequestMapping("/mgmt/cmpMonitoring")
@@ -32,7 +33,7 @@ public class CmpMonitoringController {
 	public ModelAndView main(HttpServletRequest req, HttpServletResponse res, ModelAndView mav) throws Exception {
 		
 		ModelMap model = mav.getModelMap();
-		model.addAttribute("originalURL", HttpUtil.getOriginatingRequestUri(req));
+		model.addAttribute("originalURL", VartoolUtils.getOriginatingRequestUri(req));
 		return new ModelAndView("/mgmt/cmpMonitoring", model);
 	}
 	
@@ -51,12 +52,12 @@ public class CmpMonitoringController {
 	 */
 	@PostMapping({"/list" })
 	public @ResponseBody ResponseResult logInfolist(HttpServletRequest req,	HttpServletResponse res, ModelAndView mav) throws Exception {
-		return cmpMonitoringService.logInfoList(HttpUtil.getAllParameter(req));
+		return cmpMonitoringService.logInfoList(HttpUtils.getServletRequestParam(req));
 	}
 	
 	@PostMapping({"/checkComponent" })
 	public @ResponseBody ResponseResult checkComponent(@RequestParam(value = "cmpInfo", required = true) String cmpInfo, HttpServletRequest req,	HttpServletResponse res, ModelAndView mav) throws Exception {
-		return cmpMonitoringService.checkComponent(cmpInfo,HttpUtil.getAllParameter(req));
+		return cmpMonitoringService.checkComponent(cmpInfo,HttpUtils.getServletRequestParam(req));
 	}
 	
 	/**
@@ -83,7 +84,7 @@ public class CmpMonitoringController {
 	public @ResponseBody ResponseResult startTail(@RequestParam(value = "cmpId", required = true) String cmpId, 
 			HttpServletRequest req) throws Exception {
 		
-		return cmpMonitoringService.startTail(cmpId, HttpUtil.getAllParameter(req));
+		return cmpMonitoringService.startTail(cmpId, HttpUtils.getServletRequestParam(req));
 	}
 	
 	@PostMapping({"/stopTail" })

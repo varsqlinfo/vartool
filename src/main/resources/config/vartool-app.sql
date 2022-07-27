@@ -6,6 +6,16 @@ CREATE TABLE VT_SEQ(
 	,CONSTRAINT PK_VT_SEQ PRIMARY KEY  ( SEQUENCE_NAME)
 );
 
+-- email token table 파일
+CREATE TABLE VT_EMAIL_TOKEN(
+    TOKEN 		VARCHAR(36) not null -- token
+	,VIEWID 	VARCHAR(36)	not null -- 사용자 view id
+    ,TOKEN_TYPE VARCHAR(10) not null -- token  type	(password reset, join)
+    ,REG_ID		VARCHAR(36)					-- 등록 ID
+	,REG_DT		TIMESTAMP DEFAULT CURRENT_TIMESTAMP 	-- 등록일
+	,CONSTRAINT PK_VT_EMAIL_TOKEN PRIMARY KEY (TOKEN, VIEWID)
+)
+
 -- user table
 CREATE TABLE VT_USER(
 	VIEWID VARCHAR(36) NOT NULL

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.github.jknack.handlebars.internal.lang3.StringUtils;
-import com.vartech.common.app.beans.ParamMap;
+import com.vartech.common.app.beans.DataMap;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.constants.RequestResultCode;
 import com.vartool.web.app.handler.log.LogCmpManager;
@@ -49,7 +49,7 @@ public class CmpLogService {
 	@Autowired
 	private CmpItemLogRepository cmpItemLogRepository;
 	
-	public ResponseResult loadLog(String cmpId, ParamMap param) {
+	public ResponseResult loadLog(String cmpId, DataMap param) {
 		
 		CmpItemLogEntity logCmp = cmpItemLogRepository.findByCmpId(cmpId);
 		

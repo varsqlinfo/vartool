@@ -31,7 +31,7 @@ public class JacksonConfigurer implements Jackson2ObjectMapperBuilderCustomizer 
         builder.locale(Locale.getDefault());      
         builder.simpleDateFormat(VartoolConstants.DATE_FORMAT);
         builder.serializers(new LocalDateSerializer(DateTimeFormatter.ofPattern(VartoolConstants.DATE_FORMAT)));
-        builder.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(VartoolConstants.DATE_TIME_FORMAT)));
+        builder.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(VartoolConstants.TIMESTAMP_FORMAT)));
 		
 	}
  

@@ -26,7 +26,7 @@ public final class VarTagFn{
 	}
 
 	public static String currentDate(String foramt) {
-		return DateUtils.getCurrentDate(foramt);
+		return DateUtils.currentDate(foramt);
 	}
 
 	public static long randomVal(Integer val) {

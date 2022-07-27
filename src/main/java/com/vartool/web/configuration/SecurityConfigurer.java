@@ -146,7 +146,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
      		.antMatchers("/mgmt/**").hasAnyAuthority(AuthorityType.ADMIN.name(),AuthorityType.MANAGER.name())
      		.antMatchers("/user/**","/main/**").hasAnyAuthority(AuthorityType.ADMIN.name(),AuthorityType.MANAGER.name(),AuthorityType.USER.name())
      		.antMatchers("/guest/**").hasAuthority(AuthorityType.GUEST.name())
-     		.antMatchers("/login","/join/**").anonymous()
+     		.antMatchers("/login","/join/**","/lostPassword","/resetPassword").anonymous()
      		.antMatchers("/login_check","/error/**","/common/**","/index.jsp").permitAll()
      		.antMatchers("/**").authenticated()
      		.anyRequest().authenticated()

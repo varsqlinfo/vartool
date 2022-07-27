@@ -34,8 +34,8 @@ import com.vartool.web.constants.VartoolConstants;
 	JPAConfigurer.class
 	,VarsqlTilesConfigurer.class
     ,SecurityConfigurer.class
+    ,MailConfigurer.class
     //,ServiceConfigurer.class
-    //,JacksonConfigurer.class
 })
 public class VartoolMainConfigurer {
 

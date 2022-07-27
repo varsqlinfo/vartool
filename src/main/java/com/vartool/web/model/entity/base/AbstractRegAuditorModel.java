@@ -45,7 +45,7 @@ public abstract class AbstractRegAuditorModel implements Serializable{
     @Column(name="REG_ID", nullable = false, updatable = false)
     private String regId;
 	
-	@JsonFormat(shape = Shape.STRING ,pattern=VartoolConstants.DATE_TIME_FORMAT)
+	@JsonFormat(shape = Shape.STRING, pattern=VartoolConstants.TIMESTAMP_FORMAT)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @CreatedDate

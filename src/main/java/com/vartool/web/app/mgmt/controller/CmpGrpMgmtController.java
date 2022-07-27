@@ -22,7 +22,6 @@ import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.app.mgmt.service.CmpGrpMgmtService;
 import com.vartool.web.dto.request.CmpGroupRequestDTO;
-import com.vartool.web.module.HttpUtil;
 import com.vartool.web.module.VartoolUtils;
 
 @Controller
@@ -40,7 +39,7 @@ public class CmpGrpMgmtController {
 	public ModelAndView main(HttpServletRequest req, HttpServletResponse res, ModelAndView mav) throws Exception {
 		
 		ModelMap model = mav.getModelMap();
-		model.addAttribute("originalURL", HttpUtil.getOriginatingRequestUri(req));
+		model.addAttribute("originalURL", VartoolUtils.getOriginatingRequestUri(req));
 		return new ModelAndView("/mgmt/cmpGroupMgmt", model);
 	}
 	
@@ -48,7 +47,7 @@ public class CmpGrpMgmtController {
 	public ModelAndView cmpGroupNUserMgmt(HttpServletRequest req, HttpServletResponse res, ModelAndView mav) throws Exception {
 		
 		ModelMap model = mav.getModelMap();
-		model.addAttribute("originalURL", HttpUtil.getOriginatingRequestUri(req));
+		model.addAttribute("originalURL", VartoolUtils.getOriginatingRequestUri(req));
 		return new ModelAndView("/mgmt/cmpGroupNUserMgmt", model);
 	}
 	

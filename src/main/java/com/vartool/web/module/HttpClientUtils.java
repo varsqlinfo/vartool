@@ -38,8 +38,9 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.vartech.common.app.beans.ParamMap;
+import com.vartech.common.app.beans.DataMap;
 import com.vartech.common.app.beans.ResponseResult;
+import com.vartech.common.utils.VartechUtils;
 
 /**
 *-----------------------------------------------------------------------------
@@ -62,7 +63,7 @@ public final class HttpClientUtils {
 	private static int HTTP_CONNECTION_TIMEOUT = 5; //second 
 	
 	public static void main(String[] args) {
-		ParamMap httpParam =  new ParamMap();
+		DataMap httpParam =  new DataMap();
 		
 		httpParam.put("url", "http://sdasfa.hwtest.com:8080/sfa/actBzFml.do?request=getCroslGrdSpc2&usrno=8916436");
 		httpParam.put("method", "get");
@@ -84,7 +85,7 @@ public final class HttpClientUtils {
 		}
 	}
 	
-	public static ResponseResult httpData(HttpServletRequest req, ParamMap httpParam) throws IOException {
+	public static ResponseResult httpData(HttpServletRequest req, DataMap httpParam) throws IOException {
 		if("get".equalsIgnoreCase(httpParam.getString("method"))) {
 			return httpGetData(req, httpParam);
 		}else {
@@ -105,7 +106,7 @@ public final class HttpClientUtils {
 	 * @return
 	 * @throws IOException
 	 */
-	private static ResponseResult httpGetData(HttpServletRequest req , ParamMap httpParam) throws IOException {
+	private static ResponseResult httpGetData(HttpServletRequest req , DataMap httpParam) throws IOException {
 		CloseableHttpClient client =null; 
 		String url = httpParam.getString("url");
 		try {
@@ -142,10 +143,10 @@ public final class HttpClientUtils {
 		}
 	}
 	
-	private static Map getReqParam(ParamMap httpParam) {
+	private static DataMap getReqParam(DataMap httpParam) {
 		if(httpParam.containsKey("param")) {
 			try {
-				return JsonUtils.stringToObject(httpParam.getString("param"));
+				return VartechUtils.jsonStringToObject(httpParam.getString("param"));
 			}catch(Exception e) {
 				//return null;
 				logger.error(e.getMessage(), e);
@@ -169,7 +170,7 @@ public final class HttpClientUtils {
 	 * @return
 	 * @throws IOException
 	 */
-	private static ResponseResult httpPostData(HttpServletRequest req , ParamMap httpParam) throws IOException {
+	private static ResponseResult httpPostData(HttpServletRequest req , DataMap httpParam) throws IOException {
 		
 		CloseableHttpClient client =null; 
 		String url = httpParam.getString("url"); 
@@ -237,7 +238,7 @@ public final class HttpClientUtils {
 		return responseResult;
 	}
 	
-	public static CloseableHttpClient getClient(HttpServletRequest req, String url, ParamMap httpParam) throws UnsupportedEncodingException {
+	public static CloseableHttpClient getClient(HttpServletRequest req, String url, DataMap httpParam) throws UnsupportedEncodingException {
 		
 		CloseableHttpClient client; 
 		Map cookieParam = (Map)httpParam.get("cookie");
@@ -246,7 +247,7 @@ public final class HttpClientUtils {
 		if(req ==null) {
 			cookieDomain = ".zzGain.com";
 		}else {
-			cookieDomain = "."+HttpUtil.getDomain(req);
+			cookieDomain = "."+VartoolUtils.getDomain(req);
 		}
 		 
 		if(cookieParam != null ) {
@@ -331,7 +332,7 @@ public final class HttpClientUtils {
 	 * @throws UnsupportedEncodingException
 	 */
 	private static StringEntity getStringEntity(Map param) throws UnsupportedEncodingException {
-		return new StringEntity(JsonUtils.objectToString(param));
+		return new StringEntity(VartechUtils.objectToJsonString(param));
 	}
 	
 	/**

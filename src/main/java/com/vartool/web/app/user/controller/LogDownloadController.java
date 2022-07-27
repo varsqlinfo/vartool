@@ -10,9 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.vartech.common.app.beans.ParamMap;
+import com.vartech.common.app.beans.DataMap;
+import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.app.user.service.LogDownloadService;
-import com.vartool.web.module.HttpUtil;
 
 @Controller
 public class LogDownloadController {
@@ -31,7 +31,7 @@ public class LogDownloadController {
 			 HttpServletRequest req, HttpServletResponse res) throws Exception {
 		logger.debug("fileDownload");			
 		
-		ParamMap param = HttpUtil.getAllParameter(req);
+		DataMap param = HttpUtils.getServletRequestParam(req);
 
 		logDownloadService.download(req, res, cmpId, cmpType);
 	}

@@ -21,8 +21,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.util.UrlPathHelper;
 
-import com.vartech.common.app.beans.ParamMap;
+import com.vartech.common.app.beans.DataMap;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.app.beans.SearchParameter;
 import com.vartech.common.constants.CodeEnumValue;
@@ -140,7 +141,7 @@ public final class VartoolUtils {
 		return resultObject;
 	}
 	
-	public static String [] getNotyRecvIds (ParamMap param) {
+	public static String [] getNotyRecvIds (DataMap param) {
 		return param.getString("recv_ids","").split(";");
 	}
 	
@@ -207,5 +208,37 @@ public final class VartoolUtils {
 		responseResult.setItemList(result);
 		responseResult.setPage(PagingUtil.getPageObject(totalCount, searchParameter));
 		return responseResult;
+	}
+	
+	public static String getDomain(HttpServletRequest req) {
+		
+		String connDomain = req.getServerName();
+        String nameArr [] = connDomain.split("\\.");
+        
+        if(nameArr.length > 1 ) {
+        	connDomain = nameArr[nameArr.length-2]+"."+nameArr[nameArr.length-1];
+        }
+		
+		return connDomain;
+	}
+	
+	public static String getDomain(HttpServletRequest req , String prefix) {
+		return getDomain(req, prefix, false);
+	}
+	
+	public static String getDomain(HttpServletRequest req , String prefix, boolean protocalFlag) {
+		
+		String connDomain = req.getServerName();
+		String nameArr [] = connDomain.split("\\.");
+		
+		if(nameArr.length > 1 ) {
+			connDomain = nameArr[nameArr.length-2]+"."+nameArr[nameArr.length-1];
+		}
+		
+		return (protocalFlag?req.getScheme()+"://":"")+prefix+"."+connDomain;
+	}
+	
+	public static String getOriginatingRequestUri(HttpServletRequest req){
+		return new UrlPathHelper().getOriginatingRequestUri(req);
 	}
 }

@@ -1,6 +1,7 @@
 package com.vartool.web.dto.response;
 import com.vartech.common.utils.DateUtils;
 import com.vartool.web.model.entity.user.UserEntity;
+import com.vartool.web.module.ConvertUtils;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ public class UserResponseDTO{
 		dto.setViewid(user.getViewid());
 		dto.setUid(user.getUid());
 		dto.setUname(user.getUname());
-		dto.setRegDt(DateUtils.toStringDateTime(user.getRegDt()));
+		dto.setRegDt(DateUtils.dateFormat(ConvertUtils.localDateTimeToDate(user.getRegDt())));
 		
 		return dto; 
 	}
@@ -38,7 +39,7 @@ public class UserResponseDTO{
 		dto.setLang(user.getLang());
 		dto.setUemail(user.getUemail());
 		dto.setDescription(user.getDescription());
-		dto.setRegDt(DateUtils.toStringDateTime(user.getRegDt()));
+		dto.setRegDt(DateUtils.dateFormat(ConvertUtils.localDateTimeToDate(user.getRegDt())));
 		dto.setAcceptYn(user.isAcceptYn());
 		
 		return dto; 

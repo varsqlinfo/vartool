@@ -34,7 +34,7 @@ public class BoardResponseDTO {
 	private String authorName; 
 	private char noticeYn; 
 	
-	@JsonFormat(shape = Shape.STRING ,pattern=VartoolConstants.DATE_TIME_FORMAT)
+	@JsonFormat(shape = Shape.STRING, pattern=VartoolConstants.TIMESTAMP_FORMAT)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	private LocalDateTime regDt;

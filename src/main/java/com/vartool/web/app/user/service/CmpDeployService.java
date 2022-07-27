@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.vartech.common.app.beans.ParamMap;
+import com.vartech.common.app.beans.DataMap;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartool.web.app.handler.deploy.DeployCmpManager;
 import com.vartool.web.app.handler.deploy.DeployInterface;
@@ -17,7 +17,6 @@ import com.vartool.web.constants.AppCode;
 import com.vartool.web.dto.response.CmpDeployResponseDTO;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 import com.vartool.web.model.entity.cmp.CmpItemDeployEntity;
-import com.vartool.web.module.HttpUtil;
 import com.vartool.web.module.SecurityUtil;
 import com.vartool.web.repository.cmp.CmpItemDeployRepository;
 
@@ -45,7 +44,7 @@ public class CmpDeployService{
 	 * @param allParameter
 	 * @return
 	 */
-	public ResponseResult loadLog(String cmpId, ParamMap allParameter) {
+	public ResponseResult loadLog(String cmpId, DataMap allParameter) {
 		ResponseResult responseResult = new ResponseResult();
 		responseResult.setItemOne(LogMessageDTO.builder().cmpId(cmpId).log(DeployCmpManager.getInstance().getLogContent(cmpId)).build());
 		return responseResult;

@@ -77,7 +77,7 @@ public class GitDeployComponent extends AbstractDeploy{
 				String dependencyPath = dto.getDependencyPath();
 				
 				if(StringUtils.isBlank(dependencyPath)) {
-					dependencyPath = VartoolConfiguration.getInstance().getConfigInfo().getDeployConfig().getDefaultDependencyPath();
+					dependencyPath = VartoolConfiguration.getInstance().getDeployConfig().getDefaultDependencyPath();
 				}
 				
 				replaceInfo.put(TemplateConvertKeyCode.DEPLOY.DEFAULT_DEPENDENCY_PATH.getKey(), dependencyPath);

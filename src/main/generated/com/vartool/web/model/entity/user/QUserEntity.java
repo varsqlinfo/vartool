@@ -25,9 +25,13 @@ public class QUserEntity extends EntityPathBase<UserEntity> {
 
     public final BooleanPath blockYn = createBoolean("blockYn");
 
+    public final StringPath deptNm = createString("deptNm");
+
     public final StringPath description = createString("description");
 
     public final StringPath lang = createString("lang");
+
+    public final StringPath orgNm = createString("orgNm");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> regDt = _super.regDt;

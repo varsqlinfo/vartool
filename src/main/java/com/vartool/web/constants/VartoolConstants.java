@@ -1,13 +1,31 @@
 package com.vartool.web.constants;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import com.vartool.web.app.config.VartoolConfiguration;
 
 public interface VartoolConstants {
 	
 	// 날짜 포켓.
+	final String YEAR_FORMAT = "yyyy";
+	
 	final String DATE_FORMAT = "yyyy-MM-dd";
-    
-	final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+	final String TIME_FORMAT = "HH:mm:ss";
+	
+	final String TIME_MILLISECOND_FORMAT = "HH:mm:ss.SSS";
+
+	final String TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	final String TIMESTAMP_MILLISECOND_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
+
+	final DateTimeFormatter yearFormatter = DateTimeFormat.forPattern(YEAR_FORMAT);
+	final DateTimeFormatter dateFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
+	final DateTimeFormatter timeFormatter = DateTimeFormat.forPattern(TIME_FORMAT);
+	final DateTimeFormatter timeMilliFormatter = DateTimeFormat.forPattern(TIME_MILLISECOND_FORMAT);
+	final DateTimeFormatter timestampFormatter = DateTimeFormat.forPattern(TIMESTAMP_FORMAT);
+	final DateTimeFormatter timestampMilliFormatter = DateTimeFormat.forPattern(TIMESTAMP_MILLISECOND_FORMAT);
+	
     
 	final String CHAR_SET = VartoolConfiguration.getInstance().getDefaultCharset();
 	

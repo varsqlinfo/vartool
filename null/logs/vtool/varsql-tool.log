@@ -1,0 +1,12 @@
+2022-07-27 11:26:39 INFO  c.v.w.a.config.VartoolConfiguration - config file path : /E:/05.varsql/99.source/var-tool/target/main, fileName : config/vartool-app-config.yaml
+2022-07-27 11:26:39 INFO  c.v.w.a.config.VartoolConfiguration - tool config info : com.vartool.web.app.config.vo.AppConfig@3212a8d7
+2022-07-27 11:26:39 DEBUG c.v.w.a.config.VartoolConfiguration - vartool config info
+2022-07-27 11:26:39 DEBUG c.v.w.a.config.VartoolConfiguration - os type : Windows 10
+2022-07-27 11:26:39 DEBUG c.v.w.a.config.VartoolConfiguration - java home  : E:\05.varsql\01.eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.1.v20211116-1657\jre
+2022-07-27 11:26:39 DEBUG c.v.w.a.config.VartoolConfiguration - vartool config info
+2022-07-27 11:27:02 INFO  c.v.w.a.config.VartoolConfiguration - config file path : /E:/05.varsql/99.source/var-tool/target/main, fileName : config/vartool-app-config.yaml
+2022-07-27 11:27:03 INFO  c.v.w.a.config.VartoolConfiguration - tool config info : com.vartool.web.app.config.vo.AppConfig@79d94571
+2022-07-27 11:27:03 DEBUG c.v.w.a.config.VartoolConfiguration - vartool config info
+2022-07-27 11:27:03 DEBUG c.v.w.a.config.VartoolConfiguration - os type : Windows 10
+2022-07-27 11:27:03 DEBUG c.v.w.a.config.VartoolConfiguration - java home  : E:\05.varsql\01.eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.1.v20211116-1657\jre
+2022-07-27 11:27:03 DEBUG c.v.w.a.config.VartoolConfiguration - vartool config info

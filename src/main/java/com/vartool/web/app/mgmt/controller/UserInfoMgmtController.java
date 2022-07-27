@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.app.mgmt.service.UserInfoMgmtService;
-import com.vartool.web.module.HttpUtil;
+import com.vartool.web.module.VartoolUtils;
 
 @Controller
 @RequestMapping("/mgmt/userInfoMgmt")
@@ -36,7 +36,7 @@ public class UserInfoMgmtController {
 	public ModelAndView main(HttpServletRequest req, HttpServletResponse res, ModelAndView mav) throws Exception {
 		
 		ModelMap model = mav.getModelMap();
-		model.addAttribute("originalURL", HttpUtil.getOriginatingRequestUri(req));
+		model.addAttribute("originalURL", VartoolUtils.getOriginatingRequestUri(req));
 		return new ModelAndView("/mgmt/userInfoMgmt", model);
 	}
 	

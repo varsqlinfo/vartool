@@ -18,4 +18,6 @@ public interface ResourceConfigConstants {
 	final String APP_MODEL_MAPPER ="vartoolModelMapper";
 	
 	final String APP_WEB_SOCKET_SERVICE ="vartoolSocketService";
+	
+	final String MAIL_SERVICE = "mainService";
 }

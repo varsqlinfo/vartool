@@ -23,7 +23,6 @@ import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.app.mgmt.service.CmpDeployMgmtService;
 import com.vartool.web.constants.AppCode;
 import com.vartool.web.dto.request.CmpDeployRequestDTO;
-import com.vartool.web.module.HttpUtil;
 import com.vartool.web.module.VartoolUtils;
 
 @Controller
@@ -41,7 +40,7 @@ public class CmpDeployMgmtController {
 	public ModelAndView main(HttpServletRequest req, HttpServletResponse res, ModelAndView mav) throws Exception {
 		
 		ModelMap model = mav.getModelMap();
-		model.addAttribute("originalURL", HttpUtil.getOriginatingRequestUri(req));
+		model.addAttribute("originalURL", VartoolUtils.getOriginatingRequestUri(req));
 		model.addAttribute("scmType", AppCode.SCM_TYPE.values());
 		return new ModelAndView("/mgmt/cmpDeployMgmt", model);
 	}

@@ -1,0 +1,52 @@
+# app config
+javaHome : 
+osType : 
+fileUploadSize: -1
+fileUploadSizePerFile : -1
+fileUploadMaxInMemorySize: 5242880
+protocol: http
+hostname: localhost
+port : 12346
+contextPath : 12346
+
+
+# db config
+db:
+  type : h2
+  url : 
+  username : 
+  password : 
+  driverClass : 
+
+# password config
+passwordConfig:
+  crpyto : aes
+  secretKey : MTZkNzMwM2QtMDQ4NS0zOTlhLWEyZmMtODAwNTg0NDY0NzZk
+  resetMdoe : email #default manager, email
+  size : 8
+  type : LOWER_AND_VNUMBER
+  
+
+# mail config
+mail :
+#  host : emailAddress
+#  port : 25
+#  username : username
+#  password : password
+#  fromEmail : noreply@varsql.com
+#  smtpAuth : true
+#  transportProtocol : smtp
+#  starttlsEnable : true 
+
+
+# deply config
+deploy:
+  sourcePath :
+  defaultDependencyPath : C:/0.server/apache-tomcat-8.5.54/lib
+  antExeFile : C:/zzz/apache-ant-1.10.2/bin/ant.bat
+  gradleExeFile : C:/zzz/apache-ant-1.10.2/bin/ant.bat
+  buildFileCreatePath :
+  
+  
+
+

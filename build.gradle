@@ -99,7 +99,7 @@ def def_version = [
 	springData: '2.2.6.RELEASE'
 	,springSecurity: '5.2.1.RELEASE'
 	,servletApi: '4.0.0'
-	,jackson : '2.9.9'
+	,jackson : '2.13.3'
 	,poi : '4.1.2'
 	,tiles : '3.0.7'
 	,tomcat : '9.0.58'
@@ -155,6 +155,7 @@ dependencies {
 		,[ group: 'org.springframework.boot' , name: 'spring-boot-starter-web' ]
 		,[ group: 'org.springframework.boot' , name: 'spring-boot-starter-websocket']
 		,[ group: 'org.springframework.boot' , name: 'spring-boot-starter-cache']
+		,[ group: 'org.springframework.boot' , name: 'spring-boot-starter-mail']
 		// ,[ group: 'org.springframework.security' , name: 'spring-security-config' , version: def_version.springSecurity ]
 		,[ group: 'org.springframework.security' , name: 'spring-security-messaging' , version: def_version.springSecurity ] // websocket message �߰�.
 		,[ group: 'org.springframework.security' , name: 'spring-security-taglibs' , version: def_version.springSecurity ]
@@ -202,7 +203,8 @@ dependencies {
 	implementation group: 'com.google.guava', name: 'guava', version: '18.0'
 
 	// xml to json
-	implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: '2.11.2'
+	implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: def_version.jackson
+	implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: def_version.jackson
 
 	implementation group: 'com.zaxxer', name: 'HikariCP', version: '3.4.1'
 	implementation group: 'org.jdom' , name: 'jdom' , version: '1.1.3'
@@ -267,6 +269,12 @@ dependencies {
 		"org.projectlombok:lombok",
 		"org.projectlombok:lombok-mapstruct-binding:"+project.property('lombokMapstructVersion')
 	)
+}
+
+dependencyManagement {
+  imports {
+    mavenBom 'com.fasterxml.jackson:jackson-bom:'+def_version.jackson
+  }
 }
 
 test {

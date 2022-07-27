@@ -5,12 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.vartech.common.app.beans.ParamMap;
+import com.vartech.common.app.beans.DataMap;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartool.web.app.handler.command.CommandCmpManager;
 import com.vartool.web.app.mgmt.component.CmpCommandComponent;
 import com.vartool.web.dto.websocket.LogMessageDTO;
-import com.vartool.web.module.SecurityUtil;
 
 /**
  * 
@@ -33,13 +32,13 @@ public class CmpCommandService {
 	@Autowired
 	private CmpCommandComponent cmpCommandComponent; 
 	
-	public ResponseResult loadLog(String cmpId, ParamMap param) {
+	public ResponseResult loadLog(String cmpId, DataMap param) {
 		ResponseResult responseResult = new ResponseResult();
 		responseResult.setItemOne(LogMessageDTO.builder().cmpId(cmpId).log(CommandCmpManager.getInstance().getLogContent(cmpId)).build());
 		return responseResult;
 	}
 
-	public ResponseResult startAndStop(String cmpId, String action, ParamMap allParameter) {
+	public ResponseResult startAndStop(String cmpId, String action, DataMap allParameter) {
 		return cmpCommandComponent.startAndStop(cmpId, action);
 	}
 }

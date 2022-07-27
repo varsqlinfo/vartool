@@ -14,7 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.vartech.common.app.beans.ParamMap;
+import com.vartech.common.app.beans.DataMap;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.utils.VartechUtils;
 import com.vartool.web.app.handler.command.CommandCmpManager;
@@ -77,7 +77,7 @@ public class CmpMonitoringService {
 	 * @param allParameter
 	 * @return
 	 */
-	public ResponseResult logInfoList(ParamMap allParameter) {
+	public ResponseResult logInfoList(DataMap allParameter) {
 		
 		List<CmpResponseDTO> cmpItemList = cmpRepository.findAllByNameContaining(Sort.by(Sort.Direction.ASC, CmpEntity.CMP_TYPE).and(Sort.by(Sort.Direction.ASC, CmpEntity.NAME)));
 		
@@ -114,7 +114,7 @@ public class CmpMonitoringService {
 	 * @param allParameter
 	 * @return
 	 */
-	public ResponseResult checkComponent(String cmpInfo, ParamMap allParameter) {
+	public ResponseResult checkComponent(String cmpInfo, DataMap allParameter) {
 		TypeReference<HashMap<String, String>> typeRef = new TypeReference<HashMap<String, String>>() {};
 		HashMap<String,String> cmpInfoMap= VartechUtils.jsonStringToObject(cmpInfo, typeRef);
 		
@@ -180,7 +180,7 @@ public class CmpMonitoringService {
 	 * @param allParameter
 	 * @return
 	 */
-	public ResponseResult startTail(String cmpId, ParamMap param) {
+	public ResponseResult startTail(String cmpId, DataMap param) {
 		if(LogCmpManager.getInstance().isTailInfo(cmpId)) {
 			return VartoolUtils.getResponseResultItemOne("running");
 		}else {
