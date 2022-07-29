@@ -21,7 +21,7 @@ import com.vartool.web.constants.ViewPageConstants;
 /**
  * 
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: AppTilesView.java
 * @DESC		: tiles render 처리. 
 * @AUTHOR	: ytkim

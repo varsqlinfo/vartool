@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 /**
  *
- * @FileName  : VarsqlAuthenticationLogoutHandler.java
+ * @FileName  : VartoolAuthenticationLogoutHandler.java
  * @프로그램 설명 : log out handler
  * @Date      : 2019. 9. 21.
  * @작성자      : ytkim
@@ -24,7 +24,7 @@ public class VartoolAuthenticationLogoutHandler implements LogoutHandler {
     public void logout(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) {
 
     	if (authentication != null && authentication.getDetails() != null) {
-    		logger.error("VarsqlAuthenticationLogoutSuccessHandler  onLogoutSuccess :{}" , authentication);
+    		logger.error("VartoolAuthenticationLogoutHandler  onLogoutSuccess :{}" , authentication);
 		}
     }
 }

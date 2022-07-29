@@ -8,7 +8,7 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 /**
  *
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: AppTilesConfigurer.java
 * @DESC		: 타일즈 설정.
 * @AUTHOR	: ytkim

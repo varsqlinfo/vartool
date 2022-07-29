@@ -62,32 +62,32 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	
 	public static final String WEB_RESOURCES = "/webstatic/**";
 
-	private VartoolBasicAuthenticationEntryPoint varsqlBasicAuthenticationEntryPoint;
+	private VartoolBasicAuthenticationEntryPoint vartoolBasicAuthenticationEntryPoint;
 
-	private VartoolAuthenticationFailHandler varsqlAuthenticationFailHandler;
+	private VartoolAuthenticationFailHandler vartoolAuthenticationFailHandler;
 	
-	private VartoolAuthenticationSuccessHandler varsqlAuthenticationSuccessHandler;
+	private VartoolAuthenticationSuccessHandler vartoolAuthenticationSuccessHandler;
 
-	private VartoolAuthenticationLogoutHandler varsqlAuthenticationLogoutHandler;
+	private VartoolAuthenticationLogoutHandler vartoolAuthenticationLogoutHandler;
 
-	private VartoolAuthenticationLogoutSuccessHandler varsqlAuthenticationLogoutSuccessHandler;
+	private VartoolAuthenticationLogoutSuccessHandler vartoolAuthenticationLogoutSuccessHandler;
 	
 	private BeanFactory beanFactory; 
 	
 	
 	public SecurityConfigurer(
-			VartoolBasicAuthenticationEntryPoint varsqlBasicAuthenticationEntryPoint
-			,VartoolAuthenticationFailHandler varsqlAuthenticationFailHandler
-			,VartoolAuthenticationLogoutHandler varsqlAuthenticationLogoutHandler
-			,VartoolAuthenticationSuccessHandler varsqlAuthenticationSuccessHandler
-			,VartoolAuthenticationLogoutSuccessHandler varsqlAuthenticationLogoutSuccessHandler
+			VartoolBasicAuthenticationEntryPoint vartoolBasicAuthenticationEntryPoint
+			,VartoolAuthenticationFailHandler vartoolAuthenticationFailHandler
+			,VartoolAuthenticationLogoutHandler vartoolAuthenticationLogoutHandler
+			,VartoolAuthenticationSuccessHandler vartoolAuthenticationSuccessHandler
+			,VartoolAuthenticationLogoutSuccessHandler vartoolAuthenticationLogoutSuccessHandler
 			,BeanFactory beanFactory) {
 		
-		this.varsqlBasicAuthenticationEntryPoint = varsqlBasicAuthenticationEntryPoint; 
-		this.varsqlAuthenticationFailHandler = varsqlAuthenticationFailHandler; 
-		this.varsqlAuthenticationLogoutHandler = varsqlAuthenticationLogoutHandler; 
-		this.varsqlAuthenticationSuccessHandler = varsqlAuthenticationSuccessHandler; 
-		this.varsqlAuthenticationLogoutSuccessHandler = varsqlAuthenticationLogoutSuccessHandler; 
+		this.vartoolBasicAuthenticationEntryPoint = vartoolBasicAuthenticationEntryPoint; 
+		this.vartoolAuthenticationFailHandler = vartoolAuthenticationFailHandler; 
+		this.vartoolAuthenticationLogoutHandler = vartoolAuthenticationLogoutHandler; 
+		this.vartoolAuthenticationSuccessHandler = vartoolAuthenticationSuccessHandler; 
+		this.vartoolAuthenticationLogoutSuccessHandler = vartoolAuthenticationLogoutSuccessHandler; 
 		this.beanFactory = beanFactory; 
 	}
 
@@ -146,8 +146,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	        .loginProcessingUrl("/login_check")
 	        .usernameParameter("vtool_login_id")
 	        .passwordParameter("vtool_login_password")
-	        .successHandler(varsqlAuthenticationSuccessHandler)
-	        .failureHandler(varsqlAuthenticationFailHandler)
+	        .successHandler(vartoolAuthenticationSuccessHandler)
+	        .failureHandler(vartoolAuthenticationFailHandler)
 	        .permitAll()
 	    .and() // auth
 		    .authorizeRequests()
@@ -168,15 +168,15 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	     	.logout()
 	        .logoutUrl("/logout")
 	        .logoutSuccessUrl("/login")
-	        .addLogoutHandler(varsqlAuthenticationLogoutHandler)
-	        .logoutSuccessHandler(varsqlAuthenticationLogoutSuccessHandler)
+	        .addLogoutHandler(vartoolAuthenticationLogoutHandler)
+	        .logoutSuccessHandler(vartoolAuthenticationLogoutSuccessHandler)
 	        .invalidateHttpSession(true)
 	        .deleteCookies("JSESSIONID").permitAll()
 	        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 
 		.and()
 			.httpBasic()
-			.authenticationEntryPoint(varsqlBasicAuthenticationEntryPoint);
+			.authenticationEntryPoint(vartoolBasicAuthenticationEntryPoint);
 	}
 	
 	// ajax call entry point
@@ -199,18 +199,13 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 		return csrfCookie;
 	}
 
-	@Bean("varsqlRequestCache")
-	public RequestCache requestCache() {
-	   return new HttpSessionRequestCache();
-	}
-
 	@Bean
 	public HttpSessionEventPublisher httpSessionEventPublisher() {
 	    return new HttpSessionEventPublisher();
 	}
 
 	@Bean(ResourceConfigConstants.APP_PASSWORD_ENCODER)
-    public PasswordEncoder varsqlPasswordEncoder(){
+    public PasswordEncoder vartoolPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
 	

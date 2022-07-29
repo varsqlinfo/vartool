@@ -18,14 +18,14 @@ import com.vartool.web.dto.response.CmpLogResponseDTO;
 import com.vartool.web.exception.ComponentNotFoundException;
 import com.vartool.web.model.entity.base.AbstractRegAuditorModel;
 import com.vartool.web.model.entity.cmp.CmpItemLogEntity;
-import com.vartool.web.module.VarsqlBeanUtils;
+import com.vartool.web.module.VartoolBeanUtils;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.repository.cmp.CmpItemLogRepository;
 
 /**
  * 
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: CmpLogMgmtService.java
 * @DESC		: log compoment 관리
 * @AUTHOR	: ytkim
@@ -118,7 +118,7 @@ public class CmpLogMgmtService {
 		
 		CmpItemLogEntity copyInfo = cmpItemLogRepository.findByCmpId(cmpId);
 		
-		CmpItemLogEntity copyEntity = VarsqlBeanUtils.copyEntity(copyInfo);
+		CmpItemLogEntity copyEntity = VartoolBeanUtils.copyEntity(copyInfo);
 	    copyEntity.setCmpId(null);
 	    copyEntity.setName(copyEntity.getName() + "-copy");
 	    cmpItemLogRepository.save(copyEntity);

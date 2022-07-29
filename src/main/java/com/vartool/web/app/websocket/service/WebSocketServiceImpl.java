@@ -14,7 +14,7 @@ import com.vartool.web.dto.websocket.LogMessageDTO;
 /**
 *
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: WebSocketServiceImpl.java
 * @DESC		: web socket service
 * @AUTHOR	: ytkim

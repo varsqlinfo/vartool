@@ -47,7 +47,7 @@ public class VartoolBasicAuthenticationEntryPoint extends BasicAuthenticationEnt
 		logger.warn("cookie values : {} " , HttpUtils.getAllCookieString(request));
 		logger.warn("request header : {} " , HttpUtils.getAllReqHeaderString(request));
 		logger.warn("response header : {} " , HttpUtils.getAllResHeaderString(response));
-		logger.warn("varsqlBasicAuthenticationEntryPoint commence : {}", authEx.getMessage(), authEx);
+		logger.warn("vartoolBasicAuthenticationEntryPoint commence : {}", authEx.getMessage(), authEx);
 		response.addHeader("WWW-Authenticate", "Basic realm=" + getRealmName());
 		//response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 
@@ -78,7 +78,7 @@ public class VartoolBasicAuthenticationEntryPoint extends BasicAuthenticationEnt
 
 	@Override
 	public void afterPropertiesSet() {
-		setRealmName("varsql");
+		setRealmName("vartool");
 		super.afterPropertiesSet();
 	}
 }

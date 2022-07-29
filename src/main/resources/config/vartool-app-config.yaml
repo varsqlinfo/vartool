@@ -33,7 +33,7 @@ mail :
 #  port : 25
 #  username : username
 #  password : password
-#  fromEmail : noreply@varsql.com
+#  fromEmail : noreply@vartool.com
 #  smtpAuth : true
 #  transportProtocol : smtp
 #  starttlsEnable : true 

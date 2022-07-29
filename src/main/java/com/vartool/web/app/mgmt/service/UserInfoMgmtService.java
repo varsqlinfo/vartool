@@ -36,7 +36,7 @@ import com.vartool.web.security.auth.AuthorityType;
 /**
  * 
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: UserInfoMgmtService.java
 * @DESC		: 사용자 관리
 * @AUTHOR	: ytkim

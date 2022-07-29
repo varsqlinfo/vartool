@@ -5,7 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * 
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: PasswordConstraintValidator.java
 * @DESC		: 패스워드 정책 적용.  
 * @AUTHOR	: ytkim

@@ -33,7 +33,7 @@ import com.vartool.web.repository.cmp.CmpRepository;
 /**
  * 
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: LogInfoService.java
 * @DESC		: 설정 정보 처리. 
 * @AUTHOR	: ytkim

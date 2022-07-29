@@ -144,7 +144,7 @@ VartoolAPP.vueServiceBean({
 					_this.msgView = 'success';
 				},
 				error: function(xhr, status, e) {
-					VARSQL.log(status + " : " + e + xhr.responseText);
+					VARTOOL.log(status + " : " + e + xhr.responseText);
 				}
 			});
 		}

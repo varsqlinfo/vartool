@@ -24,14 +24,14 @@ import com.vartool.web.dto.response.CmpDeployResponseDTO;
 import com.vartool.web.exception.ComponentNotFoundException;
 import com.vartool.web.model.entity.base.AbstractRegAuditorModel;
 import com.vartool.web.model.entity.cmp.CmpItemDeployEntity;
-import com.vartool.web.module.VarsqlBeanUtils;
+import com.vartool.web.module.VartoolBeanUtils;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.repository.cmp.CmpItemDeployRepository;
 
 /**
  * 
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: MgmtService.java
 * @DESC		: 설정 정보 처리. 
 * @AUTHOR	: ytkim
@@ -136,7 +136,7 @@ public class CmpDeployMgmtService {
 		
 		CmpItemDeployEntity copyInfo = cmpItemDeployRepository.findByCmpId(cmpId);
 		
-		CmpItemDeployEntity copyEntity = VarsqlBeanUtils.copyEntity(copyInfo);
+		CmpItemDeployEntity copyEntity = VartoolBeanUtils.copyEntity(copyInfo);
 	    copyEntity.setCmpId(null);
 	    copyEntity.setName(copyEntity.getName() + "-copy");
 	    cmpItemDeployRepository.save(copyEntity);

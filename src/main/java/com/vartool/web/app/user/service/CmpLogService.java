@@ -28,7 +28,7 @@ import com.vartool.web.repository.cmp.CmpItemLogRepository;
 /**
  * 
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: LogItemEventService.java
 * @DESC		: log item event service
 * @AUTHOR	: ytkim

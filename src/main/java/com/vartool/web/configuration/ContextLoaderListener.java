@@ -8,7 +8,7 @@ import com.vartool.web.app.config.VartoolConfiguration;
 /**
  * -----------------------------------------------------------------------------
 * @fileName		: ContextLoaderListener.java
-* @desc		: varsql 초기화할  servlet listener
+* @desc		: servlet listener
 * @author	: ytkim
 *-----------------------------------------------------------------------------
   DATE			AUTHOR			DESCRIPTION

@@ -17,7 +17,7 @@ import com.vartool.web.constants.VIEW_PAGE;
 /**
  *
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: ErrorController.java
 * @DESC		: error controller
 * @AUTHOR	: ytkim

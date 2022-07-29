@@ -16,7 +16,7 @@ import com.vartech.common.utils.StringUtils;
 
 /**
  *
- * @FileName  : VarsqlAuthenticationLogoutSuccessHandler.java
+ * @FileName  : VartoolAuthenticationLogoutSuccessHandler.java
  * @프로그램 설명 : 로그아웃 success handler
  * @Date      : 2019. 9. 21.
  * @작성자      : ytkim
@@ -36,7 +36,7 @@ public class VartoolAuthenticationLogoutSuccessHandler implements LogoutSuccessH
 			try {
 				request.getSession().invalidate();
 			} catch (Exception e) {
-				logger.error("VarsqlAuthenticationLogoutSuccessHandler  onLogoutSuccess " , e.getMessage() , e);
+				logger.error("VartoolAuthenticationLogoutSuccessHandler  onLogoutSuccess " , e.getMessage() , e);
 			}
 		}
 		

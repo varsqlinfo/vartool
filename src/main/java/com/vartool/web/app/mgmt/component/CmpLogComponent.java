@@ -18,7 +18,7 @@ import com.vartool.web.module.LogFilenameUtils;
 /**
  * 
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: CmpLogComponent.java
 * @DESC		: 로그 컴포넌트  
 * @AUTHOR	: ytkim

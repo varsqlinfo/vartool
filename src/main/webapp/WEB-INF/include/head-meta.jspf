@@ -2,8 +2,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8">
 <sec:csrfMetaTags/>
-<meta name="description" content="varsql-ytechinfo">
-<meta name="author" content="varsql-ytechinfo">
+<meta name="description" content="vartool-ytechinfo">
+<meta name="author" content="vartool-ytechinfo">
 
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/webstatic/vt/favicon.ico" type="image/png">
 <link rel="icon" href="${pageContext.request.contextPath}/webstatic/vt/favicon.ico" type="image/png">

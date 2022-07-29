@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=utf-8" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/include/tagLib.jspf"%>
 
-<div class="display-off" id="varsqlViewArea">
+<div class="display-off" id="appViewArea">
 	<h1 style="width: 145px;display: inline-block;">
 		<a href="">리스트</a>
 	</h1>
@@ -43,7 +43,7 @@ function pageReload(){
 }
 
 VartoolAPP.vueServiceBean({
-	el: '#varsqlViewArea'
+	el: '#appViewArea'
 	,data: {
 		list_count :10
 		,searchVal : ''

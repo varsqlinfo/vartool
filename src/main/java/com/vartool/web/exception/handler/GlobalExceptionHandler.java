@@ -33,7 +33,7 @@ import com.vartool.web.module.VartoolUtils;
 /**
  *
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: GlobalExceptionHandler.java
 * @DESC		: exception handler
 * @AUTHOR	: ytkim
@@ -76,7 +76,7 @@ public class GlobalExceptionHandler{
 
 	/**
 	 *
-	 * @Method Name  : varsqlAppExceptionHandler
+	 * @Method Name  : vartoolAppExceptionHandler
 	 * @Method 설명 : var sql error 처리.
 	 * @작성자   : ytkim
 	 * @작성일   : 2017. 11. 13.
@@ -86,10 +86,10 @@ public class GlobalExceptionHandler{
 	 * @return
 	 */
 	@ExceptionHandler(value=VartoolAppException.class)
-	public void varsqlAppExceptionHandler(VartoolAppException ex, HttpServletRequest request , HttpServletResponse response){
+	public void vartoolAppExceptionHandler(VartoolAppException ex, HttpServletRequest request , HttpServletResponse response){
 
-		logger.error("varsqlAppExceptionHandler url : {}, parameter : {} ",request.getRequestURL(), HttpUtils.getServletRequestParam(request));
-		logger.error("varsqlAppExceptionHandler :{} ", ex.getMessage() , ex);
+		logger.error("vartoolAppExceptionHandler url : {}, parameter : {} ",request.getRequestURL(), HttpUtils.getServletRequestParam(request));
+		logger.error("vartoolAppExceptionHandler :{} ", ex.getMessage() , ex);
 
 		ResponseResult result = new ResponseResult();
 		result.setResultCode(RequestResultCode.ERROR);

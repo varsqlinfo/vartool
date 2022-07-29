@@ -11,7 +11,7 @@ import ch.qos.logback.core.spi.LifeCycle;
 /**
  * -----------------------------------------------------------------------------
 * @fileName		: LoggerListener.java
-* @desc		: varsql logback listener
+* @desc		: logback listener
 * @author	: ytkim
 *-----------------------------------------------------------------------------
   DATE			AUTHOR			DESCRIPTION
@@ -28,11 +28,11 @@ public class LoggerListener extends ContextAwareBase implements LoggerContextLis
     public void start() {
         if (started) return;
 
-        String varsqlRuntime = System.getProperty("vartool.runtime");
+        String vartoolRuntime = System.getProperty("vartool.runtime");
 
         Context context = getContext();
 
-        if("local".equals(varsqlRuntime)) {
+        if("local".equals(vartoolRuntime)) {
         	context.putProperty("runtime", "local");
         	context.putProperty("LOG_DIR", "c:/zzz/logs/vtool");
         }else {

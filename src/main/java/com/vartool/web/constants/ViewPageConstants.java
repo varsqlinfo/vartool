@@ -3,7 +3,7 @@ package com.vartool.web.constants;
 /**
  * 
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: ViewPage.java
 * @DESC		: controller page enum
 * @AUTHOR	: ytkim

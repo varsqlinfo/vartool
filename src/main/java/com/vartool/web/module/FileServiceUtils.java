@@ -32,7 +32,7 @@ import com.vartool.web.model.entity.board.BoardFileEntity;
 
 /**
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: FileServiceUtils.java
 * @DESC		: file service utils
 * @AUTHOR	: ytkim

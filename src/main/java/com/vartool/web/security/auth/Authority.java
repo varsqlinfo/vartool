@@ -6,8 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 
 /**
  * -----------------------------------------------------------------------------
-* @fileName		: VarsqlAuthority.java
-* @desc		: varsql authority
+* @fileName		: Authority.java
+* @desc		: authority
 * @author	: ytkim
 *-----------------------------------------------------------------------------
   DATE			AUTHOR			DESCRIPTION

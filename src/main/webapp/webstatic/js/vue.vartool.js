@@ -369,7 +369,7 @@ Vue.component('file-upload', {
 		}
 
 		var dropzoneOpt = VARTOOL.util.objectMerge({
-			url: "http://www.varsql.com", // upload url
+			url: "http://www.vartool.com", // upload url
 			thumbnailWidth: 50,
 			thumbnailHeight: 50,
 			parallelUploads: 20,

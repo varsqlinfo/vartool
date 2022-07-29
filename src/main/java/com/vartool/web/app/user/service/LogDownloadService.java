@@ -34,7 +34,7 @@ import com.vartool.web.repository.cmp.CmpItemLogRepository;
 /**
  * 
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: LogDownloadService.java
 * @DESC		: log download service
 * @AUTHOR	: ytkim

@@ -16,7 +16,7 @@ import com.vartech.common.utils.VartechUtils;
 /**
  * -----------------------------------------------------------------------------
 * @fileName		: AppUUIDGenerator.java
-* @desc		: varsql uuid generator
+* @desc		: app uuid generator
 * @author	: ytkim
 *-----------------------------------------------------------------------------
   DATE			AUTHOR			DESCRIPTION

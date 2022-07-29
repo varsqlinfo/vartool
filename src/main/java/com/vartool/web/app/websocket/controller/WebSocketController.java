@@ -14,7 +14,7 @@ import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
 /**
  *
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: WebSocketController.java
 * @DESC		: web socket
 * @AUTHOR	: ytkim

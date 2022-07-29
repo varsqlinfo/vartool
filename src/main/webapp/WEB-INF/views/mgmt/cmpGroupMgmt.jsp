@@ -5,7 +5,7 @@
 		그룹 & Component 관리
 	</h1>
 </div>
-<div class="display-off" id="varsqlViewArea">
+<div class="display-off" id="appViewArea">
 	<div class="col-lg-5">
 		<div class="panel panel-default">
 			<div class="panel-body" >
@@ -135,7 +135,7 @@
 (function() {
 	
 VartoolAPP.vueServiceBean({
-	el: '#varsqlViewArea'
+	el: '#appViewArea'
 	,data: {
 		list_count :10
 		,searchVal : ''

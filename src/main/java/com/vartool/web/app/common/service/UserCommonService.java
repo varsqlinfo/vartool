@@ -58,7 +58,7 @@ public class UserCommonService {
 		emailTokenEntityRepository.save(tokenInfo);
 		
 		return mailService.sendMail(MailInfo.builder()
-			.subject("Varsql password reset")
+			.subject("Vartool password reset")
 			.from(VartoolConfiguration.getInstance().getMailConfig().getFromEmail())
 			.to(uemail)
 			.content(passwordResetUrl)

@@ -2,7 +2,7 @@ package com.vartool.web.constants;
 
 /**
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: WebSocketConstants.java
 * @DESC		: web socket constants 
 * @AUTHOR	: ytkim

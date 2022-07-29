@@ -60,7 +60,7 @@ FileComponent.prototype = {
 		}, opt);
 
 		var dropzoneOpt = VARTOOL.util.objectMerge({
-			url: "http://www.varsql.com", // upload url
+			url: "http://www.vartool.com", // upload url
 			thumbnailWidth: 50,
 			thumbnailHeight: 50,
 			parallelUploads: 20,
@@ -81,7 +81,7 @@ FileComponent.prototype = {
 		if (opt.mode == 'template') {
 
 		} else {
-			var btnClassName = 'b-' + VARSQL.generateUUID();
+			var btnClassName = 'b-' + VARTOOL.generateUUID();
 			this._btnClear(opt)
 
 			if (opt.btnEnabled !== false) {
@@ -96,9 +96,9 @@ FileComponent.prototype = {
 				}
 
 				btnClass = '.' + btnClass;
-				if (VARSQL.isString(dropzoneOpt.clickable)) {
+				if (VARTOOL.isString(dropzoneOpt.clickable)) {
 					dropzoneOpt.clickable = dropzoneOpt.clickable + ' ' + btnClass;
-				} else if (VARSQL.isArray(dropzoneOpt.clickable)) {
+				} else if (VARTOOL.isArray(dropzoneOpt.clickable)) {
 					dropzoneOpt.clickable.push(btnClass);
 				} else {
 					dropzoneOpt.clickable = btnClass;

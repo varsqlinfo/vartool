@@ -36,7 +36,7 @@ import com.vartool.web.repository.cmp.CmpRepository;
 /**
  * 
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: CmpGrpMgmtService.java
 * @DESC		: component group 관리
 * @AUTHOR	: ytkim

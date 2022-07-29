@@ -11,7 +11,7 @@ import lombok.ToString;
 /**
  *
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: MessageDTO.java
 * @DESC		: web socket message
 * @AUTHOR	: ytkim

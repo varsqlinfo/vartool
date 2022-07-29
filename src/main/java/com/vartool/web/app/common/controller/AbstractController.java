@@ -9,7 +9,7 @@ import com.vartool.web.constants.ViewPageConstants;
 /**
  *
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: AbstractController.java
 * @DESC		: base controller
 * @AUTHOR	: ytkim

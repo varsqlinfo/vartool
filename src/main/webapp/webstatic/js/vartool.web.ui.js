@@ -1,7 +1,7 @@
 /*
 **
 *ytkim
-*varsql ui js
+*vartool ui js
  */
 if (typeof window != "undefined") {
     if (typeof window.VARTOOLUI == "undefined") {
@@ -414,7 +414,7 @@ FileComponent.prototype = {
 		}, opt);
 
 		var dropzoneOpt = VARTOOL.util.objectMerge({
-			url: "http://www.varsql.com", // upload url
+			url: "http://www.vartool.com", // upload url
 			thumbnailWidth : 50,
 			thumbnailHeight : 50,
 			parallelUploads : 20,

@@ -68,15 +68,6 @@ public class BoardAuthInterceptor extends HandlerInterceptorAdapter {
 	 * @return
 	 */
 	private boolean authCheck(HttpServletRequest req, String conuid) {
-		/*
-		Map<String, DatabaseInfo> dataBaseInfo = SecurityUtil.loginInfo(req).getDatabaseInfo();
-		
-		if(!dataBaseInfo.containsKey(conuid)){
-			return false;
-		}
-		
-		req.setAttribute(VarsqlParamConstants.VCONNID, dataBaseInfo.get(conuid).getVconnid());
-		*/
 		return true; 
 	}
 }

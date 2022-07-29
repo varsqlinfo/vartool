@@ -65,7 +65,7 @@ public class VartoolAccessDeniedHandler implements AccessDeniedHandler {
 			try (Writer writer = response.getWriter()){
 				writer.write(VartechUtils.objectToJsonString(result));
 			} catch (IOException e) {
-				logger.error("VarsqlAccessDeniedHandler " ,e);
+				logger.error("VartoolAccessDeniedHandler " ,e);
 			}
 		}else{
 			if (accessDeniedException instanceof CsrfException && !response.isCommitted()) {

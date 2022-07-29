@@ -9,8 +9,8 @@ import com.vartool.web.constants.VartoolConstants;
 
 /**
  * -----------------------------------------------------------------------------
-* @fileName		: VarsqlFn.java
-* @desc		: varsql custom tag function
+* @fileName		: VarTagFn.java
+* @desc		: app custom tag function
 * @author	: ytkim
 *-----------------------------------------------------------------------------
   DATE			AUTHOR			DESCRIPTION

@@ -20,7 +20,7 @@ public final class PasswordUtils {
 	
 	
 	public static String encode (String pw) {
-		return ((PasswordEncoder)VarsqlBeanUtils.getStringBean(ResourceConfigConstants.APP_PASSWORD_ENCODER)).encode(pw);
+		return ((PasswordEncoder)VartoolBeanUtils.getStringBean(ResourceConfigConstants.APP_PASSWORD_ENCODER)).encode(pw);
 	}
 	
 	public static String decode (String pw) {

@@ -19,7 +19,7 @@ import com.vartool.web.constants.VartoolConstants;
 /**
  *
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: AppMainConfigurer.java
 * @DESC		: spring 설정.
 * @AUTHOR	: ytkim

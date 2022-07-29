@@ -26,7 +26,7 @@ import com.vartool.web.repository.FileInfoRepository;
 
 /**
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: FileUploadService.java
 * @DESC		: file upload service
 * @AUTHOR	: ytkim

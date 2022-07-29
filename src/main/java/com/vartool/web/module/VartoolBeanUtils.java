@@ -9,8 +9,8 @@ import com.vartool.web.configuration.ApplicationContextProvider;
 
 /**
  * -----------------------------------------------------------------------------
-* @fileName		: VarsqlBeanUtils.java
-* @desc		: varsql bean util 
+* @fileName		: VartoolBeanUtils.java
+* @desc		: bean util 
 * @author	: ytkim
 *-----------------------------------------------------------------------------
   DATE			AUTHOR			DESCRIPTION
@@ -19,7 +19,7 @@ import com.vartool.web.configuration.ApplicationContextProvider;
 
 *-----------------------------------------------------------------------------
  */
-public class VarsqlBeanUtils {
+public class VartoolBeanUtils {
     public static Object getStringBean(String beanName) {
         ApplicationContext applicationContext = ApplicationContextProvider.getApplicationContext();
         return applicationContext.getBean(beanName);

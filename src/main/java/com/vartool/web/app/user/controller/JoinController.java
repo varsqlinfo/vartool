@@ -30,7 +30,7 @@ import com.vartool.web.module.VartoolUtils;
 /**
  *
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: JoinController.java
 * @DESC		: 회원가입
 * @AUTHOR	: ytkim

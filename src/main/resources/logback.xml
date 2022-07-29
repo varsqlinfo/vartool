@@ -11,10 +11,10 @@
 	</appender>
 	
 	<appender name="FILEOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOG_DIR}/varsql-tool.log</file>
+		<file>${LOG_DIR}/vtool.log</file>
 		<append>true</append>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${LOG_DIR}/old/varsql-tool.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<fileNamePattern>${LOG_DIR}/old/vtool.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 			
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>30mb</maxFileSize> <!-- kb , mb , gb 로 설정 가능. -->

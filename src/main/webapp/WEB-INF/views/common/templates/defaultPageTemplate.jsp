@@ -8,15 +8,15 @@
 <%@ include file="/WEB-INF/include/head.jsp"%>
 </head>
 
-<body class="varsql-main scroll-on">
-	<div class="varsql-menu-wrapper">
+<body class="vartool-main scroll-on">
+	<div class="vartool-menu-wrapper">
 		<nav class="navbar navbar-default navbar-static-top"
 			role="navigation" style="margin-bottom: 0">
 			<tiles:insertAttribute name="header" />
 		</nav>
 	</div>
 
-	<div id="page-wrapper" class="varsql-body-wrapper">
+	<div id="page-wrapper" class="vartool-body-wrapper">
 		<tiles:insertAttribute name="body" />
 	</div>
 </body>

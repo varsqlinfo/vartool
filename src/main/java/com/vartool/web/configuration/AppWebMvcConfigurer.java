@@ -35,7 +35,7 @@ import com.vartool.web.constants.ViewPageConstants;
 /**
  *
 *-----------------------------------------------------------------------------
-* @PROJECT	: varsql
+* 
 * @NAME		: AppWebMvcConfigurer.java
 * @DESC		: web 설정.
 * @AUTHOR	: ytkim
