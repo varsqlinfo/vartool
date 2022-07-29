@@ -10,13 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
@@ -34,9 +33,7 @@ public class VartoolAuthenticationSuccessHandler extends SimpleUrlAuthentication
 
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
-	@Autowired
-	@Qualifier("varsqlRequestCache")
-	private RequestCache requestCache;
+	private RequestCache requestCache = new HttpSessionRequestCache();
 
 	public VartoolAuthenticationSuccessHandler() {
 		super();

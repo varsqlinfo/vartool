@@ -26,7 +26,6 @@ import com.vartool.web.dto.response.BoardResponseDTO;
 import com.vartool.web.exception.BoardNotFoundException;
 import com.vartool.web.exception.BoardPermissionException;
 import com.vartool.web.exception.PermissionDeniedException;
-import com.vartool.web.model.converter.DomainMapper;
 import com.vartool.web.model.entity.board.BoardCommentEntity;
 import com.vartool.web.model.entity.board.BoardEntity;
 import com.vartool.web.model.entity.board.BoardFileEntity;
@@ -41,9 +40,6 @@ import com.vartool.web.repository.spec.BoardSpec;
 @Service
 public class BoardService{
 	private final static Logger logger = LoggerFactory.getLogger(BoardService.class);
-	
-	@Autowired
-	protected DomainMapper domainMapper;
 	
 	@Autowired
 	private BoardRepository boardEntityRepository;

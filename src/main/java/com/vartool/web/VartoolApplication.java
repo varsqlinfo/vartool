@@ -18,6 +18,7 @@ public class VartoolApplication extends SpringBootServletInitializer {
 			System.setProperty("vartool.root", "C:/zzz/vtool/");
 			System.setProperty("spring.devtools.restart.enabled", "true");
 			System.setProperty("spring.devtools.livereload.enable", "true");
+			
 		}
 	}
 

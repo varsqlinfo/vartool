@@ -37,10 +37,13 @@
     <!-- form start -->
     <form name="resetForm" id="resetForm" method="POST" action="<c:url value='/join/join' />"  class="form-horizontal well" role="form" onsubmit="return false;">
 		
-		<div v-if="msgView" style="text-align: center;">
-	        <ul style="list-style: none;color: #ff2b2b;font-weight: bold;">
-	        	<li>메일 발송에 실패했습니다.</li>
-	        	<li>잘못된 비밀번호 재 설정 요청입니다.</li>
+		<div  style="text-align: center;">
+	        <ul style="list-style: none;font-weight: bold;">
+	        	<li v-if="msgView =='error'" style="color: #ff2b2b;">
+	        		메일 발송에 실패했습니다. <br/>
+	        		잘못된 비밀번호 재 설정 요청입니다.
+	        	</li>
+	        	<li v-else-if="msgView =='success'" style="color: #1eaef7;"> 메일을 발송하였습니다.</li>
 	        </ul>
 		</div>
 		
@@ -77,7 +80,7 @@
 VartoolAPP.vueServiceBean({
 	el: '#vueArea'
 	,data: {
-		msgView : false
+		msgView : ''
 	}
 	,methods:{
 		init : function (){
@@ -123,20 +126,22 @@ VartoolAPP.vueServiceBean({
 		,resetPassword: function (){
 			var _this = this; 
 			var params  =$('#resetForm').serializeJSON();
-	
+			
 			this.$ajax({
 				url: {type:VARTOOL.uri.ignore, url:'/lostPassword'},
 				data:params,
 				success: function(resData) {
-					if(resData.item == 404){
-						_this.msgView = true; 
-						return ; 
-					}
 					
 					if(!VARTOOL.req.validationCheck(resData)){
 						return ;
 					}
-	
+					
+					if(resData.resultCode == 404 || !VARTOOL.isEmpty(resData.message)){
+						_this.msgView = 'error'; 
+						return ; 
+					}
+					
+					_this.msgView = 'success';
 				},
 				error: function(xhr, status, e) {
 					VARSQL.log(status + " : " + e + xhr.responseText);

@@ -141,13 +141,17 @@ public final class SecurityUtil {
 	 * @return
 	 */
 	public static boolean isAdmin(){
-		java.util.Iterator<? extends GrantedAuthority> iter =loginInfo().getAuthorities().iterator();
-		while(iter.hasNext()){
-			if(AuthorityType.ADMIN.name().equals(((Authority)iter.next()).getName())){
-				return true;
+		try {
+			java.util.Iterator<? extends GrantedAuthority> iter =loginInfo().getAuthorities().iterator();
+			while(iter.hasNext()){
+				if(AuthorityType.ADMIN.name().equals(((Authority)iter.next()).getName())){
+					return true;
+				}
 			}
-		}
-		return false;
+			return false; 
+		}catch(Exception e) {
+			return false;
+		}	
 	}
 
 	/**

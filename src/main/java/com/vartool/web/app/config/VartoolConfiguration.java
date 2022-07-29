@@ -178,7 +178,39 @@ public class VartoolConfiguration extends AbstractConfiguration {
 			}
 		}
 		
-		siteAddr = String.format("%s://%s:%d%s", appConfig.getProtocol(), appConfig.getHostname(), appConfig.getPort(), appConfig.getPort());
+		if(appConfig.getMail() == null) {
+			appConfig.setMail(MailConfig.builder().enableMail(false).build());
+		}
+		
+		// service protocal http or https
+		if(StringUtils.isBlank(appConfig.getProtocol())) {
+			appConfig.setProtocol("http");
+		}
+		//service host name
+		if(StringUtils.isBlank(appConfig.getHostname())) {
+			appConfig.setHostname("localhost");
+		}
+
+		if(appConfig.getPort()  < 1) {
+			appConfig.setPort(12346);
+		}
+		
+		if(StringUtils.isBlank(appConfig.getContextPath())) {
+			appConfig.setContextPath("/vtool");
+		}
+		
+		String hostname = appConfig.getHostname();
+		
+		if("localhost".equals(hostname)) {
+					
+			try {
+				hostname = InetAddress.getLocalHost().getHostAddress();
+			} catch (UnknownHostException e) {
+				logger.error(e.getMessage(), e);
+			}
+		}
+		
+		siteAddr = String.format("%s://%s:%d%s", appConfig.getProtocol(), hostname, appConfig.getPort(), appConfig.getContextPath());
 		
 		logger.debug("siteAddr : {}", siteAddr);
 		logger.debug("tool config info : {}", appConfig);
@@ -215,6 +247,10 @@ public class VartoolConfiguration extends AbstractConfiguration {
 	
 	public String getCommandSavePath() {
 		return appConfig.getCommandSavePath();
+	}
+	
+	public String getContextPath() {
+		return appConfig.getContextPath();
 	}
 
 	public VartoolConstants.PASSWORD_RESET_MODE getPasswordResetMode() {

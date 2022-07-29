@@ -6,7 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,7 +17,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -34,7 +33,6 @@ import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.vartool.web.constants.ResourceConfigConstants;
-import com.vartool.web.security.RestAuthenticationEntryPoint;
 import com.vartool.web.security.UserService;
 import com.vartool.web.security.VartoolAccessDeniedHandler;
 import com.vartool.web.security.VartoolAuthenticationFailHandler;
@@ -42,6 +40,7 @@ import com.vartool.web.security.VartoolAuthenticationLogoutHandler;
 import com.vartool.web.security.VartoolAuthenticationLogoutSuccessHandler;
 import com.vartool.web.security.VartoolAuthenticationProvider;
 import com.vartool.web.security.VartoolAuthenticationSuccessHandler;
+import com.vartool.web.security.VartoolBasicAuthenticationEntryPoint;
 import com.vartool.web.security.auth.AuthorityType;
 
 /**
@@ -56,39 +55,53 @@ import com.vartool.web.security.auth.AuthorityType;
 
 *-----------------------------------------------------------------------------
  */
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	private final String CSRF_TOKEN_NAME = "vartool-csrf";
 	
 	public static final String WEB_RESOURCES = "/webstatic/**";
 
-	@Autowired
-	private VartoolAuthenticationProvider vartoolAuthenticationProvider;
+	private VartoolBasicAuthenticationEntryPoint varsqlBasicAuthenticationEntryPoint;
+
+	private VartoolAuthenticationFailHandler varsqlAuthenticationFailHandler;
 	
-	@Autowired
-	private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-	
-	@Autowired
 	private VartoolAuthenticationSuccessHandler varsqlAuthenticationSuccessHandler;
 
-	@Autowired
-	private VartoolAuthenticationFailHandler varsqlAuthenticationFailHandler;
-
-	@Autowired
 	private VartoolAuthenticationLogoutHandler varsqlAuthenticationLogoutHandler;
 
-	@Autowired
 	private VartoolAuthenticationLogoutSuccessHandler varsqlAuthenticationLogoutSuccessHandler;
-
-	@Autowired
-	private UserService userService;
 	
+	private BeanFactory beanFactory; 
+	
+	
+	public SecurityConfigurer(
+			VartoolBasicAuthenticationEntryPoint varsqlBasicAuthenticationEntryPoint
+			,VartoolAuthenticationFailHandler varsqlAuthenticationFailHandler
+			,VartoolAuthenticationLogoutHandler varsqlAuthenticationLogoutHandler
+			,VartoolAuthenticationSuccessHandler varsqlAuthenticationSuccessHandler
+			,VartoolAuthenticationLogoutSuccessHandler varsqlAuthenticationLogoutSuccessHandler
+			,BeanFactory beanFactory) {
+		
+		this.varsqlBasicAuthenticationEntryPoint = varsqlBasicAuthenticationEntryPoint; 
+		this.varsqlAuthenticationFailHandler = varsqlAuthenticationFailHandler; 
+		this.varsqlAuthenticationLogoutHandler = varsqlAuthenticationLogoutHandler; 
+		this.varsqlAuthenticationSuccessHandler = varsqlAuthenticationSuccessHandler; 
+		this.varsqlAuthenticationLogoutSuccessHandler = varsqlAuthenticationLogoutSuccessHandler; 
+		this.beanFactory = beanFactory; 
+	}
+
 	private OrRequestMatcher staticRequestMatcher = new OrRequestMatcher(
 		new AntPathRequestMatcher(WEB_RESOURCES)
 		, new AntPathRequestMatcher("/error/**")
 		, new AntPathRequestMatcher("/**/favicon.ico")
 		, new AntPathRequestMatcher("/favicon.ico")
+	);
+	
+	private OrRequestMatcher csrfIgnoreRequestMatcher = new OrRequestMatcher(
+		 new AntPathRequestMatcher("/ws/**")
+		, new AntPathRequestMatcher("/login/**")
+		, new AntPathRequestMatcher("/logout")
 	);
 	
 	// ajax header matcher
@@ -120,12 +133,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 		.and()
 			.csrf()
 			.csrfTokenRepository(getCookieCsrfTokenRepository())
-			.ignoringAntMatchers("/login/**","/join/**","/logout")
-			.ignoringRequestMatchers(staticRequestMatcher)
+			.ignoringRequestMatchers(staticRequestMatcher, csrfIgnoreRequestMatcher)
 			.requireCsrfProtectionMatcher(ajaxRequestMatcher)
-		.and()
-			//.addFilterBefore(new CsrfCookieGeneratorFilter(), CsrfFilter.class)
-			.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint)
 		.and() //session
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
 			.sessionAuthenticationErrorUrl("/login")  // remmember me error 처리 페이지. 추가. 
@@ -165,7 +174,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	        .deleteCookies("JSESSIONID").permitAll()
 	        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 
-		.and();
+		.and()
+			.httpBasic()
+			.authenticationEntryPoint(varsqlBasicAuthenticationEntryPoint);
 	}
 	
 	// ajax call entry point
@@ -202,13 +213,10 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     public PasswordEncoder varsqlPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
-    @Override
-    protected UserDetailsService userDetailsService() {
-    	if(userService==null) {
-    		userService = new UserService();
-    	}
-    	return userService;
+	
+	@Bean
+    public UserService userService() {
+    	return new UserService();
     }
 
     @Bean
@@ -218,8 +226,10 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    	 auth.authenticationProvider(vartoolAuthenticationProvider);
+    	 auth.authenticationProvider(new VartoolAuthenticationProvider(userService()));
     }
+    
+    
 
     
 }

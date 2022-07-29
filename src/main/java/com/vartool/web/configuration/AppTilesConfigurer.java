@@ -9,7 +9,7 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
  *
 *-----------------------------------------------------------------------------
 * @PROJECT	: varsql
-* @NAME		: VarsqlTilesConfigurer.java
+* @NAME		: AppTilesConfigurer.java
 * @DESC		: 타일즈 설정.
 * @AUTHOR	: ytkim
 *-----------------------------------------------------------------------------
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 
 *-----------------------------------------------------------------------------
  */
-public class VarsqlTilesConfigurer {
+public class AppTilesConfigurer {
 
 	/**
 	 * Configure TilesConfigurer.
@@ -36,7 +36,7 @@ public class VarsqlTilesConfigurer {
     public UrlBasedViewResolver tilesviewResolvers() {
         UrlBasedViewResolver viewResolver = new UrlBasedViewResolver();
         viewResolver.setOrder(1);
-        viewResolver.setViewClass(VarsqlTilesView.class);
+        viewResolver.setViewClass(AppTilesView.class);
         return viewResolver;
     }
 

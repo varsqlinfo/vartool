@@ -1,9 +1,12 @@
 package com.vartool.web.app.config.vo;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class MailConfig {
+	private boolean enableMail =true;
 	private String host;
 	private int port;
 	private String username;

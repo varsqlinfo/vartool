@@ -22,7 +22,7 @@ import com.vartool.web.constants.ViewPageConstants;
  * 
 *-----------------------------------------------------------------------------
 * @PROJECT	: varsql
-* @NAME		: VarsqlTilesView.java
+* @NAME		: AppTilesView.java
 * @DESC		: tiles render 처리. 
 * @AUTHOR	: ytkim
 *-----------------------------------------------------------------------------
@@ -32,7 +32,7 @@ import com.vartool.web.constants.ViewPageConstants;
 
 *-----------------------------------------------------------------------------
  */
-public class VarsqlTilesView extends TilesView{
+public class AppTilesView extends TilesView{
 	
 	@Override
 	protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,

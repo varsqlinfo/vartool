@@ -4,17 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 
 /**
  * 
  * @FileName : UserService.java
  * @Author   : ytkim
- * @Program desc :
+ * @Program desc : 
  * @Hisotry :
  */
-@Service
 public class UserService implements UserDetailsService {
 	
 	@Autowired

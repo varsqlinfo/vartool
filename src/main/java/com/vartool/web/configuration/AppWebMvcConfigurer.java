@@ -2,8 +2,6 @@ package com.vartool.web.configuration;
 
 import javax.annotation.PostConstruct;
 
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +29,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import com.vartool.web.app.common.interceptor.BoardAuthInterceptor;
 import com.vartool.web.app.common.interceptor.LanguageInterceptor;
 import com.vartool.web.app.config.VartoolConfiguration;
-import com.vartool.web.constants.ResourceConfigConstants;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.constants.ViewPageConstants;
 
@@ -39,7 +36,7 @@ import com.vartool.web.constants.ViewPageConstants;
  *
 *-----------------------------------------------------------------------------
 * @PROJECT	: varsql
-* @NAME		: VarsqlWebMvcConfig.java
+* @NAME		: AppWebMvcConfigurer.java
 * @DESC		: web 설정.
 * @AUTHOR	: ytkim
 *-----------------------------------------------------------------------------
@@ -55,12 +52,16 @@ import com.vartool.web.constants.ViewPageConstants;
 	includeFilters = {
 		@ComponentScan.Filter(type = FilterType.ANNOTATION, value = { Controller.class, Service.class, Repository.class, Component.class }),
 		@ComponentScan.Filter(type = FilterType.REGEX, pattern = "(service|controller|DAO|Repository)\\.\\.*")
-})
+	}
+	,excludeFilters = {
+		@ComponentScan.Filter(type = FilterType.REGEX, pattern = "(configuration)\\.*")	
+	}
+)
 @Import(value = {
-       VartoolMainConfigurer.class
+       AppMainConfigurer.class
 })
 @EnableAutoConfiguration(exclude = ErrorMvcAutoConfiguration.class)  // "/error" request mapping 를 spring 기본을 사용하지 않기 위해 설정.
-public class VarsqlWebMvcConfigurer extends VarsqlWebConfigurer {
+public class AppWebMvcConfigurer extends AppWebConfigurer {
 
     private static final int CACHE_PERIOD = 31556926; // one year
 
@@ -76,11 +77,6 @@ public class VarsqlWebMvcConfigurer extends VarsqlWebConfigurer {
         resolver.setOrder(2);
         //resolver.setViewClass(JstlView.class);
         registry.viewResolver(resolver);
-    }
-
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
     }
 
     /**
@@ -169,12 +165,5 @@ public class VarsqlWebMvcConfigurer extends VarsqlWebConfigurer {
        multipartResolver.setDefaultEncoding(VartoolConstants.CHAR_SET);
        multipartResolver.setMaxInMemorySize(VartoolConfiguration.getInstance().getFileUploadMaxInMemorySize());
        return multipartResolver;
-    }
-    
-    @Bean(ResourceConfigConstants.APP_MODEL_MAPPER)
-    public ModelMapper getModelMapper(){
-    	ModelMapper modelMapper = new ModelMapper();
-    	modelMapper.getConfiguration().setFieldMatchingEnabled(true).setMatchingStrategy(MatchingStrategies.STRICT);
-    	return modelMapper;
     }
 }

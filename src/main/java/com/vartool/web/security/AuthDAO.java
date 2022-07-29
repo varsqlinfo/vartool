@@ -33,10 +33,13 @@ public final class AuthDAO {
 	@Autowired
 	private UserSecurityRepository userRepository;
 
-
+	private PasswordEncoder passwordEncoder;
+	
 	@Autowired
 	@Qualifier(ResourceConfigConstants.APP_PASSWORD_ENCODER)
-	private PasswordEncoder passwordEncoder;
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
 
 	/**
 	 *

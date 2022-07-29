@@ -17,10 +17,13 @@ public class VartoolAuthenticationProvider implements AuthenticationProvider {
       
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     
-    @Autowired
 	private UserService userService;
      
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public VartoolAuthenticationProvider(UserService userService) {
+    	this.userService= userService; 
+    }
+
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String username = authentication.getName();
 		String password = (String) authentication.getCredentials();
 		

@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 
 /**
  * -----------------------------------------------------------------------------
-* @fileName		: VarsqlErrorPageRegistrar.java
+* @fileName		: AppErrorPageRegistrar.java
 * @desc		: error page 설정.
 * @author	: ytkim
 *-----------------------------------------------------------------------------
@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 
 *-----------------------------------------------------------------------------
  */
-public class VarsqlErrorPageRegistrar implements ErrorPageRegistrar {
+public class AppErrorPageRegistrar implements ErrorPageRegistrar {
 
 	@Override
 	public void registerErrorPages(ErrorPageRegistry registry) {

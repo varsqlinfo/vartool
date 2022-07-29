@@ -5,11 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +21,6 @@ import com.vartool.web.app.handler.log.LogCmpManager;
 import com.vartool.web.app.mgmt.component.CmpLogComponent;
 import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
 import com.vartool.web.constants.ComponentConstants;
-import com.vartool.web.constants.ResourceConfigConstants;
 import com.vartool.web.dto.response.CmpLogResponseDTO;
 import com.vartool.web.dto.response.CmpMonitorDTO;
 import com.vartool.web.dto.response.CmpResponseDTO;
@@ -50,10 +47,6 @@ import com.vartool.web.repository.cmp.CmpRepository;
 @Component
 public class CmpMonitoringService {
 	private final static Logger logger = LoggerFactory.getLogger(CmpMonitoringService.class);
-	
-	@Autowired
-	@Qualifier(ResourceConfigConstants.APP_MODEL_MAPPER)
-	private ModelMapper modelMapper;
 	
 	@Autowired
 	private CmpItemLogRepository cmpItemLogRepository;

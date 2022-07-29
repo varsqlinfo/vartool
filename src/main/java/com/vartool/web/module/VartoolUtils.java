@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,7 +30,6 @@ import com.vartech.common.constants.RequestResultCode;
 import com.vartech.common.utils.PagingUtil;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.dto.websocket.LogMessageDTO;
-import com.vartool.web.model.converter.DomainMapper;
 
 public final class VartoolUtils {
 	public static boolean isAjaxRequest(HttpServletRequest request) {
@@ -187,19 +185,6 @@ public final class VartoolUtils {
 		ResponseResult responseResult = new ResponseResult();
 		responseResult.setItemList(result.getContent());
 		responseResult.setPage(PagingUtil.getPageObject(result.getTotalElements(), searchParameter));
-		return responseResult;
-	}
-
-	public static ResponseResult getResponseResult(Page<?> result, SearchParameter searchParameter, DomainMapper domainMapper, Class<?> mapperClass) {
-		ResponseResult responseResult = new ResponseResult();
-		responseResult.setItemList(result.getContent().stream().map(item -> domainMapper.convertToDomain(item, mapperClass)).collect(Collectors.toList()));
-		responseResult.setPage(PagingUtil.getPageObject(result.getTotalElements(), searchParameter));
-		return responseResult;
-	}
-
-	public static ResponseResult getResponseResult(List <?> result, DomainMapper domainMapper, Class<?> mapperClass) {
-		ResponseResult responseResult = new ResponseResult();
-		responseResult.setItemList(result.stream().map(item -> domainMapper.convertToDomain(item, mapperClass)).collect(Collectors.toList()));
 		return responseResult;
 	}
 

@@ -20,7 +20,7 @@ import com.vartool.web.constants.VartoolConstants;
  *
 *-----------------------------------------------------------------------------
 * @PROJECT	: varsql
-* @NAME		: VarsqlSpringMainConfig.java
+* @NAME		: AppMainConfigurer.java
 * @DESC		: spring 설정.
 * @AUTHOR	: ytkim
 *-----------------------------------------------------------------------------
@@ -32,14 +32,14 @@ import com.vartool.web.constants.VartoolConstants;
  */
 @Import(value = {
 	JPAConfigurer.class
-	,VarsqlTilesConfigurer.class
+	,AppTilesConfigurer.class
     ,SecurityConfigurer.class
     ,MailConfigurer.class
     //,ServiceConfigurer.class
 })
-public class VartoolMainConfigurer {
+public class AppMainConfigurer {
 
-	private final Logger LOG = LoggerFactory.getLogger(VartoolMainConfigurer.class);
+	private final Logger LOG = LoggerFactory.getLogger(AppMainConfigurer.class);
 
     @Autowired
     private Environment env;

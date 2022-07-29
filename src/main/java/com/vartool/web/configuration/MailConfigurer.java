@@ -24,7 +24,7 @@ public class MailConfigurer {
     	
     	JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         
-        if(mailConfig == null) return mailSender; 
+        if(!mailConfig.isEnableMail()) return mailSender; 
         
         mailSender.setHost(mailConfig.getHost());
         mailSender.setPort(mailConfig.getPort());

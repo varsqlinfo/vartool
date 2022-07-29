@@ -20,4 +20,6 @@ public interface ResourceConfigConstants {
 	final String APP_WEB_SOCKET_SERVICE ="vartoolSocketService";
 	
 	final String MAIL_SERVICE = "mainService";
+	
+	final String USER_DETAIL_SERVICE = "vartoolUserService";
 }

@@ -376,51 +376,58 @@ var $$csrf_header = $("meta[name='_csrf_header']").attr("content") ||'';
 var $$csrf_param = $("meta[name='_csrf_parameter']").attr("content") ||'';
 
 var pageReloadCheckFlag = false; 
-function fnReqCheck(data ,opts){
+function fnReqCheck(data, opts){
 
 	if(pageReloadCheckFlag) return ; 
 
 	opts = opts ||{};
 	var resultCode = data.resultCode;
+	
+	if(resultCode== 401){ // 로그아웃
+		if(confirm(_$base.messageFormat('error.0001'))){
+			pageReloadCheckFlag = true; 
+			(top || window).location.href=VARTOOL.contextPath;
+		}
+		return false;
+	}else if(resultCode == 403){	// error
 
-	if(opts.disableResultCheck !== true){
-		if(resultCode== 401){ // 로그아웃
-			if(confirm(_$base.messageFormat('error.0001'))){
-				pageReloadCheckFlag = true; 
-				(top || window).location.href=VARTOOL.contextPath;
-			}
-			return false;
-		}else if(resultCode == 403){	// error
-
-			var msg = data.message || _$base.messageFormat('error.403');
-			alert(msg);
-			return false;
-		}else if(resultCode == 412){ // 유효하지않은 요청입니다.
-			if(confirm(_$base.messageFormat('error.0002'))){
-				pageReloadCheckFlag = true; 
-				(top || window).location.href=(top || window).location.href;
-			}
-			return false;
-		}else if(resultCode == 500){	// error
+		var msg = data.message || _$base.messageFormat('error.403');
+		alert(msg);
+		return false;
+	}else if(resultCode == 412){ // 유효하지않은 요청입니다.
+		if(confirm(_$base.messageFormat('error.0002'))){
+			pageReloadCheckFlag = true; 
+			(top || window).location.href=(top || window).location.href;
+		}
+		return false;
+	}else if(resultCode == 500){	// error
+		alert(data.message);
+		return false;
+	}else if(resultCode == 1000){	// error
+		if(data.message){
 			alert(data.message);
-			return false;
-		}else if(resultCode == 1000){	// error
-			if(data.message){
+		}else{
+			alert('app error');
+		}
+
+		return false;
+	}
+	
+	var statusCode = data.status;
+	if(opts.disableResultCheck !== true){
+		if(statusCode != 200){
+			if(resultCode == 500){	// error
 				alert(data.message);
-			}else{
-				alert('app error');
+				return false;
+			}else if(resultCode != 200){
+
+				if(data.messageCode){
+					alert('request check : '+data.messageCode);
+				}else{
+					alert('request check : '+data.message);
+				}
+				return false;
 			}
-
-			return false;
-		}else if(resultCode != 200){
-
-			if(data.messageCode){
-				alert('request check : '+data.messageCode);
-			}else{
-				alert('request check : '+data.message);
-			}
-
-			return false;
 		}
 	}
 

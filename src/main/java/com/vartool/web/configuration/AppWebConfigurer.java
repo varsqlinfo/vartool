@@ -11,12 +11,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.vartool.web.app.config.VartoolConfiguration;
 import com.vartool.web.constants.VartoolConstants;
 
 
 /**
  * -----------------------------------------------------------------------------
-* @fileName		: VarsqlWebConfigurer.java
+* @fileName		: AppWebConfigurer.java
 * @desc		:
 * @author	: ytkim
 *-----------------------------------------------------------------------------
@@ -27,11 +28,11 @@ import com.vartool.web.constants.VartoolConstants;
 *-----------------------------------------------------------------------------
  */
 
-public class VarsqlWebConfigurer implements WebMvcConfigurer {
+public class AppWebConfigurer implements WebMvcConfigurer {
 	@Bean
 	public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> webServerFactoryCustomizer() {
 		return factory -> {
-			factory.setContextPath("/vtool");
+			factory.setContextPath(VartoolConfiguration.getInstance().getContextPath());
 		};
 	}
 
@@ -44,7 +45,7 @@ public class VarsqlWebConfigurer implements WebMvcConfigurer {
 
 	@Bean
 	public ErrorPageRegistrar errorPageRegistrar(){
-	    return new VarsqlErrorPageRegistrar();
+	    return new AppErrorPageRegistrar();
 	}
 
 	@Bean

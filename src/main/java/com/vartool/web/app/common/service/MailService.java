@@ -46,7 +46,7 @@ public class MailService {
         }catch(Exception e) {
         	logger.error("mailServer :{}", e.getMessage(), e);
         	
-        	return ResponseResult.builder().message(e.getMessage()).build();
+        	//return ResponseResult.builder().message(e.getMessage()).build();
         }
 		
 		return ResponseResult.builder().item(1).build();
