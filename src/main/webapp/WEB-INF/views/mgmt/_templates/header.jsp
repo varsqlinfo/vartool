@@ -20,6 +20,10 @@
 		         </a>
 		         <ul class="dropdown-menu">
 		         	<%@ include file="/WEB-INF/include/screen.jsp"%>
+		         	<li>
+						<a href="<c:url value="/user/preferences" />" class="preferences"><i class="fa fa-fw fa-user"></i> <spring:message code="label.user.preferences"/></a>
+					</li>
+					<li class="divider"></li>
 		             <li>
 		                 <a href="<c:url value="/logout" />"><i class="fa fa-fw fa-power-off"></i> <spring:message code="btn.logout"/></a>
 		             </li>

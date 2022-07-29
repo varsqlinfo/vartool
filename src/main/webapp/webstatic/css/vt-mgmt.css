@@ -785,3 +785,7 @@ table.tbl-header-fixed tbody tr:nth-child(even) {
 .fa-grip:before {
   content: "\f142 \202f \f142 \202F \f142";
 }
+
+.margin-bottom5 {
+  margin-bottom: 5px;
+}

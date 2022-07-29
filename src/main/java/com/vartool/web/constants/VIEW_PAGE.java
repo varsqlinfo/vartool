@@ -5,6 +5,7 @@ public enum VIEW_PAGE{
 	, JOIN("/join")
 	, GUEST("/guest")
 	, COMMONPAGE("/common")
+	, USER_PREFERENCES("/user/preferences")
 	, USER("/user")
 	, MGMT("/mgmt")
 	, ADMIN("/admin");

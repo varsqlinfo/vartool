@@ -10,6 +10,8 @@
 <entry key="screen.manager">매니저</entry>
 <entry key="screen.admin">관리자</entry>
 
+<entry key="user.preferences.title">환경설정</entry>
+
 <!-- join form -->
 <entry key="join.form.title">회원가입</entry>
 <entry key="join.form.uid">아이디</entry>
@@ -71,6 +73,8 @@
 <entry key="admin.managerlist.head">매니저 목록</entry>
 
 
+<entry key="user.prefernces.menu.general">프로필 수정</entry>
+<entry key="user.prefernces.menu.pasword">비밀번호 변경</entry>
 
 
 <entry key="user.list">사용자 목록</entry>

@@ -146,6 +146,10 @@
 	            <jsp:include page="/WEB-INF/include/screen.jsp" flush="false">
 					<jsp:param name="popup_yn" value="y" />
 				</jsp:include>
+				<li>
+					<a href="<c:url value="/user/preferences" />" target="_blank" class="preferences"><i class="fa fa-fw fa-user"></i> <spring:message code="label.user.preferences"/></a>
+				</li>
+				<li class="divider"></li>
 
 	            <li>
 	                <a href="<c:url value="/logout" />"><i class="fa fa-fw fa-power-off"></i> <spring:message code="btn.logout"/></a>

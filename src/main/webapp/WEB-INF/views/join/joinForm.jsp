@@ -6,6 +6,7 @@
 <HTML>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title><spring:message code="home.title"/> ~ Sign</title>
+<%@ include file="/WEB-INF/include/head-meta.jspf"%>
 <head>
 <!-- Bootstrap Core CSS -->
 <link href="${pageContextPath}/webstatic/css/bootstrap.min.css" rel="stylesheet">
