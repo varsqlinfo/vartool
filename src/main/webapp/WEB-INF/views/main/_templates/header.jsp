@@ -128,6 +128,12 @@
 	    </li>
 	    <%-- Command list end --%>
 	    
+	     <li role="layout-parent">
+	        <a href="javascript:;" @click="boardToggle()" class="header-toggle-btn">
+	        	게시판
+	        </a>
+	    </li>
+	    
 	    <li role="layout-parent">
 	        <a href="javascript:;" class="header-toggle-btn">
 	        	<sec:authentication property="principal.username" /> <i class="fa fa-user"></i>
@@ -174,6 +180,8 @@ VartoolAPP.vueServiceBean({
 		,logList : []
 		,cmpGroupInfo : ${vartoolfn:objectToJson(cmpGroupInfo)}||{}
 		,commandList : []
+		,initBoard : false
+		,showBoard : false // 게시판 보기 여부
 	}
 	,created : function (){
 		var userCmpMap = ${userCmpMap}; 
@@ -280,6 +288,22 @@ VartoolAPP.vueServiceBean({
 					,cmpType : viewItem.cmpType
 				}
 			});
+			
+		}
+		// 게시판 토글
+		,boardToggle : function (){
+			if(this.initBoard === false){
+				$('#mainArticleFrame').attr('src','<vartool:boardUrl boardCode="${cmpGroupInfo.groupId}"/>');	
+				this.initBoard = true; 
+			}
+			
+			this.showBoard = !this.showBoard;
+			
+			if(this.showBoard){
+				$('#boardWrapper').addClass('on');
+			}else{
+				$('#boardWrapper').removeClass('on');
+			}
 			
 		}
 	}

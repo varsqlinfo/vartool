@@ -246,6 +246,27 @@ pre {
   width: calc(100% - 2px);
   margin: 34px 1px 0px 1px;
   z-index: 9;
+  position: relative;
+}
+
+.vartool-main .main-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.vartool-main .board-wrapper {
+  display: none;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 100;
+  width: 500px;
+  height: 100%;
+}
+
+.vartool-main .board-wrapper.on {
+  display: block;
 }
 
 .vartool-main .dropdown-menu {
