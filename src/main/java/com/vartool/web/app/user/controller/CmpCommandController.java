@@ -16,6 +16,12 @@ import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.app.user.service.CmpCommandService;
 
+/**
+ * command 
+* 
+* @fileName	: CmpCommandController.java
+* @author	: ytkim
+ */
 @Controller
 @RequestMapping("/cmp/command")
 public class CmpCommandController {

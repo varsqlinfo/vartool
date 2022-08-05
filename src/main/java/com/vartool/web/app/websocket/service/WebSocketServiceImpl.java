@@ -12,19 +12,11 @@ import com.vartool.web.constants.WebSocketConstants;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 
 /**
-*
-*-----------------------------------------------------------------------------
+ * web socket service
 * 
-* @NAME		: WebSocketServiceImpl.java
-* @DESC		: web socket service
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
- DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2020. 10. 27. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
-*/
+* @fileName	: WebSocketServiceImpl.java
+* @author	: ytkim
+ */
 @Service(ResourceConfigConstants.APP_WEB_SOCKET_SERVICE)
 public class WebSocketServiceImpl{
 	private final Logger logger = LoggerFactory.getLogger(WebSocketServiceImpl.class);

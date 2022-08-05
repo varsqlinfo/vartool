@@ -14,12 +14,10 @@ import com.vartool.web.repository.UserRepository;
 import com.vartool.web.security.auth.AuthorityType;
 
 /**
- *
- * @FileName  : AdminServiceImpl.java
- * @Date      : 2014. 8. 18.
- * @작성자      : ytkim
- * @변경이력 :
- * @프로그램 설명 :
+ * join service
+* 
+* @fileName	: JoinServiceImpl.java
+* @author	: ytkim
  */
 @Service
 public class JoinServiceImpl{
@@ -29,10 +27,9 @@ public class JoinServiceImpl{
 	private UserRepository userRepository; 
 
 	/**
-	 * @method  : saveUser
-	 * @desc : 사용자 정보 등록.
-	 * @author   : ytkim
-	 * @date   : 2020. 4. 27.
+	 * 사용자 정보 등록.
+	 *
+	 * @method : saveUser
 	 * @param joinForm
 	 * @return
 	 * @throws EncryptDecryptException
@@ -50,10 +47,9 @@ public class JoinServiceImpl{
 	}
 
 	/**
-	 * @method  : idCheck
-	 * @desc : id check
-	 * @author   : ytkim
-	 * @date   : 2020. 4. 27.
+	 * id check
+	 *
+	 * @method : idCheck
 	 * @param uid
 	 * @return
 	 */
@@ -62,10 +58,9 @@ public class JoinServiceImpl{
 	}
 
 	/**
-	 * @method  : emailCheck
-	 * @desc : email check
-	 * @author   : ytkim
-	 * @date   : 2020. 4. 27.
+	 * email check
+	 *
+	 * @method : emailCheck
 	 * @param uemail
 	 * @return
 	 */

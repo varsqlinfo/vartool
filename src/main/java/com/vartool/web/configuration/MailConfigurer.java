@@ -13,6 +13,12 @@ import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.core.config.vo.MailConfig;
 import com.vartool.web.constants.ResourceConfigConstants;
 
+/**
+ * main 설정
+* 
+* @fileName	: MailConfigurer.java
+* @author	: ytkim
+ */
 public class MailConfigurer {
 	
 	private final Logger logger = LoggerFactory.getLogger(MailConfigurer.class);

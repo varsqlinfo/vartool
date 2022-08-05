@@ -4,6 +4,12 @@ import org.apache.commons.exec.LogOutputStream;
 
 import com.vartool.web.constants.BlankConstants;
 
+/**
+ * log output stream
+* 
+* @fileName	: PritingLogOutputStream.java
+* @author	: ytkim
+ */
 public class PritingLogOutputStream extends LogOutputStream {
 
 	private StringBuilder output = new StringBuilder();

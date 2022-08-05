@@ -19,6 +19,12 @@ import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.app.mgmt.service.CmpMonitoringService;
 import com.vartool.web.module.VartoolUtils;
 
+/**
+ * log monitoring 
+* 
+* @fileName	: CmpMonitoringController.java
+* @author	: ytkim
+ */
 @Controller
 @RequestMapping("/mgmt/cmpMonitoring")
 public class CmpMonitoringController {
@@ -38,12 +44,9 @@ public class CmpMonitoringController {
 	}
 	
 	/**
-	 * 
-	 * @Method Name  : logInfolist
-	 * @Method 설명 : 로그 정보 목록
-	 * @작성자   : ytkim
-	 * @작성일   : 2020. 2. 5. 
-	 * @변경이력  :
+	 * 로그 정보 목록
+	 *
+	 * @method : logInfolist
 	 * @param req
 	 * @param res
 	 * @param mav
@@ -61,15 +64,12 @@ public class CmpMonitoringController {
 	}
 	
 	/**
-	 * 
-	 * @Method Name  : clearLog
-	 * @Method 설명 : 로그 정보 삭제. 
-	 * @작성자   : ytkim
-	 * @작성일   : 2020. 2. 5.
-	 * @변경이력  :
+	 * clearLog
+	 *
+	 * @method : clearLog
+	 * @param cmpId
+	 * @param type
 	 * @param req
-	 * @param res
-	 * @param mav
 	 * @return
 	 * @throws Exception
 	 */
@@ -80,6 +80,15 @@ public class CmpMonitoringController {
 		return cmpMonitoringService.clearLog(cmpId, type);
 	}
 	
+	/**
+	 * start tail
+	 *
+	 * @method : startTail
+	 * @param cmpId
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping({"/startTail" })
 	public @ResponseBody ResponseResult startTail(@RequestParam(value = "cmpId", required = true) String cmpId, 
 			HttpServletRequest req) throws Exception {
@@ -87,6 +96,15 @@ public class CmpMonitoringController {
 		return cmpMonitoringService.startTail(cmpId, HttpUtils.getServletRequestParam(req));
 	}
 	
+	/**
+	 * stop tail
+	 *
+	 * @method : stopTail
+	 * @param cmpId
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping({"/stopTail" })
 	public @ResponseBody ResponseResult stopTail(@RequestParam(value = "cmpId", required = true) String cmpId, 
 			HttpServletRequest req) throws Exception {
@@ -94,6 +112,15 @@ public class CmpMonitoringController {
 		return cmpMonitoringService.stopTail(cmpId);
 	}
 	
+	/**
+	 * kill process
+	 *
+	 * @method : killProcess
+	 * @param cmpId
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping({"/killProcess" })
 	public @ResponseBody ResponseResult killProcess(@RequestParam(value = "cmpId", required = true) String cmpId, 
 			HttpServletRequest req) throws Exception {

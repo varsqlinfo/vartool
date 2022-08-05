@@ -6,16 +6,10 @@ import org.springframework.boot.web.server.ErrorPageRegistry;
 import org.springframework.http.HttpStatus;
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: AppErrorPageRegistrar.java
-* @desc		: error page 설정.
+ * error page 설정.
+* 
+* @fileName	: AppErrorPageRegistrar.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 4. 21. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
 public class AppErrorPageRegistrar implements ErrorPageRegistrar {
 

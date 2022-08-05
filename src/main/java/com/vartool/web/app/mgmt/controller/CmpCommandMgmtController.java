@@ -24,6 +24,12 @@ import com.vartool.web.app.mgmt.service.CmpCommnadMgmtService;
 import com.vartool.web.dto.request.CmpCommandRequestDTO;
 import com.vartool.web.module.VartoolUtils;
 
+/**
+ * command management 
+* 
+* @fileName	: CmpCommandMgmtController.java
+* @author	: ytkim
+ */
 @Controller
 @RequestMapping("/mgmt/cmp/commandMgmt")
 public class CmpCommandMgmtController {
@@ -43,24 +49,31 @@ public class CmpCommandMgmtController {
 		return new ModelAndView("/mgmt/cmpCommandMgmt", model);
 	}
 	
-	
+	/**
+	 * command 목록 
+	 *
+	 * @method : list
+	 * @param req
+	 * @param res
+	 * @param mav
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping({"/list" })
-	public @ResponseBody ResponseResult deployList(HttpServletRequest req,
+	public @ResponseBody ResponseResult list(HttpServletRequest req,
 			HttpServletResponse res, ModelAndView mav) throws Exception {
 		
 		return cmpCommnadMgmtService.list(HttpUtils.getSearchParameter(req));
 	}
 	
 	/**
-	 * 
-	 * @Method Name  : changeDeployInfo
-	 * @Method 설명 : 배포 정보 저장.
-	 * @작성자   : ytkim
-	 * @작성일   : 2020. 2. 5. 
-	 * @변경이력  :
-	 * @param req
-	 * @param res
+	 * 배포 정보 저장.
+	 *
+	 * @method : save
+	 * @param dto
+	 * @param result
 	 * @param mav
+	 * @param req
 	 * @return
 	 * @throws Exception
 	 */
@@ -79,13 +92,10 @@ public class CmpCommandMgmtController {
 	}
 	
 	/**
-	 * 
-	 * @Method Name  : remove
-	 * @Method 설명 : deploy 정보 삭제.  
-	 * @작성자   : ytkim
-	 * @작성일   : 2020. 2. 5.
-	 * @변경이력  :
-	 * @param uid
+	 * 정보 삭제.  
+	 *
+	 * @method : remove
+	 * @param cmpId
 	 * @param req
 	 * @return
 	 * @throws Exception
@@ -95,6 +105,15 @@ public class CmpCommandMgmtController {
 		return cmpCommnadMgmtService.remove(cmpId);
 	}
 	
+	/**
+	 * copy
+	 *
+	 * @method : copy
+	 * @param cmpId
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping({"/copy" })
 	public @ResponseBody ResponseResult copy(@RequestParam(value = "cmpId", required = true) String cmpId, HttpServletRequest req) throws Exception {
 		return cmpCommnadMgmtService.copyInfo(cmpId);

@@ -7,23 +7,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.vartech.common.utils.StringUtils;
 import com.vartool.web.constants.AppCode;
 import com.vartool.web.exception.BoardInvalidException;
-import com.vartool.web.module.SecurityUtil;
+import com.vartool.web.module.SecurityUtils;
 
 /**
- * 
- * @FileName  : BoardAuthInterceptor.java
- * @프로그램 설명 : 게시판 check 인터 셉터.
- * @Date      : 2015. 6. 22. 
- * @작성자      : ytkim
- * @변경이력 :
+ * 게시판 check 인터 셉터.
+* 
+* @fileName	: BoardAuthInterceptor.java
+* @author	: ytkim
  */
-public class BoardAuthInterceptor extends HandlerInterceptorAdapter {
+public class BoardAuthInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler)
@@ -37,7 +35,7 @@ public class BoardAuthInterceptor extends HandlerInterceptorAdapter {
 			
 			req.setAttribute(AppCode.BOARD_CODE, boardId);
 			
-			if(SecurityUtil.isAdmin()) {
+			if(SecurityUtils.isAdmin()) {
 				return true;
 			}
 			
@@ -50,7 +48,7 @@ public class BoardAuthInterceptor extends HandlerInterceptorAdapter {
 			}
 		}
 		
-		throw new BoardInvalidException(String.format("Board invalid request userViewId : %s , conuid : %s", SecurityUtil.userViewId(), boardId));
+		throw new BoardInvalidException(String.format("Board invalid request userViewId : %s , conuid : %s", SecurityUtils.userViewId(), boardId));
 		
 	}
 	

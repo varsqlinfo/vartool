@@ -1,8 +1,6 @@
 package com.vartool.web.app.handler.deploy.git;
 
 import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +25,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -39,11 +36,16 @@ import org.slf4j.LoggerFactory;
 import com.vartool.core.crypto.PasswordCryptionFactory;
 import com.vartool.web.app.handler.deploy.AbstractDeploy;
 import com.vartool.web.dto.DeployInfo;
-import com.vartool.web.dto.response.CmpDeployResponseDTO;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 import com.vartool.web.exception.DeployException;
 import com.vartool.web.module.LogFilenameUtils;
 
+/**
+ * git source pull 
+* 
+* @fileName	: GitSource.java
+* @author	: ytkim
+ */
 public class GitSource {
 
 	private final static Logger logger = LoggerFactory.getLogger(GitSource.class);
@@ -60,42 +62,13 @@ public class GitSource {
 	final private String localMaster="refs/heads/master";
 	final private String orginMater="refs/remotes/origin/master";
 	
-	private GitProgressMoniter moniter;
+	private GitProgressMonitor moniter;
 
 	public GitSource(AbstractDeploy deployAbstract, LogMessageDTO msgData, String recvId) {
 		this.deployAbstract = deployAbstract;
 		this.msgData = msgData;
-		this.moniter = new GitProgressMoniter(deployAbstract, msgData, recvId);
+		this.moniter = new GitProgressMonitor(deployAbstract, msgData, recvId);
 		this.recvId = recvId; 
-	}
-
-	public static void main(String[] args) throws Exception {
-		
-		CmpDeployResponseDTO dto = new CmpDeployResponseDTO();
-		
-		dto.setScmUrl("http://admin@localhost:9000/admin/ep_portlet");
-		dto.setScmId("admin");
-		dto.setScmPw("1234");
-		
-		//new GitSource(null, null, null).gitPull(deployItemEntity, false);
-	}
-	
-	
-	public static void main1(String[] args) throws Exception {
-	    Repository repository = new FileRepositoryBuilder()
-	            .setGitDir(new File("c:/zzz/test/WebResources/.git")).build();
-	    // Here we get the head commit and it's first parent.
-	    // Adjust to your needs to locate the proper commits.
-	    RevCommit headCommit = getHeadCommit(repository);
-	    RevCommit diffWith = headCommit.getParent(0);
-	    FileOutputStream stdout = new FileOutputStream(FileDescriptor.out);
-	    try (DiffFormatter diffFormatter = new DiffFormatter(stdout)) {
-	        diffFormatter.setRepository(repository);
-	        for (DiffEntry entry : diffFormatter.scan(diffWith, headCommit)) {
-	        	System.out.println(entry.getChangeType() +" ::"+entry.getNewPath() +" : "+ entry.getOldPath());
-	            //diffFormatter.format(diffFormatter.toFileHeader(entry));
-	        }
-	    }
 	}
 
 	private static RevCommit getHeadCommit(Repository repository) throws Exception {

@@ -17,20 +17,37 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.vartech.common.app.beans.ResponseResult;
-import com.vartool.web.app.user.service.UserPrefService;
+import com.vartool.web.app.user.service.UserMainPrefService;
 import com.vartool.web.dto.request.UserPreferencesRequestDTO;
 import com.vartool.web.module.VartoolUtils;
 
+/**
+ * 사용자 메인  환경설정
+* 
+* @fileName	: UserPrefController.java
+* @author	: ytkim
+ */
 @Controller
 @RequestMapping("/pref")
-public class UserPrefController {
+public class UserMainPrefController {
 
 	/** The Constant logger. */
-	private final static Logger logger = LoggerFactory.getLogger(UserPrefController.class);
+	private final static Logger logger = LoggerFactory.getLogger(UserMainPrefController.class);
 	
 	@Autowired
-	private UserPrefService userPrefService;
+	private UserMainPrefService userPrefService;
 	
+	/**
+	 * 저장
+	 *
+	 * @method : save
+	 * @param dto
+	 * @param result
+	 * @param mav
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping({"/save" })
 	public @ResponseBody ResponseResult save(@Valid UserPreferencesRequestDTO dto, BindingResult result, ModelAndView mav, HttpServletRequest req) throws Exception {
 			
@@ -45,7 +62,17 @@ public class UserPrefController {
 		return userPrefService.save(dto);
 	}
 	
-	
+	/**
+	 * 기본 레이아웃 적용.
+	 *
+	 * @method : defaultLayout
+	 * @param dto
+	 * @param result
+	 * @param mav
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping({"/defaultLayout" })
 	public @ResponseBody ResponseResult defaultLayout(@Valid UserPreferencesRequestDTO dto, BindingResult result, ModelAndView mav, HttpServletRequest req) throws Exception {
 			
@@ -60,6 +87,15 @@ public class UserPrefController {
 		return userPrefService.defaultLayout(dto);
 	}
 	
+	/**
+	 * 레이아웃 초기화
+	 *
+	 * @method : initLayout
+	 * @param groupId
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
 	@GetMapping({"/initLayout" })
 	public @ResponseBody ResponseResult initLayout(@RequestParam(value = "groupId", required = true) String groupId, HttpServletRequest req) throws Exception {
 		

@@ -25,17 +25,10 @@ import com.vartool.web.module.FileServiceUtils;
 import com.vartool.web.repository.FileInfoRepository;
 
 /**
-*-----------------------------------------------------------------------------
+ * file upload service
 * 
-* @NAME		: FileUploadService.java
-* @DESC		: file upload service
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2018. 7. 24. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: FileUploadService.java
+* @author	: ytkim
  */
 @Service
 public class FileUploadService {
@@ -46,16 +39,14 @@ public class FileUploadService {
 	private FileInfoRepository fileInfoEntityRepository;
 
 	/**
+	 * 단일 파일 업로드
 	 *
-	 * @Method Name  : uploadFile
-	 * @Method 설명 : 파일 저장.
-	 * @작성자   : ytkim
-	 * @작성일   : 2019. 10. 31.
-	 * @변경이력  :
-	 * @param url
+	 * @method : uploadFile
+	 * @param mtfRequest
+	 * @param div
+	 * @param paramFileContId
 	 * @return
 	 */
-
 	public FileInfoEntity uploadFile(MultipartHttpServletRequest mtfRequest, String div, String paramFileContId) {
 		List<FileInfoEntity> uploadFiles = uploadFiles(mtfRequest, div, paramFileContId);
 
@@ -67,19 +58,28 @@ public class FileUploadService {
 	}
 
 	/**
+	 * 멀티 파일 업로드.
 	 *
-	 * @Method Name  : uploadFiles
-	 * @Method 설명 : 멀티 파일 저장.
-	 * @작성자   : ytkim
-	 * @작성일   : 2019. 10. 31.
-	 * @변경이력  :
-	 * @param url
+	 * @method : uploadFiles
+	 * @param mtfRequest
+	 * @param div
+	 * @param paramFileContId
 	 * @return
 	 */
 	public List<FileInfoEntity> uploadFiles(MultipartHttpServletRequest mtfRequest, String div, String paramFileContId) {
 		return uploadFiles(mtfRequest, div, paramFileContId, null);
 	}
-
+	
+	/**
+	 * 멀티 파일 업로드.
+	 *
+	 * @method : uploadFiles
+	 * @param mtfRequest
+	 * @param div
+	 * @param paramFileContId
+	 * @param contGroupId
+	 * @return
+	 */
 	public List<FileInfoEntity> uploadFiles(MultipartHttpServletRequest mtfRequest, String div, String paramFileContId,	String contGroupId) {
 		final String fileContId =StringUtils.isBlank(paramFileContId) ? VartechUtils.generateUUID() :paramFileContId;
 
@@ -134,14 +134,15 @@ public class FileUploadService {
 	}
 
 	/**
+	 * 파일 저장.
 	 *
-	 * @Method Name  : saveFile
-	 * @Method 설명 : 파일 저장.
-	 * @작성자   : ytkim
-	 * @작성일   : 2019. 10. 31.
-	 * @변경이력  :
-	 * @param url
+	 * @method : saveFile
+	 * @param div
+	 * @param mfileInfo
+	 * @param filePath
 	 * @return
+	 * @throws IllegalStateException
+	 * @throws IOException
 	 */
 	private FileInfoEntity saveFile(String div, MultipartFile mfileInfo, String filePath) throws IllegalStateException, IOException {
 		// 파일 존재 확인

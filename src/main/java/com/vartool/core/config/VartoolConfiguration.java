@@ -25,13 +25,11 @@ import com.vartool.web.module.CommonUtils;
 import com.vartool.web.module.ResourceUtils;
 
 
-
 /**
- * 
- * @FileName : VartoolConfigFactory.java
- * @Author   : ytkim
- * @Program desc : config
- * @Hisotry :
+ * vartool config
+* 
+* @fileName	: VartoolConfiguration.java
+* @author	: ytkim
  */
 public class VartoolConfiguration extends AbstractConfiguration {
 	

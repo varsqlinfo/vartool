@@ -10,7 +10,12 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import com.vartool.web.constants.AppCode;
 
-
+/**
+ * board tag
+* 
+* @fileName	: BoardCodeTag.java
+* @author	: ytkim
+ */
 public class BoardCodeTag extends SimpleTagSupport {
 
 	@Override

@@ -1,13 +1,11 @@
 package com.vartool.web.exception;
 
 /**
-*
-* @FileName  : BoardInvalidException.java
-* @Date      : 2020. 11. 12.
-* @작성자      : ytkim
-* @변경이력 :
-* @프로그램 설명 : board invalid exception
-*/
+ * board permission exception
+* 
+* @fileName	: BoardPermissionException.java
+* @author	: ytkim
+ */
 public class BoardPermissionException extends RuntimeException {
 
 	/**

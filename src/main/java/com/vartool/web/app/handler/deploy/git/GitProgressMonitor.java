@@ -6,13 +6,19 @@ import com.vartool.web.app.handler.deploy.AbstractDeploy;
 import com.vartool.web.constants.BlankConstants;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 
-public class GitProgressMoniter extends BatchingProgressMonitor {
+/**
+ * git progress monitor
+* 
+* @fileName	: GitProgressMonitor.java
+* @author	: ytkim
+ */
+public class GitProgressMonitor extends BatchingProgressMonitor {
 	
 	private AbstractDeploy deployAbstract;
 	private LogMessageDTO logMessageDto = null; 
 	private String recvId; 
 	
-	public GitProgressMoniter(AbstractDeploy deployAbstract, LogMessageDTO msgData, String recvId) {
+	public GitProgressMonitor(AbstractDeploy deployAbstract, LogMessageDTO msgData, String recvId) {
 		this.deployAbstract = deployAbstract; 
 		this.logMessageDto = msgData;
 		this.recvId = recvId;

@@ -24,6 +24,12 @@ import com.vartool.web.app.mgmt.service.CmpLogMgmtService;
 import com.vartool.web.dto.request.CmpLogRequestDTO;
 import com.vartool.web.module.VartoolUtils;
 
+/**
+ * log component management
+* 
+* @fileName	: CmpLogMgmtController.java
+* @author	: ytkim
+ */
 @Controller
 @RequestMapping("/mgmt/cmp/logMgmt")
 public class CmpLogMgmtController {

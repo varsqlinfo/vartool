@@ -30,13 +30,19 @@ import com.vartool.web.model.entity.board.BoardCommentEntity;
 import com.vartool.web.model.entity.board.BoardEntity;
 import com.vartool.web.model.entity.board.BoardFileEntity;
 import com.vartool.web.module.NumberUtils;
-import com.vartool.web.module.SecurityUtil;
+import com.vartool.web.module.SecurityUtils;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.repository.BoardCommentRepository;
 import com.vartool.web.repository.BoardFileRepository;
 import com.vartool.web.repository.BoardRepository;
 import com.vartool.web.repository.spec.BoardSpec;
 
+/**
+ * 게시판
+* 
+* @fileName	: BoardService.java
+* @author	: ytkim
+ */
 @Service
 public class BoardService{
 	private final static Logger logger = LoggerFactory.getLogger(BoardService.class);
@@ -53,6 +59,14 @@ public class BoardService{
 	@Autowired
 	private FileUploadService fileUploadService;
 	
+	/**
+	 * 목록
+	 *
+	 * @method : list
+	 * @param boardCode
+	 * @param searchParameter
+	 * @return
+	 */
 	public ResponseResult list(String boardCode, SearchParameter searchParameter) {
 		Sort sort =Sort.by(Sort.Direction.DESC, BoardEntity.NOTICE_YN).and(Sort.by(Sort.Direction.DESC, BoardEntity.REG_DT));
 		
@@ -67,12 +81,9 @@ public class BoardService{
 	}
 	
 	/**
-	 * 
-	 * @Method Name  : saveBoardInfo
-	 * @Method 설명 : 게시물 정보 저장. 
-	 * @작성자   : ytkim
-	 * @작성일   : 2021. 7. 1.
-	 * @변경이력  :
+	 * 게시물 정보 저장. 
+	 *
+	 * @method : saveBoardInfo
 	 * @param boardRequestDTO
 	 * @return
 	 */
@@ -83,12 +94,12 @@ public class BoardService{
 		
 		if(NumberUtils.isNullOrZero(boardRequestDTO.getArticleId())) {
 			boardEntity = boardRequestDTO.toEntity();
-			boardEntity.setAuthorName(SecurityUtil.loginInfo().getFullname());
+			boardEntity.setAuthorName(SecurityUtils.loginInfo().getFullname());
 			boardEntity.setFileList(new ArrayList<BoardFileEntity>());
 		}else {
 			boardEntity = boardEntityRepository.findByArticleId(boardRequestDTO.getArticleId());
 			
-			if(!SecurityUtil.isAdmin() && !boardEntity.getRegId().equals(SecurityUtil.userViewId()) ) {
+			if(!SecurityUtils.isAdmin() && !boardEntity.getRegId().equals(SecurityUtils.userViewId()) ) {
 				throw new BoardPermissionException("no permission");
 			}
 			
@@ -124,12 +135,9 @@ public class BoardService{
 	}
 	
 	/**
-	 * 
-	 * @Method Name  : deleteBoardInfo
-	 * @Method 설명 : 글 삭제.
-	 * @작성자   : ytkim
-	 * @작성일   : 2021. 7. 8.
-	 * @변경이력  :
+	 * 글 삭제.
+	 *
+	 * @method : deleteBoardInfo
 	 * @param boardCode
 	 * @param articleId
 	 * @return
@@ -141,7 +149,7 @@ public class BoardService{
 		
 		BoardEntity board = boardEntityRepository.findByArticleId(articleId);
 		
-		if(board == null || (!SecurityUtil.isAdmin() && !board.getRegId().equals(SecurityUtil.userViewId()))) {
+		if(board == null || (!SecurityUtils.isAdmin() && !board.getRegId().equals(SecurityUtils.userViewId()))) {
 			throw new PermissionDeniedException("no permission");
 		}
 		
@@ -154,12 +162,9 @@ public class BoardService{
 	}
 	
 	/**
-	 * 
-	 * @Method Name  : viewBoardInfo
-	 * @Method 설명 : 글 상세보기. 
-	 * @작성자   : ytkim
-	 * @작성일   : 2021. 7. 8.
-	 * @변경이력  :
+	 * 상세보기
+	 *
+	 * @method : viewBoardInfo
 	 * @param boardCode
 	 * @param articleId
 	 * @return
@@ -175,12 +180,9 @@ public class BoardService{
 	}
 	
 	/**
-	 * 
-	 * @Method Name  : commentSave
-	 * @Method 설명 : 코멘트 저장. 
-	 * @작성자   : ytkim
-	 * @작성일   : 2021. 7. 8.
-	 * @변경이력  :
+	 * 코멘트 저장. 
+	 *
+	 * @method : commentSave
 	 * @param articleId
 	 * @param boardCommentRequestDTO
 	 * @return
@@ -196,7 +198,7 @@ public class BoardService{
 			
 			boardCommentEntity = boardCommentRequestDTO.toEntity();
 			boardCommentEntity.setArticleId(articleId);
-			boardCommentEntity.setAuthorName(SecurityUtil.loginInfo().getFullname());
+			boardCommentEntity.setAuthorName(SecurityUtils.loginInfo().getFullname());
 			boardCommentEntity.setFileList(new ArrayList<BoardFileEntity>());
 			
 			isReComment = !NumberUtils.isNullOrZero(boardCommentRequestDTO.getParentCommentId()); // 대댓글
@@ -216,7 +218,7 @@ public class BoardService{
 		}else {
 			boardCommentEntity = boardCommentEntityRepository.findByArticleIdAndCommentId(articleId, boardCommentRequestDTO.getCommentId());
 			
-			if(!SecurityUtil.isAdmin() && !boardCommentEntity.getRegId().equals(SecurityUtil.userViewId())){
+			if(!SecurityUtils.isAdmin() && !boardCommentEntity.getRegId().equals(SecurityUtils.userViewId())){
 				throw new BoardPermissionException("no permission");
 			}
 			
@@ -260,12 +262,9 @@ public class BoardService{
 	}
 	
 	/**
-	 * 
-	 * @Method Name  : commentList
-	 * @Method 설명 : 댓글 목록. 
-	 * @작성자   : ytkim
-	 * @작성일   : 2021. 7. 8.
-	 * @변경이력  :
+	 * 댓글 목록. 
+	 *
+	 * @method : commentList
 	 * @param boardCode
 	 * @param acticleId
 	 * @param searchParameter
@@ -280,12 +279,9 @@ public class BoardService{
 	}
 
 	/**
-	 * 
-	 * @Method Name  : commentDelete
-	 * @Method 설명 : 댓글 삭제. 
-	 * @작성자   : ytkim
-	 * @작성일   : 2021. 7. 8.
-	 * @변경이력  :
+	 * 댓글 삭제. 
+	 *
+	 * @method : commentDelete
 	 * @param articleId
 	 * @param commentId
 	 * @return
@@ -294,7 +290,7 @@ public class BoardService{
 		
 		BoardCommentEntity boardCommentEntity = boardCommentEntityRepository.findByArticleIdAndCommentId(articleId, commentId);
 		
-		if(boardCommentEntity == null || (!SecurityUtil.isAdmin() && !boardCommentEntity.getRegId().equals(SecurityUtil.userViewId()))) {
+		if(boardCommentEntity == null || (!SecurityUtils.isAdmin() && !boardCommentEntity.getRegId().equals(SecurityUtils.userViewId()))) {
 			throw new PermissionDeniedException("no permission");
 		}
 		
@@ -315,12 +311,9 @@ public class BoardService{
 	}
 	
 	/**
-	 * 
-	 * @Method Name  : findFileList
-	 * @Method 설명 : 파일 목록. 
-	 * @작성자   : ytkim
-	 * @작성일   : 2021. 7. 8.
-	 * @변경이력  :
+	 * 파일 목록. 
+	 *
+	 * @method : findFileList
 	 * @param articleId
 	 * @param fileId
 	 * @return

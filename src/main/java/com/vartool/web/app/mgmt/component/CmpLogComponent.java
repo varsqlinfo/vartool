@@ -16,18 +16,10 @@ import com.vartool.web.dto.websocket.LogMessageDTO;
 import com.vartool.web.module.LogFilenameUtils;
 
 /**
- * 
-*-----------------------------------------------------------------------------
+ * 로그 컴포넌트  
 * 
-* @NAME		: CmpLogComponent.java
-* @DESC		: 로그 컴포넌트  
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2020. 2. 6. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: CmpLogComponent.java
+* @author	: ytkim
  */
 @Component
 public class CmpLogComponent {

@@ -21,6 +21,12 @@ import com.vartool.web.app.common.controller.AbstractController;
 import com.vartool.web.constants.VIEW_PAGE;
 import com.vartool.web.security.auth.AuthorityType;
 
+/**
+ * Manager Management
+* 
+* @fileName	: ManagerMgmtController.java
+* @author	: ytkim
+ */
 @Controller
 @RequestMapping("/admin/managerMgmt")
 public class ManagerMgmtController extends AbstractController {

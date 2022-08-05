@@ -12,6 +12,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * log component manager
+* 
+* @fileName	: LogCmpManager.java
+* @author	: ytkim
+ */
 public class LogCmpManager implements CmpManager {
 	
 	private final Map<String, TailLogStatus> TAIL_LOG_INFO= new ConcurrentHashMap<String, TailLogStatus>(); 

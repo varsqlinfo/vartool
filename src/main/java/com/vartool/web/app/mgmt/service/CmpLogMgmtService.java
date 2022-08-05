@@ -23,18 +23,10 @@ import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.repository.cmp.CmpItemLogRepository;
 
 /**
- * 
-*-----------------------------------------------------------------------------
+ * log compoment 관리
 * 
-* @NAME		: CmpLogMgmtService.java
-* @DESC		: log compoment 관리
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2020. 2. 6. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: CmpLogMgmtService.java
+* @author	: ytkim
  */
 @Component
 public class CmpLogMgmtService {

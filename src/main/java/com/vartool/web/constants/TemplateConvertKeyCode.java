@@ -2,6 +2,12 @@ package com.vartool.web.constants;
 
 import com.vartech.common.constants.CodeEnumValue;
 
+/**
+ * template key code
+* 
+* @fileName	: TemplateConvertKeyCode.java
+* @author	: ytkim
+ */
 public interface TemplateConvertKeyCode {
 	enum DEPLOY implements CodeEnumValue{
 		SOURCE_PATH("sourcePath")

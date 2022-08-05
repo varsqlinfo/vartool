@@ -12,18 +12,10 @@ import com.vartool.web.app.mgmt.component.CmpCommandComponent;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 
 /**
- * 
-*-----------------------------------------------------------------------------
+ * command service
 * 
-* @NAME		: LogItemEventService.java
-* @DESC		: log item event service
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2020. 2. 6. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: CmpCommandService.java
+* @author	: ytkim
  */
 @Component
 public class CmpCommandService {
@@ -32,12 +24,29 @@ public class CmpCommandService {
 	@Autowired
 	private CmpCommandComponent cmpCommandComponent; 
 	
+	/**
+	 * command log load
+	 *
+	 * @method : loadLog
+	 * @param cmpId
+	 * @param param
+	 * @return
+	 */
 	public ResponseResult loadLog(String cmpId, DataMap param) {
 		ResponseResult responseResult = new ResponseResult();
 		responseResult.setItemOne(LogMessageDTO.builder().cmpId(cmpId).log(CommandCmpManager.getInstance().getLogContent(cmpId)).build());
 		return responseResult;
 	}
-
+	
+	/**
+	 * command start and stop
+	 *
+	 * @method : startAndStop
+	 * @param cmpId
+	 * @param action
+	 * @param allParameter
+	 * @return
+	 */
 	public ResponseResult startAndStop(String cmpId, String action, DataMap allParameter) {
 		return cmpCommandComponent.startAndStop(cmpId, action);
 	}

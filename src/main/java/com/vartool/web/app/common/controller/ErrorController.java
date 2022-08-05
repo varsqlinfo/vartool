@@ -15,18 +15,10 @@ import com.vartool.web.constants.VIEW_PAGE;
 
 
 /**
- *
-*-----------------------------------------------------------------------------
+ * error controller
 * 
-* @NAME		: ErrorController.java
-* @DESC		: error controller
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2015. 4. 18. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: ErrorController.java
+* @author	: ytkim
  */
 @Controller
 @RequestMapping("/error")

@@ -24,9 +24,15 @@ import com.vartool.web.dto.request.PasswordRequestDTO;
 import com.vartool.web.dto.request.UserModReqeustDTO;
 import com.vartool.web.exception.VartoolAppException;
 import com.vartool.web.model.entity.user.UserEntity;
-import com.vartool.web.module.SecurityUtil;
+import com.vartool.web.module.SecurityUtils;
 import com.vartool.web.repository.UserMgmtRepository;
 
+/**
+ * 사용자 환경설정 service
+* 
+* @fileName	: UserPreferencesServiceImpl.java
+* @author	: ytkim
+ */
 @Service
 public class UserPreferencesServiceImpl extends AbstractService{
 	private final Logger logger = LoggerFactory.getLogger(UserPreferencesServiceImpl.class);
@@ -40,13 +46,10 @@ public class UserPreferencesServiceImpl extends AbstractService{
 	private PasswordEncoder passwordEncoder;
 
 	/**
+	 * 사용자 정보 상세.
 	 *
-	 * @Method Name  : selectUserDetail
-	 * @Method 설명 : 사용자 정보 상세.
-	 * @작성자   : ytkim
-	 * @작성일   : 2017. 11. 29.
-	 * @변경이력  :
-	 * @param loginId
+	 * @method : findUserInfo
+	 * @param viewid
 	 * @return
 	 */
 	public UserEntity findUserInfo(String viewid) {
@@ -54,12 +57,9 @@ public class UserPreferencesServiceImpl extends AbstractService{
 	}
 
 	/**
+	 * 사용자 정보 업데이트
 	 *
-	 * @Method Name  : updateUserInfo
-	 * @Method 설명 : 사용자 정보 업데이트
-	 * @작성자   : ytkim
-	 * @작성일   : 2017. 11. 29.
-	 * @변경이력  :
+	 * @method : updateUserInfo
 	 * @param userForm
 	 * @param req
 	 * @param res
@@ -69,9 +69,9 @@ public class UserPreferencesServiceImpl extends AbstractService{
 
 		logger.debug("updateUserInfo : {}" , userForm);
 
-		UserEntity userInfo = userMgmtRepository.findByViewid(SecurityUtil.userViewId());
+		UserEntity userInfo = userMgmtRepository.findByViewid(SecurityUtils.userViewId());
 
-		if(userInfo==null) throw new VartoolAppException("user infomation not found : " + SecurityUtil.userViewId());
+		if(userInfo==null) throw new VartoolAppException("user infomation not found : " + SecurityUtils.userViewId());
 
 		userInfo.setLang(userForm.getLang());
 		userInfo.setUname(userForm.getUname());
@@ -84,7 +84,7 @@ public class UserPreferencesServiceImpl extends AbstractService{
 		// 언어 변경시 처리.
 		Locale userLocale= LocaleConstants.parseLocaleString(userForm.getLang());
 
-		if(userLocale != null  && !userLocale.equals(SecurityUtil.loginInfo().getUserLocale())) {
+		if(userLocale != null  && !userLocale.equals(SecurityUtils.loginInfo().getUserLocale())) {
 			LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(req);
 			if (localeResolver == null) {
 				throw new IllegalStateException("No LocaleResolver found.");
@@ -94,27 +94,23 @@ public class UserPreferencesServiceImpl extends AbstractService{
 				localeResolver.setLocale(req, res, userLocale);
 			}
 
-			SecurityUtil.loginInfo().setUserLocale(userLocale);
+			SecurityUtils.loginInfo().setUserLocale(userLocale);
 		}
 
 		return true;
 	}
 
 	/**
+	 * 비밀번호 변경.
 	 *
-	 * @Method Name  : updatePasswordInfo
-	 * @Method 설명 : 비밀번호 변경.
-	 * @작성자   : ytkim
-	 * @작성일   : 2017. 11. 29.
-	 * @변경이력  :
+	 * @method : updatePasswordInfo
 	 * @param passwordForm
-	 * @param resultObject
 	 * @return
 	 * @throws EncryptDecryptException
 	 */
 	public ResponseResult updatePasswordInfo(PasswordRequestDTO passwordForm) throws EncryptDecryptException {
 
-		UserEntity userInfo = userMgmtRepository.findByViewid(SecurityUtil.userViewId());
+		UserEntity userInfo = userMgmtRepository.findByViewid(SecurityUtils.userViewId());
 
 		ResponseResult resultObject = new ResponseResult();
 

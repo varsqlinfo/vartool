@@ -3,12 +3,10 @@ package com.vartool.web.exception;
 import org.springframework.security.core.AuthenticationException;
 
 /**
- * 
- * @FileName  : BlockUserException.java
- * @프로그램 설명 : 사용자 block 
- * @Date      : 2018. 4. 3. 
- * @작성자      : ytkim
- * @변경이력 :
+ * 사용자 block 
+* 
+* @fileName	: BlockingUserException.java
+* @author	: ytkim
  */
 public class BlockingUserException extends AuthenticationException {
 

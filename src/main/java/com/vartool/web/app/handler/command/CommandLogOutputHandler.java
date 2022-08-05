@@ -9,6 +9,12 @@ import com.vartool.web.dto.response.CmpCommandResponseDTO;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 import com.vartool.web.module.VartoolUtils;
 
+/**
+ * output handler
+* 
+* @fileName	: CommandLogOutputHandler.java
+* @author	: ytkim
+ */
 public class CommandLogOutputHandler implements Runnable {
 	
 	private static final Logger logger = LoggerFactory.getLogger("commandLog");

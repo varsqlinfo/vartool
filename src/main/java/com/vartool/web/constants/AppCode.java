@@ -2,6 +2,12 @@ package com.vartool.web.constants;
 
 import com.vartech.common.constants.CodeEnumValue;
 
+/**
+ * application code
+* 
+* @fileName	: AppCode.java
+* @author	: ytkim
+ */
 public interface AppCode {
 	
 	final public String BOARD_CODE ="boardCode";

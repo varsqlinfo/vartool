@@ -1,12 +1,10 @@
 package com.vartool.web.app.handler.deploy.git;
 
 /**
- * 
- * @FileName  : ChangeInfo.java
- * @프로그램 설명 : 파일 변경 정보
- * @Date      : 2019. 1. 8. 
- * @작성자      : ytkim
- * @변경이력 :
+ * 파일 변경 정보
+* 
+* @fileName	: ChangeInfo.java
+* @author	: ytkim
  */
 public class ChangeInfo {
     

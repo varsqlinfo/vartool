@@ -9,16 +9,10 @@ import ch.qos.logback.core.spi.ContextAwareBase;
 import ch.qos.logback.core.spi.LifeCycle;
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: LoggerListener.java
-* @desc		: logback listener
+ * logback listener
+* 
+* @fileName	: LoggerListener.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 6. 6. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
 public class LoggerListener extends ContextAwareBase implements LoggerContextListener, LifeCycle {
 

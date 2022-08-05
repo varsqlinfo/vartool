@@ -9,7 +9,7 @@ import com.vartool.web.constants.AppCode.LOG_STATE;
 import com.vartool.web.dto.response.CmpMonitorDTO;
 import com.vartool.web.dto.vo.LogInfo;
 import com.vartool.web.dto.websocket.LogMessageDTO;
-import com.vartool.web.module.SecurityUtil;
+import com.vartool.web.module.SecurityUtils;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.module.spring.SpringBeanFactory;
 
@@ -18,6 +18,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * command component manager
+* 
+* @fileName	: CommandCmpManager.java
+* @author	: ytkim
+ */
 public class CommandCmpManager implements CmpManager {
 	
 	private final Map<String, CommandStatus> ALL_LOG_INFO= new ConcurrentHashMap<String, CommandStatus>(); 
@@ -68,7 +74,7 @@ public class CommandCmpManager implements CmpManager {
 			logInfo.setCommandLogOutputHandler(commandLogOutputHandler);
 			logInfo.setCommandType(CommandType.getCommandType(cmdMode));
 			logInfo.setRunning(true);
-			logInfo.setUserInfo(SecurityUtil.runningUserInfo());
+			logInfo.setUserInfo(SecurityUtils.runningUserInfo());
 			
 			SpringBeanFactory.getWebSocketService().sendMessage(
 				LogMessageDTO.builder().cmpId(uid).state(LOG_STATE.START.getCode()).build().addItem("cmd", logInfo.getCommandType().name())

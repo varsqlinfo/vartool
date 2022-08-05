@@ -38,6 +38,13 @@ import com.vartool.web.model.entity.board.BoardFileEntity;
 import com.vartool.web.module.FileServiceUtils;
 import com.vartool.web.module.VartoolUtils;
 
+
+/**
+ * 게시판 
+* 
+* @fileName	: BoardController.java
+* @author	: ytkim
+ */
 @Controller
 @RequestMapping("/board")
 public class BoardController {

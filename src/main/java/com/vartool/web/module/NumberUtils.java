@@ -1,5 +1,11 @@
 package com.vartool.web.module;
 
+/**
+ * number utils
+* 
+* @fileName	: NumberUtils.java
+* @author	: ytkim
+ */
 public final class NumberUtils {
 	private NumberUtils() {} 
 	

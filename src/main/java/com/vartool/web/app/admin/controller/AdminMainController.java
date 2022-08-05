@@ -15,6 +15,12 @@ import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.app.common.controller.AbstractController;
 import com.vartool.web.constants.VIEW_PAGE;
 
+/**
+ * admin main 
+* 
+* @fileName	: AdminMainController.java
+* @author	: ytkim
+ */
 @Controller
 @RequestMapping("/admin")
 public class AdminMainController extends AbstractController {
@@ -30,6 +36,8 @@ public class AdminMainController extends AbstractController {
 	
 	@RequestMapping({ "/vartoolConfig" })
 	public ModelAndView vartoolInfo(HttpServletRequest req,	HttpServletResponse res, ModelAndView mav) throws Exception {
+		
+		logger.debug("vartoolConfig");
 		
 		ModelMap model = mav.getModelMap();
 		model.addAttribute("configInfo", VartechUtils.objectToJsonString(VartoolConfiguration.getInstance().getConfigInfo()));

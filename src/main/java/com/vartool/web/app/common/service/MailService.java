@@ -16,6 +16,12 @@ import com.vartech.common.utils.StringUtils;
 import com.vartool.web.constants.ResourceConfigConstants;
 import com.vartool.web.constants.VartoolConstants;
 
+/**
+ * mail service
+* 
+* @fileName	: MailService.java
+* @author	: ytkim
+ */
 @Service
 public class MailService {
 	private final Logger logger = LoggerFactory.getLogger(MailService.class);

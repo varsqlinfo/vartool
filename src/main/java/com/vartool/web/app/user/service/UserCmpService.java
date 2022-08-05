@@ -17,12 +17,18 @@ import com.vartool.web.constants.PreferencesConstants;
 import com.vartool.web.dto.response.CmpGroupCmpMappingResponseDTO;
 import com.vartool.web.dto.response.CmpGroupUserMappingResponseDTO;
 import com.vartool.web.model.entity.user.UserPreferencesEntity;
-import com.vartool.web.module.SecurityUtil;
+import com.vartool.web.module.SecurityUtils;
 import com.vartool.web.repository.UserPreferencesRepository;
 import com.vartool.web.repository.cmp.CmpGroupCmpMappingRepository;
 import com.vartool.web.repository.cmp.CmpGroupRepository;
 import com.vartool.web.repository.cmp.CmpGroupUserMappingRepository;
 
+/**
+ * user co
+* 
+* @fileName	: UserCmpService.java
+* @author	: ytkim
+ */
 @Service
 public class UserCmpService{
 	private final static Logger logger = LoggerFactory.getLogger(UserCmpService.class);
@@ -39,14 +45,27 @@ public class UserCmpService{
 	@Autowired
 	private UserPreferencesRepository userPreferencesRepository;
 
+	/**
+	 * user component group list
+	 *
+	 * @method : allUserGroupList
+	 * @return
+	 */
 	public List<CmpGroupUserMappingResponseDTO> allUserGroupList() {
-		if(SecurityUtil.isAdmin()) {
+		if(SecurityUtils.isAdmin()) {
 			return cmpGroupRepository.findAllGroup();
 		}else {
-			return cmpGroupUserMappingRepository.findViewIdMappingInfo(SecurityUtil.userViewId());
+			return cmpGroupUserMappingRepository.findViewIdMappingInfo(SecurityUtils.userViewId());
 		}
 	}
-
+	
+	/**
+	 * user component list
+	 *
+	 * @method : userCmpInfos
+	 * @param cgumr
+	 * @return
+	 */
 	public Map<TYPE, ArrayList> userCmpInfos(CmpGroupUserMappingResponseDTO cgumr) {
 		List<CmpGroupCmpMappingResponseDTO> componentList =  cmpGroupMappingRepository.findComponentList(cgumr.getGroupId());
 		
@@ -66,17 +85,14 @@ public class UserCmpService{
 	}
 	
 	/**
-	 * 
-	 * @Method Name  : mainLayoutInfo
-	 * @Method 설명 : main layout info 
-	 * @작성자   : ytkim
-	 * @작성일   : 2021. 8. 12.
-	 * @변경이력  :
+	 * main layout info
+	 *
+	 * @method : mainLayoutInfo
 	 * @param cgumr
 	 * @return
 	 */
 	public String mainLayoutInfo(CmpGroupUserMappingResponseDTO cgumr) {
-		UserPreferencesEntity pref = userPreferencesRepository.findByGroupIdAndViewidAndPrefKey(cgumr.getGroupId(), SecurityUtil.userViewId(), PreferencesConstants.PREFKEY.MAIN_LAYOUT.key());
+		UserPreferencesEntity pref = userPreferencesRepository.findByGroupIdAndViewidAndPrefKey(cgumr.getGroupId(), SecurityUtils.userViewId(), PreferencesConstants.PREFKEY.MAIN_LAYOUT.key());
 		if(pref== null) {
 			return null;
 		}else {

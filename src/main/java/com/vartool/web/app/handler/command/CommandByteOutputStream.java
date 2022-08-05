@@ -8,10 +8,15 @@ import java.nio.charset.Charset;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.constants.BlankConstants;
 import com.vartool.web.constants.VartoolConstants;
 
+/**
+ * command output stream
+* 
+* @fileName	: CommandByteOutputStream.java
+* @author	: ytkim
+ */
 public class CommandByteOutputStream extends OutputStream {
 	private static final int INTIAL_SIZE = 132;
 

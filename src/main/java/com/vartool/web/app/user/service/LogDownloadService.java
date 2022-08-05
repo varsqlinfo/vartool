@@ -32,18 +32,10 @@ import com.vartool.web.repository.cmp.CmpItemDeployRepository;
 import com.vartool.web.repository.cmp.CmpItemLogRepository;
 
 /**
- * 
-*-----------------------------------------------------------------------------
+ * log download service
 * 
-* @NAME		: LogDownloadService.java
-* @DESC		: log download service
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2020. 2. 6. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: LogDownloadService.java
+* @author	: ytkim
  */
 @Component
 public class LogDownloadService {
@@ -58,7 +50,17 @@ public class LogDownloadService {
 	@Autowired
 	private CmpItemCommandRepository cmpItemCommandRepository;
 	
-	
+	/**
+	 * log download
+	 *
+	 * @method : download
+	 * @param req
+	 * @param res
+	 * @param cmpId
+	 * @param type
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public void download(HttpServletRequest req, HttpServletResponse res, String cmpId, String type) throws FileNotFoundException, IOException {
 		
 		ComponentConstants.TYPE cmpType = ComponentConstants.getComponentType(type);
@@ -113,8 +115,6 @@ public class LogDownloadService {
 				out.close();
 			}
 		}
-		
-		
 	}
 
 
@@ -137,6 +137,5 @@ public class LogDownloadService {
 				if(outs != null) outs.close();
 			}
 		}
-		
 	}
 }

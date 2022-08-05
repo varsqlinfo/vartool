@@ -1,5 +1,11 @@
 package com.vartool.web.constants;
 
+/**
+ * view page url info
+* 
+* @fileName	: VIEW_PAGE.java
+* @author	: ytkim
+ */
 public enum VIEW_PAGE{
 	 LOGIN("/login")
 	, JOIN("/join")

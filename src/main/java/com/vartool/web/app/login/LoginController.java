@@ -13,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +26,13 @@ import com.vartool.web.app.common.service.UserCommonService;
 import com.vartool.web.constants.VIEW_PAGE;
 import com.vartool.web.security.User;
 import com.vartool.web.security.auth.AuthorityType;
- 
+
+/**
+ * login controller
+* 
+* @fileName	: LoginController.java
+* @author	: ytkim
+ */
 @Controller
 public class LoginController extends AbstractController{
      
@@ -37,7 +44,7 @@ public class LoginController extends AbstractController{
     /**
      * Simply selects the home view to render by returning its name.
      */
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @GetMapping(value = "/login")
     public ModelAndView login(HttpSession session) {
         
         Authentication auth =  SecurityContextHolder.getContext().getAuthentication();

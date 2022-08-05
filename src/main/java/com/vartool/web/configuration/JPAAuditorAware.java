@@ -9,16 +9,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.vartool.web.security.User;
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: JPAAuditorAware.java
-* @desc		: jpa audit
+ * jpa audit
+* 
+* @fileName	: JPAAuditorAware.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 4. 20. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
 public class JPAAuditorAware implements AuditorAware<String> {
 

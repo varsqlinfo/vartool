@@ -19,18 +19,10 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
 import com.vartool.web.constants.ViewPageConstants;
 
 /**
- * 
-*-----------------------------------------------------------------------------
+ * tiles render 처리. 
 * 
-* @NAME		: AppTilesView.java
-* @DESC		: tiles render 처리. 
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2019. 11. 19. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: AppTilesView.java
+* @author	: ytkim
  */
 public class AppTilesView extends TilesView{
 	

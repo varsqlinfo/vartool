@@ -18,6 +18,12 @@ import com.vartool.web.app.common.service.FileUploadService;
 import com.vartool.web.constants.AppCode;
 import com.vartool.web.model.entity.FileInfoEntity;
 
+/**
+ * file upload controller
+* 
+* @fileName	: FileUploadController.java
+* @author	: ytkim
+ */
 @Controller
 @RequestMapping({ "/file" })
 public class FileUploadController extends AbstractController {
@@ -25,7 +31,18 @@ public class FileUploadController extends AbstractController {
 
 	@Autowired
 	private FileUploadService fileUploadService;
-
+	
+	/**
+	 * upload
+	 *
+	 * @method : fileUpload
+	 * @param div 	구분
+	 * @param paramFileContId	file content id
+	 * @param contGroupId	file content group  id
+	 * @param mtfRequest	
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping(value = { "/upload" }, method = { RequestMethod.POST })
 	@ResponseBody
 	public ResponseResult fileUpload(@RequestParam(name = "div", required = true) String div,

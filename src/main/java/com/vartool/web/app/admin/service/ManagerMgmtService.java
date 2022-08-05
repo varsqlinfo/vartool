@@ -19,18 +19,10 @@ import com.vartool.web.repository.UserMgmtRepository;
 import com.vartool.web.security.auth.AuthorityType;
 
 /**
- * 
- * -----------------------------------------------------------------------------
- * 
- * @NAME : UserInfoMgmtService.java
- * @DESC : 사용자 관리
- * @AUTHOR : ytkim
- *         -----------------------------------------------------------------------------
- *         DATE AUTHOR DESCRIPTION
- *         -----------------------------------------------------------------------------
- *         2020. 2. 6. ytkim 최초작성
- * 
- *         -----------------------------------------------------------------------------
+ * 매니저 관리
+* 
+* @fileName	: ManagerMgmtService.java
+* @author	: ytkim
  */
 @Component
 public class ManagerMgmtService {

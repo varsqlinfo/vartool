@@ -21,7 +21,13 @@ import org.slf4j.LoggerFactory;
 import com.vartool.web.module.FileServiceUtils;
 import com.vartool.web.module.LogFilenameUtils;
 
-
+/**
+ * tail 
+ * file read
+* 
+* @fileName	: Tail.java
+* @author	: ytkim
+ */
 public class Tail implements Runnable {
 
     private static final int AWAIT_FILE_ROTATION_MILLIS = 1000;

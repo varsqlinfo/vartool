@@ -31,6 +31,12 @@ import com.vartech.common.utils.PagingUtil;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 
+/**
+ * vartool application utils
+* 
+* @fileName	: VartoolUtils.java
+* @author	: ytkim
+ */
 public final class VartoolUtils {
 	public static boolean isAjaxRequest(HttpServletRequest request) {
 		String headerInfo = request.getHeader("X-Requested-With");

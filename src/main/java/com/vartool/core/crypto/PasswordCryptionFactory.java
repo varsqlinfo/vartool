@@ -11,14 +11,11 @@ import com.vartech.common.utils.StringUtils;
 import com.vartech.common.utils.VartechReflectionUtils;
 import com.vartool.core.config.VartoolConfiguration;
 
-
 /**
- *
- * @FileName  : PasswordCryptionFactory.java
- * @프로그램 설명 : 암호 factory
- * @Date      : 2017. 12. 1.
- * @작성자      : ytkim
- * @변경이력 :
+ * Password factory
+* 
+* @fileName	: PasswordCryptionFactory.java
+* @author	: ytkim
  */
 public class PasswordCryptionFactory {
 	private final Logger logger = LoggerFactory.getLogger(PasswordCryptionFactory.class);

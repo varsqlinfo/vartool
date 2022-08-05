@@ -24,6 +24,12 @@ import com.vartool.web.app.mgmt.service.CmpGrpMgmtService;
 import com.vartool.web.dto.request.CmpGroupRequestDTO;
 import com.vartool.web.module.VartoolUtils;
 
+/**
+ * component group management
+* 
+* @fileName	: CmpGrpMgmtController.java
+* @author	: ytkim
+ */
 @Controller
 @RequestMapping("/mgmt/cmpGroupMgmt")
 public class CmpGrpMgmtController {

@@ -1,5 +1,11 @@
 package com.vartool.web.exception;
 
+/**
+ * deploy exception
+* 
+* @fileName	: DeployException.java
+* @author	: ytkim
+ */
 public class DeployException extends RuntimeException {
   private static final long serialVersionUID = 1L;
   

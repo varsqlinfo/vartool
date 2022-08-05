@@ -8,16 +8,10 @@ import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: WebSocketEventListener.java
-* @desc		: web event
+ * web event
+* 
+* @fileName	: WebSocketEventListener.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 10. 21. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
 @Component
 public class WebSocketEventListener {

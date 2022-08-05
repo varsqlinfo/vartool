@@ -20,7 +20,7 @@ import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.constants.RequestResultCode;
 import com.vartech.common.utils.VartechUtils;
 import com.vartool.web.constants.VartoolConstants;
-import com.vartool.web.module.SecurityUtil;
+import com.vartool.web.module.SecurityUtils;
 import com.vartool.web.module.VartoolUtils;
 
 @Component
@@ -52,7 +52,7 @@ public class VartoolAccessDeniedHandler implements AccessDeniedHandler {
 
 			ResponseResult result = new ResponseResult();
 
-			if(SecurityUtil.isAuthenticated()){
+			if(SecurityUtils.isAuthenticated()){
 				if (accessDeniedException instanceof CsrfException && !response.isCommitted()) {
 					result.setResultCode(RequestResultCode.PRECONDITION_FAILED);
 				}else{

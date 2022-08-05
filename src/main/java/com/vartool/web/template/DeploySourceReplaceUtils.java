@@ -9,6 +9,12 @@ import org.slf4j.LoggerFactory;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 
+/**
+ * deploy source 
+* 
+* @fileName	: DeploySourceReplaceUtils.java
+* @author	: ytkim
+ */
 public final class DeploySourceReplaceUtils {
 	private final Logger logger = LoggerFactory.getLogger(DeploySourceReplaceUtils.class);
 

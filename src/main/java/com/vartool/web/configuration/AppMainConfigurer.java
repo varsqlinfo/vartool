@@ -17,18 +17,10 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import com.vartool.web.constants.VartoolConstants;
 
 /**
- *
-*-----------------------------------------------------------------------------
+ * main config
 * 
-* @NAME		: AppMainConfigurer.java
-* @DESC		: spring 설정.
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2017. 3. 15.			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: AppMainConfigurer.java
+* @author	: ytkim
  */
 @Import(value = {
 	JPAConfigurer.class

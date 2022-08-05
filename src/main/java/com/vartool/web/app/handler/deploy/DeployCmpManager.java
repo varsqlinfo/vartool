@@ -9,7 +9,7 @@ import com.vartool.web.constants.AppCode.LOG_STATE;
 import com.vartool.web.dto.response.CmpMonitorDTO;
 import com.vartool.web.dto.vo.LogInfo;
 import com.vartool.web.dto.websocket.LogMessageDTO;
-import com.vartool.web.module.SecurityUtil;
+import com.vartool.web.module.SecurityUtils;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.module.spring.SpringBeanFactory;
 
@@ -17,7 +17,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
+/**
+ * deploy component manager
+* 
+* @fileName	: DeployCmpManager.java
+* @author	: ytkim
+ */
 public class DeployCmpManager implements CmpManager {
 	
 	private final Map<String, DeployStatus> ALL_LOG_INFO= new ConcurrentHashMap<String, DeployStatus>(); 
@@ -66,7 +71,7 @@ public class DeployCmpManager implements CmpManager {
 		if(existsLog(deployUid)) {
 			DeployStatus logInfo = ALL_LOG_INFO.get(deployUid);
 			logInfo.setRunning(true);
-			logInfo.setUserInfo(SecurityUtil.runningUserInfo());
+			logInfo.setUserInfo(SecurityUtils.runningUserInfo());
 			
 			SpringBeanFactory.getWebSocketService().sendMessage(
 				getRunningUserInfo(LogMessageDTO.builder().cmpId(deployUid).state(LOG_STATE.START.getCode()).build())

@@ -6,18 +6,10 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 
 /**
- *
-*-----------------------------------------------------------------------------
+ * 타일즈 설정.
 * 
-* @NAME		: AppTilesConfigurer.java
-* @DESC		: 타일즈 설정.
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2017. 3. 15.			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: AppTilesConfigurer.java
+* @author	: ytkim
  */
 public class AppTilesConfigurer {
 

@@ -9,7 +9,12 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import com.vartool.web.constants.AppCode;
 
-
+/**
+ * board url tag
+* 
+* @fileName	: BoardUrlTag.java
+* @author	: ytkim
+ */
 public class BoardUrlTag extends SimpleTagSupport {
 
 	private String addUrl;

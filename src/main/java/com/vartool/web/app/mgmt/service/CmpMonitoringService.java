@@ -31,18 +31,10 @@ import com.vartool.web.repository.cmp.CmpItemLogRepository;
 import com.vartool.web.repository.cmp.CmpRepository;
 
 /**
- * 
-*-----------------------------------------------------------------------------
+ * 로그 모니터링
 * 
-* @NAME		: LogInfoService.java
-* @DESC		: 설정 정보 처리. 
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2020. 2. 6. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: CmpMonitoringService.java
+* @author	: ytkim
  */
 @Component
 public class CmpMonitoringService {

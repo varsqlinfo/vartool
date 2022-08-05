@@ -15,6 +15,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * 
+* 
+* @fileName	: BoardCommentRequestDTO.java
+* @author	: ytkim
+ */
 @Getter
 @Setter
 @ToString

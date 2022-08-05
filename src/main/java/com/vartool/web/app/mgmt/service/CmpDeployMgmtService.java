@@ -39,25 +39,17 @@ import com.vartool.web.exception.ComponentNotFoundException;
 import com.vartool.web.exception.VartoolAppException;
 import com.vartool.web.model.entity.base.AbstractRegAuditorModel;
 import com.vartool.web.model.entity.cmp.CmpItemDeployEntity;
-import com.vartool.web.module.SecurityUtil;
+import com.vartool.web.module.SecurityUtils;
 import com.vartool.web.module.VartoolBeanUtils;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.repository.cmp.CmpItemDeployRepository;
 import com.vartool.web.security.UserService;
 
 /**
- * 
-*-----------------------------------------------------------------------------
+ * deploy 관리
 * 
-* @NAME		: MgmtService.java
-* @DESC		: 설정 정보 처리. 
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2020. 2. 6. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: CmpDeployMgmtService.java
+* @author	: ytkim
  */
 @Component
 public class CmpDeployMgmtService {
@@ -213,7 +205,7 @@ public class CmpDeployMgmtService {
 	 */
 	public ResponseResult viewPwInfo(String cmpId, String userPw) {
 		ResponseResult resultObject = new ResponseResult();
-		if(!userService.passwordCheck(SecurityUtil.loginName(), userPw)) {
+		if(!userService.passwordCheck(SecurityUtils.loginName(), userPw)) {
 			resultObject.setResultCode(RequestResultCode.ERROR);
 			resultObject.setMessage("password not valid");
 			return resultObject;

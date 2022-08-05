@@ -33,18 +33,10 @@ import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.constants.ViewPageConstants;
 
 /**
- *
-*-----------------------------------------------------------------------------
+ * web 설정.
 * 
-* @NAME		: AppWebMvcConfigurer.java
-* @DESC		: web 설정.
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2017. 3. 15.			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: AppWebMvcConfigurer.java
+* @author	: ytkim
  */
 @Configuration
 @ComponentScan(

@@ -1,5 +1,11 @@
 package com.vartool.web.constants;
 
+/**
+ * 환경설정 상수
+* 
+* @fileName	: PreferencesConstants.java
+* @author	: ytkim
+ */
 public interface PreferencesConstants {
 	public enum PREFKEY {
 		MAIN_LAYOUT("main.layout.setting");

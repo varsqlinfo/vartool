@@ -21,6 +21,12 @@ import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.app.mgmt.service.UserInfoMgmtService;
 import com.vartool.web.module.VartoolUtils;
 
+/**
+ * 사용자 정보 관리.
+* 
+* @fileName	: UserInfoMgmtController.java
+* @author	: ytkim
+ */
 @Controller
 @RequestMapping("/mgmt/userInfoMgmt")
 public class UserInfoMgmtController {

@@ -3,6 +3,12 @@ import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+/**
+ * session listener
+* 
+* @fileName	: SessionListener.java
+* @author	: ytkim
+ */
 @WebListener
 public class SessionListener implements HttpSessionListener {
 

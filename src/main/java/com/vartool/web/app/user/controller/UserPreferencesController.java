@@ -24,23 +24,14 @@ import com.vartool.web.constants.LocaleConstants;
 import com.vartool.web.constants.VIEW_PAGE;
 import com.vartool.web.dto.request.PasswordRequestDTO;
 import com.vartool.web.dto.request.UserModReqeustDTO;
-import com.vartool.web.module.SecurityUtil;
+import com.vartool.web.module.SecurityUtils;
 import com.vartool.web.module.VartoolUtils;
 
 /**
- *
- *
-*-----------------------------------------------------------------------------
-* @PROJECT	: varsql
-* @NAME		: PreferencesController.java
-* @DESC		: 사용자 환경설정 컨트롤러.
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2017. 11. 28. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+ * 사용자 환경설정 컨트롤러.
+* 
+* @fileName	: UserPreferencesController.java
+* @author	: ytkim
  */
 @Controller
 @RequestMapping("/user/preferences")
@@ -69,7 +60,7 @@ public class UserPreferencesController extends AbstractController{
 		ModelMap model = mav.getModelMap();
 
 		setModelDefaultValue(req , model);
-		model.addAttribute("detailInfo" , userPreferencesServiceImpl.findUserInfo(SecurityUtil.userViewId(req)));
+		model.addAttribute("detailInfo" , userPreferencesServiceImpl.findUserInfo(SecurityUtils.userViewId(req)));
 		model.addAttribute("localeInfo" , LocaleConstants.values());
 		return getModelAndView("/general", VIEW_PAGE.USER_PREFERENCES, model);
 	}
@@ -147,7 +138,7 @@ public class UserPreferencesController extends AbstractController{
 			return VartoolUtils.getResponseResultValidItem(result);
 		}
 		
-		passwordForm.setViewid(SecurityUtil.userViewId(req));
+		passwordForm.setViewid(SecurityUtils.userViewId(req));
 		return userPreferencesServiceImpl.updatePasswordInfo(passwordForm);
 	}
 }

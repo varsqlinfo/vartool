@@ -3,6 +3,12 @@ package com.vartool.web.model.converter;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
+/**
+ * del yn  Converter
+* 
+* @fileName	: BooleanToDelYnConverter.java
+* @author	: ytkim
+ */
 @Converter
 public class BooleanToDelYnConverter implements AttributeConverter<Boolean, String> {
 	

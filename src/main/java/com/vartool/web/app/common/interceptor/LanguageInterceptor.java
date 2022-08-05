@@ -9,14 +9,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
-import com.vartool.web.module.SecurityUtil;
+import com.vartool.web.module.SecurityUtils;
 
-public class LanguageInterceptor extends HandlerInterceptorAdapter {
+/**
+ * 다국어 Interceptor
+* 
+* @fileName	: LanguageInterceptor.java
+* @author	: ytkim
+ */
+public class LanguageInterceptor implements HandlerInterceptor {
 
 	public static final String DEFAULT_PARAM_NAME = "locale";
 
@@ -25,8 +31,8 @@ public class LanguageInterceptor extends HandlerInterceptorAdapter {
 			throws ServletException {
 		
 		Locale locale;
-		if(SecurityUtil.isAuthenticated()) {
-			locale = SecurityUtil.loginInfo().getUserLocale();
+		if(SecurityUtils.isAuthenticated()) {
+			locale = SecurityUtils.loginInfo().getUserLocale();
 		}else {
 			locale = extractLocale(request);
 		}

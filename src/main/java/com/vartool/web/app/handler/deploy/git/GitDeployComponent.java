@@ -24,6 +24,12 @@ import com.vartool.web.module.LogFilenameUtils;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.template.DeploySourceReplaceUtils;
 
+/**
+ * git deploy component
+* 
+* @fileName	: GitDeployComponent.java
+* @author	: ytkim
+ */
 @Component
 public class GitDeployComponent extends AbstractDeploy{
 	

@@ -1,18 +1,10 @@
 package com.vartool.web.constants;
 
 /**
- * 
-*-----------------------------------------------------------------------------
+ * request url constants
 * 
-* @NAME		: ViewPage.java
-* @DESC		: controller page enum
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2019. 10. 31. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: ViewPageConstants.java
+* @author	: ytkim
  */
 public interface ViewPageConstants {
 	public static final String REDIRECT_PREFIX = "redirect:";

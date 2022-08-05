@@ -11,6 +11,12 @@ import com.vartool.web.dto.response.CmpLogResponseDTO;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 import com.vartool.web.module.VartoolUtils;
 
+/**
+ * tail output handler
+* 
+* @fileName	: TailLogOutputHandler.java
+* @author	: ytkim
+ */
 public class TailLogOutputHandler implements Runnable {
 	
 	private static final Logger logger = LoggerFactory.getLogger("commandLog");

@@ -19,6 +19,12 @@ import com.vartech.common.utils.VartechUtils;
 import com.vartool.web.app.user.service.UserCmpService;
 import com.vartool.web.dto.response.CmpGroupUserMappingResponseDTO;
 
+/**
+ * main page controller
+* 
+* @fileName	: MainPageController.java
+* @author	: ytkim
+ */
 @Controller
 public class MainPageController {
 

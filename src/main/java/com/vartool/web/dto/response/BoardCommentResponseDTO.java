@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.vartool.web.model.entity.board.BoardCommentEntity;
-import com.vartool.web.module.SecurityUtil;
+import com.vartool.web.module.SecurityUtils;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,7 +50,7 @@ public class BoardCommentResponseDTO {
 		}
 		brd.setDelYn(comment.isDelYn());
 		
-		brd.setModifyAuth((SecurityUtil.isAdmin() || comment.getRegId().equals(SecurityUtil.userViewId())));
+		brd.setModifyAuth((SecurityUtils.isAdmin() || comment.getRegId().equals(SecurityUtils.userViewId())));
 		
 		brd.setFileList(comment.getFileList().stream().map(item->{
 			return BoardFileResponseDTO.toDto(item);

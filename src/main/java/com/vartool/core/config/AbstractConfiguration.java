@@ -2,6 +2,12 @@ package com.vartool.core.config;
 
 import java.io.File;
 
+/**
+ * 
+* 
+* @fileName	: AbstractConfiguration.java
+* @author	: ytkim
+ */
 public abstract class AbstractConfiguration {
 	
 	public static String getConfigRootPath() {

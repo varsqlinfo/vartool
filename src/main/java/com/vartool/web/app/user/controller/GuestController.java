@@ -14,16 +14,10 @@ import com.vartool.web.app.common.controller.AbstractController;
 import com.vartool.web.constants.VIEW_PAGE;
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: GuestController.java
-* @desc		:  guest controller
+ * guest controller
+* 
+* @fileName	: GuestController.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 4. 27. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
 @Controller
 @RequestMapping("/guest")

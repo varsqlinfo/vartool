@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.querydsl.apt.Configuration;
 import com.vartech.common.app.beans.MailInfo;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.constants.RequestResultCode;
@@ -23,6 +22,12 @@ import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.repository.EmailTokenEntityRepository;
 import com.vartool.web.repository.UserRepository;
 
+/**
+ * user common service
+* 
+* @fileName	: UserCommonService.java
+* @author	: ytkim
+ */
 @Service
 public class UserCommonService {
 	private final Logger logger = LoggerFactory.getLogger(UserCommonService.class);
@@ -39,7 +44,14 @@ public class UserCommonService {
 		this.mailService = mailService; 
 	}
 	
-
+	/**
+	 * send reset password mail
+	 *
+	 * @method : sendPasswordMail
+	 * @param uid
+	 * @param uemail
+	 * @return
+	 */
 	public ResponseResult sendPasswordMail(String uid, String uemail) {
 		logger.debug("resetPassword uid :{}, uemail:{} ", uid, uemail);
 		
@@ -68,6 +80,8 @@ public class UserCommonService {
 	
 	/**
 	 * token 유효성 체크. 
+	 *
+	 * @method : isValidToken
 	 * @param token
 	 * @return
 	 */
@@ -89,6 +103,8 @@ public class UserCommonService {
 	
 	/**
 	 * password 초기화
+	 *
+	 * @method : resetPassword
 	 * @param token
 	 * @param upw
 	 * @param confirmUpw

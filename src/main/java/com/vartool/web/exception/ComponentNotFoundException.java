@@ -1,5 +1,11 @@
 package com.vartool.web.exception;
 
+/**
+ * component not found exception
+* 
+* @fileName	: ComponentNotFoundException.java
+* @author	: ytkim
+ */
 public class ComponentNotFoundException extends RuntimeException {
   private static final long serialVersionUID = 1L;
   

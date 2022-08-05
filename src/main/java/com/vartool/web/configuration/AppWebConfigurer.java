@@ -16,18 +16,11 @@ import com.vartool.web.constants.VartoolConstants;
 
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: AppWebConfigurer.java
-* @desc		:
+ * app web Configurer
+* 
+* @fileName	: AppWebConfigurer.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 4. 9. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
-
 public class AppWebConfigurer implements WebMvcConfigurer {
 	@Bean
 	public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> webServerFactoryCustomizer() {

@@ -5,6 +5,12 @@ import org.joda.time.format.DateTimeFormatter;
 
 import com.vartool.core.config.VartoolConfiguration;
 
+/**
+ * vartool constants
+* 
+* @fileName	: VartoolConstants.java
+* @author	: ytkim
+ */
 public interface VartoolConstants {
 	
 	// 날짜 포켓.

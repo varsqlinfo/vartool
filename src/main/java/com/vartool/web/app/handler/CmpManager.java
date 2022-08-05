@@ -1,5 +1,11 @@
 package com.vartool.web.app.handler;
 
+/**
+ * component manager interface
+* 
+* @fileName	: CmpManager.java
+* @author	: ytkim
+ */
 public interface CmpManager {
 	
 	public boolean existsLog(String uid);

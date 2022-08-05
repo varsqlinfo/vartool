@@ -7,18 +7,10 @@ import com.vartool.web.constants.VIEW_PAGE;
 import com.vartool.web.constants.ViewPageConstants;
 
 /**
- *
-*-----------------------------------------------------------------------------
+ * base controller
 * 
-* @NAME		: AbstractController.java
-* @DESC		: base controller
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2019. 10. 31. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: AbstractController.java
+* @author	: ytkim
  */
 public abstract class AbstractController implements Controller{
 

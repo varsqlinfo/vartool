@@ -5,16 +5,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.vartool.web.constants.ResourceConfigConstants;
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: PasswordUtils.java
-* @desc		: 패스워드 utils 
+ * 패스워드 utils 
+* 
+* @fileName	: PasswordUtils.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 4. 27. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
 public final class PasswordUtils {
 	

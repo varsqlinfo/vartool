@@ -17,9 +17,15 @@ import com.vartool.web.constants.AppCode;
 import com.vartool.web.dto.DeployInfo;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 import com.vartool.web.model.entity.cmp.CmpItemDeployEntity;
-import com.vartool.web.module.SecurityUtil;
+import com.vartool.web.module.SecurityUtils;
 import com.vartool.web.repository.cmp.CmpItemDeployRepository;
 
+/**
+ * deploy service
+* 
+* @fileName	: CmpDeployService.java
+* @author	: ytkim
+ */
 @Service
 public class CmpDeployService{
 	private final static Logger logger = LoggerFactory.getLogger(CmpDeployService.class);
@@ -34,12 +40,9 @@ public class CmpDeployService{
 	private CmpItemDeployRepository cmpItemDeployRepository;
 	
 	/**
-	 * 
-	 * @Method Name  : loadLog
-	 * @Method 설명 : get deploy log 
-	 * @작성자   : ytkim
-	 * @작성일   : 2021. 8. 13.
-	 * @변경이력  :
+	 * get deploy log 
+	 *
+	 * @method : loadLog
 	 * @param cmpId
 	 * @param allParameter
 	 * @return
@@ -51,14 +54,12 @@ public class CmpDeployService{
 	}
 	
 	/**
-	 * 
-	 * @param req 
-	 * @Method Name  : deploy
-	 * @Method 설명 : 
-	 * @작성자   : ytkim
-	 * @작성일   : 2020. 4. 20.
-	 * @변경이력  :
-	 * @param deployReqDto
+	 * deploy
+	 *
+	 * @method : deploy
+	 * @param cmpId
+	 * @param action
+	 * @param req
 	 * @return
 	 */
 	public ResponseResult deploy(String cmpId, String action, HttpServletRequest req) {
@@ -72,7 +73,7 @@ public class CmpDeployService{
 		
 		DeployInfo dto = DeployInfo.toDto(entity);
 		
-		logger.info("deploy info ip:{}, loginId: {}, action:{},  cmpId: {}, name: {}", SecurityUtil.clientIp(), SecurityUtil.loginName(), action, dto.getCmpId(), dto.getName());
+		logger.info("deploy info ip:{}, loginId: {}, action:{},  cmpId: {}, name: {}", SecurityUtils.clientIp(), SecurityUtils.loginName(), action, dto.getCmpId(), dto.getName());
 		
 		if(DeployCmpManager.getInstance().isRunning(dto.getCmpId())) {
 			result.setMessage("already running");

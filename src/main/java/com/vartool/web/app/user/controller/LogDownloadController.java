@@ -14,6 +14,12 @@ import com.vartech.common.app.beans.DataMap;
 import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.app.user.service.LogDownloadService;
 
+/**
+ * log download
+* 
+* @fileName	: LogDownloadController.java
+* @author	: ytkim
+ */
 @Controller
 public class LogDownloadController {
 	
@@ -24,9 +30,18 @@ public class LogDownloadController {
 	@Autowired
 	private LogDownloadService logDownloadService;
 	
-	//첨부파일 다운로드
+	/**
+	 * 로그 정보 다운로드
+	 *
+	 * @method : logInfoDownload
+	 * @param cmpId
+	 * @param cmpType
+	 * @param req
+	 * @param res
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/cmp/download")
-	public void fileDownload(@RequestParam(value = "cmpId", required = true) String cmpId,
+	public void logInfoDownload(@RequestParam(value = "cmpId", required = true) String cmpId,
 			@RequestParam(value = "cmpType", required = true) String cmpType,
 			 HttpServletRequest req, HttpServletResponse res) throws Exception {
 		logger.debug("fileDownload");			

@@ -16,6 +16,12 @@ import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.app.user.service.CmpDeployService;
 
+/**
+ * deploy
+* 
+* @fileName	: CmpDeployController.java
+* @author	: ytkim
+ */
 @Controller
 @RequestMapping("/cmp/deploy")
 public class CmpDeployController {

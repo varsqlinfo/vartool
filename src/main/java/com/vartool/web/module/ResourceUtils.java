@@ -12,16 +12,10 @@ import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.constants.VartoolConstants;
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: ResourceUtil.java
-* @desc		: resource load util
+ * resource load util
+* 
+* @fileName	: ResourceUtils.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 9. 18. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
 public final class ResourceUtils {
 
@@ -31,11 +25,10 @@ public final class ResourceUtils {
 	private ResourceUtils() {}
 
 	/**
-	 * @method  : getPackageResources
-	 * @desc : 하위 패키지 밑에 경로 가져오기.
-	 * @author   : ytkim
-	 * @date   : 2020. 9. 18.
-	 * @param packagePath ex : classpath*:preferences\/*\/*.xml
+	 * get package resources
+	 *
+	 * @method : getPackageResources
+	 * @param packagePath
 	 * @return
 	 * @throws IOException
 	 */
@@ -45,10 +38,9 @@ public final class ResourceUtils {
 	}
 
 	/**
-	 * @method  : getClassPathResources
-	 * @desc : class path 하위  자원 구하기.
-	 * @author   : ytkim
-	 * @date   : 2020. 9. 18.
+	 * get resource
+	 *
+	 * @method : getResource
 	 * @param resourcePath
 	 * @return
 	 * @throws IOException
@@ -75,10 +67,9 @@ public final class ResourceUtils {
 	}
 
 	/**
-	 * @method  : getResourceString
-	 * @desc : resource -> string
-	 * @author   : ytkim
-	 * @date   : 2020. 9. 18.
+	 * resource -> string
+	 *
+	 * @method : getResourceString
 	 * @param resourcePath
 	 * @return
 	 * @throws IOException
@@ -88,22 +79,38 @@ public final class ResourceUtils {
 	}
 
 	/**
-	 * @method  : getResourceString
-	 * @desc : resource -> string
-	 * @author   : ytkim
-	 * @date   : 2020. 9. 18.
-	 * @param resourcePath
+	 * resource -> string
+	 *
+	 * @method : getResourceString
+	 * @param resource
 	 * @return
 	 * @throws IOException
 	 */
 	public static String getResourceString(Resource resource) throws IOException {
 		return getResourceString(resource, VartoolConstants.CHAR_SET);
 	}
-
+	
+	/**
+	 * resource -> string
+	 *
+	 * @method : getResourceString
+	 * @param resource
+	 * @param charset
+	 * @return
+	 * @throws IOException
+	 */
 	public static String getResourceString(Resource resource, String charset) throws IOException {
 		return IOUtils.toString(resource.getInputStream(), charset);
 	}
 	
+	/**
+	 * 
+	 *
+	 * @method : getInstallPathResource
+	 * @param resourcePath
+	 * @return
+	 * @throws IOException
+	 */
 	public static Resource getInstallPathResource(String resourcePath) throws IOException {
 	    Resource configResource;
 	    

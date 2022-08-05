@@ -1,7 +1,5 @@
 package com.vartool.web.app.user.service;
 
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +10,20 @@ import com.vartool.web.constants.PreferencesConstants;
 import com.vartool.web.dto.request.UserPreferencesRequestDTO;
 import com.vartool.web.model.entity.cmp.CmpGroupEntity;
 import com.vartool.web.model.entity.user.UserPreferencesEntity;
-import com.vartool.web.module.SecurityUtil;
+import com.vartool.web.module.SecurityUtils;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.repository.UserPreferencesRepository;
 import com.vartool.web.repository.cmp.CmpGroupRepository;
 
+/**
+ * 사용자 메인 환경설정 service 
+* 
+* @fileName	: UserMainPrefService.java
+* @author	: ytkim
+ */
 @Service
-public class UserPrefService{
-	private final static Logger logger = LoggerFactory.getLogger(UserPrefService.class);
+public class UserMainPrefService{
+	private final static Logger logger = LoggerFactory.getLogger(UserMainPrefService.class);
 	
 	@Autowired
 	private UserPreferencesRepository userPreferencesRepository;
@@ -28,12 +32,9 @@ public class UserPrefService{
 	private CmpGroupRepository cmpGroupRepository; 
 	
 	/**
-	 * 
-	 * @Method Name  : save
-	 * @Method 설명 : 환경설정 저장
-	 * @작성자   : ytkim
-	 * @작성일   : 2021. 8. 12.
-	 * @변경이력  :
+	 * 저장
+	 *
+	 * @method : save
 	 * @param dto
 	 * @return
 	 */
@@ -41,7 +42,7 @@ public class UserPrefService{
 		
 		UserPreferencesEntity entity = dto.toEntity(); 
 		
-		entity.setViewid(SecurityUtil.userViewId());
+		entity.setViewid(SecurityUtils.userViewId());
 		
 		userPreferencesRepository.save(entity);
 		
@@ -49,12 +50,9 @@ public class UserPrefService{
 	}
 	
 	/**
-	 * 
-	 * @Method Name  : defaultLayout
-	 * @Method 설명 : save group default layout 
-	 * @작성자   : ytkim
-	 * @작성일   : 2021. 8. 12.
-	 * @변경이력  :
+	 * 기본 레이아웃 지정
+	 *
+	 * @method : defaultLayout
 	 * @param dto
 	 * @return
 	 */
@@ -71,17 +69,14 @@ public class UserPrefService{
 	}
 	
 	/**
-	 * 
-	 * @Method Name  : initLayout
-	 * @Method 설명 : init layout  
-	 * @작성자   : ytkim
-	 * @작성일   : 2022. 1. 13.
-	 * @변경이력  :
+	 * init layout  
+	 *
+	 * @method : initLayout
 	 * @param groupId
 	 * @return
 	 */
 	public ResponseResult initLayout(String groupId) {
-		UserPreferencesEntity item = userPreferencesRepository.findByGroupIdAndViewidAndPrefKey(groupId, SecurityUtil.userViewId(), PreferencesConstants.PREFKEY.MAIN_LAYOUT.key());
+		UserPreferencesEntity item = userPreferencesRepository.findByGroupIdAndViewidAndPrefKey(groupId, SecurityUtils.userViewId(), PreferencesConstants.PREFKEY.MAIN_LAYOUT.key());
 		
 		if(item != null) {
 			userPreferencesRepository.delete(item);

@@ -15,6 +15,12 @@ import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.app.user.service.CmpLogService;
 
+/**
+ * 로그 
+* 
+* @fileName	: CmpLogController.java
+* @author	: ytkim
+ */
 @Controller
 @RequestMapping("/cmp/log")
 public class CmpLogController {
@@ -26,6 +32,15 @@ public class CmpLogController {
 	@Autowired
 	private CmpLogService cmpLogService;
 	
+	/**
+	 * 로그 정보 로드
+	 *
+	 * @method : loadAppLog
+	 * @param cmpId
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping({"/load" })
 	@ResponseBody
 	public ResponseResult loadAppLog(@RequestParam(value = "cmpId", required = true) String cmpId, HttpServletRequest req) throws Exception {

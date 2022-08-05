@@ -19,6 +19,12 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+/**
+ * 비동기 모듈 설정
+* 
+* @fileName	: ServiceConfigurer.java
+* @author	: ytkim
+ */
 @EnableAsync
 @EnableScheduling
 @EnableAspectJAutoProxy

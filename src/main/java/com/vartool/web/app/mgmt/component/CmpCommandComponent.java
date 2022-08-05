@@ -27,23 +27,15 @@ import com.vartool.web.constants.AppCode;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.dto.response.CmpCommandResponseDTO;
 import com.vartool.web.model.entity.cmp.CmpItemCommandEntity;
-import com.vartool.web.module.SecurityUtil;
+import com.vartool.web.module.SecurityUtils;
 import com.vartool.web.module.Utils;
 import com.vartool.web.repository.cmp.CmpItemCommandRepository;
 
 /**
- * 
-*-----------------------------------------------------------------------------
+ * log item event service
 * 
-* @NAME		: LogItemEventService.java
-* @DESC		: log item event service
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2020. 2. 6. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: CmpCommandComponent.java
+* @author	: ytkim
  */
 @Component
 public class CmpCommandComponent {
@@ -79,7 +71,7 @@ public class CmpCommandComponent {
 				return result; 
 			}
 			
-			logger.info("deploy info ip:{}, loginId: {}, action:{},  cmpId: {}, name: {}", SecurityUtil.clientIp(), SecurityUtil.loginName(), mode, cme.getCmpId(), cme.getName());
+			logger.info("deploy info ip:{}, loginId: {}, action:{},  cmpId: {}, name: {}", SecurityUtils.clientIp(), SecurityUtils.loginName(), mode, cme.getCmpId(), cme.getName());
 			
 			CmpCommandResponseDTO dto = CmpCommandResponseDTO.toDto(cme);
 			

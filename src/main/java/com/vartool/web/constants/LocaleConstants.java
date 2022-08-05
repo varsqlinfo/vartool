@@ -4,12 +4,10 @@ import java.util.Locale;
 
 
 /**
- *
- * @FileName  : LocaleConstants.java
- * @프로그램 설명 : locale 변수 .
- * @Date      : 2019. 4. 17.
- * @작성자      : ytkim
- * @변경이력 :
+ * locale 변수 .
+* 
+* @fileName	: LocaleConstants.java
+* @author	: ytkim
  */
 public enum LocaleConstants {
 	KO("ko") , EN ("en");

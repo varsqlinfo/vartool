@@ -8,16 +8,10 @@ import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.constants.VartoolConstants;
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: VarTagFn.java
-* @desc		: app custom tag function
+ * app custom tag function
+* 
+* @fileName	: VarTagFn.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 4. 24. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
 public final class VarTagFn{
 

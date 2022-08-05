@@ -26,18 +26,10 @@ import com.vartool.web.module.FileServiceUtils;
 import com.vartool.web.repository.cmp.CmpItemLogRepository;
 
 /**
- * 
-*-----------------------------------------------------------------------------
+ * log service
 * 
-* @NAME		: LogItemEventService.java
-* @DESC		: log item event service
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2020. 2. 6. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: CmpLogService.java
+* @author	: ytkim
  */
 @Component
 public class CmpLogService {
@@ -49,6 +41,14 @@ public class CmpLogService {
 	@Autowired
 	private CmpItemLogRepository cmpItemLogRepository;
 	
+	/**
+	 * log load
+	 *
+	 * @method : loadLog
+	 * @param cmpId
+	 * @param param
+	 * @return
+	 */
 	public ResponseResult loadLog(String cmpId, DataMap param) {
 		
 		CmpItemLogEntity logCmp = cmpItemLogRepository.findByCmpId(cmpId);

@@ -23,18 +23,10 @@ import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.repository.cmp.CmpItemCommandRepository;
 
 /**
- * 
-*-----------------------------------------------------------------------------
+ * command component관리
 * 
-* @NAME		: CmpCommnadMgmtService.java
-* @DESC		: command component관리
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2020. 2. 6. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: CmpCommnadMgmtService.java
+* @author	: ytkim
  */
 @Component
 public class CmpCommnadMgmtService {

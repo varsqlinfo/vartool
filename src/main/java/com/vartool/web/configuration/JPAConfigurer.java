@@ -30,16 +30,10 @@ import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.constants.ResourceConfigConstants;
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: JPAConfig.java
-* @desc		: jpa 설정.
+ * jpa 설정.
+* 
+* @fileName	: JPAConfigurer.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 4. 21. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
 @EnableTransactionManagement
 @PropertySource({ "classpath:persistence-h2.properties" })

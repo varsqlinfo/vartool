@@ -256,7 +256,8 @@ pre {
     z-index: 100;
     width: 500px;
     height: 100%;
-
+    border-left: 1px solid colorInfo($g_default_theme_name , "border_thin_color");
+  
     &.on{
       display: block;
     }
@@ -613,6 +614,10 @@ pre {
       background: colorInfo($pThemeName , "background_color");
       font-size:colorInfo($pThemeName , "font_size");
       color:colorInfo($pThemeName , "font_color");
+
+      .board-wrapper{
+        border-left: 1px solid colorInfo($g_default_theme_name , "border_thin_color");
+      }
     
       .lm_content {
         padding: 1px;

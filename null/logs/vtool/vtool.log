@@ -1,0 +1,69 @@
+2022-08-05 14:20:59 INFO  c.v.core.config.VartoolConfiguration - config file path : /E:/05.varsql/99.source/var-tool/target/main, fileName : config/vartool-app-config.yaml
+2022-08-05 14:21:00 DEBUG c.v.core.config.VartoolConfiguration - siteAddr : http://192.168.56.1:12346/vtool
+2022-08-05 14:21:00 DEBUG c.v.core.config.VartoolConfiguration - tool config info : com.vartool.core.config.vo.AppConfig@6326d182
+2022-08-05 14:21:00 DEBUG c.v.core.config.VartoolConfiguration - vartool config info
+2022-08-05 14:21:00 DEBUG c.v.core.config.VartoolConfiguration - os type : Windows 10
+2022-08-05 14:21:00 DEBUG c.v.core.config.VartoolConfiguration - java home  : E:\05.varsql\01.eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.1.v20211116-1657\jre
+2022-08-05 14:21:00 DEBUG c.v.core.config.VartoolConfiguration - vartool config info
+2022-08-05 14:21:00 DEBUG c.v.c.crypto.PasswordCryptionFactory - db password crypto type  : aes
+2022-08-05 14:21:00 DEBUG o.e.j.i.storage.file.FileSnapshot - file=null, size changed from -1 to 249 bytes
+2022-08-05 14:21:00 DEBUG org.eclipse.jgit.util.SystemReader - loading config FileBasedConfig[C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config]
+2022-08-05 14:21:00 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, create new FileSnapshot: lastRead=2022-08-05 14:21:00.436026500, lastModified=2022-02-25 16:49:25.850549800, size=249, fileKey=java.lang.Object@41394595
+2022-08-05 14:21:00 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, isRacyClean=false, read=2022-08-05 14:21:00.436026500, lastModified=2022-02-25 16:49:25.850549800, delta=13901494585476700 ns, racy<=2500000000 ns
+2022-08-05 14:21:00 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, is unmodified
+2022-08-05 14:21:00 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, isRacyClean=false, read=2022-08-05 14:21:00.436026500, lastModified=2022-02-25 16:49:25.850549800, delta=13901494585476700 ns, racy<=2500000000 ns
+2022-08-05 14:21:00 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, is unmodified
+2022-08-05 14:21:00 DEBUG o.e.j.i.storage.file.FileSnapshot - file=null, size changed from -1 to 236 bytes
+2022-08-05 14:21:00 DEBUG org.eclipse.jgit.util.SystemReader - loading config FileBasedConfig[C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.gitconfig]
+2022-08-05 14:21:00 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.gitconfig, create new FileSnapshot: lastRead=2022-08-05 14:21:00.447995300, lastModified=2022-07-08 17:34:57.127843800, size=236, fileKey=java.lang.Object@41394595
+2022-08-05 14:22:05 INFO  c.v.core.config.VartoolConfiguration - config file path : /E:/05.varsql/99.source/var-tool/target/main, fileName : config/vartool-app-config.yaml
+2022-08-05 14:22:05 DEBUG c.v.core.config.VartoolConfiguration - siteAddr : http://192.168.56.1:12346/vtool
+2022-08-05 14:22:05 DEBUG c.v.core.config.VartoolConfiguration - tool config info : com.vartool.core.config.vo.AppConfig@649725e3
+2022-08-05 14:22:05 DEBUG c.v.core.config.VartoolConfiguration - vartool config info
+2022-08-05 14:22:05 DEBUG c.v.core.config.VartoolConfiguration - os type : Windows 10
+2022-08-05 14:22:05 DEBUG c.v.core.config.VartoolConfiguration - java home  : E:\05.varsql\01.eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.1.v20211116-1657\jre
+2022-08-05 14:22:05 DEBUG c.v.core.config.VartoolConfiguration - vartool config info
+2022-08-05 14:22:05 DEBUG c.v.c.crypto.PasswordCryptionFactory - db password crypto type  : aes
+2022-08-05 14:22:06 DEBUG o.e.j.i.storage.file.FileSnapshot - file=null, size changed from -1 to 249 bytes
+2022-08-05 14:22:06 DEBUG org.eclipse.jgit.util.SystemReader - loading config FileBasedConfig[C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config]
+2022-08-05 14:22:06 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, create new FileSnapshot: lastRead=2022-08-05 14:22:06.095430300, lastModified=2022-02-25 16:49:25.850549800, size=249, fileKey=java.lang.Object@f713686
+2022-08-05 14:22:06 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, isRacyClean=false, read=2022-08-05 14:22:06.095430300, lastModified=2022-02-25 16:49:25.850549800, delta=13901560244880500 ns, racy<=2500000000 ns
+2022-08-05 14:22:06 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, is unmodified
+2022-08-05 14:22:06 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, isRacyClean=false, read=2022-08-05 14:22:06.095430300, lastModified=2022-02-25 16:49:25.850549800, delta=13901560244880500 ns, racy<=2500000000 ns
+2022-08-05 14:22:06 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, is unmodified
+2022-08-05 14:22:06 DEBUG o.e.j.i.storage.file.FileSnapshot - file=null, size changed from -1 to 236 bytes
+2022-08-05 14:22:06 DEBUG org.eclipse.jgit.util.SystemReader - loading config FileBasedConfig[C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.gitconfig]
+2022-08-05 14:22:06 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.gitconfig, create new FileSnapshot: lastRead=2022-08-05 14:22:06.113382400, lastModified=2022-07-08 17:34:57.127843800, size=236, fileKey=java.lang.Object@f713686
+2022-08-05 14:23:01 INFO  c.v.core.config.VartoolConfiguration - config file path : /E:/05.varsql/99.source/var-tool/target/main, fileName : config/vartool-app-config.yaml
+2022-08-05 14:23:01 DEBUG c.v.core.config.VartoolConfiguration - siteAddr : http://192.168.56.1:12346/vtool
+2022-08-05 14:23:01 DEBUG c.v.core.config.VartoolConfiguration - tool config info : com.vartool.core.config.vo.AppConfig@649725e3
+2022-08-05 14:23:01 DEBUG c.v.core.config.VartoolConfiguration - vartool config info
+2022-08-05 14:23:01 DEBUG c.v.core.config.VartoolConfiguration - os type : Windows 10
+2022-08-05 14:23:01 DEBUG c.v.core.config.VartoolConfiguration - java home  : E:\05.varsql\01.eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.1.v20211116-1657\jre
+2022-08-05 14:23:01 DEBUG c.v.core.config.VartoolConfiguration - vartool config info
+2022-08-05 14:23:01 DEBUG c.v.c.crypto.PasswordCryptionFactory - db password crypto type  : aes
+2022-08-05 14:23:01 DEBUG o.e.j.i.storage.file.FileSnapshot - file=null, size changed from -1 to 249 bytes
+2022-08-05 14:23:01 DEBUG org.eclipse.jgit.util.SystemReader - loading config FileBasedConfig[C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config]
+2022-08-05 14:23:01 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, create new FileSnapshot: lastRead=2022-08-05 14:23:01.723936700, lastModified=2022-02-25 16:49:25.850549800, size=249, fileKey=java.lang.Object@5a62b2a4
+2022-08-05 14:23:01 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, isRacyClean=false, read=2022-08-05 14:23:01.723936700, lastModified=2022-02-25 16:49:25.850549800, delta=13901615873386900 ns, racy<=2500000000 ns
+2022-08-05 14:23:01 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, is unmodified
+2022-08-05 14:23:01 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, isRacyClean=false, read=2022-08-05 14:23:01.723936700, lastModified=2022-02-25 16:49:25.850549800, delta=13901615873386900 ns, racy<=2500000000 ns
+2022-08-05 14:23:01 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, is unmodified
+2022-08-05 14:23:01 DEBUG o.e.j.i.storage.file.FileSnapshot - file=null, size changed from -1 to 236 bytes
+2022-08-05 14:23:01 DEBUG org.eclipse.jgit.util.SystemReader - loading config FileBasedConfig[C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.gitconfig]
+2022-08-05 14:23:01 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.gitconfig, create new FileSnapshot: lastRead=2022-08-05 14:23:01.737902500, lastModified=2022-07-08 17:34:57.127843800, size=236, fileKey=java.lang.Object@5a62b2a4
+2022-08-05 14:23:59 DEBUG o.e.j.i.storage.file.FileSnapshot - file=null, size changed from -1 to 249 bytes
+2022-08-05 14:23:59 DEBUG org.eclipse.jgit.util.SystemReader - loading config FileBasedConfig[C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config]
+2022-08-05 14:23:59 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, create new FileSnapshot: lastRead=2022-08-05 14:23:59.339521000, lastModified=2022-02-25 16:49:25.850549800, size=249, fileKey=java.lang.Object@126945f9
+2022-08-05 14:23:59 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, isRacyClean=false, read=2022-08-05 14:23:59.339521000, lastModified=2022-02-25 16:49:25.850549800, delta=13901673488971200 ns, racy<=2500000000 ns
+2022-08-05 14:23:59 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, is unmodified
+2022-08-05 14:23:59 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, isRacyClean=false, read=2022-08-05 14:23:59.339521000, lastModified=2022-02-25 16:49:25.850549800, delta=13901673488971200 ns, racy<=2500000000 ns
+2022-08-05 14:23:59 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.config\jgit\config, is unmodified
+2022-08-05 14:23:59 DEBUG o.e.j.i.storage.file.FileSnapshot - file=null, size changed from -1 to 236 bytes
+2022-08-05 14:23:59 DEBUG org.eclipse.jgit.util.SystemReader - loading config FileBasedConfig[C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.gitconfig]
+2022-08-05 14:23:59 DEBUG o.e.j.i.storage.file.FileSnapshot - file=C:\Users\LSNIKKO.DESKTOP-GIB0HNO\.gitconfig, create new FileSnapshot: lastRead=2022-08-05 14:23:59.351487400, lastModified=2022-07-08 17:34:57.127843800, size=236, fileKey=java.lang.Object@126945f9
+2022-08-05 14:23:59 DEBUG o.e.jgit.transport.PacketLineIn - git< # service=git-upload-pack
+2022-08-05 14:23:59 DEBUG o.e.jgit.transport.PacketLineIn - git< 0000
+2022-08-05 14:23:59 DEBUG o.e.jgit.transport.PacketLineIn - git< 04a12efe14c435a4f2c42a32d64dab833b9df1d9 HEAD  include-tag multi_ack_detailed multi_ack ofs-delta side-band side-band-64k thin-pack no-progress shallow no-done agent=JGit/4.5.0.201609210915-r symref=HEAD:refs/heads/master
+2022-08-05 14:23:59 DEBUG o.e.jgit.transport.PacketLineIn - git< 04a12efe14c435a4f2c42a32d64dab833b9df1d9 refs/heads/master
+2022-08-05 14:23:59 DEBUG o.e.jgit.transport.PacketLineIn - git< 0000

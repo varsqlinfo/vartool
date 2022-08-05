@@ -1,12 +1,10 @@
 package com.vartool.web.module;
 
 /**
- *
  * url replace util 
- * 
-* 2021. 10. 5. 		ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* 
+* @fileName	: UrlReplaceUtils.java
+* @author	: ytkim
  */
 public final class UrlReplaceUtils {
 	enum UrlSpecialChar{

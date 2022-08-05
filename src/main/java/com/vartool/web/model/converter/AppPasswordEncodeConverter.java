@@ -9,6 +9,12 @@ import org.slf4j.LoggerFactory;
 import com.vartech.common.crypto.EncryptDecryptException;
 import com.vartool.core.crypto.PasswordCryptionFactory;
 
+/**
+ * password converter
+* 
+* @fileName	: AppPasswordEncodeConverter.java
+* @author	: ytkim
+ */
 @Converter
 public class AppPasswordEncodeConverter implements AttributeConverter<String, String> {
 	private final Logger logger = LoggerFactory.getLogger(AppPasswordEncodeConverter.class);

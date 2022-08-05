@@ -12,6 +12,12 @@ import org.slf4j.LoggerFactory;
 import com.vartool.web.app.handler.deploy.AbstractDeploy;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 
+/**
+ * command execute control
+* 
+* @fileName	: CommandExeCtrl.java
+* @author	: ytkim
+ */
 public class CommandExeCtrl {
 	private final static Logger logger = LoggerFactory.getLogger(CommandExeCtrl.class);
 

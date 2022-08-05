@@ -1,13 +1,11 @@
 package com.vartool.web.exception;
 
 /**
-*
-* @FileName  : PermissionDeniedException.java
-* @Date      : 2020. 11. 12.
-* @작성자      : ytkim
-* @변경이력 :
-* @프로그램 설명 : board invalid exception
-*/
+ * Permission Denied Exception
+* 
+* @fileName	: PermissionDeniedException.java
+* @author	: ytkim
+ */
 public class PermissionDeniedException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;

@@ -26,20 +26,11 @@ import com.vartool.web.dto.request.UserReqeustDTO;
 import com.vartool.web.module.VartoolUtils;
 
 
-
 /**
- *
-*-----------------------------------------------------------------------------
+ * 회원가입
 * 
-* @NAME		: JoinController.java
-* @DESC		: 회원가입
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2019. 11. 1. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: JoinController.java
+* @author	: ytkim
  */
 @Controller
 @RequestMapping("/join")

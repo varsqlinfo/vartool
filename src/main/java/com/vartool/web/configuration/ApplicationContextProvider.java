@@ -6,16 +6,10 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: ApplicationContextProvider.java
-* @desc		:
+ * 
+* 
+* @fileName	: ApplicationContextProvider.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 4. 21. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
 @Component
 public class ApplicationContextProvider implements ApplicationContextAware{

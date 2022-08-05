@@ -4,6 +4,12 @@ import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
 import com.vartool.web.constants.BlankConstants;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 
+/**
+ * Abstract Deploy
+* 
+* @fileName	: AbstractDeploy.java
+* @author	: ytkim
+ */
 public abstract class AbstractDeploy implements DeployInterface{
 	
 	protected WebSocketServiceImpl webSocketServiceImpl;

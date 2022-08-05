@@ -6,6 +6,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+/**
+ * common controller advice
+* 
+* @fileName	: CommonControllerAdvice.java
+* @author	: ytkim
+ */
 @ControllerAdvice
 public class CommonControllerAdvice {
   @ModelAttribute

@@ -27,22 +27,14 @@ import com.vartech.common.utils.VartechUtils;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.exception.DataDownloadException;
 import com.vartool.web.exception.VartoolAppException;
-import com.vartool.web.module.SecurityUtil;
+import com.vartool.web.module.SecurityUtils;
 import com.vartool.web.module.VartoolUtils;
 
 /**
- *
-*-----------------------------------------------------------------------------
+ * exception handler
 * 
-* @NAME		: GlobalExceptionHandler.java
-* @DESC		: exception handler
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2019. 4. 16. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: GlobalExceptionHandler.java
+* @author	: ytkim
  */
 @ControllerAdvice
 public class GlobalExceptionHandler{
@@ -50,15 +42,12 @@ public class GlobalExceptionHandler{
 	private final Logger logger = LoggerFactory.getLogger("appErrorLog");
 
 	/**
+	 * sql exception 처리.
 	 *
-	 * @Method Name  : sqlExceptionHandle
-	 * @Method 설명 : sql exception 처리.
-	 * @작성자   : ytkim
-	 * @작성일   : 2017. 11. 13.
-	 * @변경이력  :
+	 * @method : sqlExceptionHandler
 	 * @param ex
+	 * @param request
 	 * @param response
-	 * @return
 	 */
 	@ExceptionHandler(value=SQLException.class)
 	public void sqlExceptionHandler(SQLException ex, HttpServletRequest request ,  HttpServletResponse response){
@@ -75,15 +64,12 @@ public class GlobalExceptionHandler{
 
 
 	/**
+	 * app exception 
 	 *
-	 * @Method Name  : vartoolAppExceptionHandler
-	 * @Method 설명 : var sql error 처리.
-	 * @작성자   : ytkim
-	 * @작성일   : 2017. 11. 13.
-	 * @변경이력  :
+	 * @method : vartoolAppExceptionHandler
 	 * @param ex
+	 * @param request
 	 * @param response
-	 * @return
 	 */
 	@ExceptionHandler(value=VartoolAppException.class)
 	public void vartoolAppExceptionHandler(VartoolAppException ex, HttpServletRequest request , HttpServletResponse response){
@@ -100,15 +86,12 @@ public class GlobalExceptionHandler{
 	}
 
 	/**
+	 * runtime exception 
 	 *
-	 * @Method Name  : runtimeExceptionHandle
-	 * @Method 설명 : 실행시 에러 처리.
-	 * @작성자   : ytkim
-	 * @작성일   : 2017. 11. 13.
-	 * @변경이력  :
+	 * @method : runtimeExceptionHandler
 	 * @param ex
+	 * @param request
 	 * @param response
-	 * @return
 	 */
 	@ExceptionHandler(value=RuntimeException.class)
 	public void runtimeExceptionHandler(RuntimeException ex, HttpServletRequest request , HttpServletResponse response){
@@ -123,12 +106,9 @@ public class GlobalExceptionHandler{
 	}
 
 	/**
+	 * class  not found exception 처리.
 	 *
-	 * @Method Name  : classNotFoundExceptionHandler
-	 * @Method 설명 : class  not found exception 처리.
-	 * @작성자   : ytkim
-	 * @작성일   : 2019. 9. 7.
-	 * @변경이력  :
+	 * @method : classExceptionHandler
 	 * @param ex
 	 * @param request
 	 * @param response
@@ -143,6 +123,14 @@ public class GlobalExceptionHandler{
 		exceptionRequestHandle(ex, request, response ,result);
 	}
 
+	/**
+	 * exception
+	 *
+	 * @method : exceptionHandler
+	 * @param ex
+	 * @param request
+	 * @param response
+	 */
 	@ExceptionHandler(value=Exception.class)
 	public void exceptionHandler(Exception ex,HttpServletRequest request ,  HttpServletResponse response){
 
@@ -251,7 +239,7 @@ public class GlobalExceptionHandler{
 			response.setStatus(HttpStatus.OK.value());
 			result.setResultCode(RequestResultCode.ERROR);
 
-			if(!SecurityUtil.isAdmin()) {
+			if(!SecurityUtils.isAdmin()) {
 				result.setMessage(result.getResultCode() + " :: " + ex.getClass());
 			}
 

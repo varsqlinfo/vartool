@@ -9,6 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * 매니저 메인
+* 
+* @fileName	: MgmtMainController.java
+* @author	: ytkim
+ */
 @Controller
 @RequestMapping("/mgmt")
 public class MgmtMainController {

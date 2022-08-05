@@ -18,9 +18,15 @@ import com.vartool.web.security.User;
 import com.vartool.web.security.auth.Authority;
 import com.vartool.web.security.auth.AuthorityType;
 
-public final class SecurityUtil {
+/**
+ * security utils
+* 
+* @fileName	: SecurityUtil.java
+* @author	: ytkim
+ */
+public final class SecurityUtils {
 	
-	private SecurityUtil(){};
+	private SecurityUtils(){};
 
 	/**
 	 *

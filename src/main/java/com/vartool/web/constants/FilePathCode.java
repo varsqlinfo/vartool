@@ -1,5 +1,11 @@
 package com.vartool.web.constants;
 
+/**
+ * file path 
+* 
+* @fileName	: FilePathCode.java
+* @author	: ytkim
+ */
 public enum FilePathCode {
 	EXPORT_PATH("exportFile"),
 	IMPORT("fileImport"), 

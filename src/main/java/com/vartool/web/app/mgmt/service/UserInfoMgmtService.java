@@ -27,25 +27,17 @@ import com.vartool.web.exception.VartoolAppException;
 import com.vartool.web.model.entity.board.BoardEntity;
 import com.vartool.web.model.entity.cmp.CmpGroupUserMappingEntity;
 import com.vartool.web.model.entity.user.UserEntity;
-import com.vartool.web.module.SecurityUtil;
+import com.vartool.web.module.SecurityUtils;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.repository.UserMgmtRepository;
 import com.vartool.web.repository.cmp.CmpGroupUserMappingRepository;
 import com.vartool.web.security.auth.AuthorityType;
 
 /**
- * 
-*-----------------------------------------------------------------------------
+ * 사용자 관리
 * 
-* @NAME		: UserInfoMgmtService.java
-* @DESC		: 사용자 관리
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2020. 2. 6. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: UserInfoMgmtService.java
+* @author	: ytkim
  */
 @Component
 public class UserInfoMgmtService {
@@ -71,7 +63,7 @@ public class UserInfoMgmtService {
 		Sort sort =Sort.by(Sort.Direction.DESC, BoardEntity.REG_DT);
 	
 		Page<UserEntity> result = null; 
-		if(SecurityUtil.isAdmin()) {
+		if(SecurityUtils.isAdmin()) {
 			result = userMgmtRepository.findByUserRoleNotAndUnameContaining(AuthorityType.ADMIN.name(), searchParameter.getKeyword(), VartoolUtils.convertSearchInfoToPage(searchParameter, sort));
 		}else {
 			result = userMgmtRepository.findByUserRoleAndUnameContaining(AuthorityType.USER.name(),searchParameter.getKeyword(), VartoolUtils.convertSearchInfoToPage(searchParameter, sort));

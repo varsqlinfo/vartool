@@ -6,6 +6,12 @@ import java.util.Objects;
 import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Options;
 
+/**
+ * handlebars helpers
+* 
+* @fileName	: HandlebarsHelpers.java
+* @author	: ytkim
+ */
 public enum HandlebarsHelpers implements Helper<Object> {
 	xif{
 		public Object apply(Object arg0, Options options) throws IOException {

@@ -1,13 +1,11 @@
 package com.vartool.web.exception;
 
 /**
-*
-* @FileName  : DataDownloadException.java
-* @Date      : 2020. 11. 12.
-* @작성자      : ytkim
-* @변경이력 :
-* @프로그램 설명 : 데이터 다운로드 eror 
-*/
+ * 데이터 다운로드 eror 
+* 
+* @fileName	: DataDownloadException.java
+* @author	: ytkim
+ */
 public class DataDownloadException extends RuntimeException {
 
 	/**

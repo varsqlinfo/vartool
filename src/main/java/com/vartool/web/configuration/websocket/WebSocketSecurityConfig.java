@@ -8,16 +8,10 @@ import org.springframework.security.config.annotation.web.socket.AbstractSecurit
 import com.vartool.web.constants.WebSocketConstants;
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: WebSocketSecurityConfig.java
-* @desc		: web event
+ * web socket security
+* 
+* @fileName	: WebSocketSecurityConfig.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 10. 21. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
 @Configuration
 public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {

@@ -31,17 +31,10 @@ import com.vartool.web.model.entity.FileBaseEntity;
 import com.vartool.web.model.entity.board.BoardFileEntity;
 
 /**
-*-----------------------------------------------------------------------------
+ * file service utils
 * 
-* @NAME		: FileServiceUtils.java
-* @DESC		: file service utils
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2018. 7. 24. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: FileServiceUtils.java
+* @author	: ytkim
  */
 public final class FileServiceUtils {
 

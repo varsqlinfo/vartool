@@ -3,18 +3,10 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * 
-*-----------------------------------------------------------------------------
+ * 패스워드 정책 적용.  
 * 
-* @NAME		: PasswordConstraintValidator.java
-* @DESC		: 패스워드 정책 적용.  
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2019. 6. 5. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: PasswordConstraintValidator.java
+* @author	: ytkim
  */
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
 

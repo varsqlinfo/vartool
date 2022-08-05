@@ -1,4 +1,11 @@
 package com.vartool.web.constants;
+
+/**
+ * 공백 상수
+* 
+* @fileName	: BlankConstants.java
+* @author	: ytkim
+ */
 public interface BlankConstants {
 	final String NEW_LINE = System.getProperty("line.separator","\n");
 

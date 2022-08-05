@@ -24,8 +24,6 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
@@ -44,16 +42,10 @@ import com.vartool.web.security.VartoolBasicAuthenticationEntryPoint;
 import com.vartool.web.security.auth.AuthorityType;
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: SecurityConfig.java
-* @desc		: security configuration
+ * security 설정
+* 
+* @fileName	: SecurityConfigurer.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 4. 21. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -73,7 +65,6 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	private VartoolAuthenticationLogoutSuccessHandler vartoolAuthenticationLogoutSuccessHandler;
 	
 	private BeanFactory beanFactory; 
-	
 	
 	public SecurityConfigurer(
 			VartoolBasicAuthenticationEntryPoint vartoolBasicAuthenticationEntryPoint

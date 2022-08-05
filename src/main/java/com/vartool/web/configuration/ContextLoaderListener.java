@@ -6,16 +6,10 @@ import javax.servlet.ServletContextListener;
 import com.vartool.core.config.VartoolConfiguration;
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: ContextLoaderListener.java
-* @desc		: servlet listener
+ * web 설정.
+* 
+* @fileName	: ContextLoaderListener.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 4. 21. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
 public class ContextLoaderListener  implements ServletContextListener{
 	public void contextInitialized(ServletContextEvent event)

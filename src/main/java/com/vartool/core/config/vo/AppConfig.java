@@ -3,6 +3,12 @@ package com.vartool.core.config.vo;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * App config
+ * 
+* @fileName	: AppConfig.java
+* @author	: ytkim
+ */
 @Setter
 @Getter
 public class AppConfig {

@@ -2,6 +2,12 @@ package com.vartool.web.constants;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * component 상수
+* 
+* @fileName	: ComponentConstants.java
+* @author	: ytkim
+ */
 public interface ComponentConstants{
 	public String COMMAND_TYPE_NAME  = "COMMAND"; 
 	public String LOG_TYPE_NAME  = "LOG"; 

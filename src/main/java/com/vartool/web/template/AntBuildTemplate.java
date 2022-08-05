@@ -17,8 +17,9 @@ import com.vartool.web.module.ResourceUtils;
 
 /**
  * ant build.xml template 생성.
- * @author ytkim
- *
+* 
+* @fileName	: AntBuildTemplate.java
+* @author	: ytkim
  */
 public final class AntBuildTemplate {
 	private static String BUILD_TEMPLATE;

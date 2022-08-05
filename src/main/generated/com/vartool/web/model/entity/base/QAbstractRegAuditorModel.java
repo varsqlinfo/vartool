@@ -5,14 +5,14 @@ import static com.querydsl.core.types.PathMetadataFactory.*;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
 
 
 /**
  * QAbstractRegAuditorModel is a Querydsl query type for AbstractRegAuditorModel
  */
-@Generated("com.querydsl.codegen.SupertypeSerializer")
+@Generated("com.querydsl.codegen.DefaultSupertypeSerializer")
 public class QAbstractRegAuditorModel extends EntityPathBase<AbstractRegAuditorModel> {
 
     private static final long serialVersionUID = 738561392L;

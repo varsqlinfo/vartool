@@ -34,18 +34,10 @@ import com.vartool.web.repository.cmp.CmpGroupUserMappingRepository;
 import com.vartool.web.repository.cmp.CmpRepository;
 
 /**
- * 
-*-----------------------------------------------------------------------------
+ * component group 관리
 * 
-* @NAME		: CmpGrpMgmtService.java
-* @DESC		: component group 관리
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2020. 2. 6. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: CmpGrpMgmtService.java
+* @author	: ytkim
  */
 @Component
 public class CmpGrpMgmtService {

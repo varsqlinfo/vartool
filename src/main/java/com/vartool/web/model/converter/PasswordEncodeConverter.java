@@ -5,6 +5,12 @@ import javax.persistence.Converter;
 
 import com.vartool.web.module.PasswordUtils;
 
+/**
+ * password converter
+* 
+* @fileName	: PasswordEncodeConverter.java
+* @author	: ytkim
+ */
 @Converter
 public class PasswordEncodeConverter implements AttributeConverter<String, String> {
 	

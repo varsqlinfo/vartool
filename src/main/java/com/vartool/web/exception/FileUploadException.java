@@ -1,13 +1,11 @@
 package com.vartool.web.exception;
 
 /**
-*
-* @FileName  : FileNotFoundException.java
-* @Date      : 2020. 11. 12.
-* @작성자      : ytkim
-* @변경이력 :
-* @프로그램 설명 : file not found exception 
-*/
+ * file upload exception
+* 
+* @fileName	: FileUploadException.java
+* @author	: ytkim
+ */
 public class FileUploadException extends RuntimeException {
 
 	/**

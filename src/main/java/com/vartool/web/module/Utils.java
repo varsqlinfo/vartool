@@ -42,12 +42,9 @@ public final class Utils {
 	}
 
 	/**
-	 * 
-	 * @Method Name : getOsCommandExtension
-	 * @Method 설명 : os command extension
-	 * @작성자 : ytkim
-	 * @작성일 : 2020. 2. 6.
-	 * @변경이력 :
+	 * os command extension
+	 *
+	 * @method : getOsCommandExtension
 	 * @return
 	 */
 	public static String getOsCommandExtension() {

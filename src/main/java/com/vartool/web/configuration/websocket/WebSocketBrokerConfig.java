@@ -3,7 +3,6 @@ import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -14,16 +13,10 @@ import com.vartech.common.utils.StringUtils;
 import com.vartool.web.constants.WebSocketConstants;
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: WebSocketBrokerConfig.java
-* @desc		: web socket broker
+ * web socket broker
+* 
+* @fileName	: WebSocketBrokerConfig.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 10. 21. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
 @Configuration
 @EnableWebSocketMessageBroker

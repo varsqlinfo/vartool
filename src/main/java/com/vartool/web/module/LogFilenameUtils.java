@@ -10,6 +10,12 @@ import com.vartech.common.utils.FileUtils;
 import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.dto.DeployInfo;
 
+/**
+ * log file name util
+* 
+* @fileName	: LogFilenameUtils.java
+* @author	: ytkim
+ */
 public class LogFilenameUtils {
 	public final static char START_CHAR = '%';
 	public final static String FILENAME_INDEX_STR = ";idx;";

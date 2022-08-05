@@ -14,16 +14,10 @@ import com.vartech.common.utils.StringUtils;
 import com.vartool.web.constants.VartoolConstants;
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: ConvertUtils.java
-* @desc		: 값 변경 utils
+ * 값 변경 utils
+* 
+* @fileName	: ConvertUtils.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 4. 20. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
 public final class ConvertUtils {
 

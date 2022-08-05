@@ -6,10 +6,14 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.math.NumberUtils;
-
 import com.vartool.web.dto.vo.ClientPcInfo;
 
+/**
+ * 공통 util
+* 
+* @fileName	: CommonUtils.java
+* @author	: ytkim
+ */
 public final class CommonUtils {
 	private CommonUtils() {} 
 	

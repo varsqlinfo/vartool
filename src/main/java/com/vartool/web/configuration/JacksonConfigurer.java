@@ -12,16 +12,10 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.vartool.web.constants.VartoolConstants;
 
 /**
- * -----------------------------------------------------------------------------
-* @fileName		: JacksonConfigurer.java
-* @desc		: jackson 설정. 
+ * jackson 설정. 
+* 
+* @fileName	: JacksonConfigurer.java
 * @author	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-*2020. 4. 27. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
  */
 public class JacksonConfigurer implements Jackson2ObjectMapperBuilderCustomizer {
  

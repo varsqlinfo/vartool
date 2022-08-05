@@ -1,5 +1,11 @@
 package com.vartool.web.constants;
 
+/**
+ * application resource constants
+* 
+* @fileName	: ResourceConfigConstants.java
+* @author	: ytkim
+ */
 public interface ResourceConfigConstants {
 	
 	final String APP_DB_RESOURCE ="vartoolAppSqlSession";

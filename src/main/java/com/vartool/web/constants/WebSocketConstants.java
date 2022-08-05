@@ -1,17 +1,10 @@
 package com.vartool.web.constants;
 
 /**
-*-----------------------------------------------------------------------------
+ * web socket constants 
 * 
-* @NAME		: WebSocketConstants.java
-* @DESC		: web socket constants 
-* @AUTHOR	: ytkim
-*-----------------------------------------------------------------------------
-  DATE			AUTHOR			DESCRIPTION
-*-----------------------------------------------------------------------------
-* 2020. 10. 24. 			ytkim			최초작성
-
-*-----------------------------------------------------------------------------
+* @fileName	: WebSocketConstants.java
+* @author	: ytkim
  */
 public interface WebSocketConstants {
 	final String APP_DESTINATION_PREFIX = "/app";

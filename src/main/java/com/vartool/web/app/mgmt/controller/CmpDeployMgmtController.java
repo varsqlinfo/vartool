@@ -14,7 +14,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +25,12 @@ import com.vartool.web.constants.AppCode;
 import com.vartool.web.dto.request.CmpDeployRequestDTO;
 import com.vartool.web.module.VartoolUtils;
 
+/**
+ * deploy management
+* 
+* @fileName	: CmpDeployMgmtController.java
+* @author	: ytkim
+ */
 @Controller
 @RequestMapping("/mgmt/cmp/deployMgmt")
 public class CmpDeployMgmtController {

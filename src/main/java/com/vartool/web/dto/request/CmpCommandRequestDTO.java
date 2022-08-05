@@ -5,6 +5,12 @@ import com.vartool.web.model.entity.cmp.CmpItemCommandEntity;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 
+* 
+* @fileName	: CmpCommandRequestDTO.java
+* @author	: ytkim
+ */
 @Getter
 @Setter
 public class CmpCommandRequestDTO extends CmpRequestDTO {
