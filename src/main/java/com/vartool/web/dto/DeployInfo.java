@@ -1,4 +1,4 @@
-package com.vartool.web.dto.response;
+package com.vartool.web.dto;
 
 import com.vartool.web.model.entity.cmp.CmpItemDeployEntity;
 
@@ -7,7 +7,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CmpDeployResponseDTO extends CmpResponseDTO {
+public class DeployInfo{
+	
+	private String cmpId;
+	private String name;
+	private String cmpType;
+	private String description;
+	
 	private String scmType;
 	private String scmUrl;
 	private String scmId;
@@ -19,18 +25,18 @@ public class CmpDeployResponseDTO extends CmpResponseDTO {
 	// 추가 적인 정보
 	private String action;
 	
-	public static CmpDeployResponseDTO toDto(CmpItemDeployEntity entity) {
-		CmpDeployResponseDTO dto= new CmpDeployResponseDTO();
+	public static DeployInfo toDto(CmpItemDeployEntity entity) {
+		DeployInfo dto= new DeployInfo();
 		
 		dto.setName(entity.getName());
 		dto.setCmpId(entity.getCmpId());
 		dto.setCmpType(entity.getCmpType());
 		dto.setDescription(entity.getDescription());
-		dto.setRegDt(entity.getRegDt());
 		
 		dto.setScmType(entity.getScmType());
 		dto.setScmUrl(entity.getScmUrl());
 		dto.setScmId(entity.getScmId());
+		dto.setScmPw(entity.getScmPw());
 		dto.setDependencyPath(entity.getDependencyPath());
 		dto.setDeployPath(entity.getDeployPath());
 		dto.setBuildScript(entity.getBuildScript());

@@ -1,4 +1,4 @@
-package com.vartool.web.app.config;
+package com.vartool.core.config;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,9 +16,9 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.vartech.common.crypto.password.PasswordType;
 import com.vartech.common.utils.StringUtils;
 import com.vartech.common.utils.VartechReflectionUtils;
-import com.vartool.web.app.config.vo.AppConfig;
-import com.vartool.web.app.config.vo.DeployConfig;
-import com.vartool.web.app.config.vo.MailConfig;
+import com.vartool.core.config.vo.AppConfig;
+import com.vartool.core.config.vo.DeployConfig;
+import com.vartool.core.config.vo.MailConfig;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.exception.ConfigurationLoadException;
 import com.vartool.web.module.CommonUtils;
@@ -146,10 +146,9 @@ public class VartoolConfiguration extends AbstractConfiguration {
 			appConfig.setFileUploadMaxInMemorySize(0);
 		}
 		
-		this.passwordResetMode = VartoolConstants.PASSWORD_RESET_MODE.getMode(appConfig.getPasswordConfig().getResetMdoe());
-		this.passwordType = PasswordType.getType(appConfig.getPasswordConfig().getType());
-		this.passowrdSize = appConfig.getPasswordConfig().getInitSize() < 8 ? 8 : appConfig.getPasswordConfig().getInitSize();
-		
+		this.passwordResetMode = VartoolConstants.PASSWORD_RESET_MODE.getMode(appConfig.getUserPassowrdResetConfig().getMode());
+		this.passwordType = PasswordType.getType(appConfig.getUserPassowrdResetConfig().getType());
+		this.passowrdSize = appConfig.getUserPassowrdResetConfig().getSize() < 8 ? 8 : appConfig.getUserPassowrdResetConfig().getSize();
 		
 		if(StringUtils.isBlank(appConfig.getDeploy().getSourcePath())) {
 			String sourcePath = CONFIG_ROOT_PATH +File.separator+"deploy"; 
@@ -267,6 +266,30 @@ public class VartoolConfiguration extends AbstractConfiguration {
 
 	public String getSiteAddr() {
 		return siteAddr;
+	}
+
+	/**
+	 * password security key
+	 * @return
+	 */
+	public String getPwSecurityKey() {
+		return appConfig.getPasswordConfig().getSecretKey();
+	}
+	
+	/**
+	 * password crypto type
+	 * @return
+	 */
+	public String getPWCryptoType() {
+		return appConfig.getPasswordConfig().getCrpyto();
+	}
+	
+	/**
+	 * password encrypt, decrypt custom class
+	 * @return
+	 */
+	public String getPWCustomClass() {
+		return appConfig.getPasswordConfig().getCustomClass();
 	}
 	
 	

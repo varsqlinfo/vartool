@@ -11,7 +11,7 @@ import org.springframework.core.io.Resource;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
-import com.vartool.web.app.config.VartoolConfiguration;
+import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.module.ResourceUtils;
 

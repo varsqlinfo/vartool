@@ -12,13 +12,13 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.utils.StringUtils;
-import com.vartool.web.app.config.VartoolConfiguration;
+import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.app.handler.deploy.AbstractDeploy;
 import com.vartool.web.app.handler.deploy.DeployCmpManager;
 import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
 import com.vartool.web.constants.TemplateConvertKeyCode;
 import com.vartool.web.constants.VartoolConstants;
-import com.vartool.web.dto.response.CmpDeployResponseDTO;
+import com.vartool.web.dto.DeployInfo;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 import com.vartool.web.module.LogFilenameUtils;
 import com.vartool.web.module.VartoolUtils;
@@ -36,7 +36,7 @@ public class GitDeployComponent extends AbstractDeploy{
 	}
 	
 	@Override
-	public ResponseResult deployAction(CmpDeployResponseDTO dto) {
+	public ResponseResult deployAction(DeployInfo dto) {
 		ResponseResult result = new ResponseResult();
 		
 		String cmpId = dto.getCmpId();
@@ -112,13 +112,13 @@ public class GitDeployComponent extends AbstractDeploy{
 	}
 
 	@Override
-	public ResponseResult autoDeploy(CmpDeployResponseDTO dto) {
+	public ResponseResult autoDeploy(DeployInfo dto) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-	private boolean sourcePull(String entryUniqueId, CmpDeployResponseDTO dto, LogMessageDTO msgData, String recvId, boolean onlyPull) {
+	private boolean sourcePull(String entryUniqueId, DeployInfo dto, LogMessageDTO msgData, String recvId, boolean onlyPull) {
 		
 		GitSource gitSource =new GitSource(this, msgData, recvId);
 		boolean gitSourceFlag = false; 

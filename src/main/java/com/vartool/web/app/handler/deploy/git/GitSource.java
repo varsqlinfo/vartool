@@ -36,7 +36,9 @@ import org.eclipse.jgit.util.io.NullOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vartool.core.crypto.PasswordCryptionFactory;
 import com.vartool.web.app.handler.deploy.AbstractDeploy;
+import com.vartool.web.dto.DeployInfo;
 import com.vartool.web.dto.response.CmpDeployResponseDTO;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 import com.vartool.web.exception.DeployException;
@@ -119,11 +121,11 @@ public class GitSource {
 	}
 	
 	
-	public void gitPull(CmpDeployResponseDTO dto, boolean onlyPull) throws Exception {
+	public void gitPull(DeployInfo dto, boolean onlyPull) throws Exception {
 		
 		String gitURI = dto.getScmUrl();
 		String username = dto.getScmId();
-		String password =dto.getScmPw();
+		String password = PasswordCryptionFactory.getInstance().decrypt(dto.getScmPw());
 		
 		File sourceDir = LogFilenameUtils.getDeploySourcePath(dto);
 		

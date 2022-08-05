@@ -8,7 +8,7 @@ import java.nio.charset.Charset;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.vartool.web.app.config.VartoolConfiguration;
+import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.constants.BlankConstants;
 import com.vartool.web.constants.VartoolConstants;
 

@@ -2,31 +2,48 @@ package com.vartool.web.app.mgmt.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.app.beans.SearchParameter;
+import com.vartech.common.constants.RequestResultCode;
+import com.vartech.common.crypto.EncryptDecryptException;
+import com.vartech.common.utils.StringUtils;
+import com.vartool.core.crypto.PasswordCryptionFactory;
 import com.vartool.web.app.handler.deploy.git.GitSource;
+import com.vartool.web.constants.ResourceConfigConstants;
 import com.vartool.web.dto.request.CmpDeployRequestDTO;
 import com.vartool.web.dto.response.CmpDeployResponseDTO;
 import com.vartool.web.exception.ComponentNotFoundException;
+import com.vartool.web.exception.VartoolAppException;
 import com.vartool.web.model.entity.base.AbstractRegAuditorModel;
 import com.vartool.web.model.entity.cmp.CmpItemDeployEntity;
+import com.vartool.web.module.SecurityUtil;
 import com.vartool.web.module.VartoolBeanUtils;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.repository.cmp.CmpItemDeployRepository;
+import com.vartool.web.security.UserService;
 
 /**
  * 
@@ -49,6 +66,10 @@ public class CmpDeployMgmtService {
 	@Autowired
 	private CmpItemDeployRepository cmpItemDeployRepository;
 	
+	@Autowired
+	@Qualifier(ResourceConfigConstants.USER_DETAIL_SERVICE)
+	private UserService userService;
+	
 	public ResponseResult list(SearchParameter searchParameter) {
 		Sort sort =Sort.by(Sort.Direction.DESC, AbstractRegAuditorModel.REG_DT);
 		
@@ -68,20 +89,31 @@ public class CmpDeployMgmtService {
 	 * @변경이력  :
 	 * @param dto
 	 * @return
+	 * @throws EncryptDecryptException 
+	 * @throws NoSuchMethodException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalAccessException 
+	 * @throws BeansException 
 	 */
-	public ResponseResult save(CmpDeployRequestDTO dto) {
+	public ResponseResult save(CmpDeployRequestDTO dto) throws EncryptDecryptException, BeansException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		
 		CmpItemDeployEntity entity;
 		
 		if(!StringUtils.isBlank(dto.getCmpId())) {
-			entity = cmpItemDeployRepository.findByCmpId(dto.getCmpId());
+			CmpItemDeployEntity currentEntity = cmpItemDeployRepository.findByCmpId(dto.getCmpId());
 			
-			if(entity == null) {
+			if(currentEntity == null) {
 				throw new ComponentNotFoundException("deploy component id not found : "+ dto.getCmpId());
 			}
 			
-			BeanUtils.copyProperties(dto.toEntity(), entity, "cmpId");
+			entity = new CmpItemDeployEntity();
+			BeanUtils.copyProperties(currentEntity, entity);
+		
+			copyNonNullProperties(dto.toEntity(), entity, new String[] {  "cmpId","scmPw" });
 			
+			if (dto.isPasswordChange()) {
+				entity.setScmPw(dto.getScmPw());
+			}
 		}else {
 			entity = dto.toEntity();
 		}
@@ -113,10 +145,19 @@ public class CmpDeployMgmtService {
 		return VartoolUtils.getResponseResultItemOne(1);
 	}
 	
-	
-	public ResponseResult connChk(CmpDeployRequestDTO dto) {
+	public ResponseResult connChk(CmpDeployRequestDTO dto) throws EncryptDecryptException {
 		ResponseResult result = new ResponseResult();
-		result.setItemOne( new GitSource(null, null, null).checkGitRepo( dto.getScmUrl(),  dto.getScmId(),  dto.getScmPw()));
+		
+		if(StringUtils.isBlank(dto.getScmPw()) && !StringUtils.isBlank(dto.getCmpId())) {
+			
+			CmpItemDeployEntity cde = cmpItemDeployRepository.findByCmpId(dto.getCmpId());
+			
+			result.setItemOne( new GitSource(null, null, null).checkGitRepo(dto.getScmUrl(), dto.getScmId(), PasswordCryptionFactory.getInstance().decrypt(cde.getScmPw())));
+		}else {
+			result.setItemOne( new GitSource(null, null, null).checkGitRepo(dto.getScmUrl(), dto.getScmId(), dto.getScmPw()));
+		}
+		
+		
 		
 		return result;
 	}
@@ -162,6 +203,61 @@ public class CmpDeployMgmtService {
 		}
 		
 		return VartoolUtils.getResponseResultItemOne(1);
+	}
+	
+	/**
+	 * password 보기.
+	 * @param cmpId
+	 * @param userPw
+	 * @return
+	 */
+	public ResponseResult viewPwInfo(String cmpId, String userPw) {
+		ResponseResult resultObject = new ResponseResult();
+		if(!userService.passwordCheck(SecurityUtil.loginName(), userPw)) {
+			resultObject.setResultCode(RequestResultCode.ERROR);
+			resultObject.setMessage("password not valid");
+			return resultObject;
+		}
+		
+		CmpItemDeployEntity dto = cmpItemDeployRepository.findByCmpId(cmpId);
+
+		if(dto == null) {
+			throw new VartoolAppException("Deploy Component not found");
+		}
+		try {
+			resultObject.setItemOne(PasswordCryptionFactory.getInstance().decrypt(dto.getScmPw()));
+		}catch(EncryptDecryptException e) {
+			resultObject.setItemOne("password decrypt error");
+		}
+		return resultObject;
+	}
+	
+	
+	public static void copyNonNullProperties(Object src, Object target, String... checkProperty) throws BeansException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	    BeanUtils.copyProperties(src, target, getNullPropertyNames(src, checkProperty));
+	}
+
+	public static String[] getNullPropertyNames (Object source, String[] checkProperty) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	    final BeanWrapper src = new BeanWrapperImpl(source);
+	    java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
+	    List<String> prop = Arrays.asList(checkProperty);
+	    Set<String> emptyNames = new HashSet<String>();
+	    for(java.beans.PropertyDescriptor pd : pds) {
+	    	String name = pd.getName();
+
+	    	if(prop.contains(name)) {
+	    		Object srcValue = src.getPropertyValue(pd.getName());
+		        if (srcValue == null || "".equals(srcValue)) {
+		        	emptyNames.add(name);
+		        }else {
+		        	if("".equals(srcValue.toString().trim())) {
+		        		PropertyUtils.setProperty(source, name, srcValue.toString().trim());
+		        	}
+		        }
+	    	}
+	    }
+	    String[] result = new String[emptyNames.size()];
+	    return emptyNames.toArray(result);
 	}
 
 }

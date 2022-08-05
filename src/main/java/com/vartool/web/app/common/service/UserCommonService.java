@@ -13,7 +13,7 @@ import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.constants.RequestResultCode;
 import com.vartech.common.utils.DateUtils;
 import com.vartech.common.utils.VartechUtils;
-import com.vartool.web.app.config.VartoolConfiguration;
+import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.constants.MailType;
 import com.vartool.web.constants.ResourceConfigConstants;
 import com.vartool.web.model.entity.user.EmailTokenEntity;

@@ -33,7 +33,7 @@
 <script src="${pageContextPath}/webstatic/js/plugins/datepicker/bootstrap-datepicker.js"></script>
 <script src="${pageContextPath}/webstatic/js/plugins/filesaver/FileSaver.min.js"></script>
 <script src="${pageContextPath}/webstatic/js/plugins/toast/jquery.toast.min.js"></script>
-<script src="${pageContextPath}/webstatic/js/bootstrapValidator.js" type="text/javascript"></script>
+<script src="${pageContextPath}/webstatic/js/bootstrapValidator.min.js" type="text/javascript"></script>
 
 <!-- sql editor -->
 <script src="${pageContextPath}/webstatic/js/plugins/codeeditor/codemirror.js"></script>
@@ -60,6 +60,7 @@
 <script src="${pageContextPath}/webstatic/js/vartool.web.ui.js"></script>
 
 <script src="${pageContextPath}/webstatic/js/vue.min.js"></script>
+<script src="${pageContextPath}/webstatic/js/plugins/vue/vee-validate.min.js"></script>
 <script src="${pageContextPath}/webstatic/js/vue.vartool.js"></script>
 
 

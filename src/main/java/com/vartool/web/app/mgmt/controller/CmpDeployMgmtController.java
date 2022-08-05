@@ -14,6 +14,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -123,5 +124,11 @@ public class CmpDeployMgmtController {
 	public @ResponseBody ResponseResult removeDeployDir(@RequestParam(value = "cmpId", required = true) String cmpId,
 			@RequestParam(value = "mode", required = true) String mode, HttpServletRequest req) throws Exception {
 		return cmpDeployMgmtService.removeDeployDir(cmpId, mode);
+	}
+	
+	@PostMapping(value = "/scmPwView")
+	public @ResponseBody ResponseResult scmPwView(@RequestParam(value = "cmpId", required = true)  String cmpId
+			,@RequestParam(value = "userPw", required = true)  String userPw) throws Exception {
+		return cmpDeployMgmtService.viewPwInfo(cmpId, userPw);
 	}
 }

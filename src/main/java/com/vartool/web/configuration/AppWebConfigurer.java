@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.vartool.web.app.config.VartoolConfiguration;
+import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.constants.VartoolConstants;
 
 

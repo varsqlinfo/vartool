@@ -9,7 +9,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vartool.web.constants.ComponentConstants;
+import com.vartool.web.model.converter.AppPasswordEncodeConverter;
 import com.vartool.web.model.converter.BooleanToYnConverter;
 
 import lombok.Builder;
@@ -36,6 +38,8 @@ public class CmpItemDeployEntity extends CmpEntity{
 	@Column(name = "SCM_ID")
 	private String scmId;
 
+	@JsonIgnore
+	@Convert(converter = AppPasswordEncodeConverter.class)
 	@Column(name = "SCM_PW")
 	private String scmPw;
 

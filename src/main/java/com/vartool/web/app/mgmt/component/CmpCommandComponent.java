@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.constants.RequestResultCode;
-import com.vartool.web.app.config.VartoolConfiguration;
+import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.app.handler.command.CommandByteOutputStream;
 import com.vartool.web.app.handler.command.CommandCmpManager;
 import com.vartool.web.app.handler.command.CommandLogOutputHandler;

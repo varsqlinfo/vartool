@@ -7,8 +7,7 @@ fileUploadMaxInMemorySize: 5242880
 protocol: http
 hostname: localhost
 port : 12346
-contextPath : 12346
-
+contextPath : /vtool
 
 # db config
 db:
@@ -22,11 +21,13 @@ db:
 passwordConfig:
   crpyto : aes
   secretKey : MTZkNzMwM2QtMDQ4NS0zOTlhLWEyZmMtODAwNTg0NDY0NzZk
-  resetMdoe : email #default manager, email
-  size : 8
-  type : LOWER_AND_VNUMBER
+# customClass :
   
-
+userPassowrdResetConfig:
+  mode: email #default manager, email
+  size: 8 
+  type: LOWER_AND_VNUMBER 
+ 
 # mail config
 mail :
 #  host : emailAddress

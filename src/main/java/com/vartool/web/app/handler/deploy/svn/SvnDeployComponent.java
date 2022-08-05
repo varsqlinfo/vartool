@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartool.web.app.handler.deploy.AbstractDeploy;
 import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
-import com.vartool.web.dto.response.CmpDeployResponseDTO;
+import com.vartool.web.dto.DeployInfo;
 
 @Component
 public class SvnDeployComponent extends AbstractDeploy{
@@ -16,13 +16,13 @@ public class SvnDeployComponent extends AbstractDeploy{
 	}
 
 	@Override
-	public ResponseResult deployAction(CmpDeployResponseDTO dto) {
+	public ResponseResult deployAction(DeployInfo dto) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ResponseResult autoDeploy(CmpDeployResponseDTO dto) {
+	public ResponseResult autoDeploy(DeployInfo dto) {
 		// TODO Auto-generated method stub
 		return null;
 	}

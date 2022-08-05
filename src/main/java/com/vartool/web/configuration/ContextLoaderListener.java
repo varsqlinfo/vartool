@@ -3,7 +3,7 @@ package com.vartool.web.configuration;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import com.vartool.web.app.config.VartoolConfiguration;
+import com.vartool.core.config.VartoolConfiguration;
 
 /**
  * -----------------------------------------------------------------------------

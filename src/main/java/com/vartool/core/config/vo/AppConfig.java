@@ -1,4 +1,4 @@
-package com.vartool.web.app.config.vo;
+package com.vartool.core.config.vo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +23,7 @@ public class AppConfig {
 	
 	private DbConfig db; 
 	private PasswordConfig passwordConfig; 
+	private UserPassowrdResetConfig userPassowrdResetConfig; 
 	private MailConfig mail; 
-	private DeployConfig deploy; 
+	private DeployConfig deploy;
 }

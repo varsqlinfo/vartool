@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.vartech.common.utils.VartechUtils;
+import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.app.common.controller.AbstractController;
-import com.vartool.web.app.config.VartoolConfiguration;
 import com.vartool.web.constants.VIEW_PAGE;
 
 @Controller

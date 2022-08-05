@@ -1,4 +1,4 @@
-package com.vartool.web.app.config.vo;
+package com.vartool.core.config.vo;
 
 import lombok.Getter;
 
@@ -6,7 +6,5 @@ import lombok.Getter;
 public class PasswordConfig {
 	private String crpyto;
 	private String secretKey;
-	private String resetMdoe;
-	private int initSize;
-	private String type;
+	private String customClass;
 }

@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.vartech.common.utils.DateUtils;
 import com.vartech.common.utils.VartechUtils;
-import com.vartool.web.app.config.VartoolConfiguration;
+import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.constants.VartoolConstants;
 
 /**

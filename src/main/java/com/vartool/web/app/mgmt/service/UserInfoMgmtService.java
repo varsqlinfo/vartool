@@ -18,7 +18,7 @@ import com.vartech.common.constants.RequestResultCode;
 import com.vartech.common.crypto.EncryptDecryptException;
 import com.vartech.common.crypto.password.PasswordUtil;
 import com.vartech.common.utils.StringUtils;
-import com.vartool.web.app.config.VartoolConfiguration;
+import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.constants.ResourceConfigConstants;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.dto.response.UserResponseDTO;

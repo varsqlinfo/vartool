@@ -12,9 +12,16 @@ public class CmpDeployRequestDTO extends CmpRequestDTO {
 	private String scmUrl;
 	private String scmId;
 	private String scmPw;
+	private String confirmPw;
 	private String dependencyPath;
 	private String deployPath;
 	private String buildScript;
+	
+	private boolean passwordChange;
+
+	public void setPasswordChange(String passwordChange) {
+		this.passwordChange = Boolean.parseBoolean(passwordChange);
+	}
 	
 	public CmpItemDeployEntity toEntity() {
 		return CmpItemDeployEntity.builder()

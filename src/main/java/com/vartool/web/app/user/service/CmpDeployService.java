@@ -14,7 +14,7 @@ import com.vartool.web.app.handler.deploy.DeployInterface;
 import com.vartool.web.app.handler.deploy.git.GitDeployComponent;
 import com.vartool.web.app.handler.deploy.svn.SvnDeployComponent;
 import com.vartool.web.constants.AppCode;
-import com.vartool.web.dto.response.CmpDeployResponseDTO;
+import com.vartool.web.dto.DeployInfo;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 import com.vartool.web.model.entity.cmp.CmpItemDeployEntity;
 import com.vartool.web.module.SecurityUtil;
@@ -70,7 +70,7 @@ public class CmpDeployService{
 			return result;
 		}
 		
-		CmpDeployResponseDTO dto = CmpDeployResponseDTO.toDto(entity);
+		DeployInfo dto = DeployInfo.toDto(entity);
 		
 		logger.info("deploy info ip:{}, loginId: {}, action:{},  cmpId: {}, name: {}", SecurityUtil.clientIp(), SecurityUtil.loginName(), action, dto.getCmpId(), dto.getName());
 		
@@ -84,7 +84,7 @@ public class CmpDeployService{
 		return getDeployComponent(dto).deployAction(dto);
 	}
 	
-	private DeployInterface getDeployComponent(CmpDeployResponseDTO dto) {
+	private DeployInterface getDeployComponent(DeployInfo dto) {
 		if(AppCode.SCM_TYPE.GIT.isEquals(dto.getScmType())) {
 			return gitDeployComponent;
 		}else if(AppCode.SCM_TYPE.SVN.isEquals(dto.getScmType())) {

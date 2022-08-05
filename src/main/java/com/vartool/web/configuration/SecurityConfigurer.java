@@ -209,7 +209,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 	
-	@Bean
+	@Bean(ResourceConfigConstants.USER_DETAIL_SERVICE)
     public UserService userService() {
     	return new UserService();
     }

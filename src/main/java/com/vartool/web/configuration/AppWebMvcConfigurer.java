@@ -26,9 +26,9 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.app.common.interceptor.BoardAuthInterceptor;
 import com.vartool.web.app.common.interceptor.LanguageInterceptor;
-import com.vartool.web.app.config.VartoolConfiguration;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.constants.ViewPageConstants;
 

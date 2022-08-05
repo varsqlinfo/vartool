@@ -1,4 +1,4 @@
-package com.vartool.web.app.config;
+package com.vartool.core.config;
 
 import java.io.File;
 

@@ -1,4 +1,4 @@
-package com.vartool.web.app.config.vo;
+package com.vartool.core.config.vo;
 
 import lombok.Getter;
 import lombok.Setter;

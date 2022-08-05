@@ -3,7 +3,7 @@ package com.vartool.web.constants;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import com.vartool.web.app.config.VartoolConfiguration;
+import com.vartool.core.config.VartoolConfiguration;
 
 public interface VartoolConstants {
 	

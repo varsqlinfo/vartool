@@ -125,12 +125,30 @@
 											<input type="text" v-model="detailItem.scmId" class="form-control input-init-type">
 										</div>
 									</div>
-									<div class="row bottomHeight5">
-										<label class="col-lg-3 control-label" for="inputError">Pw</label>
-										<div class="col-lg-9 control-value">
-											<input type="text" v-model="detailItem.scmPw" class="form-control input-init-type">
+									
+									<div class="form-group" :class="errors.has('password') || errors.has('password_confirmation') ? 'has-error' :''">
+										<label class="col-lg-3 control-label">Password</label>
+										<div class="col-lg-9">
+											<template v-if="detailFlag===true">
+												<input id="passwordChangeChk" type="checkbox" v-model="detailItem.passwordChange" /><label for="passwordChangeChk">Password Change</label>
+												<div class="pull-right">
+													<button type="button" class="btn btn-xs btn-primary" @click="viewPasswordDialog(detailItem)">비밀번호 보기</button>
+												</div>
+											</template>
+											<template v-if="detailFlag===false || (detailFlag===true && detailItem.passwordChange===true)">
+												<input type="password" name="password_fake" value="" style="display:none;" autocomplete="new-password"/>
+												<input v-model="detailItem.scmPw" v-validate="'confirmed:password_confirmation'" name="password" type="password" autocomplete="new-password" class="form-control" placeholder="Password" ref="password" data-vv-as="password_confirmation"  style="margin-bottom:5px;">
+												<input v-model="detailItem.confirmPw" v-validate="" name="password_confirmation" type="password" class="form-control" autocomplete="false" placeholder="Password, Again" data-vv-as="password" ref="password_confirmation">
+											    <div class="help-block" v-if="errors.has('password')">
+											      {{ errors.first('password') }}
+											    </div>
+											    <div class="help-block" v-if="errors.has('password_confirmation')">
+											      {{ errors.first('password_confirmation') }}
+											    </div>
+										    </template>
 										</div>
 									</div>
+									
 									<div class="row bottomHeight5">
 										<label class="col-lg-3 control-label" for="inputError">Dependency path</label>
 										<div class="col-lg-9 control-value">
@@ -174,6 +192,15 @@
 			</div>
 		</div>
 	</div>
+	
+	<div id="passwordViewTemplate" title="Password view">
+		<div>
+			<div>Login password : <input v-model="userPw" type="password" @keyup.enter="passwordView()" class="form-control text"> </div>
+			<div style="padding: 5px 0px;" class="pull-right"><button type="button" @click="passwordView()" class="db btn btn-default">Password view</button> </div>
+			<div style="clear:both;">Password : <input v-model="scmPw" type="text" class="form-control text" disabled="disabled" style="width: calc(100% - 70px);display: inline-block;"></div>
+		</div>
+	</div>
+	
 </div>
 
 <script>
@@ -231,6 +258,7 @@ var tags = {
   
 VartoolAPP.vueServiceBean({
 	el: '#appViewArea'
+	,validateCheck : true
 	,data: {
 		list_count :10
 		,searchVal : ''
@@ -239,6 +267,9 @@ VartoolAPP.vueServiceBean({
 		,detailItem :{}
 		,detailFlag : false 
 		,xmlEditor : false
+		,scmPwViewItem :{}
+		,userPw : ''
+		,scmPw : ''
 	}
 	,mounted : function (){
 		var _this =this; 
@@ -290,6 +321,16 @@ VartoolAPP.vueServiceBean({
 	,methods:{
 		init : function (){
 			this.fieldClear(); 
+			
+			$('#passwordViewTemplate').dialog({
+				height: 210
+				,width: 400
+				,modal: true
+				,autoOpen :false
+				,close: function() {
+					$( this ).dialog( "close" );
+				}
+			});
 		}
 		,fieldClear : function (){
 			this.viewItem();
@@ -312,6 +353,7 @@ VartoolAPP.vueServiceBean({
 		}
 		,viewItem : function (item, typeChangeFlag){
 			if(VARTOOL.isUndefined(item)){
+				this.$validator.reset()
 				this.detailFlag = false;
 				this.viewMode = 'save';
 				this.detailItem ={
@@ -322,6 +364,7 @@ VartoolAPP.vueServiceBean({
 					,scmUrl :''
 					,scmId :''
 					,scmPw :''
+					,confirmPw :''
 					,deployPath :''
 					,buildScript :''
 					,dependencyPath :''
@@ -330,6 +373,8 @@ VartoolAPP.vueServiceBean({
 				this.detailFlag = true; 
 				
 				item = VARTOOL.util.objectMerge({}, item);
+				
+				item.passwordChange = false;
 				
 				this.detailItem = item;
 				this.detailItem.mode = "modify";
@@ -371,14 +416,34 @@ VartoolAPP.vueServiceBean({
 			
 			param.buildScript = this.xmlEditor.getValue();
 			
-			this.$ajax({
-				url: {type:VARTOOL.uri.manager, url:'/cmp/deployMgmt/save'} 
-				,data : param
-				,success: function(resData) {
-					_this.fieldClear();
-					_this.search();
+			this.$validator.validateAll().then(function (result){
+				if(result){
+					if(param.passwordChange==true && !confirm(VARTOOL.messageFormat('vartool.a.0004'))){
+						return ;
+					}
+
+					_this.$ajax({
+						url :  {type:VARTOOL.uri.manager, url:'/cmp/deployMgmt/save'} 
+						,data : param
+						,success:function (resData){
+							if(VARTOOL.req.validationCheck(resData)){
+								if(resData.resultCode != 200){
+									alert(resData.message);
+									return ;
+								}
+								_this.fieldClear();
+								_this.search();
+							}else{
+								//resData.item
+							}
+						}
+					});
+				}else{
+					var errorItem = _this.errors.items[0];
+					alert(errorItem.msg);
+					return  ;
 				}
-			})
+			});
 		}
 		,copyInfo : function(){
 			var _this = this; 
@@ -450,6 +515,40 @@ VartoolAPP.vueServiceBean({
 						
 			VARTOOL.req.download({
 				params : param
+			});
+		}
+		,viewPasswordDialog : function (item){
+			this.scmPwViewItem= item;
+			this.userPw = '';
+			this.scmPw = '';
+			$('#passwordViewTemplate').dialog('open');
+		}
+		,passwordView : function (){
+			this.userPw = VARTOOL.str.trim(this.userPw);
+
+			if(this.userPw == ''){
+				VARTOOLUI.toast.open(VARTOOL.messageFormat('vartool.0023'));
+				return ;
+			}
+
+			var _this=this;
+
+			var param =  {
+				cmpId : _this.scmPwViewItem.cmpId
+				,userPw : this.userPw
+			}
+
+			_this.$ajax({
+				url : {type:VARTOOL.uri.manager, url:'/cmp/deployMgmt/scmPwView'}
+				,data : param
+				,success:function (resData){
+					if(resData.resultCode != 200){
+						alert(resData.message);
+						return ;
+					}else{
+						_this.scmPw = resData.item;
+					}
+				}
 			});
 		}
 	}

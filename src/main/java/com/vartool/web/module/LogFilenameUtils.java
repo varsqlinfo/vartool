@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.Stack;
 
 import com.vartech.common.utils.FileUtils;
-import com.vartool.web.app.config.VartoolConfiguration;
-import com.vartool.web.dto.response.CmpDeployResponseDTO;
+import com.vartool.core.config.VartoolConfiguration;
+import com.vartool.web.dto.DeployInfo;
 
 public class LogFilenameUtils {
 	public final static char START_CHAR = '%';
@@ -188,11 +188,11 @@ public class LogFilenameUtils {
 		return fileName.indexOf(START_CHAR+PATTERN.DATE.prefix) > -1;
 	}
 	
-	public static File getDeploySourcePath(CmpDeployResponseDTO dto) {
+	public static File getDeploySourcePath(DeployInfo dto) {
 		return new File(FileUtils.pathConcat(VartoolConfiguration.getInstance().getDeployConfig().getSourcePath(), dto.getCmpId(),"source"));
 	}
 
-	public static File getDeployBuildPath(CmpDeployResponseDTO dto) {
+	public static File getDeployBuildPath(DeployInfo dto) {
 		return new File(FileUtils.pathConcat(VartoolConfiguration.getInstance().getDeployConfig().getSourcePath(), dto.getCmpId(),"build"));
 	}
 

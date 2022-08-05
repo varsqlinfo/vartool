@@ -9,8 +9,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import com.vartech.common.utils.VartechReflectionUtils;
-import com.vartool.web.app.config.VartoolConfiguration;
-import com.vartool.web.app.config.vo.MailConfig;
+import com.vartool.core.config.VartoolConfiguration;
+import com.vartool.core.config.vo.MailConfig;
 import com.vartool.web.constants.ResourceConfigConstants;
 
 public class MailConfigurer {
