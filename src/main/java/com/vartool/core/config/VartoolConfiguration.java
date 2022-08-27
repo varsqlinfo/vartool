@@ -45,6 +45,8 @@ public class VartoolConfiguration extends AbstractConfiguration {
 	
 	private String APP_CONFIG_PATH  = CONFIG_DIR_PATH+"vartool-app-config.yaml";
 	
+	protected final String VARSQL_QUARTZ_PROPERTIES_FILE= "config/vartoolQuartz.properties";
+	
 	private String siteAddr; 
 	
 	private ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
@@ -290,5 +292,22 @@ public class VartoolConfiguration extends AbstractConfiguration {
 		return appConfig.getPasswordConfig().getCustomClass();
 	}
 	
+	public Resource getQuartzConfig() {
+		return getResourceFile(VARSQL_QUARTZ_PROPERTIES_FILE);
+	}
+	
+	private Resource getResourceFile(String filePath) {
+		File file = new File(CONFIG_ROOT_PATH, filePath);
+		if(file.exists()) {
+			return ResourceUtils.getResource(file.getPath());
+		}else {
+			return ResourceUtils.getResource(filePath);
+		}
+	}
+
+	public boolean isScheduleEnable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

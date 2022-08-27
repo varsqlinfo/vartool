@@ -23,6 +23,8 @@ public class AppConfig {
 	private int port;
 	private String contextPath;
 	
+	private String schedulerEnable;
+	
 	private long fileUploadSize;
 	private long fileUploadSizePerFile;
 	private int fileUploadMaxInMemorySize;

@@ -160,6 +160,9 @@ dependencies {
 		,[ group: 'org.springframework.security' , name: 'spring-security-messaging' , version: def_version.springSecurity ] // websocket message �߰�.
 		,[ group: 'org.springframework.security' , name: 'spring-security-taglibs' , version: def_version.springSecurity ]
 
+		// quartz
+		,[ group: 'org.springframework.boot' , name: 'spring-boot-starter-batch']
+		,[ group: 'org.springframework.boot' , name: 'spring-boot-starter-quartz']
 
 		// jpa model history
 		,[ group: 'org.springframework.data' , name: 'spring-data-envers' , version: def_version.springData ]

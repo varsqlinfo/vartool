@@ -10,6 +10,8 @@ public interface ResourceConfigConstants {
 	
 	final String APP_DB_RESOURCE ="vartoolAppSqlSession";
 	
+	final String APP_DATASOURCE ="vartoolDataSource";
+	
 	final String APP_TRANSMANAGER ="transactionManager";
 	
 	final String APP_BATCH_TRANSMANAGER ="varBatchTransManager";
@@ -28,4 +30,7 @@ public interface ResourceConfigConstants {
 	final String MAIL_SERVICE = "mainService";
 	
 	final String USER_DETAIL_SERVICE = "vartoolUserService";
+	
+	
+	final String APP_SCHEDULER = "vartoolScheduler";
 }

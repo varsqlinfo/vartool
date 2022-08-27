@@ -32,12 +32,12 @@ public class VartoolAppException extends RuntimeException {
 	/**
 	 * @param s java.lang.String
 	 */
-	public VartoolAppException(String s , Exception exeception) {
+	public VartoolAppException(String s, Exception exeception) {
 		super(s,exeception);
 	}
 	
 	
-	public VartoolAppException(int errorCode,Exception exeception) {
+	public VartoolAppException(int errorCode, Exception exeception) {
 		this(errorCode,null, exeception);
 	}
 	
