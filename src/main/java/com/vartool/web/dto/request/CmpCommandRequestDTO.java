@@ -23,6 +23,7 @@ public class CmpCommandRequestDTO extends CmpRequestDTO {
 		return CmpItemCommandEntity.builder()
 			.name(getName())
 			.cmpId(getCmpId())
+			.cmpCredential(getCmpCredential())
 			.description(getDescription())
 			.stopCmd(stopCmd)
 			.startCmd(startCmd)

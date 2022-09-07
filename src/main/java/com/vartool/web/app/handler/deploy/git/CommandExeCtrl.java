@@ -1,5 +1,7 @@
 package com.vartool.web.app.handler.deploy.git;
 
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteWatchdog;
@@ -50,7 +52,7 @@ public class CommandExeCtrl {
 
 		logger.info("GitAntExec command {}", command.toString());
 
-		ExecuteWatchdog watchdog = new ExecuteWatchdog(60 * 1000);
+		ExecuteWatchdog watchdog = new ExecuteWatchdog(TimeUnit.SECONDS.toMillis(60));
 
 		Executor executor = new DefaultExecutor();
 

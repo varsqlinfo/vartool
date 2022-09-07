@@ -1,11 +1,15 @@
-package com.vartool.web.app.handler.log.tail;
+package com.vartool.web.app.handler.log.stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.jknack.handlebars.internal.lang3.StringUtils;
 import com.vartool.web.app.handler.log.LogCmpManager;
+import com.vartool.web.app.handler.log.reader.FileReader;
+import com.vartool.web.app.handler.log.reader.LogReader;
+import com.vartool.web.app.handler.log.reader.SshReader;
 import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
+import com.vartool.web.constants.LogType;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.dto.response.CmpLogResponseDTO;
 import com.vartool.web.dto.websocket.LogMessageDTO;
@@ -17,7 +21,7 @@ import com.vartool.web.module.VartoolUtils;
 * @fileName	: TailLogOutputHandler.java
 * @author	: ytkim
  */
-public class TailLogOutputHandler implements Runnable {
+public class LogOutputHandler implements Runnable {
 	
 	private static final Logger logger = LoggerFactory.getLogger("commandLog");
 
@@ -25,9 +29,9 @@ public class TailLogOutputHandler implements Runnable {
 	private final long delayTime;
 	private final String cmpId;
 	
-	private Tail tail;
+	private LogReader logReader;
 	
-	public TailLogOutputHandler(final WebSocketServiceImpl webSocketServiceImpl, CmpLogResponseDTO logDto, long delayTime) {
+	public LogOutputHandler(final WebSocketServiceImpl webSocketServiceImpl, CmpLogResponseDTO logDto, long delayTime) {
 		this.webSocketServiceImpl = webSocketServiceImpl;
 		this.delayTime = delayTime; 
 		this.cmpId = logDto.getCmpId();
@@ -35,10 +39,18 @@ public class TailLogOutputHandler implements Runnable {
 		String charset = logDto.getCharset();
 		charset = StringUtils.isBlank(charset) ? VartoolConstants.CHAR_SET : charset;
 		
-		tail = new Tail(logDto.getLogPath(), 50000, new TailOutputStream(), charset);
-		new Thread(tail).start();
+		if(LogType.SSH.name().equals(logDto.getLogType())) {
+			logReader = new SshReader(logDto);
+		}else {
+			logReader = new FileReader(logDto);
+		}
 		
-		LogCmpManager.getInstance().setTailInfo(cmpId, tail);
+		
+		
+		
+		new Thread(logReader).start();
+		
+		LogCmpManager.getInstance().setTailInfo(cmpId, logReader);
 	}
 
 	/**
@@ -48,9 +60,9 @@ public class TailLogOutputHandler implements Runnable {
 		
 		while (true) {
 			
-			if(this.tail.isStop()) break; 
+			if(this.logReader.isStop()) break; 
 			
-			String msg = this.tail.getOutputStream().getLog();
+			String msg = this.logReader.getOutputStream().getLog();
 			if (!"".equals(msg)) {
 				LogCmpManager.getInstance().addLogInfo(cmpId, msg);
 				webSocketServiceImpl.sendMessage(LogMessageDTO.builder().log(msg).cmpId(this.cmpId).build(), VartoolUtils.getAppRecvId(this.cmpId));

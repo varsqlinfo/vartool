@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.vartool.web.app.handler.CmpManager;
-import com.vartool.web.app.handler.log.tail.Tail;
+import com.vartool.web.app.handler.log.reader.LogReader;
 import com.vartool.web.dto.response.CmpMonitorDTO;
 import com.vartool.web.dto.vo.LogInfo;
 
@@ -43,22 +43,22 @@ public class LogCmpManager implements CmpManager {
 		return "";
 	}
 	
-	public synchronized void createLogInfo(String cmpId, Tail tail) {
+	public synchronized void createLogInfo(String cmpId, LogReader tail) {
 		if(existsLog(cmpId)) {
 			TAIL_LOG_INFO.get(cmpId).setStatus(true);
 			
 			if(tail != null) {
-				if(TAIL_LOG_INFO.get(cmpId).getTail() != null) {
-					TAIL_LOG_INFO.get(cmpId).getTail().stop();
-					TAIL_LOG_INFO.get(cmpId).setTail(null);
+				if(TAIL_LOG_INFO.get(cmpId).getLogReader() != null) {
+					TAIL_LOG_INFO.get(cmpId).getLogReader().stop();
+					TAIL_LOG_INFO.get(cmpId).setLogReader(null);
 				}
 				
-				TAIL_LOG_INFO.get(cmpId).setTail(tail);
+				TAIL_LOG_INFO.get(cmpId).setLogReader(tail);
 			}
 			return ; 
 		}
 		
-		TAIL_LOG_INFO.put(cmpId, TailLogStatus.builder().logInfo(new LogInfo(1000)).tail(tail).build());
+		TAIL_LOG_INFO.put(cmpId, TailLogStatus.builder().logInfo(new LogInfo(1000)).logReader(tail).build());
 	}
 	
 	public void addLogInfo(String cmpId, String logText) {
@@ -74,8 +74,8 @@ public class LogCmpManager implements CmpManager {
 	public void removeLogInfo(String cmpId) {
 		if(isTailInfo(cmpId)) {
 			TAIL_LOG_INFO.get(cmpId).setStatus(false);
-			TAIL_LOG_INFO.get(cmpId).getTail().stop();
-			TAIL_LOG_INFO.get(cmpId).setTail(null);
+			TAIL_LOG_INFO.get(cmpId).getLogReader().stop();
+			TAIL_LOG_INFO.get(cmpId).setLogReader(null);
 			TAIL_LOG_INFO.get(cmpId).getLogInfo().clear();
 			
 			TAIL_LOG_INFO.remove(cmpId);
@@ -105,9 +105,9 @@ public class LogCmpManager implements CmpManager {
 	public void stopTail(String cmpId) {
 		if(existsLog(cmpId)) {
 			TAIL_LOG_INFO.get(cmpId).setStatus(false);
-			if(TAIL_LOG_INFO.get(cmpId).getTail() != null) {
-				TAIL_LOG_INFO.get(cmpId).getTail().stop();
-				TAIL_LOG_INFO.get(cmpId).setTail(null);
+			if(TAIL_LOG_INFO.get(cmpId).getLogReader() != null) {
+				TAIL_LOG_INFO.get(cmpId).getLogReader().stop();
+				TAIL_LOG_INFO.get(cmpId).setLogReader(null);
 			}
 		}
 	}
@@ -136,10 +136,10 @@ public class LogCmpManager implements CmpManager {
 		
 	}
 
-	public void setTailInfo(String cmpId, Tail tail) {
+	public void setTailInfo(String cmpId, LogReader logReader) {
 		if(existsLog(cmpId)) {
 			TAIL_LOG_INFO.get(cmpId).setStatus(true);
-			TAIL_LOG_INFO.get(cmpId).setTail(tail);
+			TAIL_LOG_INFO.get(cmpId).setLogReader(logReader);
 			return ; 
 		}
 		
@@ -150,13 +150,13 @@ public class LogCmpManager implements CmpManager {
 @Setter
 class TailLogStatus {
 	private LogInfo logInfo;  
-	private Tail tail;
+	private LogReader logReader;
 	boolean status; 
 	
 	@Builder
-	public TailLogStatus(LogInfo logInfo, Tail tail) {
+	public TailLogStatus(LogInfo logInfo, LogReader logReader) {
 		this.logInfo = logInfo;
-		this.tail = tail; 
+		this.logReader = logReader; 
 		this.status = true; 
 	}
 }

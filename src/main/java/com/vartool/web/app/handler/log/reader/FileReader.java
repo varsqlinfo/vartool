@@ -1,4 +1,4 @@
-package com.vartool.web.app.handler.log.tail;
+package com.vartool.web.app.handler.log.reader;
 import static java.lang.Math.max;
 import static java.lang.Thread.sleep;
 import static java.nio.ByteBuffer.allocate;
@@ -18,6 +18,9 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vartech.common.utils.StringUtils;
+import com.vartool.web.app.handler.log.stream.LogComponentOutputStream;
+import com.vartool.web.dto.response.CmpLogResponseDTO;
 import com.vartool.web.module.FileServiceUtils;
 import com.vartool.web.module.LogFilenameUtils;
 
@@ -25,10 +28,10 @@ import com.vartool.web.module.LogFilenameUtils;
  * tail 
  * file read
 * 
-* @fileName	: Tail.java
+* @fileName	: FileReader.java
 * @author	: ytkim
  */
-public class Tail implements Runnable {
+public class FileReader implements LogReader {
 
     private static final int AWAIT_FILE_ROTATION_MILLIS = 1000;
     private static final int TAIL_CHECK_INTERVAL_MILLIS = 500;
@@ -43,7 +46,7 @@ public class Tail implements Runnable {
 
     private boolean stopped = false;
     private boolean isIncludeDatePattern = false;
-    private final TailOutputStream output; 
+    private final LogComponentOutputStream output; 
     
     private String currentYMD; 
     
@@ -53,23 +56,19 @@ public class Tail implements Runnable {
 
     private File file;
     
-    /**
-     * @param remoteEndpoint must not be <code>null</code>.
-     * @param file must not be <code>null</code>.
-     * @param bytesToTail the number of bytes up to which are immediately read from the file.
-     */
-    public Tail(String filePath, long bytesToTail, TailOutputStream output) {
-    	this(filePath, bytesToTail, output, null);
-    }
-    
-    public Tail(String fileNamePattern, long bytesToTail, TailOutputStream output, String charset) {
-        if (fileNamePattern == null) {
+    public FileReader(CmpLogResponseDTO logDto) {
+    	String fileNamePattern = logDto.getLogPath();
+    	
+    	if (fileNamePattern == null) {
             throw new IllegalArgumentException("constructor parameter file must not be null");
         }
-
-        this.bytesToTail = bytesToTail;
+    	
+    	long bytesToTail = 50000;
+    	String charset = logDto.getCharset();
+    	
+    	this.bytesToTail = bytesToTail;
         this.fileNamePattern = fileNamePattern;
-        this.output = output;
+        this.output = new LogComponentOutputStream();
         this.isIncludeDatePattern = LogFilenameUtils.isDatePattern(fileNamePattern);
         
         if(this.isIncludeDatePattern) {
@@ -80,14 +79,14 @@ public class Tail implements Runnable {
         
         currentYMD = new DateTime().toString(dateFormatter);
         
-        if(charset != null && !"".equals(charset)) {
+        if(!StringUtils.isBlank(charset)) {
         	logCharset = Charset.forName(charset);
         }
         
-        logger.info("tail charset : {} , filePath : {}, logCharset : {}", charset, fileNamePattern, logCharset);
-    }
-
-    @Override
+        logger.info("tail charset : {}, filePath : {}, logCharset : {}", charset, fileNamePattern, logCharset);
+	}
+    
+	@Override
     public void run() {
         SeekableByteChannel channel = null;
         
@@ -138,7 +137,7 @@ public class Tail implements Runnable {
                 	sleep(AWAIT_FILE_ROTATION_MILLIS);
                 	
             		if(!fileNotFound) {
-                		this.output.handle("file not found : "+this.file.getAbsolutePath());
+                		this.output.processLine("file not found : "+this.file.getAbsolutePath());
                 	}
                 	fileNotFound = true; 
                     continue;
@@ -209,7 +208,7 @@ public class Tail implements Runnable {
                 	afterLog ="";
                 }
                 
-                this.output.handle(logInfo);
+                this.output.processLine(logInfo);
                 
                 readBuffer.flip();
                 readBuffer.clear();
@@ -241,14 +240,17 @@ public class Tail implements Runnable {
     	return startingFromInByte;
     }
 
+	@Override
 	public void stop() {
         this.stopped = true;
     }
     
-    public TailOutputStream getOutputStream() {
+	@Override
+    public LogComponentOutputStream getOutputStream() {
     	return output; 
     }
     
+	@Override
     public boolean isStop() {
     	return this.stopped;
     }

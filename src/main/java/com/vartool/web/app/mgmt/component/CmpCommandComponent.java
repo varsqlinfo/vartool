@@ -2,6 +2,7 @@ package com.vartool.web.app.mgmt.component;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
@@ -138,7 +139,7 @@ public class CmpCommandComponent {
 		
 		logger.debug("cmdLine : {} " , cmdLine);
 		
-		ExecuteWatchdog watchdog = new ExecuteWatchdog(60*1000);
+		ExecuteWatchdog watchdog = new ExecuteWatchdog(TimeUnit.SECONDS.toMillis(60));
 		Executor executor = new DefaultExecutor();
 		executor.setExitValue(0);
 		executor.setWatchdog(watchdog);

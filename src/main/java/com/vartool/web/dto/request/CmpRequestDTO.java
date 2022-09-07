@@ -11,4 +11,5 @@ public class CmpRequestDTO {
 	private String name;
 	private String cmpType;
 	private String description;
+	private String cmpCredential;
 }

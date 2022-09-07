@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.vartool.web.app.handler.log.LogCmpManager;
-import com.vartool.web.app.handler.log.tail.TailLogOutputHandler;
+import com.vartool.web.app.handler.log.stream.LogOutputHandler;
 import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
 import com.vartool.web.dto.response.CmpLogResponseDTO;
 import com.vartool.web.dto.websocket.LogMessageDTO;
@@ -33,7 +33,7 @@ public class CmpLogComponent {
 		String logPath = dto.getLogPath(); 
 		if(!StringUtils.isBlank(logPath) && (new File(logPath).exists() || LogFilenameUtils.isIncludePattern(logPath))) {
 			LogCmpManager.getInstance().createLogInfo(cmpId, null);
-			new Thread(new TailLogOutputHandler(webSocketServiceImpl, dto, 1000)).start();
+			new Thread(new LogOutputHandler(webSocketServiceImpl, dto, 1000)).start();
 		}else {
 			return LogMessageDTO.builder().cmpId(cmpId).log("log path not found : " + logPath).build();
 		}

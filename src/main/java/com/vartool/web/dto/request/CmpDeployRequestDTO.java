@@ -26,6 +26,7 @@ public class CmpDeployRequestDTO extends CmpRequestDTO {
 	public CmpItemDeployEntity toEntity() {
 		return CmpItemDeployEntity.builder()
 			.name(getName())
+			.cmpCredential(getCmpCredential())
 			.cmpId(getCmpId())
 			.description(getDescription())
 			.scmType(scmType)

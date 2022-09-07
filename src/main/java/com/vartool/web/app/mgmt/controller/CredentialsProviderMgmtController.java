@@ -20,47 +20,46 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.utils.HttpUtils;
-import com.vartool.web.app.mgmt.service.CmpLogMgmtService;
-import com.vartool.web.constants.LogType;
-import com.vartool.web.dto.request.CmpLogRequestDTO;
+import com.vartool.web.app.mgmt.service.CredentialsProviderMgmtService;
+import com.vartool.web.constants.CredentialsType;
+import com.vartool.web.dto.request.CredentialsProviderRequestDTO;
 import com.vartool.web.module.VartoolUtils;
 
 /**
- * log component management
+ * Credentials Provider management
 * 
 * @fileName	: CmpLogMgmtController.java
 * @author	: ytkim
  */
 @Controller
-@RequestMapping("/mgmt/cmp/logMgmt")
-public class CmpLogMgmtController {
+@RequestMapping("/mgmt/cred")
+public class CredentialsProviderMgmtController {
 	
 
 	/** The Constant logger. */
-	private final static Logger logger = LoggerFactory.getLogger(CmpLogMgmtController.class);
+	private final static Logger logger = LoggerFactory.getLogger(CredentialsProviderMgmtController.class);
 	
 	@Autowired
-	private CmpLogMgmtService cmpLogMgmtService;
-	
+	private CredentialsProviderMgmtService credentialsProviderMgmtService;
 	
 	@GetMapping({"","/"})
 	public ModelAndView main(HttpServletRequest req, HttpServletResponse res, ModelAndView mav) throws Exception {
 		
 		ModelMap model = mav.getModelMap();
 		model.addAttribute("originalURL", VartoolUtils.getOriginatingRequestUri(req));
-		model.addAttribute("logTypeList", LogType.values());
-		return new ModelAndView("/mgmt/cmpLogMgmt", model);
+		model.addAttribute("credentialsTypeList", CredentialsType.values());
+		return new ModelAndView("/mgmt/credentialsProviderMgmt", model);
 	}
 	
 	@PostMapping({"/list" })
 	public @ResponseBody ResponseResult deployList(HttpServletRequest req,
 			HttpServletResponse res, ModelAndView mav) throws Exception {
 		
-		return cmpLogMgmtService.list(HttpUtils.getSearchParameter(req));
+		return credentialsProviderMgmtService.list(HttpUtils.getSearchParameter(req));
 	}
 	
 	/**
-	 * 정보 저장.
+	 * 저장
 	 *
 	 * @method : save
 	 * @param dto
@@ -71,7 +70,7 @@ public class CmpLogMgmtController {
 	 * @throws Exception
 	 */
 	@PostMapping({"/save" })
-	public @ResponseBody ResponseResult save(@Valid CmpLogRequestDTO dto, BindingResult result, ModelAndView mav, HttpServletRequest req) throws Exception {
+	public @ResponseBody ResponseResult save(@Valid CredentialsProviderRequestDTO dto, BindingResult result, ModelAndView mav, HttpServletRequest req) throws Exception {
 		
 		ResponseResult resultObject = new ResponseResult();
 		if (result.hasErrors()) {
@@ -81,11 +80,11 @@ public class CmpLogMgmtController {
 			return VartoolUtils.getResponseResultValidItem(resultObject, result);
 		}
 		    
-		return cmpLogMgmtService.save(dto);
+		return credentialsProviderMgmtService.save(dto);
 	}
 	
 	/**
-	 * 정보 삭제.
+	 * 삭제
 	 *
 	 * @method : remove
 	 * @param cmpId
@@ -94,8 +93,8 @@ public class CmpLogMgmtController {
 	 * @throws Exception
 	 */
 	@PostMapping({"/remove" })
-	public @ResponseBody ResponseResult remove(@RequestParam(value = "cmpId", required = true) String cmpId, HttpServletRequest req) throws Exception {
-		return cmpLogMgmtService.remove(cmpId);
+	public @ResponseBody ResponseResult remove(@RequestParam(value = "credId", required = true) String credId, HttpServletRequest req) throws Exception {
+		return credentialsProviderMgmtService.remove(credId);
 	}
 	
 	/**
@@ -108,7 +107,7 @@ public class CmpLogMgmtController {
 	 * @throws Exception
 	 */
 	@PostMapping({"/copy" })
-	public @ResponseBody ResponseResult copy(@RequestParam(value = "cmpId", required = true) String cmpId, HttpServletRequest req) throws Exception {
-		return cmpLogMgmtService.copyInfo(cmpId);
+	public @ResponseBody ResponseResult copy(@RequestParam(value = "credId", required = true) String credId, HttpServletRequest req) throws Exception {
+		return credentialsProviderMgmtService.copyInfo(credId);
 	}
 }

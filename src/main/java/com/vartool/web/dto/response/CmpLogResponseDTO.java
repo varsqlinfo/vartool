@@ -10,13 +10,16 @@ import lombok.Setter;
 public class CmpLogResponseDTO extends CmpResponseDTO {
 	private String charset;
 	private String logPath;
+	private String logType;
 	
 	public static CmpLogResponseDTO toDto(CmpItemLogEntity entity) {
 		CmpLogResponseDTO dto= new CmpLogResponseDTO();
 		
+		
 		dto.setName(entity.getName());
 		dto.setCmpId(entity.getCmpId());
 		dto.setCmpType(entity.getCmpType());
+		dto.setLogType(entity.getLogType());
 		dto.setDescription(entity.getDescription());
 		dto.setRegDt(entity.getRegDt());
 		

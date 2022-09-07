@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.app.beans.SearchParameter;
 import com.vartech.common.utils.StringUtils;
+import com.vartool.web.constants.LogType;
 import com.vartool.web.dto.request.CmpLogRequestDTO;
 import com.vartool.web.dto.response.CmpLogResponseDTO;
 import com.vartool.web.exception.ComponentNotFoundException;
@@ -46,12 +47,9 @@ public class CmpLogMgmtService {
 	}
 
 	/**
-	 * 
-	 * @Method Name  : save
-	 * @Method 설명 : 정보 저장.  
-	 * @작성자   : ytkim
-	 * @작성일   : 2021. 7. 28.
-	 * @변경이력  :
+	 * 정보 저장.  
+	 *
+	 * @method : save
 	 * @param dto
 	 * @return
 	 */
@@ -69,18 +67,21 @@ public class CmpLogMgmtService {
 			cle = dto.toEntity();
 		}
 		
+		if(LogType.FILE.name().equals(cle.getLogType())) {
+			cle.setCmpItemLogExtensionsEntity(null);
+		}else {
+			cle.getCmpItemLogExtensionsEntity().setCmpItemLogEntity(cle);
+		}
+		
 		cmpItemLogRepository.save(cle);
 		
 		return VartoolUtils.getResponseResultItemOne(1);
 	}
 
 	/**
-	 * 
-	 * @Method Name  : remove
-	 * @Method 설명 : 정보 삭제. 
-	 * @작성자   : ytkim
-	 * @작성일   : 2021. 7. 28.
-	 * @변경이력  :
+	 * 정보 삭제. 
+	 *
+	 * @method : remove
 	 * @param cmpId
 	 * @return
 	 */
@@ -97,12 +98,9 @@ public class CmpLogMgmtService {
 	}
 	
 	/**
-	 * 
-	 * @Method Name  : copyInfo
-	 * @Method 설명 : 정보 복사 
-	 * @작성자   : ytkim
-	 * @작성일   : 2021. 8. 17.
-	 * @변경이력  :
+	 * 정보 복사 
+	 *
+	 * @method : copyInfo
 	 * @param cmpId
 	 * @return
 	 */
