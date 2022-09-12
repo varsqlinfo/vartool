@@ -17,6 +17,6 @@ public interface CmpRepository extends DefaultJpaRepository, JpaRepository<CmpEn
 	
 	CmpEntity findByCmpId(String cmpId);
 	
-	@Query(value = "select new com.vartool.web.dto.response.CmpResponseDTO("+CmpEntity.CMP_ID+", "+CmpEntity.NAME+", "+CmpEntity.CMP_TYPE+") from CmpEntity m")
+	@Query(value = "select new com.vartool.web.dto.response.CmpResponseDTO("+CmpEntity.CMP_ID+", "+CmpEntity.NAME+", "+CmpEntity.CMP_TYPE+","+CmpEntity.DESCRIPTION+","+CmpEntity.CMP_CREDENTIAL+") from CmpEntity m")
 	List<CmpResponseDTO> findAllByNameContaining(Sort sort);
 }

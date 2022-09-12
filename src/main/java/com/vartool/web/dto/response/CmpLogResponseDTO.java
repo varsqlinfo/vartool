@@ -12,11 +12,16 @@ public class CmpLogResponseDTO extends CmpResponseDTO {
 	private String logPath;
 	private String logType;
 	
+	private String remoteHost;
+	private int remotePort;
+	private String command;
+	
 	public static CmpLogResponseDTO toDto(CmpItemLogEntity entity) {
 		CmpLogResponseDTO dto= new CmpLogResponseDTO();
 		
 		
 		dto.setName(entity.getName());
+		dto.setCmpCredential(entity.getCmpCredential());
 		dto.setCmpId(entity.getCmpId());
 		dto.setCmpType(entity.getCmpType());
 		dto.setLogType(entity.getLogType());

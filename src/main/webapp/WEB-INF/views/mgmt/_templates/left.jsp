@@ -11,8 +11,8 @@
 			<i class="fa fa-fw fa-caret-down"></i>
 		</a>
 		<ul id="component-sub-menu" class="nav sub-menu collapse ${fn:indexOf(reqUri,'/mgmt/cmp/') > 0 ?'in':''  }" >
-			<li><a href="${pageContextPath}/mgmt/cmp/commandMgmt">Command</a></li>
 			<li><a href="${pageContextPath}/mgmt/cmp/logMgmt">Log</a></li>
+			<li><a href="${pageContextPath}/mgmt/cmp/commandMgmt">Command</a></li>
 			<li><a href="${pageContextPath}/mgmt/cmp/deployMgmt">Deploy</a></li>
 		</ul>
 	</li>
@@ -27,6 +27,7 @@
 			<li><a href="${pageContextPath}/mgmt/cmpGroupMgmt/user">Group & User</a></li>
 		</ul>
 	</li>
+	<li><a href="${pageContextPath}/mgmt/cred"><i class="fa fa-fw fa-user"></i>Credentials Provider</a></li>
 	<li>
 		<a href="#" data-toggle="collapse" data-target="#log-sub-menu">
 			<i class="fa fa-bar-chart-o"></i>

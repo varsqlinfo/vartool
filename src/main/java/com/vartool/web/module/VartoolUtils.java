@@ -204,7 +204,6 @@ public final class VartoolUtils {
 	}
 	
 	public static ResponseResult getResponseResult(Page<?> result, SearchParameter searchParameter, GenericMapper instance) {
-
 		ResponseResult responseResult = new ResponseResult();
 		responseResult.setItemList(result.stream().map(item -> instance.toDto(item)).collect(Collectors.toList()));
 		responseResult.setPage(PagingUtil.getPageObject(result.getTotalElements(), searchParameter));

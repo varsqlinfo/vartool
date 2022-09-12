@@ -38,6 +38,7 @@ public class CredentialsProviderRequestDTO {
 				.username(username)
 				.password(password)
 				.secretText(secretText)
+				.description(description)
 				.build();
 	}
 	

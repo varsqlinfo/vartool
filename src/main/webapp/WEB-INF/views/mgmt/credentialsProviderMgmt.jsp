@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/include/tagLib.jspf"%>
 <div class="col-lg-12">
 	<h1>
-		Log
+		Credentials Provider
 	</h1>
 </div>
 <div class="display-off" id="appViewArea">
@@ -44,7 +44,7 @@
 							<tr v-for="(item,index) in gridData" class="gradeA" :class="(index%2==0?'add':'even')">
 								<td>
 									<div class="text-ellipsis" :title="item.name">
-										<a href="javascript:;" @click="viewItem(item)"> {{item.name}} </a>
+										<a href="javascript:;" @click="viewItem(item)"> {{item.credName}} </a>
 									</div>
 								</td>
 								<td class="center">
@@ -84,64 +84,41 @@
 									<div class="row bottomHeight5">
 										<label class="col-lg-3 control-label" for="inputError">Name</label>
 										<div class="col-lg-9">
-		           							<input type="text" v-model="detailItem.name" class="form-control input-init-type">
+		           							<input type="text" v-model="detailItem.credName" class="form-control input-init-type">
 										</div>
 									</div>
 									
 									<div class="row bottomHeight5">
 										<label class="col-lg-3 control-label" for="inputError">Type</label>
 										<div class="col-lg-9">
-											<select v-model="detailItem.logType" class="form-control input-init-type">
-												<c:forEach var="item" items="${logTypeList}" varStatus="status">
-													<option value="${item.name}">${item.name}</option>
+											<select v-model="detailItem.credType" class="form-control input-init-type">
+												<c:forEach var="item" items="${credentialsTypeList}" varStatus="status">
+													<option value="${item.code}">${item.viewLabel}</option>
 												</c:forEach>
 											</select>
 										</div>
 									</div>
 									
-									<div class="row bottomHeight5">
-										<label class="col-lg-3 control-label" for="inputError">Charset</label>
-										<div class="col-lg-9">
-											<input type="text" v-model="detailItem.charset" class="form-control input-init-type">
-										</div>
-									</div>
-									<template v-if="detailItem.logType =='FILE'">
+									
+									<template v-if="detailItem.credType =='secretText'">
 										<div class="row bottomHeight5">
-											<label class="col-lg-3 control-label" for="inputError">Log path</label>
+											<label class="col-lg-3 control-label" for="inputError">Secret Text</label>
 											<div class="col-lg-9">
-												<input type="text" v-model="detailItem.logPath" class="form-control input-init-type">
-												<div>Pattern : <span style="font-weight: normal;">%d{yyyy-MM-dd} , %i</span></div>
+												<textarea rows="5"  v-model="detailItem.secretText" class="form-control input-init-type"></textarea> 
 											</div>
 										</div>
 									</template>
-									<template v-if="detailItem.logType =='SSH'">
+									<template v-if="detailItem.credType =='idPw'">
 										<div class="row bottomHeight5">
-											<label class="col-lg-3 control-label" for="inputError">Credentials</label>
+											<label class="col-lg-3 control-label" for="inputError">Username</label>
 											<div class="col-lg-9">
-												<select v-model="detailItem.cmpCredential" class="form-control input-init-type">
-													<c:forEach var="item" items="${allCredList}" varStatus="status">
-														<option value="${item.credId}">${item.credName}</option>
-													</c:forEach>
-												</select>
-											</div>
-										</div>
-										
-										<div class="row bottomHeight5">
-											<label class="col-lg-3 control-label" for="inputError">Host</label>
-											<div class="col-lg-9">
-												<input type="text" v-model="detailItem.remoteHost" class="form-control input-init-type">
+												<input type="text" v-model="detailItem.username" class="form-control input-init-type">
 											</div>
 										</div>
 										<div class="row bottomHeight5">
-											<label class="col-lg-3 control-label" for="inputError">Port</label>
+											<label class="col-lg-3 control-label" for="inputError">Password</label>
 											<div class="col-lg-9">
-												<input type="number" v-model="detailItem.remotePort" class="form-control input-init-type">
-											</div>
-										</div>
-										<div class="row bottomHeight5">
-											<label class="col-lg-3 control-label" for="inputError">Command</label>
-											<div class="col-lg-9">
-												<textarea type="text" v-model="detailItem.command" class="form-control input-init-type"></textarea>
+												<input type="password" v-model="detailItem.password" class="form-control input-init-type">
 											</div>
 										</div>
 									</template>
@@ -192,7 +169,7 @@ VartoolAPP.vueServiceBean({
 			};
 			
 			this.$ajax({
-				url: {type:VARTOOL.uri.manager, url:'/cmp/logMgmt/list'}
+				url: {type:VARTOOL.uri.manager, url:'/cred/list'}
 				,data : param
 				,success: function(resData) {
 					var items = resData.items;
@@ -210,15 +187,13 @@ VartoolAPP.vueServiceBean({
 				this.detailFlag = false;
 				this.viewMode = 'save';
 				this.detailItem ={
-					charset : "utf-8"
-					,logType : 'FILE'
-					,cmpCredential : ''
-					,name: ''
-					,logPath : ""
-					,remmoteHost : ''
-					,remmotePort : ''
-					,command : ''
-					,description: ''
+					credId :'' 
+					,credName :'' 
+					,credType :'idPw' 
+					,username :'' 
+					,password :'' 
+					,secretText :'' 
+					,description :'' 
 				}
 			}else{
 				this.detailFlag = true; 
@@ -240,7 +215,7 @@ VartoolAPP.vueServiceBean({
 			var param = $.parseJSON(JSON.stringify(this.detailItem));
 			
 			this.$ajax({
-				url: {type:VARTOOL.uri.manager, url:'/cmp/logMgmt/save'}
+				url: {type:VARTOOL.uri.manager, url:'/cred/save'}
 				,data : param
 				,success: function(resData) {
 					_this.fieldClear();
@@ -258,7 +233,7 @@ VartoolAPP.vueServiceBean({
 			var param = VARTOOL.util.objectMerge(this.detailItem);
 
 			this.$ajax({
-				url :  {type:VARTOOL.uri.manager, url:'/cmp/logMgmt/copy'}
+				url :  {type:VARTOOL.uri.manager, url:'/cred/copy'}
 				,loadSelector : 'body'
 				,data:param
 				,success:function (resData){
@@ -277,18 +252,18 @@ VartoolAPP.vueServiceBean({
 		,deleteInfo : function(selectItem){
 			var _this = this; 
 			
-			if(typeof selectItem.cmpId ==='undefined'){
+			if(typeof selectItem.credId ==='undefined'){
 				return ;
 			}
 			
-			if(!confirm('['+selectItem.name+']을 삭제 하시겠습니까?')){
+			if(!confirm('['+selectItem.credName+']을 삭제 하시겠습니까?')){
 				return ; 
 			}
 			
 			this.$ajax({
-				url: {type:VARTOOL.uri.manager, url:'/cmp/logMgmt/remove'}
+				url: {type:VARTOOL.uri.manager, url:'/cred/remove'}
 				,data : {
-					cmpId : selectItem.cmpId 
+					credId : selectItem.credId 
 				}
 				,success: function(resData) {
 					_this.fieldClear();

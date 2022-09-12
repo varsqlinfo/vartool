@@ -7,8 +7,8 @@ package com.vartool.web.constants;
 * @author	: ytkim
  */
 public enum CredentialsType {
-	USERNAME_PASSWORD("IdPw","Username & Password")
-	,SECRET_TEXT("SecretText","Secret Text");
+	USERNAME_PASSWORD("idPw","Username & Password")
+	,SECRET_TEXT("secretText","Secret Text");
 
 	private String code;
 	private String viewLabel;

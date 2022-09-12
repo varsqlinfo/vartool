@@ -13,14 +13,17 @@ public class CmpResponseDTO {
 	private String name;
 	private String cmpType;
 	private String description;
+	private String cmpCredential;
 	
 	private LocalDateTime regDt;
 	
 	public CmpResponseDTO() {}
 	
-	public CmpResponseDTO(String cmpId, String name, String cmpType) {
+	public CmpResponseDTO(String cmpId, String name, String cmpType, String description, String cmpCredential) {
 		this.cmpId = cmpId;
 		this.name = name; 
 		this.cmpType = cmpType;
+		this.description = description;
+		this.cmpCredential = cmpCredential;
 	}
 }

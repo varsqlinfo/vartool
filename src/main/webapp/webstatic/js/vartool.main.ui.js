@@ -238,7 +238,11 @@ function fnCreateComponent(componentName){
 	}; 
 }
 
-_ui.saveArticle = function (url , boardParam){
+_ui.saveArticle = function (url, boardParam){
+	if(VARTOOL.isBlank(boardParam.contents)){
+		VARTOOLUI.toast.open({text : '선택해주세요.'});
+		return ;
+	}
 	VARTOOL.req.ajax({
 		url: {type : 'ignore',url :  url}
 		,data : boardParam
@@ -569,7 +573,7 @@ _ui.registerComponent({
 						{key : 'sqlFormatView', name :'Sql Format View', callback: function (){
 							getFormatSql(_this.logElement[logId].selectionData());
 						}}
-						,{key : 'saveArticle', name :'게시판 로그 저장', callback: function (){
+						,{key : 'saveArticle', name :'선택영역 로그 저장', callback: function (){
 							var selectionData = _this.logElement[logId].selectionData();
 
 							_ui.saveArticle(_g_options.articleSaveUrl,{
@@ -693,7 +697,7 @@ _ui.registerComponent({
 						{key : 'sqlFormatView', name :'Sql Format View', callback: function (){
 							getFormatSql(_this.logElement[logId].selectionData());
 						}}
-						,{key : 'saveArticle', name :'게시판 로그 저장', callback: function (){
+						,{key : 'saveArticle', name :'선택영역 로그 저장', callback: function (){
 							var selectionData = _this.logElement[logId].selectionData();
 
 							_ui.saveArticle(_g_options.articleSaveUrl,{
@@ -817,7 +821,7 @@ _ui.registerComponent({
 						{key : 'sqlFormatView', name :'Sql Format View', callback: function (){
 							getFormatSql(_this.logElement[logId].selectionData());
 						}}
-						,{key : 'saveArticle', name :'게시판 로그 저장', callback: function (){
+						,{key : 'saveArticle', name :'선택영역 로그 저장', callback: function (){
 							var selectionData = _this.logElement[logId].selectionData();
 
 							_ui.saveArticle(_g_options.articleSaveUrl,{

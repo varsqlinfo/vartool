@@ -1,6 +1,9 @@
 package com.vartool.web.model.entity.cmp;
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
@@ -23,12 +26,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = CmpItemLogExtensionsEntity._TB_NAME)
-public class CmpItemLogExtensionsEntity{
+public class CmpItemLogExtensionsEntity implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	public final static String _TB_NAME="VT_CMP_ITEM_LOG_EXTENSIONS";
 
 	@Id
-	@Column(unique = true, nullable = false)
+	@Column(name = "CMP_ID", unique = true, nullable = false)
 	private String cmpId; 
 
 	@Column(name ="REMOTE_HOST")
@@ -40,9 +45,7 @@ public class CmpItemLogExtensionsEntity{
 	@Column(name ="COMMAND")
 	private String command;
 	
-	@MapsId
-	@OneToOne(optional = true)
-	@JoinColumn(name = "CMP_ID")
+	@OneToOne(optional = true,  fetch = FetchType.LAZY, mappedBy = "cmpItemLogExtensionsEntity")
 	private CmpItemLogEntity cmpItemLogEntity;
 
 	@Builder

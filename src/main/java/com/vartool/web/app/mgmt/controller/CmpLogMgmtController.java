@@ -21,9 +21,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.app.mgmt.service.CmpLogMgmtService;
+import com.vartool.web.app.mgmt.service.CredentialsProviderMgmtService;
 import com.vartool.web.constants.LogType;
 import com.vartool.web.dto.request.CmpLogRequestDTO;
 import com.vartool.web.module.VartoolUtils;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * log component management
@@ -33,14 +36,18 @@ import com.vartool.web.module.VartoolUtils;
  */
 @Controller
 @RequestMapping("/mgmt/cmp/logMgmt")
+@RequiredArgsConstructor
 public class CmpLogMgmtController {
 	
 
 	/** The Constant logger. */
 	private final static Logger logger = LoggerFactory.getLogger(CmpLogMgmtController.class);
 	
-	@Autowired
-	private CmpLogMgmtService cmpLogMgmtService;
+	
+	final private CmpLogMgmtService cmpLogMgmtService;
+	
+	
+	final private CredentialsProviderMgmtService credentialsProviderMgmtService;
 	
 	
 	@GetMapping({"","/"})
@@ -49,6 +56,7 @@ public class CmpLogMgmtController {
 		ModelMap model = mav.getModelMap();
 		model.addAttribute("originalURL", VartoolUtils.getOriginatingRequestUri(req));
 		model.addAttribute("logTypeList", LogType.values());
+		model.addAttribute("allCredList", credentialsProviderMgmtService.allCredentials());
 		return new ModelAndView("/mgmt/cmpLogMgmt", model);
 	}
 	

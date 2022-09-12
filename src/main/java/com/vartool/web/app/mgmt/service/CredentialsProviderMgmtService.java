@@ -1,5 +1,8 @@
 package com.vartool.web.app.mgmt.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -11,6 +14,7 @@ import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.app.beans.SearchParameter;
 import com.vartech.common.utils.StringUtils;
 import com.vartool.web.dto.request.CredentialsProviderRequestDTO;
+import com.vartool.web.dto.response.CredentialsProviderResponseDTO;
 import com.vartool.web.exception.ComponentNotFoundException;
 import com.vartool.web.model.entity.base.AbstractRegAuditorModel;
 import com.vartool.web.model.entity.cmp.CredentialsProviderEntity;
@@ -34,6 +38,28 @@ public class CredentialsProviderMgmtService {
 	
 	final private CredentialsProviderRepository credentialsProviderRepository;
 	
+	/**
+	 * all Credentials
+	 *
+	 * @method : all
+	 * @param searchParameter
+	 * @return
+	 */
+	public List<CredentialsProviderResponseDTO> allCredentials() {
+		List<CredentialsProviderEntity> result = credentialsProviderRepository.findAll(Sort.by(Sort.Direction.ASC, CredentialsProviderEntity.CRED_NAME));
+		
+		CredentialsProviderMapper instance = CredentialsProviderMapper.INSTANCE;
+		
+		return result.stream().map(item -> instance.toDto(item)).collect(Collectors.toList());
+	}
+	
+	/**
+	 * list
+	 *
+	 * @method : list
+	 * @param searchParameter
+	 * @return
+	 */
 	public ResponseResult list(SearchParameter searchParameter) {
 		Sort sort =Sort.by(Sort.Direction.DESC, AbstractRegAuditorModel.REG_DT);
 		
@@ -51,6 +77,8 @@ public class CredentialsProviderMgmtService {
 	 */
 	public ResponseResult save(CredentialsProviderRequestDTO dto) {
 		CredentialsProviderEntity cpe;
+		
+		logger.debug("save : {} ", dto);
 		
 		if(!StringUtils.isBlank(dto.getCredId())) {
 			cpe = credentialsProviderRepository.findByCredId(dto.getCredId());

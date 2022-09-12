@@ -4,8 +4,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -16,7 +17,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -40,7 +40,8 @@ public class CmpItemLogEntity extends CmpEntity{
 	@Column(name = "LOG_PATH")
 	private String logPath;
 	
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "cmpItemLogEntity", optional = true)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+	@JoinColumn(name = "CMP_ID")
     private CmpItemLogExtensionsEntity cmpItemLogExtensionsEntity;
 	
 	@Builder

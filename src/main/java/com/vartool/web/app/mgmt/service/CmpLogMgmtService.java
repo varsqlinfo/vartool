@@ -1,7 +1,5 @@
 package com.vartool.web.app.mgmt.service;
 
-import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -39,11 +37,9 @@ public class CmpLogMgmtService {
 	public ResponseResult list(SearchParameter searchParameter) {
 		Sort sort =Sort.by(Sort.Direction.DESC, AbstractRegAuditorModel.REG_DT);
 		
-		Page<CmpItemLogEntity> result = cmpItemLogRepository.findAllByNameContaining(searchParameter.getKeyword(), VartoolUtils.convertSearchInfoToPage(searchParameter, sort));
+		Page<CmpLogResponseDTO> result = cmpItemLogRepository.findAllByNameContaining(searchParameter.getKeyword(), VartoolUtils.convertSearchInfoToPage(searchParameter, sort));
 		
-		return VartoolUtils.getResponseResult(result.getContent().stream().map(item->{
-			 return CmpLogResponseDTO.toDto(item);
-		}).collect(Collectors.toList()), result.getTotalElements(), searchParameter);
+		return VartoolUtils.getResponseResult(result.getContent(), result.getTotalElements(), searchParameter);
 	}
 
 	/**
@@ -111,6 +107,10 @@ public class CmpLogMgmtService {
 		CmpItemLogEntity copyEntity = VartoolBeanUtils.copyEntity(copyInfo);
 	    copyEntity.setCmpId(null);
 	    copyEntity.setName(copyEntity.getName() + "-copy");
+	    
+	    if(copyEntity.getCmpItemLogExtensionsEntity() != null) {
+	    	copyEntity.getCmpItemLogExtensionsEntity().setCmpId(null);
+	    }
 	    cmpItemLogRepository.save(copyEntity);
 	    
 	    return VartoolUtils.getResponseResultItemOne(CmpLogResponseDTO.toDto(copyEntity));
