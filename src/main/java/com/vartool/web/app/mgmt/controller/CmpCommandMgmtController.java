@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -21,8 +20,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.app.mgmt.service.CmpCommnadMgmtService;
+import com.vartool.web.app.mgmt.service.CredentialsProviderMgmtService;
 import com.vartool.web.dto.request.CmpCommandRequestDTO;
 import com.vartool.web.module.VartoolUtils;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * command management 
@@ -31,6 +33,7 @@ import com.vartool.web.module.VartoolUtils;
 * @author	: ytkim
  */
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/mgmt/cmp/commandMgmt")
 public class CmpCommandMgmtController {
 	
@@ -38,14 +41,16 @@ public class CmpCommandMgmtController {
 	/** The Constant logger. */
 	private final static Logger logger = LoggerFactory.getLogger(CmpCommandMgmtController.class);
 	
-	@Autowired
-	private CmpCommnadMgmtService cmpCommnadMgmtService;
+	final private CmpCommnadMgmtService cmpCommnadMgmtService;
+	
+	final private CredentialsProviderMgmtService credentialsProviderMgmtService;
 	
 	@GetMapping({"","/"})
 	public ModelAndView main(HttpServletRequest req, HttpServletResponse res, ModelAndView mav) throws Exception {
 		
 		ModelMap model = mav.getModelMap();
 		model.addAttribute("originalURL", VartoolUtils.getOriginatingRequestUri(req));
+		model.addAttribute("allCredList", credentialsProviderMgmtService.allCredentials());
 		return new ModelAndView("/mgmt/cmpCommandMgmt", model);
 	}
 	

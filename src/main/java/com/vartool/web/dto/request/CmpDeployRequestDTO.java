@@ -10,9 +10,6 @@ import lombok.Setter;
 public class CmpDeployRequestDTO extends CmpRequestDTO {
 	private String scmType;
 	private String scmUrl;
-	private String scmId;
-	private String scmPw;
-	private String confirmPw;
 	private String dependencyPath;
 	private String deployPath;
 	private String buildScript;
@@ -31,9 +28,6 @@ public class CmpDeployRequestDTO extends CmpRequestDTO {
 			.description(getDescription())
 			.scmType(scmType)
 			.scmUrl(scmUrl)
-			.scmId(scmId)
-			.scmPw(scmPw)
-			.useDeployPath(true)
 			.dependencyPath(dependencyPath)
 			.deployPath(deployPath)
 			.buildScript(buildScript)

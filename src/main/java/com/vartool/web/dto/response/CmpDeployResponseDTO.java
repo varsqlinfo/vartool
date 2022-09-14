@@ -25,12 +25,12 @@ public class CmpDeployResponseDTO extends CmpResponseDTO {
 		dto.setName(entity.getName());
 		dto.setCmpId(entity.getCmpId());
 		dto.setCmpType(entity.getCmpType());
+		dto.setCmpCredential(entity.getCmpCredential());
 		dto.setDescription(entity.getDescription());
 		dto.setRegDt(entity.getRegDt());
 		
 		dto.setScmType(entity.getScmType());
 		dto.setScmUrl(entity.getScmUrl());
-		dto.setScmId(entity.getScmId());
 		dto.setDependencyPath(entity.getDependencyPath());
 		dto.setDeployPath(entity.getDeployPath());
 		dto.setBuildScript(entity.getBuildScript());

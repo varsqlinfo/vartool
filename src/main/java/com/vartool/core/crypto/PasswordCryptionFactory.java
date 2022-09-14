@@ -10,6 +10,8 @@ import com.vartech.common.crypto.impl.VartechSeed;
 import com.vartech.common.utils.StringUtils;
 import com.vartech.common.utils.VartechReflectionUtils;
 import com.vartool.core.config.VartoolConfiguration;
+import com.vartool.web.constants.AppCode;
+import com.vartool.web.exception.VartoolAppException;
 
 /**
  * Password factory
@@ -58,11 +60,21 @@ public class PasswordCryptionFactory {
 		}
 	}
 
-	public String encrypt(String enc) throws EncryptDecryptException{
-		return StringUtils.isBlank(enc) ? enc : abstractCrypto.encrypt(enc);
+	public String encrypt(String enc){
+		try {
+			return StringUtils.isBlank(enc) ? enc : abstractCrypto.encrypt(enc);
+		}catch(Exception e) {
+			throw new VartoolAppException(AppCode.ErrorCode.PASSWORD_ENCRYPT.getCode() ,e);
+		}
 	}
 
-	public String decrypt(String enc) throws EncryptDecryptException{
-		return StringUtils.isBlank(enc) ? enc : abstractCrypto.decrypt(enc);
+	public String decrypt(String enc){
+		try {
+			return StringUtils.isBlank(enc) ? enc : abstractCrypto.decrypt(enc);
+		}catch(Exception e) {
+			throw new VartoolAppException(AppCode.ErrorCode.PASSWORD_DECRYPT.getCode() ,e);
+		}
+		
+		
 	}
 }

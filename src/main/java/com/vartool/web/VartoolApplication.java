@@ -19,7 +19,7 @@ public class VartoolApplication extends SpringBootServletInitializer {
 			System.setProperty("spring.devtools.restart.enabled", "true");
 			System.setProperty("spring.devtools.livereload.enable", "true");
 			
-		}
+		} 
 	}
 
 	public void onStartup(ServletContext servletContext) throws ServletException { 

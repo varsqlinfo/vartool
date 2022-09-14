@@ -84,7 +84,7 @@
 									<div class="row bottomHeight5">
 										<label class="col-lg-3 control-label" for="inputError">Name</label>
 										<div class="col-lg-9">
-		           							<input type="text" v-model="detailItem.credName" class="form-control input-init-type">
+		           							<input type="text" name="credName" v-model="detailItem.credName" class="form-control input-init-type">
 										</div>
 									</div>
 									
@@ -99,7 +99,6 @@
 										</div>
 									</div>
 									
-									
 									<template v-if="detailItem.credType =='secretText'">
 										<div class="row bottomHeight5">
 											<label class="col-lg-3 control-label" for="inputError">Secret Text</label>
@@ -112,15 +111,29 @@
 										<div class="row bottomHeight5">
 											<label class="col-lg-3 control-label" for="inputError">Username</label>
 											<div class="col-lg-9">
-												<input type="text" v-model="detailItem.username" class="form-control input-init-type">
+												<input type="text" name="username" v-model="detailItem.username" class="form-control input-init-type">
 											</div>
 										</div>
 										<div class="row bottomHeight5">
-											<label class="col-lg-3 control-label" for="inputError">Password</label>
+											<label class="col-lg-3 control-label" for="inputError"><spring:message code="join.form.password" /></label>
+											
+											
 											<div class="col-lg-9">
-												<input type="password" v-model="detailItem.password" class="form-control input-init-type">
+												<input type="checkbox" v-model="detailItem.changePassword" v-if="detailFlag">
+												<template v-if="!detailFlag || detailItem.changePassword">
+													<input type="password" v-model="detailItem.password" class="form-control input-init-type" autocomplete="new-password" placeholder="<spring:message code="join.form.password" />">
+												</template>
 											</div>
 										</div>
+										
+										<div class="form-group bottomHeight5" v-if="!detailFlag || detailItem.changePassword">
+								            <label class="col-sm-3 control-label"><spring:message code="join.form.password.confirm"/></label>
+								
+								            <div class="col-lg-9">
+								                <input type="password" class="form-control" v-model="detailItem.confirmPassword" autocomplete="new-password" placeholder="<spring:message code="join.form.password.confirm" />" />
+								            </div>
+								        </div>
+								        
 									</template>
 									<div class="row bottomHeight5">
 										<label class="col-lg-3 control-label" for="inputError">Desc</label>
@@ -157,6 +170,8 @@ VartoolAPP.vueServiceBean({
 	}
 	,methods:{
 		init : function (){
+			var _this = this;
+			
 			this.viewItem();
 		}
 		,search : function(no){
@@ -190,8 +205,10 @@ VartoolAPP.vueServiceBean({
 					credId :'' 
 					,credName :'' 
 					,credType :'idPw' 
+					,changePassword : false
 					,username :'' 
 					,password :'' 
+					,confirmPassword :'' 
 					,secretText :'' 
 					,description :'' 
 				}
@@ -200,11 +217,21 @@ VartoolAPP.vueServiceBean({
 				
 				item = VARTOOL.util.objectMerge({}, item);
 				
+				item.changePassword = false; 
+				item.confirmPassword = ''; 
+				item.password = ''; 
+				
 				this.detailItem = item;
 				this.detailItem.mode = "modify";
 			}
 		}
 		,saveInfo : function (){
+			
+			if(this.detailItem.password != this.detailItem.confirmPassword){
+				VARTOOLUI.toast.open(VARTOOL.messageFormat('비밀번호가 일치 하지 않습니다.'));
+				return ; 
+			}
+				
 			
 			if(!confirm('저장하시겠습니까?')){
 				return ; 
@@ -226,7 +253,7 @@ VartoolAPP.vueServiceBean({
 		,copyInfo : function(){
 			var _this = this; 
 			
-			if(!confirm('['+this.detailItem.name+']을 복사 하시겠습니까?')){
+			if(!confirm('['+this.detailItem.credName+']을 복사 하시겠습니까?')){
 				return ; 
 			}
 			

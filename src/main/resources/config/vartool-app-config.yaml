@@ -8,6 +8,7 @@ protocol: http
 hostname: localhost
 port : 12346
 contextPath : /vtool
+schedulerEnable: false
 
 # db config
 db:
@@ -48,6 +49,7 @@ deploy:
   gradleExeFile : C:/zzz/apache-ant-1.10.2/bin/ant.bat
   buildFileCreatePath :
   
-  
+
+   
 
 

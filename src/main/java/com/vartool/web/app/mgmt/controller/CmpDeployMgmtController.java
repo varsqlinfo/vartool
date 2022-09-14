@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -21,9 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.app.mgmt.service.CmpDeployMgmtService;
+import com.vartool.web.app.mgmt.service.CredentialsProviderMgmtService;
 import com.vartool.web.constants.AppCode;
 import com.vartool.web.dto.request.CmpDeployRequestDTO;
 import com.vartool.web.module.VartoolUtils;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * deploy management
@@ -33,14 +35,16 @@ import com.vartool.web.module.VartoolUtils;
  */
 @Controller
 @RequestMapping("/mgmt/cmp/deployMgmt")
+@RequiredArgsConstructor
 public class CmpDeployMgmtController {
 	
 
 	/** The Constant logger. */
 	private final static Logger logger = LoggerFactory.getLogger(CmpDeployMgmtController.class);
 	
-	@Autowired
-	private CmpDeployMgmtService cmpDeployMgmtService;
+	final private CmpDeployMgmtService cmpDeployMgmtService;
+	
+	final private CredentialsProviderMgmtService credentialsProviderMgmtService;
 	
 	@GetMapping({"","/"})
 	public ModelAndView main(HttpServletRequest req, HttpServletResponse res, ModelAndView mav) throws Exception {
@@ -48,6 +52,7 @@ public class CmpDeployMgmtController {
 		ModelMap model = mav.getModelMap();
 		model.addAttribute("originalURL", VartoolUtils.getOriginatingRequestUri(req));
 		model.addAttribute("scmType", AppCode.SCM_TYPE.values());
+		model.addAttribute("allCredList", credentialsProviderMgmtService.allCredentials());
 		return new ModelAndView("/mgmt/cmpDeployMgmt", model);
 	}
 	
@@ -129,11 +134,5 @@ public class CmpDeployMgmtController {
 	public @ResponseBody ResponseResult removeDeployDir(@RequestParam(value = "cmpId", required = true) String cmpId,
 			@RequestParam(value = "mode", required = true) String mode, HttpServletRequest req) throws Exception {
 		return cmpDeployMgmtService.removeDeployDir(cmpId, mode);
-	}
-	
-	@PostMapping(value = "/scmPwView")
-	public @ResponseBody ResponseResult scmPwView(@RequestParam(value = "cmpId", required = true)  String cmpId
-			,@RequestParam(value = "userPw", required = true)  String userPw) throws Exception {
-		return cmpDeployMgmtService.viewPwInfo(cmpId, userPw);
 	}
 }

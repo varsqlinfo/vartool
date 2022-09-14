@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import com.vartech.common.utils.StringUtils;
 import com.vartool.web.app.handler.log.stream.LogComponentOutputStream;
-import com.vartool.web.dto.response.CmpLogResponseDTO;
+import com.vartool.web.dto.ReadLogInfo;
 import com.vartool.web.module.FileServiceUtils;
 import com.vartool.web.module.LogFilenameUtils;
 
@@ -56,15 +56,15 @@ public class FileReader implements LogReader {
 
     private File file;
     
-    public FileReader(CmpLogResponseDTO logDto) {
-    	String fileNamePattern = logDto.getLogPath();
+    public FileReader(ReadLogInfo readLogInfo) {
+    	String fileNamePattern = readLogInfo.getLogPath();
     	
     	if (fileNamePattern == null) {
             throw new IllegalArgumentException("constructor parameter file must not be null");
         }
     	
     	long bytesToTail = 50000;
-    	String charset = logDto.getCharset();
+    	String charset = readLogInfo.getCharset();
     	
     	this.bytesToTail = bytesToTail;
         this.fileNamePattern = fileNamePattern;

@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vartech.common.app.beans.DataMap;
@@ -13,12 +12,16 @@ import com.vartool.web.app.handler.deploy.DeployCmpManager;
 import com.vartool.web.app.handler.deploy.DeployInterface;
 import com.vartool.web.app.handler.deploy.git.GitDeployComponent;
 import com.vartool.web.app.handler.deploy.svn.SvnDeployComponent;
+import com.vartool.web.app.mgmt.service.CredentialsProviderMgmtService;
 import com.vartool.web.constants.AppCode;
+import com.vartool.web.dto.CredentialInfo;
 import com.vartool.web.dto.DeployInfo;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 import com.vartool.web.model.entity.cmp.CmpItemDeployEntity;
 import com.vartool.web.module.SecurityUtils;
 import com.vartool.web.repository.cmp.CmpItemDeployRepository;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * deploy service
@@ -27,17 +30,17 @@ import com.vartool.web.repository.cmp.CmpItemDeployRepository;
 * @author	: ytkim
  */
 @Service
+@RequiredArgsConstructor
 public class CmpDeployService{
 	private final static Logger logger = LoggerFactory.getLogger(CmpDeployService.class);
 	
-	@Autowired
-	private GitDeployComponent gitDeployComponent;
+	final private GitDeployComponent gitDeployComponent;
 	
-	@Autowired
-	private SvnDeployComponent svnDeployComponent;
+	final private SvnDeployComponent svnDeployComponent;
 	
-	@Autowired
-	private CmpItemDeployRepository cmpItemDeployRepository;
+	final private CmpItemDeployRepository cmpItemDeployRepository;
+	
+	final private CredentialsProviderMgmtService credentialsProviderMgmtService;
 	
 	/**
 	 * get deploy log 
@@ -71,14 +74,16 @@ public class CmpDeployService{
 			return result;
 		}
 		
-		DeployInfo dto = DeployInfo.toDto(entity);
+		logger.info("deploy info ip:{}, loginId: {}, action:{},  cmpId: {}, name: {}", SecurityUtils.clientIp(), SecurityUtils.loginName(), action, entity.getCmpId(), entity.getName());
 		
-		logger.info("deploy info ip:{}, loginId: {}, action:{},  cmpId: {}, name: {}", SecurityUtils.clientIp(), SecurityUtils.loginName(), action, dto.getCmpId(), dto.getName());
-		
-		if(DeployCmpManager.getInstance().isRunning(dto.getCmpId())) {
+		if(DeployCmpManager.getInstance().isRunning(entity.getCmpId())) {
 			result.setMessage("already running");
 			return result;
 		}
+		
+		CredentialInfo credentialInfo = credentialsProviderMgmtService.findCredentialInfo(entity.getCmpCredential());
+		
+		DeployInfo dto = DeployInfo.toDto(entity, credentialInfo);
 		
 		dto.setAction(action);
 		

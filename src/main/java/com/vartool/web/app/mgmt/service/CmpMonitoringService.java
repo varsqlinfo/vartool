@@ -21,11 +21,13 @@ import com.vartool.web.app.handler.log.LogCmpManager;
 import com.vartool.web.app.mgmt.component.CmpLogComponent;
 import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
 import com.vartool.web.constants.ComponentConstants;
-import com.vartool.web.dto.response.CmpLogResponseDTO;
+import com.vartool.web.constants.LogType;
+import com.vartool.web.dto.ReadLogInfo;
 import com.vartool.web.dto.response.CmpMonitorDTO;
 import com.vartool.web.dto.response.CmpResponseDTO;
 import com.vartool.web.exception.ComponentNotFoundException;
 import com.vartool.web.model.entity.cmp.CmpEntity;
+import com.vartool.web.model.entity.cmp.CmpItemLogEntity;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.repository.cmp.CmpItemLogRepository;
 import com.vartool.web.repository.cmp.CmpRepository;
@@ -51,6 +53,9 @@ public class CmpMonitoringService {
 	
 	@Autowired
 	private CmpLogComponent cmpLogComponent;
+
+	@Autowired
+	private CredentialsProviderMgmtService credentialsProviderMgmtService;
 	
 	/**
 	 * 
@@ -169,12 +174,13 @@ public class CmpMonitoringService {
 		if(LogCmpManager.getInstance().isTailInfo(cmpId)) {
 			return VartoolUtils.getResponseResultItemOne("running");
 		}else {
-			CmpLogResponseDTO dto = CmpLogResponseDTO.toDto(cmpItemLogRepository.findByCmpId(cmpId));
-			if(dto != null) {
-				return VartoolUtils.getResponseResultItemOne(cmpLogComponent.startAppLog(cmpId, dto));
-			}else {
+			ReadLogInfo readLogInfo = cmpItemLogRepository.findReadLogInfo(cmpId);
+			
+			if(readLogInfo == null) {
 				throw new ComponentNotFoundException(cmpId);
 			}
+			
+			return VartoolUtils.getResponseResultItemOne(cmpLogComponent.startLog(cmpId, readLogInfo));
 		}
 	}
 	

@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -35,20 +34,17 @@ import lombok.RequiredArgsConstructor;
 * @author	: ytkim
  */
 @Controller
-@RequestMapping("/mgmt/cmp/logMgmt")
 @RequiredArgsConstructor
+@RequestMapping("/mgmt/cmp/logMgmt")
 public class CmpLogMgmtController {
 	
 
 	/** The Constant logger. */
 	private final static Logger logger = LoggerFactory.getLogger(CmpLogMgmtController.class);
 	
-	
 	final private CmpLogMgmtService cmpLogMgmtService;
 	
-	
 	final private CredentialsProviderMgmtService credentialsProviderMgmtService;
-	
 	
 	@GetMapping({"","/"})
 	public ModelAndView main(HttpServletRequest req, HttpServletResponse res, ModelAndView mav) throws Exception {

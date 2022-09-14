@@ -19,6 +19,7 @@ public class CmpCommandResponseDTO extends CmpResponseDTO {
 		dto.setName(entity.getName());
 		dto.setCmpId(entity.getCmpId());
 		dto.setCmpType(entity.getCmpType());
+		dto.setCmpCredential(entity.getCmpCredential());
 		dto.setDescription(entity.getDescription());
 		dto.setRegDt(entity.getRegDt());
 		dto.setCharset(entity.getCmdCharset());

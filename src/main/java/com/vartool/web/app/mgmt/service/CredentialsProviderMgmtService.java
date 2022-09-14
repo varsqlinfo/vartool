@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.app.beans.SearchParameter;
 import com.vartech.common.utils.StringUtils;
+import com.vartool.core.crypto.PasswordCryptionFactory;
+import com.vartool.web.dto.CredentialInfo;
 import com.vartool.web.dto.request.CredentialsProviderRequestDTO;
 import com.vartool.web.dto.response.CredentialsProviderResponseDTO;
 import com.vartool.web.exception.ComponentNotFoundException;
@@ -86,9 +88,18 @@ public class CredentialsProviderMgmtService {
 			if(cpe == null) {
 				throw new ComponentNotFoundException("log component id not found : "+ dto.getCredId());
 			}
-			BeanUtils.copyProperties(dto.toEntity(), cpe, "cmpId");
+			
+			if(!dto.isChangePassword()) {
+				BeanUtils.copyProperties(dto.toEntity(), cpe, "cmpId", "password");
+			}else {
+				BeanUtils.copyProperties(dto.toEntity(), cpe, "cmpId");
+				
+				cpe.setPassword(PasswordCryptionFactory.getInstance().encrypt(cpe.getPassword()));
+			}
+			
 		}else {
 			cpe = dto.toEntity();
+			cpe.setPassword(PasswordCryptionFactory.getInstance().encrypt(cpe.getPassword()));
 		}
 		
 		credentialsProviderRepository.save(cpe);
@@ -103,11 +114,11 @@ public class CredentialsProviderMgmtService {
 	 * @param cmpId
 	 * @return
 	 */
-	public ResponseResult remove(String cmpId) {
-		CredentialsProviderEntity deleteItem = credentialsProviderRepository.findByCredId(cmpId);
+	public ResponseResult remove(String credId) {
+		CredentialsProviderEntity deleteItem = credentialsProviderRepository.findByCredId(credId);
 		
 		if(deleteItem == null) {
-			throw new ComponentNotFoundException("log component id not found : "+ cmpId);
+			throw new ComponentNotFoundException("log component id not found : "+ credId);
 		}
 		
 		credentialsProviderRepository.delete(deleteItem);
@@ -122,9 +133,9 @@ public class CredentialsProviderMgmtService {
 	 * @param cmpId
 	 * @return
 	 */
-	public ResponseResult copyInfo(String cmpId) {
+	public ResponseResult copyInfo(String credId) {
 		
-		CredentialsProviderEntity copyInfo = credentialsProviderRepository.findByCredId(cmpId);
+		CredentialsProviderEntity copyInfo = credentialsProviderRepository.findByCredId(credId);
 		
 		CredentialsProviderEntity copyEntity = VartoolBeanUtils.copyEntity(copyInfo);
 	    copyEntity.setCredId(null);
@@ -132,6 +143,18 @@ public class CredentialsProviderMgmtService {
 	    credentialsProviderRepository.save(copyEntity);
 	    
 	    return VartoolUtils.getResponseResultItemOne(CredentialsProviderMapper.INSTANCE.toDto(copyEntity));
+	}
+	
+	/**
+	 * 인증 정보 얻기
+	 *
+	 * @method : findCredentialInfo
+	 * @param credId
+	 * @return
+	 */
+	public CredentialInfo findCredentialInfo(String credId) {
+		return CredentialInfo.toDto(credentialsProviderRepository.findByCredId(credId));
+		
 	}
 
 }

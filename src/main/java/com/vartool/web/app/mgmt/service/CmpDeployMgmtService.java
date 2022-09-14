@@ -19,7 +19,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -27,23 +26,23 @@ import org.springframework.stereotype.Component;
 
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.app.beans.SearchParameter;
-import com.vartech.common.constants.RequestResultCode;
 import com.vartech.common.crypto.EncryptDecryptException;
 import com.vartech.common.utils.StringUtils;
 import com.vartool.core.crypto.PasswordCryptionFactory;
 import com.vartool.web.app.handler.deploy.git.GitSource;
 import com.vartool.web.constants.ResourceConfigConstants;
+import com.vartool.web.dto.CredentialInfo;
 import com.vartool.web.dto.request.CmpDeployRequestDTO;
 import com.vartool.web.dto.response.CmpDeployResponseDTO;
 import com.vartool.web.exception.ComponentNotFoundException;
-import com.vartool.web.exception.VartoolAppException;
 import com.vartool.web.model.entity.base.AbstractRegAuditorModel;
 import com.vartool.web.model.entity.cmp.CmpItemDeployEntity;
-import com.vartool.web.module.SecurityUtils;
 import com.vartool.web.module.VartoolBeanUtils;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.repository.cmp.CmpItemDeployRepository;
 import com.vartool.web.security.UserService;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * deploy 관리
@@ -52,15 +51,16 @@ import com.vartool.web.security.UserService;
 * @author	: ytkim
  */
 @Component
+@RequiredArgsConstructor
 public class CmpDeployMgmtService {
 	private final static Logger logger = LoggerFactory.getLogger(CmpDeployMgmtService.class);
 	
-	@Autowired
-	private CmpItemDeployRepository cmpItemDeployRepository;
+	final  private CmpItemDeployRepository cmpItemDeployRepository;
 	
-	@Autowired
+	final private CredentialsProviderMgmtService credentialsProviderMgmtService;
+	
 	@Qualifier(ResourceConfigConstants.USER_DETAIL_SERVICE)
-	private UserService userService;
+	final private UserService userService;
 	
 	public ResponseResult list(SearchParameter searchParameter) {
 		Sort sort =Sort.by(Sort.Direction.DESC, AbstractRegAuditorModel.REG_DT);
@@ -101,11 +101,8 @@ public class CmpDeployMgmtService {
 			entity = new CmpItemDeployEntity();
 			BeanUtils.copyProperties(currentEntity, entity);
 		
-			copyNonNullProperties(dto.toEntity(), entity, new String[] {  "cmpId","scmPw" });
+			copyNonNullProperties(dto.toEntity(), entity, new String[] {"cmpId"});
 			
-			if (dto.isPasswordChange()) {
-				entity.setScmPw(dto.getScmPw());
-			}
 		}else {
 			entity = dto.toEntity();
 		}
@@ -140,17 +137,10 @@ public class CmpDeployMgmtService {
 	public ResponseResult connChk(CmpDeployRequestDTO dto) throws EncryptDecryptException {
 		ResponseResult result = new ResponseResult();
 		
-		if(StringUtils.isBlank(dto.getScmPw()) && !StringUtils.isBlank(dto.getCmpId())) {
-			
-			CmpItemDeployEntity cde = cmpItemDeployRepository.findByCmpId(dto.getCmpId());
-			
-			result.setItemOne( new GitSource(null, null, null).checkGitRepo(dto.getScmUrl(), dto.getScmId(), PasswordCryptionFactory.getInstance().decrypt(cde.getScmPw())));
-		}else {
-			result.setItemOne( new GitSource(null, null, null).checkGitRepo(dto.getScmUrl(), dto.getScmId(), dto.getScmPw()));
-		}
+		String cempCredentials = dto.getCmpCredential();
 		
-		
-		
+		CredentialInfo credentialInfo = credentialsProviderMgmtService.findCredentialInfo(cempCredentials);
+		result.setItemOne( new GitSource(null, null, null).checkGitRepo(dto.getScmUrl(), credentialInfo.getUsername(), PasswordCryptionFactory.getInstance().decrypt(credentialInfo.getPassword())));
 		return result;
 	}
 	
@@ -196,34 +186,6 @@ public class CmpDeployMgmtService {
 		
 		return VartoolUtils.getResponseResultItemOne(1);
 	}
-	
-	/**
-	 * password 보기.
-	 * @param cmpId
-	 * @param userPw
-	 * @return
-	 */
-	public ResponseResult viewPwInfo(String cmpId, String userPw) {
-		ResponseResult resultObject = new ResponseResult();
-		if(!userService.passwordCheck(SecurityUtils.loginName(), userPw)) {
-			resultObject.setResultCode(RequestResultCode.ERROR);
-			resultObject.setMessage("password not valid");
-			return resultObject;
-		}
-		
-		CmpItemDeployEntity dto = cmpItemDeployRepository.findByCmpId(cmpId);
-
-		if(dto == null) {
-			throw new VartoolAppException("Deploy Component not found");
-		}
-		try {
-			resultObject.setItemOne(PasswordCryptionFactory.getInstance().decrypt(dto.getScmPw()));
-		}catch(EncryptDecryptException e) {
-			resultObject.setItemOne("password decrypt error");
-		}
-		return resultObject;
-	}
-	
 	
 	public static void copyNonNullProperties(Object src, Object target, String... checkProperty) throws BeansException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 	    BeanUtils.copyProperties(src, target, getNullPropertyNames(src, checkProperty));

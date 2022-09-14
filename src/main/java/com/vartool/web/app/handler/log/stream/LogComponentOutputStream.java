@@ -2,6 +2,8 @@ package com.vartool.web.app.handler.log.stream;
 
 import org.apache.commons.exec.LogOutputStream;
 
+import com.vartool.web.constants.BlankConstants;
+
 /**
  * log component output stream
 * 
@@ -9,6 +11,15 @@ import org.apache.commons.exec.LogOutputStream;
 * @author	: ytkim
  */
 public class LogComponentOutputStream extends LogOutputStream {
+	
+	private boolean addNewLineChar;   
+	
+	public LogComponentOutputStream() {
+		this(false);
+	}
+	public LogComponentOutputStream(boolean addNewLineChar) {
+		this.addNewLineChar = addNewLineChar; 
+	}
 	
 	private StringBuffer sb = new StringBuffer();
 	
@@ -25,6 +36,10 @@ public class LogComponentOutputStream extends LogOutputStream {
 	@Override
 	protected void processLine(String line, int logLevel) {
 		sb.append(line);
+		
+		if(this.addNewLineChar) {
+			sb.append(BlankConstants.NEW_LINE);
+		}
 		
 	}
 }

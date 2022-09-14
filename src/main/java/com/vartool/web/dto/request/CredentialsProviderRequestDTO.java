@@ -15,6 +15,7 @@ public class CredentialsProviderRequestDTO {
 	private String credName; 
 	private String credType; 
 	private String username; 
+	private boolean changePassword; 
 	private String password; 
 	private String secretText; 
 	private String description; 
@@ -40,6 +41,10 @@ public class CredentialsProviderRequestDTO {
 				.secretText(secretText)
 				.description(description)
 				.build();
+	}
+	
+	public void setChangePassword(String changePassword) {
+		this.changePassword = Boolean.valueOf(changePassword);
 	}
 	
 	

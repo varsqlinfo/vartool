@@ -11,7 +11,7 @@ import com.vartool.web.app.handler.log.reader.SshReader;
 import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
 import com.vartool.web.constants.LogType;
 import com.vartool.web.constants.VartoolConstants;
-import com.vartool.web.dto.response.CmpLogResponseDTO;
+import com.vartool.web.dto.ReadLogInfo;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 import com.vartool.web.module.VartoolUtils;
 
@@ -23,7 +23,7 @@ import com.vartool.web.module.VartoolUtils;
  */
 public class LogOutputHandler implements Runnable {
 	
-	private static final Logger logger = LoggerFactory.getLogger("commandLog");
+	private static final Logger logger = LoggerFactory.getLogger(LogOutputHandler.class);
 
 	private final WebSocketServiceImpl webSocketServiceImpl;
 	private final long delayTime;
@@ -31,24 +31,13 @@ public class LogOutputHandler implements Runnable {
 	
 	private LogReader logReader;
 	
-	public LogOutputHandler(final WebSocketServiceImpl webSocketServiceImpl, CmpLogResponseDTO logDto, long delayTime) {
+	public LogOutputHandler(final WebSocketServiceImpl webSocketServiceImpl, ReadLogInfo readLogInfo, long delayTime, LogReader logReader) {
 		this.webSocketServiceImpl = webSocketServiceImpl;
 		this.delayTime = delayTime; 
-		this.cmpId = logDto.getCmpId();
+		this.cmpId = readLogInfo.getCmpId();
+		this.logReader = logReader; 
 		
-		String charset = logDto.getCharset();
-		charset = StringUtils.isBlank(charset) ? VartoolConstants.CHAR_SET : charset;
-		
-		if(LogType.SSH.name().equals(logDto.getLogType())) {
-			logReader = new SshReader(logDto);
-		}else {
-			logReader = new FileReader(logDto);
-		}
-		
-		
-		
-		
-		new Thread(logReader).start();
+		new Thread(this.logReader).start();
 		
 		LogCmpManager.getInstance().setTailInfo(cmpId, logReader);
 	}

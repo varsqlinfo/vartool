@@ -10,14 +10,16 @@ import org.apache.sshd.client.channel.ChannelExec;
 import org.apache.sshd.client.channel.ClientChannelEvent;
 import org.apache.sshd.client.future.ConnectFuture;
 import org.apache.sshd.client.session.ClientSession;
+import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.future.WaitableFuture;
 import org.apache.sshd.common.util.io.output.NoCloseOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vartech.common.utils.StringUtils;
+import com.vartool.core.crypto.PasswordCryptionFactory;
 import com.vartool.web.app.handler.log.stream.LogComponentOutputStream;
-import com.vartool.web.dto.response.CmpLogResponseDTO;
+import com.vartool.web.dto.ReadLogInfo;
 
 /**
  * ssh read
@@ -37,18 +39,23 @@ public class SshReader implements LogReader{
 	private LogComponentOutputStream output;
 	private boolean stopped = false;
 	
-	public SshReader(CmpLogResponseDTO logDto) {
+	public SshReader(ReadLogInfo readLogInfo) {
 		
-		SshConnectionInfo conn = null; 
-		String cmd = "";
-		String charset = logDto.getCharset();
+		SshConnectionInfo conn = SshConnectionInfo.builder()
+				.hostname(readLogInfo.getRemoteHost())
+				.port(readLogInfo.getRemotePort())
+				.username(readLogInfo.getCredentialInfo().getUsername())
+				.password(PasswordCryptionFactory.getInstance().decrypt(readLogInfo.getCredentialInfo().getPassword()))
+				.build(); 
 		
+		String charset = readLogInfo.getCharset();
 		
 		this.conn = conn;
-		this.cmd = cmd;
+		this.cmd = readLogInfo.getCommand();
+		
 		this.timeout = 10;
 		this.client = SshClient.setUpDefaultClient();
-		this.output = new LogComponentOutputStream();
+		this.output = new LogComponentOutputStream(true);
         
 		if (!StringUtils.isBlank(charset)) {
 			logCharset = Charset.forName(charset);
@@ -64,9 +71,10 @@ public class SshReader implements LogReader{
 		try {
 			// Open the client
 			client.start();
+			
 
 			ConnectFuture cf  = client.connect(conn.getUsername(), conn.getHostname(), conn.getPort());
-			// cf.await();
+			cf.await();
 
 			try (ClientSession session = cf.verify().getSession()) {
 				session.addPasswordIdentity(conn.getPassword());
@@ -86,11 +94,16 @@ public class SshReader implements LogReader{
 					}
 
 					Integer exitStatus = channel.getExitStatus();
+					
+					if (exitStatus == null) {
+						throw new SshException("Error executing command [" + cmd + "] over SSH [" + this.conn.getUsername() + "@" + this.conn.getHostname());
+					}
 				};
 				session.close();
 			}
 		}catch(Exception e) {
-			e.printStackTrace();
+			this.output.processLine(e.getMessage());
+			logger.error("ssh error : {} ", e.getMessage(), e);
 		} finally {
 			client.stop();
 			this.stopped = true; 

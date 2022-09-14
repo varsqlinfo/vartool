@@ -1,6 +1,7 @@
 package com.vartool.web.dto;
 
 import com.vartool.web.model.entity.cmp.CmpItemDeployEntity;
+import com.vartool.web.model.entity.cmp.CredentialsProviderEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +26,7 @@ public class DeployInfo{
 	// 추가 적인 정보
 	private String action;
 	
-	public static DeployInfo toDto(CmpItemDeployEntity entity) {
+	public static DeployInfo toDto(CmpItemDeployEntity entity, CredentialInfo credentialInfo) {
 		DeployInfo dto= new DeployInfo();
 		
 		dto.setName(entity.getName());
@@ -35,8 +36,8 @@ public class DeployInfo{
 		
 		dto.setScmType(entity.getScmType());
 		dto.setScmUrl(entity.getScmUrl());
-		dto.setScmId(entity.getScmId());
-		dto.setScmPw(entity.getScmPw());
+		dto.setScmId(credentialInfo.getUsername());
+		dto.setScmPw(credentialInfo.getPassword());
 		dto.setDependencyPath(entity.getDependencyPath());
 		dto.setDeployPath(entity.getDeployPath());
 		dto.setBuildScript(entity.getBuildScript());

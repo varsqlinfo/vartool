@@ -15,14 +15,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
+import com.vartool.web.constants.LogType;
 import com.vartool.web.constants.ResourceConfigConstants;
+import com.vartool.web.dto.CredentialInfo;
+import com.vartool.web.dto.ReadLogInfo;
 import com.vartool.web.dto.response.CmpLogResponseDTO;
 import com.vartool.web.model.entity.cmp.CmpEntity;
 import com.vartool.web.model.entity.cmp.CmpItemLogEntity;
 import com.vartool.web.model.entity.cmp.CmpItemLogExtensionsEntity;
+import com.vartool.web.model.entity.cmp.CredentialsProviderEntity;
 import com.vartool.web.model.entity.cmp.QCmpEntity;
 import com.vartool.web.model.entity.cmp.QCmpItemLogEntity;
 import com.vartool.web.model.entity.cmp.QCmpItemLogExtensionsEntity;
+import com.vartool.web.model.entity.cmp.QCredentialsProviderEntity;
 import com.vartool.web.repository.DefaultJpaRepository;
 
 import lombok.Getter;
@@ -79,6 +84,50 @@ public interface CmpItemLogRepository extends DefaultJpaRepository, JpaRepositor
 				return dto;
 			}).collect(Collectors.toList()), convertSearchInfoToPage, totalCount);
 		}
+
+		@Override
+		public ReadLogInfo findReadLogInfo(String cmpId) {
+			final QCmpEntity cmpEntity = QCmpEntity.cmpEntity;
+			final QCmpItemLogEntity cmpItemLogEntity = QCmpItemLogEntity.cmpItemLogEntity;
+			final QCmpItemLogExtensionsEntity cmpItemLogExtensionsEntity  = QCmpItemLogExtensionsEntity.cmpItemLogExtensionsEntity;
+			
+			CmpItemLogEntityCustomResultVO customVo = from(cmpEntity).innerJoin(cmpItemLogEntity).on(cmpEntity.cmpId.eq(cmpItemLogEntity.cmpId))
+			.leftJoin(cmpItemLogExtensionsEntity).on(cmpEntity.cmpId.eq(cmpItemLogExtensionsEntity.cmpId))
+			.select(Projections.constructor(CmpItemLogEntityCustomResultVO.class, cmpEntity, cmpItemLogEntity, cmpItemLogExtensionsEntity))
+			.where(cmpEntity.cmpId.contains(cmpId)).fetchOne();
+			
+			ReadLogInfo readLogInfo = new ReadLogInfo();
+			
+			readLogInfo.setCmpId(customVo.getCmpEntity().getCmpId());
+			readLogInfo.setName(customVo.getCmpEntity().getName());
+			readLogInfo.setCmpCredential(customVo.getCmpEntity().getCmpCredential());
+			readLogInfo.setDescription(customVo.getCmpEntity().getDescription());
+			
+			readLogInfo.setLogType(customVo.getCmpItemLogEntity().getLogType());
+			readLogInfo.setCharset(customVo.getCmpItemLogEntity().getLogCharset());
+			readLogInfo.setLogPath(customVo.getCmpItemLogEntity().getLogPath());
+			
+			CmpItemLogExtensionsEntity cile = customVo.getCmpItemLogExtensionsEntity();
+			
+			if(cile != null) {
+				readLogInfo.setCommand(cile.getCommand());
+				readLogInfo.setRemoteHost(cile.getRemoteHost());
+				readLogInfo.setRemotePort(cile.getRemotePort());
+			}
+			
+			if(!LogType.FILE.name().equals(readLogInfo.getLogType())) {
+				QCredentialsProviderEntity credentialsProviderEntity = QCredentialsProviderEntity.credentialsProviderEntity;
+				
+				CredentialsProviderEntity entity = from(credentialsProviderEntity).where(credentialsProviderEntity.credId.eq(readLogInfo.getCmpCredential())).fetchOne();
+				
+				if(entity != null) {
+					readLogInfo.setCredentialInfo(CredentialInfo.toDto(entity));
+				}
+			}
+			
+			return readLogInfo;
+				
+		}
 	}
 	
 	@Getter
@@ -97,4 +146,6 @@ public interface CmpItemLogRepository extends DefaultJpaRepository, JpaRepositor
 
 interface CmpItemLogEntityCustom {
 	Page<CmpLogResponseDTO> findAllByNameContaining(String keyword, Pageable convertSearchInfoToPage);
+	
+	ReadLogInfo findReadLogInfo(String cmpId);
 }
