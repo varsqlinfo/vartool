@@ -205,9 +205,9 @@ VartoolAPP.vueServiceBean({
 				url: {type:VARTOOL.uri.manager, url:'/cmpGroupMgmt/list'}
 				,data : param
 				,success: function(resData) {
-					var items = resData.items;
+					var items = resData.list;
 					
-					_this.gridData = resData.items;
+					_this.gridData = resData.list;
 					_this.pageInfo = resData.page;
 				}
 			})
@@ -291,7 +291,7 @@ VartoolAPP.vueServiceBean({
 				,loadSelector: '#main-content'
 				,url : {type:VARTOOL.uri.manager, url:'/cmpGroupMgmt/mappingInfo'}
 				,success:function (resData){
-					var result = resData.items;
+					var result = resData.list;
 					
 					for(var i =0 ;i <result.length;i++){
 						var item = result[i];
@@ -332,7 +332,7 @@ VartoolAPP.vueServiceBean({
 				url : {type:VARTOOL.uri.manager, url:'/cmpGroupMgmt/cmpList'}
 				,data : param
 				,success: function(resData) {
-					var result = resData.items; 
+					var result = resData.list; 
 					
 					for(var i =0 ;i <result.length;i++){
 						var item = result[i];

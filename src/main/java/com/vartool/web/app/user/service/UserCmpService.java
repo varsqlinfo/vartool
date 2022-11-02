@@ -44,7 +44,7 @@ public class UserCmpService{
 	
 	@Autowired
 	private UserPreferencesRepository userPreferencesRepository;
-
+	
 	/**
 	 * user component group list
 	 *
@@ -77,6 +77,7 @@ public class UserCmpService{
 				if(!cmpInfos.containsKey(cmpType)) {
 					cmpInfos.put(cmpType, new ArrayList());
 				}
+				
 				cmpInfos.get(cmpType).add(item);
 			}
 		});

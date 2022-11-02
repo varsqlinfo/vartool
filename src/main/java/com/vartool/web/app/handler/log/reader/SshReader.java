@@ -18,6 +18,8 @@ import org.slf4j.LoggerFactory;
 
 import com.vartech.common.utils.StringUtils;
 import com.vartool.core.crypto.PasswordCryptionFactory;
+import com.vartool.web.app.handler.deploy.DeployCmpManager;
+import com.vartool.web.app.handler.log.LogCmpManager;
 import com.vartool.web.app.handler.log.stream.LogComponentOutputStream;
 import com.vartool.web.dto.ReadLogInfo;
 
@@ -38,6 +40,7 @@ public class SshReader implements LogReader{
 	private SshClient client;
 	private LogComponentOutputStream output;
 	private boolean stopped = false;
+	private ReadLogInfo readLogInfo;
 	
 	public SshReader(ReadLogInfo readLogInfo) {
 		
@@ -49,29 +52,28 @@ public class SshReader implements LogReader{
 				.build(); 
 		
 		String charset = readLogInfo.getCharset();
-		
+		this.readLogInfo = readLogInfo; 
 		this.conn = conn;
 		this.cmd = readLogInfo.getCommand();
 		
 		this.timeout = 10;
 		this.client = SshClient.setUpDefaultClient();
-		this.output = new LogComponentOutputStream(true);
+		
         
 		if (!StringUtils.isBlank(charset)) {
 			logCharset = Charset.forName(charset);
 		}
+		
+		this.output = new LogComponentOutputStream(true, logCharset);
 
         logger.info("conn : {}, cmd : {}, logCharset : {}", conn, cmd, logCharset);
 	}
-
-
 
 	@Override
 	public void run() {
 		try {
 			// Open the client
 			client.start();
-			
 
 			ConnectFuture cf  = client.connect(conn.getUsername(), conn.getHostname(), conn.getPort());
 			cf.await();
@@ -98,15 +100,24 @@ public class SshReader implements LogReader{
 					if (exitStatus == null) {
 						throw new SshException("Error executing command [" + cmd + "] over SSH [" + this.conn.getUsername() + "@" + this.conn.getHostname());
 					}
-				};
+				}catch(Exception e) {
+					throw new Exception(e);
+				}
 				session.close();
+			}catch(Exception e) {
+				throw new Exception(e);
 			}
-		}catch(Exception e) {
-			this.output.processLine(e.getMessage());
+		}catch(Throwable e) {
+			String msg = e.getMessage();
+			LogCmpManager.getInstance().exception(this.readLogInfo.getCmpId(),"error : log server [" +this.conn.getUsername()+"@"+ this.conn.getHostname()+":"+ this.conn.getPort()+"] message : "+ msg);
 			logger.error("ssh error : {} ", e.getMessage(), e);
 		} finally {
-			client.stop();
-			this.stopped = true; 
+			LogCmpManager.getInstance().stopTail(this.readLogInfo.getCmpId());
+			if(client != null) {
+				client.stop();
+			}
+			
+			this.stopped = true;
 		}
 	}
 

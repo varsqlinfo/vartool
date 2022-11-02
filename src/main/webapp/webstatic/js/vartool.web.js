@@ -534,7 +534,7 @@ _$base.req ={
 	}
 	,validationCheck : function (resData){
 		if(resData.messageCode=='valid'){
-			var items = resData.items;
+			var items = resData.list;
 
 			if(isArray(items)){
 				var objLen = items.length;
@@ -725,77 +725,81 @@ _$base.socket ={
 	stompClient : null
 	,connRetryCount : 0
 	,maxRetry :10
-	,subScripeActive :{}
+	,subscripeActiveMap :{}
 	,subscripeObj :{}
 	,isCreate : false
 	//알림 수신
-	,addSubscribe : function (endpoint, opts){
-
-		var subscribeId = this.getSubscribeId(endpoint, opts.uid);
+	,addSubscribe : function (endpoint, headers, callback){
 		
-		if(this.subScripeActive[subscribeId]===true){
+
+		var subscribeId = this.getSubscribeId(endpoint, headers.id);
+		
+		if(this.subscripeActiveMap[subscribeId]===true){
 			return ;
 		}
 
-		this.subScripeActive[subscribeId] =true;
+		this.subscripeActiveMap[subscribeId] =true;
 
 		this.subscripeObj[subscribeId] = this.stompClient.subscribe(subscribeId, function (data) {
-    		if(_$base.isFunction(opts.callback)){
-    			opts.callback.call(null, parseJSON( data.body));
+    		if(_$base.isFunction(callback)){
+          callback.call(null, parseJSON( data.body));
     		}
-    	}, {id : opts.uid});
+    	}, headers);
 	}
 	,getSubscribeId : function (endpoint, id){
-		return '/sub/'+endpoint+'/'+id;
+		return '/user/'+endpoint+'/'+id;
 	}
-	,unSubscribe : function (endpoint, uid){
-		var subscribeId = this.getSubscribeId(endpoint, uid);
+	,unSubscribe : function (endpoint, id){
+		var subscribeId = this.getSubscribeId(endpoint, id);
 		try{
-			delete this.subScripeActive[subscribeId];
+			delete this.subscripeActiveMap[subscribeId];
 			this.subscripeObj[subscribeId].unsubscribe();
 		}catch(e){
 			console.log(e);
 		}
 	}
-	,connect : function(endpoint, opts){
+	,connect : function(endpoint, headers, callback){
 		var _this = this;
-		opts = opts ||{};
+		headers = headers ||{};
 
 		if(_$base.isUndefined(endpoint))  return ;
 
 		if(_this.stompClient==null){
-			_this.createConnection(endpoint, opts);
+			_this._createConnection(endpoint, headers, callback);
 		}else{
 		
 			if(_this.stompClient.connected===true){
-				_this.addSubscribe(endpoint, opts);
+				_this.addSubscribe(endpoint, headers, callback);
 			}else{
 				var timer = setInterval(function (){
 					if(_this.stompClient.connected){
 						clearInterval(timer);
-						_this.addSubscribe(endpoint, opts);
+						_this.addSubscribe(endpoint, headers, callback);
 					}
 				},1000)
 			}
 		}
 	}
-	, createConnection : function (endpoint, opts){
+	, _createConnection : function (endpoint, headers, callback){
 		var _this = this;
 
-		this.subScripeActive = {};
-		
+		this.subscripeActiveMap = {};
 		this.isCreate = true; 
 
 		var stompClient = Stomp.over(new SockJS(_$base.getContextPathUrl("/ws/"+endpoint) , null, {transports : ['websocket'] }));
 		stompClient.heartbeat.outgoing = 20000;
 		stompClient.heartbeat.incoming = 20000;
 		stompClient.reconnect_delay = 5000;
-		stompClient.debug = function (str) {
-	       //console.log('STOMP: ' + str);
-		}
+		
+		stompClient.debug = false;
+		
+//		stompClient.debug = function (str) {
+//			console.log('STOMP: ' + str);
+//		}
 
 		stompClient.connect({}, function (frame) {
-			_this.addSubscribe(endpoint, opts);
+			 //var url = stompClient.ws._transport.url;
+			_this.addSubscribe(endpoint, headers, callback);
 		}, function(err){
 			console.log(err);
 	    });
@@ -809,6 +813,7 @@ _$base.socket ={
 	// 알림 연결 끊기
 	close : function(){
 		if(this.stompClient != null){
+			this.stompClient .reconnect_delay = -1;
 			this.stompClient.disconnect();
 		}
 	}

@@ -8,17 +8,18 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
+import com.vartool.core.config.Constants;
+
 @SpringBootApplication
 @ServletComponentScan
 public class VartoolApplication extends SpringBootServletInitializer {
 	static {
 		String catalinaHome = System.getProperty("catalina.home", "");
 		if ("".equals(catalinaHome)) {
-			System.setProperty("vartool.runtime", "local");
-			System.setProperty("vartool.root", "C:/zzz/vtool/");
+			System.setProperty(Constants.RUNTIME_KEY, "local");
+			System.setProperty(Constants.ROOT_PATH_KEY, "C:/zzz/vtool/");
 			System.setProperty("spring.devtools.restart.enabled", "true");
 			System.setProperty("spring.devtools.livereload.enable", "true");
-			
 		} 
 	}
 

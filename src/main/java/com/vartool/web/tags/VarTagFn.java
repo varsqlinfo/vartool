@@ -6,6 +6,8 @@ import com.vartech.common.utils.DateUtils;
 import com.vartech.common.utils.VartechUtils;
 import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.constants.VartoolConstants;
+import com.vartool.web.constants.WebStaticResourceVersion;
+import com.vartool.web.module.VartoolUtils;
 
 /**
  * app custom tag function
@@ -45,5 +47,14 @@ public final class VarTagFn{
 	
 	public static boolean isPasswordResetModeEmail() {
 		return VartoolConfiguration.getInstance().getPasswordResetMode().equals(VartoolConstants.PASSWORD_RESET_MODE.EMAIL);
+	}
+	
+	
+	public static String staticResourceVersion(String type) {
+		if(VartoolUtils.isRuntimelocal()) {
+			return randomVal(10000)+"";
+		}else {
+			return WebStaticResourceVersion.STATIC_RESOURCE;
+		}
 	}
 }

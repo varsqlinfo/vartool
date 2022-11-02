@@ -195,11 +195,17 @@ public class LogFilenameUtils {
 	}
 	
 	public static File getDeploySourcePath(DeployInfo dto) {
-		return new File(FileUtils.pathConcat(VartoolConfiguration.getInstance().getDeployConfig().getSourcePath(), dto.getCmpId(),"source"));
+		return new File(FileUtils.pathConcat(VartoolConfiguration.getInstance().getDeployConfig().getSourcePath(), dto.getCmpId(), convertBranchPath(dto.getScmBranch()), "source"));
 	}
-
+	
 	public static File getDeployBuildPath(DeployInfo dto) {
-		return new File(FileUtils.pathConcat(VartoolConfiguration.getInstance().getDeployConfig().getSourcePath(), dto.getCmpId(),"build"));
+		return new File(FileUtils.pathConcat(VartoolConfiguration.getInstance().getDeployConfig().getSourcePath(), dto.getCmpId(),  convertBranchPath(dto.getScmBranch()), "build"));
 	}
-
+	
+	private static String convertBranchPath(String branch) {
+		branch = branch.replaceAll("\\*", "");
+		branch = branch.replaceAll("/", "\\$");
+		
+		return branch; 
+	}
 }

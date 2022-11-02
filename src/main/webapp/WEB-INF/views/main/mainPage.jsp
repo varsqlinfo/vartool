@@ -33,7 +33,7 @@
 
 <%--sql format view template --%>
 <div id="sqlFormatDialog" title="Format View" class="sql-format-dialog wh100" style="display:none;overflow: hidden;">
-	<textarea id="sqlFormatViewArea" class="wh100"></textarea>
+	<textarea id="sqlFormatViewArea" class="wh100" style="resize: none;"></textarea>
 </div>
 
 <script>

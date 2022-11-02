@@ -5,8 +5,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.vartool.web.app.handler.CmpManager;
 import com.vartool.web.app.handler.log.reader.LogReader;
+import com.vartool.web.constants.AppCode.LOG_STATE;
 import com.vartool.web.dto.response.CmpMonitorDTO;
 import com.vartool.web.dto.vo.LogInfo;
+import com.vartool.web.dto.websocket.LogMessageDTO;
+import com.vartool.web.module.VartoolUtils;
+import com.vartool.web.module.spring.SpringBeanFactory;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -73,12 +77,34 @@ public class LogCmpManager implements CmpManager {
 	
 	public void removeLogInfo(String cmpId) {
 		if(isTailInfo(cmpId)) {
-			TAIL_LOG_INFO.get(cmpId).setStatus(false);
-			TAIL_LOG_INFO.get(cmpId).getLogReader().stop();
-			TAIL_LOG_INFO.get(cmpId).setLogReader(null);
-			TAIL_LOG_INFO.get(cmpId).getLogInfo().clear();
+			TailLogStatus info = TAIL_LOG_INFO.get(cmpId);
+			info.setStatus(false);
+			info.getLogReader().stop();
+			info.setLogReader(null);
+			info.getLogInfo().clear();
 			
 			TAIL_LOG_INFO.remove(cmpId);
+		}
+	}
+	
+	public synchronized void exception(String cmpId, String msg) {
+		if(existsLog(cmpId)) {
+			
+			msg = msg+"\nlog restart\n";
+			
+			SpringBeanFactory.getWebSocketService().sendMessage(
+				LogMessageDTO.builder().log(msg).cmpId(cmpId).build(), VartoolUtils.getAppRecvId(cmpId)
+			);
+			
+			TailLogStatus info = TAIL_LOG_INFO.get(cmpId);
+			info.setStatus(false);
+			
+			if(info.getLogReader() != null) {
+				info.getLogReader().stop();
+				info.setLogReader(null);
+			}
+			
+			addLogInfo(cmpId, msg);
 		}
 	}
 	

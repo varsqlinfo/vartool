@@ -117,16 +117,25 @@
 										<label class="col-lg-3 control-label" for="inputError">Uri</label>
 										<div class="col-lg-9 control-value">
 											<input type="text" v-model="detailItem.scmUrl" class="form-control input-init-type">
+											<div v-if="detailItem.scmType=='GIT'">
+												<label class="" for="inputError">Branch</label>
+												<div class="">
+													<input type="text" v-model="detailItem.scmBranch" class="form-control input-init-type">
+												</div>
+											</div>
 										</div>
 									</div>
+									
 									<div class="row bottomHeight5">
 										<label class="col-lg-3 control-label" for="inputError">Credentials</label>
 										<div class="col-lg-9">
 											<select v-model="detailItem.cmpCredential" class="form-control input-init-type">
+												<option value="">selected</option>
 												<c:forEach var="item" items="${allCredList}" varStatus="status">
 													<option value="${item.credId}">${item.credName}</option>
 												</c:forEach>
 											</select>
+											<a href="<c:url value="/mgmt/cred"/>" target="_blank">Credentials 설정 바로가기</a>
 										</div>
 									</div>
 									
@@ -325,6 +334,7 @@ VartoolAPP.vueServiceBean({
 					,cmpCredential :''
 					,scmType :'GIT'
 					,scmUrl :''
+					,scmBranch :'master'
 					,deployPath :''
 					,buildScript :''
 					,dependencyPath :''
@@ -356,9 +366,9 @@ VartoolAPP.vueServiceBean({
 				url:  {type:VARTOOL.uri.manager, url:'/cmp/deployMgmt/list'}
 				,data : param
 				,success: function(resData) {
-					var items = resData.items;
+					var items = resData.list;
 					
-					_this.gridData = resData.items;
+					_this.gridData = resData.list;
 					_this.pageInfo = resData.page;
 				}
 			})

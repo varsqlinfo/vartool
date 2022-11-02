@@ -8,8 +8,8 @@ package com.vartool.web.constants;
  */
 public enum LogType {
 	FILE
-	,SSH
-	,TELNET;
+	,SSH;
+	//,TELNET;
 	
 	
 	public String getName() {

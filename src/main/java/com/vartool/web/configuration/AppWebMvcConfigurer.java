@@ -31,6 +31,7 @@ import com.vartool.web.app.common.interceptor.BoardAuthInterceptor;
 import com.vartool.web.app.common.interceptor.LanguageInterceptor;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.constants.ViewPageConstants;
+import com.vartool.web.module.VartoolUtils;
 
 /**
  * web 설정.
@@ -84,7 +85,7 @@ public class AppWebMvcConfigurer extends AppWebConfigurer {
         messageSource.setBasenames("classpath:nl/messages", "classpath:nl/label/label");
         messageSource.setDefaultEncoding(VartoolConstants.CHAR_SET);
 
-        if("local".equals(System.getProperty("vartool.runtime"))) {
+        if(VartoolUtils.isRuntimelocal()) {
         	messageSource.setCacheSeconds(3);
         }
         messageSource.setFallbackToSystemLocale(false);

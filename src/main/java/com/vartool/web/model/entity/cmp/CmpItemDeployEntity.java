@@ -34,6 +34,9 @@ public class CmpItemDeployEntity extends CmpEntity{
 
 	@Column(name = "SCM_URL")
 	private String scmUrl;
+	
+	@Column(name = "SCM_BRANCH")
+	private String scmBranch;
 
 	@Convert(converter = BooleanToYnConverter.class)
 	@Column(name = "USE_DEPLOY_PATH")
@@ -51,11 +54,12 @@ public class CmpItemDeployEntity extends CmpEntity{
 
 	@Builder
 	public CmpItemDeployEntity (String cmpId, String name, String cmpType, String description
-			, String scmType, String scmUrl, boolean useDeployPath, String dependencyPath, String deployPath ,String buildScript, String cmpCredential) {
+			, String scmType, String scmUrl, String scmBranch, boolean useDeployPath, String dependencyPath, String deployPath ,String buildScript, String cmpCredential) {
 		super(cmpId, name, cmpType, description, cmpCredential);
 		
 		this.scmType = scmType;
 		this.scmUrl = scmUrl;
+		this.scmBranch = scmBranch;
 		this.useDeployPath = useDeployPath;
 		this.dependencyPath = dependencyPath;
 		this.deployPath = deployPath;
@@ -64,6 +68,7 @@ public class CmpItemDeployEntity extends CmpEntity{
 
 	public final static String SCM_TYPE = "scmType";
 	public final static String SCM_URL = "scmUrl";
+	public final static String SCM_BRANCH = "scmBranch";
 	public final static String DEPENDENCY_PATH = "dependencyPath";
 	public final static String DEPLOY_PATH = "deployPath";
 	public final static String BUILD_SCRIPT = "buildScript";

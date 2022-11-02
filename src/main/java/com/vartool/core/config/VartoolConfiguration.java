@@ -35,17 +35,15 @@ public class VartoolConfiguration extends AbstractConfiguration {
 	
 	final public static String CONFIG_DIR_PATH = "config/";
 	
-	private final static Logger logger = LoggerFactory.getLogger(VartoolConfiguration.class);
+	final private  static Logger logger = LoggerFactory.getLogger(VartoolConfiguration.class);
 	
-	private final static String CHARSET = "utf-8";
+	final private static String CHARSET = "utf-8";
 	
-	private Object lock = new Object();
+	private String CONFIG_ROOT_PATH = getConfigRootPath();
 	
-	private static String CONFIG_ROOT_PATH = getConfigRootPath();
+	final private String APP_CONFIG_PATH  = CONFIG_DIR_PATH+"vartool-app-config.yaml";
 	
-	private String APP_CONFIG_PATH  = CONFIG_DIR_PATH+"vartool-app-config.yaml";
-	
-	protected final String VARSQL_QUARTZ_PROPERTIES_FILE= "config/vartoolQuartz.properties";
+	final private String VARSQL_QUARTZ_PROPERTIES_FILE= "config/vartoolQuartz.properties";
 	
 	private String siteAddr; 
 	
@@ -94,22 +92,6 @@ public class VartoolConfiguration extends AbstractConfiguration {
 		logger.debug("os type : {}", appConfig.getOsType());
 		logger.debug("java home  : {}", appConfig.getJavaHome());
 		logger.debug("vartool config info");
-	}
-
-	public static void main(String[] args) {
-		VartoolConfiguration udc = getInstance();
-		
-		try {
-			//System.out.println(VartechReflectionUtils.reflectionToString(udc.deployItemWrapper));
-			System.out.println("--------------");
-			System.out.println(VartechReflectionUtils.reflectionToString(udc.getDeployConfig()));
-			System.out.println("--------------");
-			//System.out.println(udc.serverItemWrapper.getServerItems().get(0).getLogPathList());
-			
-			//System.out.println(VartechReflectionUtils.reflectionToString(udc.vartoolConfig));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	private void loadMainConfig() throws JsonProcessingException {

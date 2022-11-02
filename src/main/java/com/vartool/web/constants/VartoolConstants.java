@@ -3,6 +3,7 @@ package com.vartool.web.constants;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import com.vartool.core.config.Constants;
 import com.vartool.core.config.VartoolConfiguration;
 
 /**
@@ -12,6 +13,9 @@ import com.vartool.core.config.VartoolConfiguration;
 * @author	: ytkim
  */
 public interface VartoolConstants {
+	
+	// runtime
+	final String RUNTIME = System.getProperty(Constants.RUNTIME_KEY);
 	
 	// 날짜 포켓.
 	final String YEAR_FORMAT = "yyyy";

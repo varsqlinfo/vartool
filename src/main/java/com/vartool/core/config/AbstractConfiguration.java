@@ -11,7 +11,7 @@ import java.io.File;
 public abstract class AbstractConfiguration {
 	
 	public static String getConfigRootPath() {
-		String installRoot = System.getProperty("vartool.root");
+		String installRoot = System.getProperty(Constants.ROOT_PATH_KEY);
 		if (installRoot == null || "".equals(installRoot)) {
 			String catalinaHome = System.getProperty("catalina.home", "");
 			if (!"".equals(catalinaHome)) {

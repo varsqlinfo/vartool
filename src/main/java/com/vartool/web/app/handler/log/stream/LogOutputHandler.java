@@ -49,13 +49,13 @@ public class LogOutputHandler implements Runnable {
 		
 		while (true) {
 			
-			if(this.logReader.isStop()) break; 
-			
 			String msg = this.logReader.getOutputStream().getLog();
 			if (!"".equals(msg)) {
 				LogCmpManager.getInstance().addLogInfo(cmpId, msg);
 				webSocketServiceImpl.sendMessage(LogMessageDTO.builder().log(msg).cmpId(this.cmpId).build(), VartoolUtils.getAppRecvId(this.cmpId));
 			}
+			
+			if(this.logReader.isStop()) break; 
 			
 			try {
 				Thread.sleep(delayTime);

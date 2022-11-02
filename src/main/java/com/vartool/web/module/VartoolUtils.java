@@ -40,6 +40,11 @@ import com.vartool.web.model.mapper.GenericMapper;
 * @author	: ytkim
  */
 public final class VartoolUtils {
+	
+	public static boolean isRuntimelocal() {
+		return "local".equals(VartoolConstants.RUNTIME);
+	}
+	
 	public static boolean isAjaxRequest(HttpServletRequest request) {
 		String headerInfo = request.getHeader("X-Requested-With");
 		if ("XMLHttpRequest".equals(headerInfo))
@@ -99,7 +104,7 @@ public final class VartoolUtils {
 
 	public static ResponseResult getResponseResultItemList(List<?> list) {
 		ResponseResult responseResult = new ResponseResult();
-		responseResult.setItemList(list);
+		responseResult.setList(list);
 		return responseResult;
 	}
 
@@ -151,16 +156,20 @@ public final class VartoolUtils {
 		return param.getString("recv_ids","").split(";");
 	}
 	
-	public static String getDeployRecvId (String uid) {
-		return  uid;
+	public static String getDeployRecvId (String cmpId) {
+		return  cmpId;
 	}
 	
-	public static String getCommandRecvId (String uid) {
-		return  uid;
+	public static String getLogRecvId (String cmpId) {
+		return  cmpId;
 	}
 	
-	public static String getAppRecvId (String uid) {
-		return  uid;
+	public static String getCommandRecvId (String cmpId) {
+		return  cmpId;
+	}
+	
+	public static String getAppRecvId (String cmpId) {
+		return  cmpId;
 	}
 
 	public static LogMessageDTO setRunningUserInfo(LogMessageDTO lmd, Map<String, String> userInfo) {
@@ -191,28 +200,28 @@ public final class VartoolUtils {
 	
 	public static ResponseResult getResponseResult(Page<?> result, SearchParameter searchParameter) {
 		ResponseResult responseResult = new ResponseResult();
-		responseResult.setItemList(result.getContent());
+		responseResult.setList(result.getContent());
 		responseResult.setPage(PagingUtil.getPageObject(result.getTotalElements(), searchParameter));
 		return responseResult;
 	}
 
 	public static ResponseResult getResponseResult(List <?> result, long totalCount , SearchParameter searchParameter) {
 		ResponseResult responseResult = new ResponseResult();
-		responseResult.setItemList(result);
+		responseResult.setList(result);
 		responseResult.setPage(PagingUtil.getPageObject(totalCount, searchParameter));
 		return responseResult;
 	}
 	
 	public static ResponseResult getResponseResult(Page<?> result, SearchParameter searchParameter, GenericMapper instance) {
 		ResponseResult responseResult = new ResponseResult();
-		responseResult.setItemList(result.stream().map(item -> instance.toDto(item)).collect(Collectors.toList()));
+		responseResult.setList(result.stream().map(item -> instance.toDto(item)).collect(Collectors.toList()));
 		responseResult.setPage(PagingUtil.getPageObject(result.getTotalElements(), searchParameter));
 		return responseResult;
 	}
 
 	public static ResponseResult getResponseResult(List<?> result, GenericMapper instance) {
 		ResponseResult responseResult = new ResponseResult();
-		responseResult.setItemList(result.stream().map(item -> instance.toDto(item)).collect(Collectors.toList()));
+		responseResult.setList(result.stream().map(item -> instance.toDto(item)).collect(Collectors.toList()));
 		return responseResult;
 	}
 	

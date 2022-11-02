@@ -16,23 +16,22 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTree;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
-import org.eclipse.jgit.util.io.NullOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vartech.common.utils.StringUtils;
 import com.vartool.core.crypto.PasswordCryptionFactory;
 import com.vartool.web.app.handler.deploy.AbstractDeploy;
 import com.vartool.web.dto.DeployInfo;
@@ -57,12 +56,7 @@ public class GitSource {
 	private static final String MESSAGE_PULLED_FAILED = "Pull failed.";
     private static final String MESSAGE_PULLED_FAILED_WITH_STATUS = "Pull failed, status '%s'.";
 
-	private Git git;
-	
-	final private String localMaster="refs/heads/master";
-	final private String orginMater="refs/remotes/origin/master";
-	
-	private GitProgressMonitor moniter;
+	private ProgressMonitor moniter;
 
 	public GitSource(AbstractDeploy deployAbstract, LogMessageDTO msgData, String recvId) {
 		this.deployAbstract = deployAbstract;
@@ -79,8 +73,15 @@ public class GitSource {
 	}
 	
 	public String checkGitRepo (String gitURI, String username, String password){
+		if(StringUtils.isBlank(username)) {
+			return "username empty"; 
+		}
+		
+		return checkGitRepo(gitURI, new UsernamePasswordCredentialsProvider(username, password));
+	}
+	public String checkGitRepo (String gitURI, UsernamePasswordCredentialsProvider loginAuth ){
 		String msg = "success"; 
-		UsernamePasswordCredentialsProvider loginAuth = new UsernamePasswordCredentialsProvider( username,password );
+		
 		try {
 			Git.lsRemoteRepository().setRemote(gitURI).setCredentialsProvider(loginAuth).call();
 		} catch (InvalidRemoteException e) {
@@ -98,129 +99,137 @@ public class GitSource {
 		
 		String gitURI = dto.getScmUrl();
 		String username = dto.getScmId();
-		String password = PasswordCryptionFactory.getInstance().decrypt(dto.getScmPw());
+		UsernamePasswordCredentialsProvider loginAuth = null;
 		
-		File sourceDir = LogFilenameUtils.getDeploySourcePath(dto);
+		logger.info("start");
+		
+		if(!StringUtils.isBlank(username)) {
+			loginAuth = new UsernamePasswordCredentialsProvider(username, PasswordCryptionFactory.getInstance().decrypt(dto.getScmPw()));
+			
+			String checkMsg =checkGitRepo(gitURI, loginAuth);
+			
+			if(!"success".equals(checkMsg)){
+				throw new Exception(checkMsg);
+			}
+		}
+		
+		File sourceDir = LogFilenameUtils.getDeploySourcePath(dto);	
 		
 		if(!sourceDir.exists()) {
 			sourceDir.mkdir();
 		}
 		
-		UsernamePasswordCredentialsProvider loginAuth = new UsernamePasswordCredentialsProvider(username, password);
-		
-		logger.info("start");
-		
-		Git git =null;
-		
-		String checkMsg =checkGitRepo(gitURI, username, password);
-		
-		if(!"success".equals(checkMsg)){
-			throw new Exception(checkMsg);
-		}
-		
 		boolean isFileExists = false; 
+		
+		String localBranch = "";
 		try (FileRepository fileRepository = new FileRepository(sourceDir.getAbsolutePath() +File.separator +".git")){
 			isFileExists= fileRepository.getObjectDatabase().exists();
-			fileRepository.close();
+			localBranch = fileRepository.getBranch();
 		}catch(Exception e) {
 			isFileExists = false; 
 		}
 		
-		logger.info("FileRepository isExists : {} ,git repository {}",isFileExists,sourceDir.getAbsolutePath() );
+		logger.info("FileRepository isExists : {} , File Repository {}", isFileExists, sourceDir.getAbsolutePath());
 		
 		if(!isFileExists) {
-			git = Git.cloneRepository()
+			try(Git git = Git.cloneRepository()
 					.setURI(gitURI)
-					.setCredentialsProvider( loginAuth)
+					.setCredentialsProvider(loginAuth)
 					.setDirectory(sourceDir)
-					.setProgressMonitor(moniter).call();
-			try{
-				git.checkout().setName("master").call();
+					.setBranch(dto.getScmBranch())
+					.setProgressMonitor(moniter).call();){
+				git.checkout().setName(dto.getScmBranch()).call();
 			}catch(Exception e){
-				logger.error("execute is :", e.getMessage());
-			}finally {
-				try {
-					git.close();
-				}catch(Exception e) {
-					logger.error("git.close(): ", e.getMessage(), e);
-				};
+				logger.error("execute is :{} ", e.getMessage() , e);
 			}
-		}
-		
-		logger.info("gitPull {}", git);
-		
-		if(git ==null){
-			gitPull(sourceDir, loginAuth, onlyPull);
+		}else {
+			logger.info("gitPull localBranch: {} ", localBranch);
+			gitPull(dto, sourceDir, loginAuth, onlyPull);
 		}
 		
 		logger.info("end");
 	}
 
-	private boolean gitPull(File localPath, UsernamePasswordCredentialsProvider loginAuth, boolean onlyPull) throws Exception {
+	private boolean gitPull(DeployInfo dto, File localPath, UsernamePasswordCredentialsProvider loginAuth, boolean onlyPull) throws Exception {
 		
-		try {
-			Repository localRepo = new FileRepository(localPath.getAbsolutePath()+File.separator + ".git");
+		Repository localRepo = new FileRepository(localPath.getAbsolutePath()+File.separator + ".git");
+		
+		try (Git git = new Git(localRepo);){
 			
-			git = new Git(localRepo);
+			Ref head = localRepo.getRefDatabase().findRef("HEAD");
 			
-			boolean pullFlag = false;
-			
-			ArrayList<ChangeInfo> changeInfoList = populateDiff(localPath,loginAuth);
-			
-			if(onlyPull) {
-				pullFlag = true; 
-			}else {
-				if (!changeInfoList.isEmpty()) {
-					pullFlag = true; 
-				} else {
-					pullFlag = false;
-				}
-			}
-			
-			logger.info("gitPull pullFlag : {}", pullFlag);
-			
-			if(pullFlag) {
-			
-				PullCommand pullCmd = git.pull().setRebase(Boolean.TRUE);
-				
-				if(onlyPull) {
-					pullCmd.setProgressMonitor(moniter);
-				}
-				
-				PullResult pullResult = pullCmd.setCredentialsProvider(loginAuth).call();
-				
-				logger.info("pullResult.isSuccessful() : {}", pullResult.isSuccessful());
-				
-				RebaseResult rebaseResult = pullResult.getRebaseResult();
+			logger.info("local repo head : {}", head.getName());
 
-				if (!pullResult.isSuccessful()) {
+			PullCommand pullCmd = git.pull()
+					.setRebase(Boolean.TRUE);
+			
+			//pullCmd.setProgressMonitor(moniter);
+			
+			PullResult pullResult = pullCmd.setCredentialsProvider(loginAuth).call();
+			
+			logger.info("pullResult.isSuccessful() : {}", pullResult.isSuccessful());
+			
+			
+			Ref newHEAD = localRepo.getRefDatabase().findRef("HEAD");
+
+	        if (!head.toString().equals(newHEAD.toString())) {
+	            ObjectId oldHead = localRepo.resolve(head.getObjectId().getName() + "^{tree}");
+	            ObjectId newHead = localRepo.resolve(newHEAD.getObjectId().getName() + "^{tree}");
+
+	            ObjectReader reader = localRepo.newObjectReader();
+
+	            CanonicalTreeParser oldTreeIter = new CanonicalTreeParser();
+	            oldTreeIter.reset(reader, oldHead);
+
+	            CanonicalTreeParser newTreeIter = new CanonicalTreeParser();
+	            newTreeIter.reset(reader, newHead);
+
+	            List<DiffEntry> entries = git.diff().setNewTree(newTreeIter).setOldTree(oldTreeIter).call();
+	            
+	            ArrayList<ChangeInfo> changeInfoList = new ArrayList<ChangeInfo>();
+	            
+            	entries.forEach((diffEntry) -> {
+		        	changeInfoList.add(new ChangeInfo(diffEntry.getChangeType().name(), diffEntry.getOldPath(), diffEntry.getNewPath()));
+		        	
+		        	this.msgData.setLog(diffEntry.getChangeType() +" : " + diffEntry.getOldPath() +" -> " + diffEntry.getNewPath());
+		        	
+					this.deployAbstract.sendLogMessage(this.msgData, this.recvId);
 					
-	                FetchResult fetchResult = pullResult.getFetchResult();
-	                
-	                logger.error("fetchResult : {}", fetchResult);
-	                logger.error("fetchResult.getTrackingRefUpdates() : {}", fetchResult.getTrackingRefUpdates());
-	                validateTrackingRefUpdates(MESSAGE_PULLED_FAILED, fetchResult.getTrackingRefUpdates());
-	                
-	                if(pullResult.getMergeResult() !=null) {
-	                	MergeStatus mergeStatus = pullResult.getMergeResult().getMergeStatus();
-	                	
-		                if (!mergeStatus.isSuccessful()) {
-		                        throw new DeployException(String.format(MESSAGE_PULLED_FAILED_WITH_STATUS, mergeStatus.name()));
-		                }
+		        });
+	        }else {
+            	this.msgData.setLog("no change file");
+            	this.deployAbstract.sendLogMessage(this.msgData, this.recvId);
+	        }
+	        
+			
+			RebaseResult rebaseResult = pullResult.getRebaseResult();
+
+			if (!pullResult.isSuccessful()) {
+				
+                FetchResult fetchResult = pullResult.getFetchResult();
+                
+                logger.error("fetchResult : {}", fetchResult);
+                logger.error("fetchResult.getTrackingRefUpdates() : {}", fetchResult.getTrackingRefUpdates());
+                validateTrackingRefUpdates(MESSAGE_PULLED_FAILED, fetchResult.getTrackingRefUpdates());
+                
+                if(pullResult.getMergeResult() !=null) {
+                	MergeStatus mergeStatus = pullResult.getMergeResult().getMergeStatus();
+                	
+	                if (!mergeStatus.isSuccessful()) {
+	                        throw new DeployException(String.format(MESSAGE_PULLED_FAILED_WITH_STATUS, mergeStatus.name()));
 	                }
-	                
-	                if(rebaseResult.getStatus() == RebaseResult.Status.CONFLICTS) {
-	                    logger.warn("Git `pull` reported conflicts - will reset and try again next pass!");
-	                    git.reset().setMode(ResetCommand.ResetType.HARD).call();
-	                    return true;
-	                }
-				}
+                }
+                
+                if(rebaseResult.getStatus() == RebaseResult.Status.CONFLICTS) {
+                    logger.warn("Git `pull` reported conflicts - will reset and try again next pass!");
+                    git.reset().setMode(ResetCommand.ResetType.HARD).call();
+                    return true;
+                }
 			}
 			
-			return true;
-
+			return true; 
 		} catch (GitAPIException | IOException ex) {
-			logger.error("gitPull : ", ex);
+			logger.error("gitPull : {}", ex.getMessage(), ex);
 			throw ex; 
 		}
 	}
@@ -243,87 +252,4 @@ public class GitSource {
                     }
             }
     }
-    
-    private ArrayList<ChangeInfo> populateDiff(File localPath, UsernamePasswordCredentialsProvider loginAuth) throws InvalidRemoteException, TransportException, GitAPIException, IOException {
-    	git.fetch()
-		.setCredentialsProvider(loginAuth)
-		.call();
-    	
-    	Repository repo = git.getRepository();
-    	
-    	ArrayList<ChangeInfo> changeInfoList = new ArrayList<ChangeInfo>();
-    	
-        try(DiffFormatter diffFormatter = new DiffFormatter(NullOutputStream.INSTANCE);
-        		RevWalk walk = new RevWalk(repo);){
-	        
-	        diffFormatter.setRepository(repo);
-	        
-	        RevCommit fromCommit = walk.parseCommit(repo.resolve(localMaster));
-	        RevCommit toCommit = walk.parseCommit(repo.resolve(orginMater));
-	        RevTree fromTree = fromCommit.getTree();
-	        RevTree toTree = toCommit.getTree();
-	        List<DiffEntry> list = diffFormatter.scan(fromTree, toTree);
-	        
-	        list.forEach((diffEntry) -> {
-	        	changeInfoList.add(new ChangeInfo(diffEntry.getChangeType().name(), diffEntry.getOldPath(), diffEntry.getNewPath()));
-	        	
-	        	this.msgData.setLog(diffEntry.getChangeType() +" : " + diffEntry.getOldPath() +" -> " + diffEntry.getNewPath());
-	        	
-				this.deployAbstract.sendLogMessage(this.msgData, this.recvId);
-				
-	        });
-	        walk.dispose();
-        }
-        
-        return changeInfoList;
-    }
-
-	/**
-	 * Populate all the files to update, if the system should update.
-	 * @param localPath 
-	 * @param loginAuth 
-	 */
-	private void populateDiff2(File localPath, UsernamePasswordCredentialsProvider loginAuth) {
-		try {
-			git.fetch()
-			.setCredentialsProvider(loginAuth)
-			.call();
-			
-			Repository repo = git.getRepository();
-			ObjectId fetchHead = repo.resolve("FETCH_HEAD^{tree}");
-			ObjectId head = repo.resolve("HEAD^{tree}");
-
-			ObjectReader reader = repo.newObjectReader();
-			CanonicalTreeParser oldTreeIter = new CanonicalTreeParser();
-			oldTreeIter.reset(reader, head);
-			CanonicalTreeParser newTreeIter = new CanonicalTreeParser();
-			newTreeIter.reset(reader, fetchHead);
-			List<DiffEntry> diffs = git.diff()
-					.setNewTree(newTreeIter)
-					.setOldTree(oldTreeIter).call();
-			
-			checkDiffEmpty(diffs);
-
-		} catch (GitAPIException | IOException ex) {
-			logger.error("populateDiff : ", ex);
-		}
-	}
-
-	private void checkDiffEmpty(List<DiffEntry> diffs) {
-		if (diffs.isEmpty()) {
-			logger.info("checkDiffEmpty : no diff");
-		} else {
-			for (DiffEntry entry : diffs) {
-				this.msgData.setLog(entry.getChangeType() +" : " + entry.getOldPath() +" -> " + entry.getNewPath());
-				this.deployAbstract.sendLogMessage(this.msgData, this.recvId);
-			}
-		}
-	}
-	
-	public void close(){
-		if(git!=null){
-			git.close();
-		}
-	}
-
 }

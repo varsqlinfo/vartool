@@ -38,89 +38,89 @@ public class CommandCmpManager implements CmpManager {
 		private static final CommandCmpManager instance = new CommandCmpManager();
 	}
 
-	public boolean existsLog(String uid) {
-		return ALL_LOG_INFO.containsKey(uid);
+	public boolean existsLog(String cmpId) {
+		return ALL_LOG_INFO.containsKey(cmpId);
 	}
 	
-	public synchronized void createLogInfo(String uid) {
-		if(!existsLog(uid)) {
-			ALL_LOG_INFO.put(uid, CommandStatus.builder().logInfo(new LogInfo(1000)).build());
+	public synchronized void createLogInfo(String cmpId) {
+		if(!existsLog(cmpId)) {
+			ALL_LOG_INFO.put(cmpId, CommandStatus.builder().logInfo(new LogInfo(1000)).build());
 		}
 	}
 	
-	public void addLogInfo(String uid, String logText) {
-		if(existsLog(uid)) {
-			ALL_LOG_INFO.get(uid).getLogInfo().add(logText);
+	public void addLogInfo(String cmpId, String logText) {
+		if(existsLog(cmpId)) {
+			ALL_LOG_INFO.get(cmpId).getLogInfo().add(logText);
 		}
 	}
 	
-	public String getLogContent(String uid) {
-		if(existsLog(uid)) {
-			return ALL_LOG_INFO.get(uid).getLogInfo().allLog();
+	public String getLogContent(String cmpId) {
+		if(existsLog(cmpId)) {
+			return ALL_LOG_INFO.get(cmpId).getLogInfo().allLog();
 		}
 		return "";
 	}
 	
-	public synchronized boolean isRunning(String uid) {
-		if(existsLog(uid)) {
-			return ALL_LOG_INFO.get(uid).isRunning();
+	public synchronized boolean isRunning(String cmpId) {
+		if(existsLog(cmpId)) {
+			return ALL_LOG_INFO.get(cmpId).isRunning();
 		}
 		return false; 
 	}
 	
-	public synchronized void enableCommand(String uid, String cmdMode, CommandLogOutputHandler commandLogOutputHandler) {
-		if(existsLog(uid)) {
-			CommandStatus logInfo = ALL_LOG_INFO.get(uid);
+	public synchronized void enableCommand(String cmpId, String cmdMode, CommandLogOutputHandler commandLogOutputHandler) {
+		if(existsLog(cmpId)) {
+			CommandStatus logInfo = ALL_LOG_INFO.get(cmpId);
 			logInfo.setCommandLogOutputHandler(commandLogOutputHandler);
 			logInfo.setCommandType(CommandType.getCommandType(cmdMode));
 			logInfo.setRunning(true);
 			logInfo.setUserInfo(SecurityUtils.runningUserInfo());
 			
 			SpringBeanFactory.getWebSocketService().sendMessage(
-				LogMessageDTO.builder().cmpId(uid).state(LOG_STATE.START.getCode()).build().addItem("cmd", logInfo.getCommandType().name())
-				, VartoolUtils.getCommandRecvId(uid)
+				LogMessageDTO.builder().cmpId(cmpId).state(LOG_STATE.START.getCode()).build().addItem("cmd", logInfo.getCommandType().name())
+				, VartoolUtils.getCommandRecvId(cmpId)
 			);
 		}
 	}
 	
-	public synchronized void disableCommand(String uid) {
-		if(existsLog(uid)) {
-			ALL_LOG_INFO.get(uid).setRunning(false);
+	public synchronized void disableCommand(String cmpId) {
+		if(existsLog(cmpId)) {
+			ALL_LOG_INFO.get(cmpId).setRunning(false);
 			
 			SpringBeanFactory.getWebSocketService().sendMessage(
-				LogMessageDTO.builder().cmpId(uid).state(LOG_STATE.STOP.getCode()).build().addItem("cmd", ALL_LOG_INFO.get(uid).getCommandType().name())
-				, VartoolUtils.getCommandRecvId(uid)
+				LogMessageDTO.builder().cmpId(cmpId).state(LOG_STATE.STOP.getCode()).build().addItem("cmd", ALL_LOG_INFO.get(cmpId).getCommandType().name())
+				, VartoolUtils.getCommandRecvId(cmpId)
 			);
 		}
 	}
 	
-	public synchronized void removeLogInfo(String uid){
-		if(existsLog(uid)) {
-			disableCommand(uid);
-			CommandStatus logInfo = ALL_LOG_INFO.get(uid);
+	public synchronized void removeLogInfo(String cmpId){
+		if(existsLog(cmpId)) {
+			disableCommand(cmpId);
+			CommandStatus logInfo = ALL_LOG_INFO.get(cmpId);
 			logInfo.getCommandLogOutputHandler().stop();
-			ALL_LOG_INFO.remove(uid);
+			ALL_LOG_INFO.remove(cmpId);
 		}
 	}
 	
-	public synchronized void killCommand(String uid){
-		if(existsLog(uid)) {
-			disableCommand(uid);
-			ALL_LOG_INFO.get(uid).getCommandLogOutputHandler().stop();
+	public synchronized void killCommand(String cmpId){
+		if(existsLog(cmpId)) {
+			disableCommand(cmpId);
+			ALL_LOG_INFO.get(cmpId).getCommandLogOutputHandler().stop();
 		}
 	}
 	
-	public synchronized void clearLogInfo(String uid) {
-		if(existsLog(uid)) {
-			ALL_LOG_INFO.get(uid).getLogInfo().clear();
+	public synchronized void clearLogInfo(String cmpId) {
+		if(existsLog(cmpId)) {
+			ALL_LOG_INFO.get(cmpId).getLogInfo().clear();
 		}
 	}
 
 	public void setLogMonitorData(CmpMonitorDTO lmd) {
-		String uid = lmd.getCmpId();
+		String cmpId = lmd.getCmpId();
 		
-		if(existsLog(uid)) {
-			CommandStatus logInfo = ALL_LOG_INFO.get(uid);
+		if(existsLog(cmpId)) {
+			CommandStatus logInfo = ALL_LOG_INFO.get(cmpId);
 			
 			lmd.setRunning(logInfo.isRunning());
 			lmd.setCurrentLogSize(logInfo.getLogInfo().getLogSize());
@@ -131,9 +131,9 @@ public class CommandCmpManager implements CmpManager {
 		return ALL_LOG_INFO; 
 	}
 
-	public String currentCmd(String uid) {
-		if(existsLog(uid)) {
-			return ALL_LOG_INFO.get(uid).getCommandType().name();
+	public String currentCmd(String cmpId) {
+		if(existsLog(cmpId)) {
+			return ALL_LOG_INFO.get(cmpId).getCommandType().name();
 		}
 		return "";
 	}

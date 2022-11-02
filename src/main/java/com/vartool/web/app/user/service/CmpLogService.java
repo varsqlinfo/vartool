@@ -52,24 +52,29 @@ public class CmpLogService {
 	 * @param param
 	 * @return
 	 */
-	public ResponseResult loadLog(String cmpId, DataMap param) {
+	public ResponseResult loadLog(String cmpId, boolean LogReturnFlag) {
+		
+		
+		if(LogCmpManager.getInstance().existsLog(cmpId)) { // log 실행중일때. 
+			if(LogReturnFlag) {
+				return ResponseResult.builder().item(LogMessageDTO.builder().cmpId(cmpId).log(LogCmpManager.getInstance().getLogContent(cmpId)).build()).build();
+			}
+			
+			return null; 
+			
+		}
 		
 		ReadLogInfo readLogInfo = cmpItemLogRepository.findReadLogInfo(cmpId);
-		
 		
 		if(readLogInfo== null) {
 			return ResponseResult.builder().resultCode(RequestResultCode.NOT_FOUND).build(); 
 		}
 		
-		if(LogCmpManager.getInstance().existsLog(cmpId)) { // log 실행중일때. 
-			return ResponseResult.builder().item(LogMessageDTO.builder().cmpId(cmpId).log(LogCmpManager.getInstance().getLogContent(cmpId)).build()).build();
-		}
-		
 		LogMessageDTO logInfo = cmpLogComponent.startLog(cmpId, readLogInfo);
 		
-		if(logInfo == null && LogType.FILE.name().equals(readLogInfo.getLogType())) {
-			logInfo = loadFileLog(readLogInfo);
-		}
+//		if(logInfo == null && LogType.FILE.name().equals(readLogInfo.getLogType())) {
+//			logInfo = loadFileLog(readLogInfo);
+//		}
 		
 		return ResponseResult.builder().item(logInfo).build();
 	}

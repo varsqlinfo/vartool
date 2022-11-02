@@ -17,6 +17,7 @@ public class DeployInfo{
 	
 	private String scmType;
 	private String scmUrl;
+	private String scmBranch;
 	private String scmId;
 	private String scmPw;
 	private String dependencyPath;
@@ -36,8 +37,13 @@ public class DeployInfo{
 		
 		dto.setScmType(entity.getScmType());
 		dto.setScmUrl(entity.getScmUrl());
-		dto.setScmId(credentialInfo.getUsername());
-		dto.setScmPw(credentialInfo.getPassword());
+		dto.setScmBranch(entity.getScmBranch());
+		
+		if(credentialInfo != null) {
+			dto.setScmId(credentialInfo.getUsername());
+			dto.setScmPw(credentialInfo.getPassword());
+		}
+		
 		dto.setDependencyPath(entity.getDependencyPath());
 		dto.setDeployPath(entity.getDeployPath());
 		dto.setBuildScript(entity.getBuildScript());

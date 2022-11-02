@@ -37,6 +37,8 @@ public class CredentialInfo{
 	}
 	
 	public static CredentialInfo toDto(CredentialsProviderEntity entity) {
+		if(entity==null) return null; 
+		
 		return CredentialInfo.builder()
 				.credId(entity.getCredId())
 				.credName(entity.getCredName())

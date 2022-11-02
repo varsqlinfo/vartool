@@ -71,10 +71,14 @@
 					<form id="writeForm" name="writeForm" role="form" class="form-horizontal bv-form eportalForm">
 						<div class="pull-right bottomHeight5">
 							<button type="button" class="btn btn-default btn_add" :class="detailFlag==true?'':'hidden'" @click="fieldClear()">Add</button>
+							
+							<button type="button" class="btn btn-primary btn_save" @click="saveInfo()">Save</button>
 							<template v-if="detailFlag===true">
 								<button type="button" class="btn btn-default" @click="copyInfo()">Copy</button>
+								<template v-if="detailItem.logType=='SSH'">
+									<button type="button" class="btn btn-info" @click="restart()">Restart</button>
+								</template>	
 							</template>
-							<button type="button" class="btn btn-primary btn_save" @click="saveInfo()">Save</button>
 						</div>
 						<div style="clear:both;"></div>
 						
@@ -119,10 +123,13 @@
 											<label class="col-lg-3 control-label" for="inputError">Credentials</label>
 											<div class="col-lg-9">
 												<select v-model="detailItem.cmpCredential" class="form-control input-init-type">
+													<option value="">selected</option>
 													<c:forEach var="item" items="${allCredList}" varStatus="status">
 														<option value="${item.credId}">${item.credName}</option>
 													</c:forEach>
 												</select>
+												
+												<a href="<c:url value="/mgmt/cred"/>" target="_blank">Credentials 설정 바로가기</a>
 											</div>
 										</div>
 										
@@ -195,9 +202,9 @@ VartoolAPP.vueServiceBean({
 				url: {type:VARTOOL.uri.manager, url:'/cmp/logMgmt/list'}
 				,data : param
 				,success: function(resData) {
-					var items = resData.items;
+					var items = resData.list;
 					
-					_this.gridData = resData.items;
+					_this.gridData = resData.list;
 					_this.pageInfo = resData.page;
 				}
 			})
@@ -293,6 +300,33 @@ VartoolAPP.vueServiceBean({
 				,success: function(resData) {
 					_this.fieldClear();
 					_this.search();
+				}
+			})
+		}
+		,restart : function(){
+			var _this = this; 
+			
+			if(!confirm('로그를 Restart 하시겠습니까?')){
+				return ; 
+			}
+			
+			var param = {
+				cmpId : this.detailItem.cmpId
+				,mode :"restart"
+			}
+			
+			this.$ajax({
+				url:  {type:VARTOOL.uri.manager, url:'/cmpMonitoring/startTail'}
+				,data : param
+				,success: function(resData) {
+					
+					if(!VARTOOL.isBlank(resData.message)){
+						VARTOOLUI.toast.open({text : resData.message});	
+					}else{
+						VARTOOLUI.toast.open({text : 'Restart success'});
+					}
+					
+					return ; 
 				}
 			})
 		}

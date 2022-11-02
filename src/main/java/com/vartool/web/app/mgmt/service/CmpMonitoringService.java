@@ -89,7 +89,7 @@ public class CmpMonitoringService {
 		}
 		
 		ResponseResult result  = new ResponseResult();
-		result.setItemList(monitorList);
+		result.setList(monitorList);
 		return result;
 	}
 	
@@ -127,7 +127,7 @@ public class CmpMonitoringService {
 		}
 		
 		ResponseResult result  = new ResponseResult();
-		result.setItemList(monitorList);
+		result.setList(monitorList);
 		return result;
 	}
 	
@@ -146,6 +146,9 @@ public class CmpMonitoringService {
 	public ResponseResult clearLog(String cmpId, String type) {
 		
 		ComponentConstants.TYPE cmpType = ComponentConstants.getComponentType(type); 
+		
+		
+		logger.debug("clearlog cmpId : {}, type : {}", cmpId, type);
 		
 		if(ComponentConstants.TYPE.COMMAND.equals(cmpType)) {
 			CommandCmpManager.getInstance().clearLogInfo(cmpId);
@@ -171,7 +174,12 @@ public class CmpMonitoringService {
 	 * @return
 	 */
 	public ResponseResult startTail(String cmpId, DataMap param) {
-		if(LogCmpManager.getInstance().isTailInfo(cmpId)) {
+		
+		logger.debug("startTail cmpId : {}, param : {}", cmpId, param);
+		
+		String mode = param.getString("mode","");
+		
+		if(!"restart".equals(mode) && LogCmpManager.getInstance().isTailInfo(cmpId)) {
 			return VartoolUtils.getResponseResultItemOne("running");
 		}else {
 			ReadLogInfo readLogInfo = cmpItemLogRepository.findReadLogInfo(cmpId);
@@ -197,11 +205,16 @@ public class CmpMonitoringService {
 	 * @return
 	 */
 	public ResponseResult stopTail(String cmpId) {
+		
+		logger.debug("stopTail cmpId : {}", cmpId);
+		
 		LogCmpManager.getInstance().stopTail(cmpId);
 		return VartoolUtils.getResponseResultItemOne(1);
 	}
 
 	public ResponseResult killProcess(String cmpId) {
+		logger.debug("killProcess cmpId : {}", cmpId);
+		
 		CommandCmpManager.getInstance().killCommand(cmpId);
 		return VartoolUtils.getResponseResultItemOne(1);
 	}

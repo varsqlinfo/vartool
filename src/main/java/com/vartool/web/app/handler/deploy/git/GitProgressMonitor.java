@@ -18,6 +18,8 @@ public class GitProgressMonitor extends BatchingProgressMonitor {
 	private LogMessageDTO logMessageDto = null; 
 	private String recvId; 
 	
+	private int workCount = 0; 
+	
 	public GitProgressMonitor(AbstractDeploy deployAbstract, LogMessageDTO msgData, String recvId) {
 		this.deployAbstract = deployAbstract; 
 		this.logMessageDto = msgData;
@@ -26,40 +28,38 @@ public class GitProgressMonitor extends BatchingProgressMonitor {
 
 	protected void onUpdate(String taskName, int workCurr) {
 		StringBuilder s = new StringBuilder();
-		format(s, taskName, workCurr);
-		send(s);
+		format("onUpdate", s, taskName, workCurr);
 	}
 
 	protected void onEndTask(String taskName, int workCurr) {
 		StringBuilder s = new StringBuilder();
-		format(s, taskName, workCurr);
-		s.append(BlankConstants.NEW_LINE_CHAR);
-		send(s);
+		format("onEndTask", s, taskName, workCurr);
 	}
 
-	private void format(StringBuilder s, String taskName, int workCurr) {
+	private void format(String methodName, StringBuilder s, String taskName, int workCurr) {
 		s.append(taskName);
 		s.append(": ");
 		while (s.length() < 25) {
 			s.append(' ');
 		}
 		s.append(workCurr);
+		s.append(BlankConstants.NEW_LINE_CHAR);
+		if(!"onEndTask".equals(methodName)) {
+			send(s);
+		}
 	}
 
 	protected void onUpdate(String taskName, int cmp, int totalWork, int pcnt) {
 		StringBuilder s = new StringBuilder();
-		format(s, taskName, cmp, totalWork, pcnt);
-		send(s);
+		format("onUpdate", s, taskName, cmp, totalWork, pcnt);
 	}
 
 	protected void onEndTask(String taskName, int cmp, int totalWork, int pcnt) {
 		StringBuilder s = new StringBuilder();
-		format(s, taskName, cmp, totalWork, pcnt);
-		s.append(BlankConstants.NEW_LINE_CHAR);
-		send(s);
+		format("onEndTask", s, taskName, cmp, totalWork, pcnt);
 	}
 
-	private void format(StringBuilder s, String taskName, int cmp, int totalWork, int pcnt) {
+	private void format(String methodName, StringBuilder s, String taskName, int cmp, int totalWork, int pcnt) {
 		s.append(taskName);
 		s.append(": ");
 		while (s.length() < 25) {
@@ -82,6 +82,12 @@ public class GitProgressMonitor extends BatchingProgressMonitor {
 		s.append("/");
 		s.append(endStr);
 		s.append(")");
+		s.append(BlankConstants.NEW_LINE_CHAR);
+		++workCount;
+		
+		if(!"onEndTask".equals(methodName)) {
+			send(s);
+		}
 	}
 
 	private void send(StringBuilder s) {

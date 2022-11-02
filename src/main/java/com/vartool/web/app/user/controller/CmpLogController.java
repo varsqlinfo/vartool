@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vartech.common.app.beans.ResponseResult;
-import com.vartech.common.utils.HttpUtils;
 import com.vartool.web.app.user.service.CmpLogService;
 
 /**
@@ -44,6 +43,6 @@ public class CmpLogController {
 	@PostMapping({"/load" })
 	@ResponseBody
 	public ResponseResult loadAppLog(@RequestParam(value = "cmpId", required = true) String cmpId, HttpServletRequest req) throws Exception {
-		return cmpLogService.loadLog(cmpId, HttpUtils.getServletRequestParam(req));
+		return cmpLogService.loadLog(cmpId, true);
 	}
 }

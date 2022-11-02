@@ -76,9 +76,9 @@ VartoolAPP.vueServiceBean({
 				url: '<vartool:boardUrl addUrl="list" contextPath="false"/>' 
 				,data: param
 				,success: function(resData) {
-					var items = resData.items;
+					var items = resData.list;
 					
-					_this.gridData = resData.items;
+					_this.gridData = resData.list;
 					_this.pageInfo = resData.page;
 				}
 			})

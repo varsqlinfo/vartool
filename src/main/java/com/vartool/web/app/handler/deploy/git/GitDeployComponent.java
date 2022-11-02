@@ -60,7 +60,7 @@ public class GitDeployComponent extends AbstractDeploy{
 			
 			msgData.setLog(dateFormat.format(System.currentTimeMillis())+"-==deploy start==-");
 			
-			sendLogMessage( msgData, recvId);
+			sendLogMessage(msgData, recvId);
 			
 			if("pull".equals(actionMode) || "all".equals(actionMode)){
 				sourcePull(cmpId, dto, msgData, recvId, "pull".equals(actionMode));
@@ -136,8 +136,6 @@ public class GitDeployComponent extends AbstractDeploy{
 			msgData.setLog(dateFormat.format(System.currentTimeMillis())+" : "+ e.getMessage());
 			sendLogMessage(msgData, recvId);
 			gitSourceFlag =false; 
-		}finally{
-			gitSource.close();
 		}
 		
 		return gitSourceFlag; 

@@ -158,7 +158,7 @@ VartoolAPP.vueServiceBean({
 				url: {type:VARTOOL.uri.manager, url:'/cmpMonitoring/list'}
 				,data : param
 				,success: function(resData) {
-					var items = resData.items;
+					var items = resData.list;
 					
 					var allComponentInfos= {};
 					var cmpCheckInfo = {};
@@ -194,7 +194,7 @@ VartoolAPP.vueServiceBean({
 				,data : param
 				,async : false
 				,success: function(resData) {
-					var items = resData.items;
+					var items = resData.list;
 					
 					for(var i=0 ,len = items.length; i<len; i++){
 						var item = items[i];

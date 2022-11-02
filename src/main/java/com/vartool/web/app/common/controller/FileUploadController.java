@@ -53,7 +53,7 @@ public class FileUploadController extends AbstractController {
 		ResponseResult result = new ResponseResult();
 		List<FileInfoEntity> uploadFiles = fileUploadService.uploadFiles(mtfRequest, div, paramFileContId, contGroupId);
 		if (uploadFiles.size() > 0) {
-			result.setItemList(uploadFiles);
+			result.setList(uploadFiles);
 		} else {
 			result.setResultCode(AppCode.ErrorCode.COMM_FILE_EMPTY);
 			result.setMessage("select file");

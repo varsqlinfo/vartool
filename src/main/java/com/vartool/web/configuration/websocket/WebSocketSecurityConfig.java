@@ -25,6 +25,7 @@ public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBro
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
     	
     	String[] destMatchers = (String[]) Arrays.asList(WebSocketConstants.Type.values()).stream().map(item -> item.getDestMatcher()).toArray(String[]::new);
+    	
         messages
                 .simpDestMatchers(destMatchers).authenticated()
                 .anyMessage().authenticated();

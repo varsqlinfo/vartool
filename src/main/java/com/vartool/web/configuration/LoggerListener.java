@@ -1,5 +1,7 @@
 package com.vartool.web.configuration;
 
+import com.vartool.web.module.VartoolUtils;
+
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
@@ -22,11 +24,9 @@ public class LoggerListener extends ContextAwareBase implements LoggerContextLis
     public void start() {
         if (started) return;
 
-        String vartoolRuntime = System.getProperty("vartool.runtime");
-
         Context context = getContext();
 
-        if("local".equals(vartoolRuntime)) {
+        if(VartoolUtils.isRuntimelocal()) {
         	context.putProperty("runtime", "local");
         	context.putProperty("LOG_DIR", "c:/zzz/logs/vtool");
         }else {

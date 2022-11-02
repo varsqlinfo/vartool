@@ -589,11 +589,8 @@ _ui.registerComponent({
 		,noty: function (logItem){
 			var _this = this; 
 			
-			VARTOOL.socket.connect('user', {
-				uid : logItem.id
-				,callback : function (resData){
-					_this.setLogData(resData);
-				}
+			VARTOOL.socket.connect('topic', {id : logItem.id}, function (resData){
+				_this.setLogData(resData);
 			});
 		}
 		,setLogData :function (logInfo, mode){
@@ -655,7 +652,7 @@ _ui.registerComponent({
 				console.log(e);
 			}
 			
-			VARTOOL.socket.unSubscribe('user', componentId);
+			VARTOOL.socket.unSubscribe('topic', componentId);
 			
 			delete this.logElement[componentId];
 		}
@@ -715,11 +712,8 @@ _ui.registerComponent({
 			
 			this.initNoty = true; 
 			
-			VARTOOL.socket.connect('user', {
-				uid : logItem.id
-				,callback : function (resData){
-					_this.setLogData(resData);
-				}
+			VARTOOL.socket.connect('topic',  {id : logItem.id}, function (resData){
+				_this.setLogData(resData);
 			});
 		}
 		// server log view;
@@ -790,7 +784,7 @@ _ui.registerComponent({
 				console.log(e);
 			}
 			
-			VARTOOL.socket.unSubscribe('user', componentId);
+			VARTOOL.socket.unSubscribe('topic', componentId);
 			
 			delete this.logElement[componentId];
 		}
@@ -837,29 +831,33 @@ _ui.registerComponent({
 		,noty: function (logItem){
 			var _this = this;
 			
-			VARTOOL.socket.connect('user', {
-				uid : logItem.id
-				,callback : function (resData){
+			VARTOOL.socket.connect('queue/log',	{id : logItem.id}, function (resData){
+				
+				_this.setLogData(resData);
+				
+				VARTOOL.socket.unSubscribe('queue/log',  logItem.id);
+				
+				VARTOOL.socket.connect('topic', {id : logItem.id}, function (resData){
 					_this.setLogData(resData);
-				}
+				});
 			});
+			
+			
 		}
 		// server log view;
 		,loadAppLog : function (logItem){
 			var _this = this; 
 			
-			VARTOOL.req.ajax({
-				url : {type:VARTOOL.uri.cmp, url:'/log/load'} 
-				,data : logItem
-				,loadSelector : _ui.getLoadSelector('appLog', logItem.id)
-				,success: function(resData) {
-					_this.setLogData(resData.item,'load');
-					_this.noty(logItem);
-				}
-				,error : function (){
-					_this.noty(logItem);
-				}
-			})
+			_this.noty(logItem);
+			
+//			VARTOOL.req.ajax({
+//				url : {type:VARTOOL.uri.cmp, url:'/log/load'} 
+//				,data : logItem
+//				,loadSelector : _ui.getLoadSelector('appLog', logItem.id)
+//				,success: function(resData) {
+//					//_this.setLogData(resData.item,'load');
+//				}
+//			})
 		}
 		,setLogData :function (logInfo, mode){
 			var cmpId = logInfo.cmpId;
@@ -893,7 +891,7 @@ _ui.registerComponent({
 				console.log(e);
 			}
 			
-			VARTOOL.socket.unSubscribe('user', componentId);
+			VARTOOL.socket.unSubscribe('topic', componentId);
 			
 			delete this.logElement[componentId];
 		}

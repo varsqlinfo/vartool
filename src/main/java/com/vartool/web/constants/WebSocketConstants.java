@@ -8,42 +8,55 @@ package com.vartool.web.constants;
  */
 public interface WebSocketConstants {
 	final String APP_DESTINATION_PREFIX = "/app";
-	final String CLIENT_DESTINATION_PREFIX = "/sub";
+	final String USER_DESTINATION_PREFIX = "/user";
 	final String ENDPOINT_PREFIX = "/ws";
 	
 	//final String DESTINATION_PREFIX = 
 	enum Type{
-		USER("user");
+		USER_TOPIC("topic")	// 다중 
+		,USER_QUEUE_LOG("queue/log"); // 단일 메시지
 		//,FILE("file");
 		
-		String prefix; 
+		String typeCode;
+		String clientDestination; 
 		String endPoint; 
 		String destMatcher;
 		
-		Type(String dest){
-			this(dest, dest);
+		Type(String typeCode){
+			this(typeCode, typeCode);
 		}
 		
-		Type(String dest, String endPoint){
-			this(dest, endPoint, dest);
+		Type(String typeCode, String endPoint){
+			this(typeCode, endPoint, typeCode);
 		}
 		
-		Type(String dest, String endPoint, String destMatcher){
-			this.prefix =  String.format("%s/%s", CLIENT_DESTINATION_PREFIX, dest);
+		Type(String typeCode, String endPoint, String destMatcher){
+			this.typeCode = typeCode;
 			
-			if(endPoint != null) {
-				this.endPoint = String.format("%s/%s", ENDPOINT_PREFIX, dest);
+			if(typeCode.startsWith("queue/")) {
+				this.clientDestination =  String.format("/%s", typeCode);
+			}else {
+				this.clientDestination =  String.format("%s/%s", USER_DESTINATION_PREFIX, typeCode);
 			}
 			
-			if(dest.equals(destMatcher)) {
-				this.destMatcher = String.format("%s/%s%s", CLIENT_DESTINATION_PREFIX, destMatcher, "/**");
+			
+			if(endPoint != null) {
+				this.endPoint = String.format("%s/%s", ENDPOINT_PREFIX, typeCode);
+			}
+			
+			if(typeCode.equals(destMatcher)) {
+				this.destMatcher = String.format("%s/%s%s", USER_DESTINATION_PREFIX, destMatcher, "/**");
 			}else {
-				this.destMatcher = String.format("%s/%s", CLIENT_DESTINATION_PREFIX, destMatcher);
+				this.destMatcher = String.format("%s/%s", USER_DESTINATION_PREFIX, destMatcher);
 			}
 		}
 
-		public String getPrefix() {
-			return prefix;
+		public String getTypeCode() {
+			return typeCode;
+		}
+		
+		public String getClientDestination() {
+			return clientDestination;
 		}
 
 		public String getEndPoint() {

@@ -2,11 +2,14 @@ package com.vartool.web.app.websocket.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.vartool.web.app.common.controller.AbstractController;
+import com.vartool.web.app.handler.log.LogCmpManager;
 import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
+import com.vartool.web.dto.websocket.LogMessageDTO;
 
 
 
@@ -17,12 +20,12 @@ import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
 * @author	: ytkim
  */
 @Controller
-@RequestMapping("/websocket")
 public class WebSocketController extends AbstractController {
 
 	private final Logger logger = LoggerFactory.getLogger(WebSocketController.class);
 
 	private WebSocketServiceImpl webSocketServiceImpl;
 
+	
 	
 }
