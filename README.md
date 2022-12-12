@@ -2,6 +2,12 @@
 vartool web log viewer
 
 
+# local link 
+링크: <http://localhost:12313/vtool/>
+id : admin
+pw : admin1234!
+
+
 # 개발환경
 
 - java : 1.8
