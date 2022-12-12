@@ -4,6 +4,8 @@ vartool web log viewer
 
 # local link 
 링크: <http://localhost:12313/vtool/>   
+   
+초기 로그인 정보   
 id : admin   
 pw : admin1234!   
 
