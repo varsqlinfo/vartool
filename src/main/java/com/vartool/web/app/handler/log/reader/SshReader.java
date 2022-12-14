@@ -1,6 +1,7 @@
 package com.vartool.web.app.handler.log.reader;
 import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
+import java.time.Duration;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -12,15 +13,16 @@ import org.apache.sshd.client.future.ConnectFuture;
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.future.WaitableFuture;
+import org.apache.sshd.common.session.SessionHeartbeatController.HeartbeatType;
 import org.apache.sshd.common.util.io.output.NoCloseOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vartech.common.utils.StringUtils;
 import com.vartool.core.crypto.PasswordCryptionFactory;
-import com.vartool.web.app.handler.deploy.DeployCmpManager;
 import com.vartool.web.app.handler.log.LogCmpManager;
 import com.vartool.web.app.handler.log.stream.LogComponentOutputStream;
+import com.vartool.web.dto.CredentialInfo;
 import com.vartool.web.dto.ReadLogInfo;
 
 /**
@@ -44,12 +46,17 @@ public class SshReader implements LogReader{
 	
 	public SshReader(ReadLogInfo readLogInfo) {
 		
+		CredentialInfo credentialInfo = readLogInfo.getCredentialInfo();
+		
 		SshConnectionInfo conn = SshConnectionInfo.builder()
 				.hostname(readLogInfo.getRemoteHost())
 				.port(readLogInfo.getRemotePort())
-				.username(readLogInfo.getCredentialInfo().getUsername())
-				.password(PasswordCryptionFactory.getInstance().decrypt(readLogInfo.getCredentialInfo().getPassword()))
-				.build(); 
+				.build();
+		
+		if(credentialInfo != null) {
+			conn.setUsername(credentialInfo.getUsername());
+			conn.setPassword(PasswordCryptionFactory.getInstance().decrypt(readLogInfo.getCredentialInfo().getPassword()));
+		}
 		
 		String charset = readLogInfo.getCharset();
 		this.readLogInfo = readLogInfo; 
@@ -74,6 +81,8 @@ public class SshReader implements LogReader{
 		try {
 			// Open the client
 			client.start();
+			
+			client.setSessionHeartbeat(HeartbeatType.IGNORE, Duration.ofSeconds(60));
 
 			ConnectFuture cf  = client.connect(conn.getUsername(), conn.getHostname(), conn.getPort());
 			cf.await();

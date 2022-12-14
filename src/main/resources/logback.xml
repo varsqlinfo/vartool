@@ -98,6 +98,16 @@
 		<appender-ref ref="FILEOUT" />
 	</logger>
 	
+	<!-- quartz log // start -->
+	<logger name="org.quartz.core" level="info" additivity="false"/>
+	<logger name="org.quartz.simpl" level="info" additivity="false"/>
+	<logger name="org.quartz.impl.jdbcjobstore" level="info" additivity="false"/>
+	
+    <!-- quartz log // end -->
+    
+    <!-- jdbc driver log -->
+    <logger name="org.mariadb.jdbc" level="info" additivity="false"/>
+	
 	
 	<root level="debug">
 		<appender-ref ref="FILEOUT" />
