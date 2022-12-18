@@ -2,6 +2,7 @@ package com.vartool.core.config.vo;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * App config

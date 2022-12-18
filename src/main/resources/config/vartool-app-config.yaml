@@ -13,10 +13,18 @@ schedulerEnable: false
 # db config
 db:
   type : h2
-  url : 
-  username : 
-  password : 
+  url : jdbc:h2:file:#resourePath#/varsql;AUTO_SERVER=TRUE;CACHE_SIZE=131072;
+  username : sa
+  password : sa
   driverClass : 
+#  maxTotal: 10
+#  minIdle: 2
+#  maxIdle: 10
+#  initialSize: 3
+#  maxWaitMillis: 50000
+#  validationQuery: select 1
+#  testWhileIdle: true
+  
 
 # password config
 passwordConfig:

@@ -1,14 +1,15 @@
 package com.vartool.web.configuration;
-import java.io.File;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
@@ -17,7 +18,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -27,6 +27,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.vartool.core.config.VartoolConfiguration;
+import com.vartool.core.config.vo.DbConfig;
 import com.vartool.web.constants.ResourceConfigConstants;
 
 /**
@@ -58,21 +59,27 @@ public class JPAConfigurer {
     
 	@PostConstruct
 	public void initialize() {
-		String driver = "org.h2.Driver";
-		String url = "jdbc:h2:file:" + VartoolConfiguration.getConfigRootPath() + File.separator + "db" + File.separator + "vartool;MODE=PostgreSQL;CACHE_SIZE=131072;AUTO_SERVER=TRUE;";
-		String id = "sa";
-		String pw = "sa";
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName(driver);
-		dataSource.setUrl(url);
-		dataSource.setUsername(id);
-		dataSource.setPassword(pw);
-		this.logger.debug("=================datasourceconfig info====================");
-		this.logger.debug(" driver : {}", driver);
-		this.logger.debug(" url : {}", url);
-		this.logger.debug(" username :{}", id);
-		this.logger.debug("=================datasourceconfig info====================");
-		this.mainDataSource = (DataSource) dataSource;
+		
+		DbConfig dbConfig = VartoolConfiguration.getInstance().getDbConfig();
+		
+		BasicDataSource dataSource = new BasicDataSource();
+	    dataSource.setDriverClassName(dbConfig.getDriverClass());
+	    dataSource.setUrl(dbConfig.getUrl());
+	    dataSource.setUsername(dbConfig.getUsername());
+	    dataSource.setPassword(dbConfig.getPassword());
+	    dataSource.setInitialSize(dbConfig.getInitialSize());
+	    dataSource.setMaxTotal(dbConfig.getMaxTotal());
+	    dataSource.setMinIdle(dbConfig.getMinIdle());
+	    dataSource.setMaxIdle(dbConfig.getMaxIdle());
+	    dataSource.setMaxWaitMillis(dbConfig.getMaxWaitMillis());
+	    dataSource.setValidationQuery(dbConfig.getValidationQuery());
+	    dataSource.setTestWhileIdle(dbConfig.isTestWhileIdle());
+		
+		logger.debug("=================datasourceconfig info====================");
+		logger.debug(" datasourceconfig : {}", dbConfig);
+		logger.debug("=================datasourceconfig info====================");
+		
+		this.mainDataSource = dataSource;
 	}
 
     @Bean

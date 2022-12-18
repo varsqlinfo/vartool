@@ -44,6 +44,8 @@ public class SshReader implements LogReader{
 	private boolean stopped = false;
 	private ReadLogInfo readLogInfo;
 	
+	private ConnectFuture connectFuture;
+	
 	public SshReader(ReadLogInfo readLogInfo) {
 		
 		CredentialInfo credentialInfo = readLogInfo.getCredentialInfo();
@@ -84,10 +86,10 @@ public class SshReader implements LogReader{
 			
 			client.setSessionHeartbeat(HeartbeatType.IGNORE, Duration.ofSeconds(60));
 
-			ConnectFuture cf  = client.connect(conn.getUsername(), conn.getHostname(), conn.getPort());
-			cf.await();
+			connectFuture  = client.connect(conn.getUsername(), conn.getHostname(), conn.getPort());
+			connectFuture.await();
 
-			try (ClientSession session = cf.verify().getSession()) {
+			try (ClientSession session = connectFuture.verify().getSession()) {
 				session.addPasswordIdentity(conn.getPassword());
 				session.auth().verify(TimeUnit.SECONDS.toMillis(timeout));
 
@@ -132,6 +134,11 @@ public class SshReader implements LogReader{
 
 	public void stop() {
 		try {
+			try {
+				connectFuture.cancel();
+			}catch(Exception e) {
+				System.out.println("connectFuture error message : " + e.getMessage());
+			}
 			this.client.stop();
 			this.stopped = true; 
 		} finally {

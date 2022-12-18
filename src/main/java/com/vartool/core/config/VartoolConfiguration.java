@@ -15,8 +15,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.vartech.common.crypto.password.PasswordType;
 import com.vartech.common.utils.StringUtils;
-import com.vartech.common.utils.VartechReflectionUtils;
 import com.vartool.core.config.vo.AppConfig;
+import com.vartool.core.config.vo.DbConfig;
+import com.vartool.core.config.vo.DbConfig.DbConfigBuilder;
 import com.vartool.core.config.vo.DeployConfig;
 import com.vartool.core.config.vo.MailConfig;
 import com.vartool.web.constants.VartoolConstants;
@@ -96,6 +97,8 @@ public class VartoolConfiguration extends AbstractConfiguration {
 
 	private void loadMainConfig() throws JsonProcessingException {
 		
+		appConfig.setDb(DbConfig.initDbConfig(appConfig.getDb()));
+		
 		if(StringUtils.isBlank(appConfig.getJavaHome())) {
 			appConfig.setJavaHome(CommonUtils.getJavaHome());
 		}
@@ -172,7 +175,7 @@ public class VartoolConfiguration extends AbstractConfiguration {
 			appConfig.setHostname("localhost");
 		}
 
-		if(appConfig.getPort()  < 1) {
+		if(appConfig.getPort() < 1) {
 			appConfig.setPort(12346);
 		}
 		
@@ -197,7 +200,6 @@ public class VartoolConfiguration extends AbstractConfiguration {
 		logger.debug("tool config info : {}", appConfig);
 	}
 
-	
 	public AppConfig getConfigInfo() {
 		return appConfig;
 	}
@@ -208,6 +210,10 @@ public class VartoolConfiguration extends AbstractConfiguration {
 	
 	public MailConfig getMailConfig() {
 		return appConfig.getMail();
+	}
+	
+	public DbConfig getDbConfig() {
+		return appConfig.getDb();
 	}
 	
 	public String getDefaultCharset() {

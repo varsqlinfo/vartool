@@ -3,6 +3,7 @@ package com.vartool.web.app.handler.log;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.github.jknack.handlebars.internal.antlr.misc.FlexibleHashMap.Entry;
 import com.vartool.web.app.handler.CmpManager;
 import com.vartool.web.app.handler.log.reader.LogReader;
 import com.vartool.web.constants.AppCode.LOG_STATE;
@@ -168,7 +169,15 @@ public class LogCmpManager implements CmpManager {
 			TAIL_LOG_INFO.get(cmpId).setLogReader(logReader);
 			return ; 
 		}
-		
+	}
+	
+	public void shutdown() {
+		for(java.util.Map.Entry<String, TailLogStatus> item: TAIL_LOG_INFO.entrySet()) {
+			if(item.getValue() != null  && item.getValue().getLogReader() != null) {
+				item.getValue().getLogReader().stop();
+			}
+			
+		}
 	}
 }
 

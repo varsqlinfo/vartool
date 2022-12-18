@@ -4,11 +4,19 @@ import org.quartz.Scheduler;
 import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.LoggerFactory;
 
+import com.vartool.web.app.handler.log.LogCmpManager;
+
 import ch.qos.logback.classic.LoggerContext;
 
 public class ShutdownHookConfiguration {
 
     public void destroy() {
+    	try {
+    		LogCmpManager.getInstance().shutdown();
+    	}catch(Exception e) {
+    		System.out.println("LogCmpManager shutdown error : "+ e.getMessage());
+    	}
+    	
     	
     	// quartz shutdown
 		try {
@@ -21,6 +29,9 @@ public class ShutdownHookConfiguration {
 		
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         loggerContext.stop();
+        
+        
+        
 
     }
 }
