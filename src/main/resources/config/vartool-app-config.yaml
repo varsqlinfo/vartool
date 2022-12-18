@@ -13,7 +13,7 @@ schedulerEnable: false
 # db config
 db:
   type : h2
-  url : jdbc:h2:file:#resourePath#/varsql;AUTO_SERVER=TRUE;CACHE_SIZE=131072;
+  url : jdbc:h2:file:#resourePath#/db/vartool;AUTO_SERVER=TRUE;CACHE_SIZE=131072;
   username : sa
   password : sa
   driverClass : 

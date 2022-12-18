@@ -5,6 +5,7 @@ import java.io.File;
 import org.apache.commons.pool2.impl.BaseObjectPoolConfig;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vartech.common.utils.StringUtils;
 import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.core.config.vo.DbConfig.DbConfigBuilder;
@@ -26,6 +27,8 @@ public class DbConfig {
 	private String type;
 	private String url;
 	private String username;
+	
+	@JsonIgnore
 	private String password;
 	private String driverClass;
 	
@@ -92,10 +95,8 @@ public class DbConfig {
 			builder.password(dbConfig.getPassword());
 			builder.driverClass(dbConfig.getDriverClass());
 			
-			if("h2".equalsIgnoreCase(dbConfig.getType())){
-				if(!StringUtils.isBlank(dbConfig.getUrl())) {
-					builder.url(dbConfig.getUrl().replace("#resourePath#", VartoolConfiguration.getConfigRootPath()));
-				}
+			if(!StringUtils.isBlank(dbConfig.getUrl())) {
+				builder.url(dbConfig.getUrl().replace("#resourePath#", VartoolConfiguration.getConfigRootPath()));
 			}
 			
 			builder.initialSize(dbConfig.getInitialSize() < 1 ? 3 : dbConfig.getInitialSize());
