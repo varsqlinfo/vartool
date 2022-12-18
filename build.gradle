@@ -192,7 +192,6 @@ dependencies {
 
 	implementation( // log
 		[ group: 'org.slf4j' , name: 'slf4j-api' , version: def_version.slf4j]
-		,[ group: 'ch.qos.logback' , name: 'logback-classic' , version: '1.2.9']
 		,[ group: 'org.codehaus.janino' , name: 'janino' , version: '3.0.12']
 	)
 

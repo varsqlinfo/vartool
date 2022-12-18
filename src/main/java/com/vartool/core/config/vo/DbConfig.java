@@ -28,7 +28,6 @@ public class DbConfig {
 	private String url;
 	private String username;
 	
-	@JsonIgnore
 	private String password;
 	private String driverClass;
 	

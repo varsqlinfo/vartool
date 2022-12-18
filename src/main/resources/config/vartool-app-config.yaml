@@ -16,7 +16,7 @@ db:
   url : jdbc:h2:file:#resourePath#/db/vartool;AUTO_SERVER=TRUE;CACHE_SIZE=131072;
   username : sa
   password : sa
-  driverClass : 
+  driverClass : org.h2.Driver
 #  maxTotal: 10
 #  minIdle: 2
 #  maxIdle: 10

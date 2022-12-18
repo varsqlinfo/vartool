@@ -75,9 +75,9 @@ public class JPAConfigurer {
 	    dataSource.setValidationQuery(dbConfig.getValidationQuery());
 	    dataSource.setTestWhileIdle(dbConfig.isTestWhileIdle());
 		
-		logger.debug("=================datasourceconfig info====================");
-		logger.debug(" datasourceconfig : {}", dbConfig);
-		logger.debug("=================datasourceconfig info====================");
+		logger.info("=================datasourceconfig info====================");
+		logger.info(" datasourceconfig : {}", dbConfig);
+		logger.info("=================datasourceconfig info====================");
 		
 		this.mainDataSource = dataSource;
 	}
