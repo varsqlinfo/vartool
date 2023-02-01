@@ -25,7 +25,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Entity
 @Table(name = JobScheduleEntity._TB_NAME)
-@ToString(exclude = {"scheduleDBConnection"})
+@ToString(exclude = {})
 public class JobScheduleEntity extends AabstractAuditorModel{
 
 	private static final long serialVersionUID = 1L;

@@ -16,7 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.utils.HttpUtils;
+import com.vartool.web.app.handler.log.LogCmpManager;
 import com.vartool.web.app.mgmt.service.CmpMonitoringService;
+import com.vartool.web.dto.websocket.LogMessageDTO;
 import com.vartool.web.module.VartoolUtils;
 
 /**
@@ -126,5 +128,12 @@ public class CmpMonitoringController {
 			HttpServletRequest req) throws Exception {
 		
 		return cmpMonitoringService.killProcess(cmpId);
+	}
+	
+	@PostMapping({"/logLoad" })
+	public @ResponseBody ResponseResult logLoad(@RequestParam(value = "cmpId", required = true) String cmpId, 
+			HttpServletRequest req) throws Exception {
+		
+		return ResponseResult.builder().item(LogMessageDTO.builder().cmpId(cmpId).log(LogCmpManager.getInstance().getLogContent(cmpId)).build()).build();
 	}
 }

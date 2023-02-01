@@ -64,18 +64,18 @@ public class WebSocketEventListener {
 		
 		if(destination.startsWith(USER_QUEUE_PREFIX)) {
 			
-			String sessionId = accessor.getSessionId();
-			String jsonMsg;
-			if (LogCmpManager.getInstance().existsLog(logCmpId)) { // log 실행중일때.
-				
-				jsonMsg = VartechUtils.objectToJsonString(LogMessageDTO.builder().cmpId(logCmpId).log(LogCmpManager.getInstance().getLogContent(logCmpId)).build());
-				//logger.debug("sessionId :{}, destination:{}",sessionId,  destination);
-			}else {
-				jsonMsg = VartechUtils.objectToJsonString(LogMessageDTO.builder().cmpId(logCmpId).log("log loading...").build());
-				cmpLogService.loadLog(logCmpId, false);
-			}
-						
-			simpMessagingTemplate.convertAndSendToUser(sessionId, WebSocketConstants.Type.USER_QUEUE_LOG.getClientDestination()+ "/" + logCmpId, jsonMsg, createHeaders(sessionId));
+//			String sessionId = accessor.getSessionId();
+//			String jsonMsg;
+//			if (LogCmpManager.getInstance().existsLog(logCmpId)) { // log 실행중일때.
+//				
+//				jsonMsg = VartechUtils.objectToJsonString(LogMessageDTO.builder().cmpId(logCmpId).log(LogCmpManager.getInstance().getLogContent(logCmpId)).build());
+//				//logger.debug("sessionId :{}, destination:{}",sessionId,  destination);
+//			}else {
+//				jsonMsg = VartechUtils.objectToJsonString(LogMessageDTO.builder().cmpId(logCmpId).log("log loading...").build());
+//				cmpLogService.loadLog(logCmpId, false);
+//			}
+//						
+//			simpMessagingTemplate.convertAndSendToUser(sessionId, WebSocketConstants.Type.USER_QUEUE_LOG.getClientDestination()+ "/" + logCmpId, jsonMsg, createHeaders(sessionId));
 		}
 	}
 	

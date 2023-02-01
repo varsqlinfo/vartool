@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.vartech.common.crypto.password.PasswordType;
 import com.vartech.common.utils.StringUtils;
+import com.vartool.core.common.CommonUtils;
 import com.vartool.core.config.vo.AppConfig;
 import com.vartool.core.config.vo.DbConfig;
 import com.vartool.core.config.vo.DbConfig.DbConfigBuilder;
@@ -22,7 +23,6 @@ import com.vartool.core.config.vo.DeployConfig;
 import com.vartool.core.config.vo.MailConfig;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.exception.ConfigurationLoadException;
-import com.vartool.web.module.CommonUtils;
 import com.vartool.web.module.ResourceUtils;
 
 

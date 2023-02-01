@@ -26,6 +26,7 @@ import org.springframework.core.io.UrlResource;
 
 import com.vartech.common.exception.VartechRuntimeException;
 import com.vartech.common.utils.FileUtils;
+import com.vartool.core.common.CommonUtils;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.model.entity.FileBaseEntity;
 import com.vartool.web.model.entity.board.BoardFileEntity;

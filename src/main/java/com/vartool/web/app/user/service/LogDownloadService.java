@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.vartool.core.common.CommonUtils;
 import com.vartool.web.app.handler.command.CommandCmpManager;
 import com.vartool.web.app.handler.deploy.DeployCmpManager;
 import com.vartool.web.constants.ComponentConstants;
@@ -26,7 +27,6 @@ import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.model.entity.cmp.CmpEntity;
 import com.vartool.web.model.entity.cmp.CmpItemCommandEntity;
 import com.vartool.web.model.entity.cmp.CmpItemLogEntity;
-import com.vartool.web.module.CommonUtils;
 import com.vartool.web.repository.cmp.CmpItemCommandRepository;
 import com.vartool.web.repository.cmp.CmpItemDeployRepository;
 import com.vartool.web.repository.cmp.CmpItemLogRepository;

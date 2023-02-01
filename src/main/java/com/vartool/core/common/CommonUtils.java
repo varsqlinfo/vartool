@@ -1,4 +1,4 @@
-package com.vartool.web.module;
+package com.vartool.core.common;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

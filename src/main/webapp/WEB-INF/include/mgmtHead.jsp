@@ -19,6 +19,9 @@
 <!-- Custom CSS -->
 <link href="${pageContextPath}/webstatic/css/datepicker/datepicker.css" rel="stylesheet">
 
+<link href="${pageContextPath}/webstatic/css/pub-logviewer.min.css?v=${vartoolfn:staticResourceVersion('')}" rel="stylesheet" >
+<link href="${pageContextPath}/webstatic/css/pub.splitter.min.css?v=${vartoolfn:staticResourceVersion('')}" rel="stylesheet" >
+
 <link href="${pageContextPath}/webstatic/css/jquery-ui.css" rel="stylesheet">
 <link href="${pageContextPath}/webstatic/css/pub.all.min.css" rel="stylesheet">
 <link href="${pageContextPath}/webstatic/css/jquery.toast.min.css" rel="stylesheet">
@@ -54,6 +57,11 @@
 <script src="${pageContextPath}/webstatic/js/pub.tab.js"></script>
 <script src="${pageContextPath}/webstatic/js/pub.context.js"></script>
 <script src="${pageContextPath}/webstatic/js/pub.multiselect.js"></script>
+<script src="${pageContextPath}/webstatic/js/pub.logviewer.js?v=${vartoolfn:staticResourceVersion('')}" charset="utf-8"></script>
+<script src="${pageContextPath}/webstatic/js/pub.splitter.js?v=${vartoolfn:staticResourceVersion('')}" charset="utf-8"></script>
+
+
+
 
 <script src="${pageContextPath}/webstatic/i18n/vartool.lang.js"></script>
 <script src="${pageContextPath}/webstatic/js/vartool.web.js"></script>

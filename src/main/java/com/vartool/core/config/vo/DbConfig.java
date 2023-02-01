@@ -35,7 +35,7 @@ public class DbConfig {
 	private int minIdle = 2;
     private int maxIdle = 10;
     private int initialSize = 3;
-    private long maxWaitMillis = 50000;
+    private long maxWaitMillis = 60000;
     
     private String validationQuery ="select 1";
     private boolean testWhileIdle = true;

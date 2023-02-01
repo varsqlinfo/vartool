@@ -6,7 +6,7 @@
 	</h1>
 </div>
 <div class="display-off" id="appViewArea">
-	<div class="col-lg-12">
+	<div class="col-lg-6">
 		<div class="panel panel-default">
 			<div class="panel-body" >
 				<div class="list-group">
@@ -50,7 +50,7 @@
 								</td>
 								<td>
 									<div class="text-ellipsis ellipsis3" :title="item.name">
-										{{item.name}}
+										<a href="javascript:;" @click="logView(item)">{{item.name}}</a>
 									</div>
 								</td>
 								<td>
@@ -82,12 +82,19 @@
 			</div>
 		</div>
 	</div>
+	<div class="col-lg-6">
+		<div id="logViewer" style="height:500px;"></div>
+	</div>
 </div>
 					
 <div id="errorMsg"></div>
 
 <script>
 (function() {
+function logSplit(log){
+	log = log.replace(/\n$/,'');
+	return log.split('\n'); 
+}
 	
 VartoolAPP.vueServiceBean({
 	el: '#appViewArea'
@@ -105,10 +112,21 @@ VartoolAPP.vueServiceBean({
 		,isStart : true
 		,allComponentInfos : {}
 		,cmpCheckInfo : {}
+		,logViewer : false
 	}
 	,methods:{
 		init : function (){
 			this.logInfoList();
+			
+			this.logViewer = $.pubLogViewer('#logViewer',{
+				itemMaxCount : 10000
+				,items : []
+				,contextMenu : [
+					{key : 'sqlFormatView', name :'Sql Format View', callback: function (){
+						getFormatSql(_this.logElement[logId].selectionData());
+					}}
+				]
+			});
 		}
 		,stopStart : function (){
 			this.isStart = !this.isStart; 
@@ -119,6 +137,32 @@ VartoolAPP.vueServiceBean({
 				this.refreshTime =0;
 				clearInterval(this.refreshTimer);
 			}
+		}
+		,logView: function (item){
+			var _this =this; 
+			
+			this.$ajax({
+				url: {type:VARTOOL.uri.manager, url:'/cmpMonitoring/logLoad'}
+				,data : {
+					cmpId : item.cmpId
+				}
+				,loadSelector : '#logViewer'
+				,success: function(resData) {
+					var item = resData.item;
+					
+					try{
+						_this.logViewer.setStatus('start');
+						_this.logViewer.clearLog();
+						_this.logViewer.setData(logSplit(item.log));
+					}catch(e){
+						console.log(e);
+					}
+					
+				}
+				,error :  function (){
+					console.log(arguments);
+				}
+			})
 		}
 		// refresh
 		,changeRefreshTime: function(){

@@ -52,11 +52,11 @@ public class CmpLogService {
 	 * @param param
 	 * @return
 	 */
-	public ResponseResult loadLog(String cmpId, boolean LogReturnFlag) {
+	public ResponseResult loadLog(String cmpId, boolean logReturnFlag) {
 		
 		
 		if(LogCmpManager.getInstance().existsLog(cmpId)) { // log 실행중일때. 
-			if(LogReturnFlag) {
+			if(logReturnFlag) {
 				return ResponseResult.builder().item(LogMessageDTO.builder().cmpId(cmpId).log(LogCmpManager.getInstance().getLogContent(cmpId)).build()).build();
 			}
 			

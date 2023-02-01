@@ -795,6 +795,7 @@ _ui.registerComponent({
 _ui.registerComponent({
 	"appLogComponent" :	{ 
 		logElement : {}
+		,loadBeforeLog:{}
 		,init : function (logItem){
 			this.loadLogViewer(logItem);
 		}
@@ -831,33 +832,36 @@ _ui.registerComponent({
 		,noty: function (logItem){
 			var _this = this;
 			
-			VARTOOL.socket.connect('queue/log',	{id : logItem.id}, function (resData){
-				
+			VARTOOL.socket.connect('topic', {id : logItem.id}, function (resData){
 				_this.setLogData(resData);
-				
-				VARTOOL.socket.unSubscribe('queue/log',  logItem.id);
-				
-				VARTOOL.socket.connect('topic', {id : logItem.id}, function (resData){
-					_this.setLogData(resData);
-				});
 			});
-			
 			
 		}
 		// server log view;
-		,loadAppLog : function (logItem){
+		,loadAppLog : function (logItem, reloadFlag){
 			var _this = this; 
+			this.loadBeforeLog[logItem.id] =[];
 			
-			_this.noty(logItem);
+			if(reloadFlag !== true){
+				_this.noty(logItem);
+			}
 			
-//			VARTOOL.req.ajax({
-//				url : {type:VARTOOL.uri.cmp, url:'/log/load'} 
-//				,data : logItem
-//				,loadSelector : _ui.getLoadSelector('appLog', logItem.id)
-//				,success: function(resData) {
-//					//_this.setLogData(resData.item,'load');
-//				}
-//			})
+			VARTOOL.req.ajax({
+				url : {type:VARTOOL.uri.cmp, url:'/log/load'} 
+				,data : logItem
+				,loadSelector : _ui.getLoadSelector('appLog', logItem.id)
+				,success: function(resData) {
+					if(resData.item.state==999){
+						if(reloadFlag !== true){
+							_this.loadAppLog(logItem, true)
+						}
+					}else{
+						_this.setLogData(resData.item,'load');	
+					}
+					
+					
+				}
+			})
 		}
 		,setLogData :function (logInfo, mode){
 			var cmpId = logInfo.cmpId;
@@ -865,6 +869,12 @@ _ui.registerComponent({
 			var activeCmpFlag = true;
 			if(mode != 'load'){
 				activeCmpFlag = !_ui.layout.blinkTab(cmpId);
+				if(this.loadBeforeLog[cmpId] !==null){
+					this.loadBeforeLog[cmpId].push(logInfo.log);
+				}
+			}else{
+				logInfo.log += this.loadBeforeLog[cmpId].join('\n');
+				this.loadBeforeLog[cmpId] = null;
 			}
 			
 			var logElement = this.logElement[cmpId]; 
@@ -894,6 +904,7 @@ _ui.registerComponent({
 			VARTOOL.socket.unSubscribe('topic', componentId);
 			
 			delete this.logElement[componentId];
+			delete this.loadBeforeLog[cmpId];
 		}
 	}
 })

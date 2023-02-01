@@ -52,7 +52,7 @@ public class CmpLogComponent {
 		LogCmpManager.getInstance().createLogInfo(cmpId, null);
 		new Thread(new LogOutputHandler(webSocketServiceImpl, readLogInfo, 1000, new FileReader(readLogInfo))).start();
 		
-		return null;
+		return LogMessageDTO.builder().cmpId(cmpId).state(999).build();
 	}
 	
 	private LogMessageDTO startSshLog(String cmpId, ReadLogInfo readLogInfo) {
@@ -60,7 +60,7 @@ public class CmpLogComponent {
 		LogCmpManager.getInstance().createLogInfo(cmpId, null);
 		new Thread(new LogOutputHandler(webSocketServiceImpl, readLogInfo, 1000, new SshReader(readLogInfo) )).start();
 		
-		return null;
+		return LogMessageDTO.builder().cmpId(cmpId).state(999).build();
 	}
 
 	
