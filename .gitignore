@@ -9,13 +9,20 @@ generated
 
 bin/
 
+
 #file extension
 *.tmp
 *.bak
 
-/target-notused/
+#directory
+.externalToolBuilders/
+.class
 
-/target
+#eclipse sub project config file
+*/.project
+*/.classpath
+*/.settings
 
 #compile directory
 */target
+
