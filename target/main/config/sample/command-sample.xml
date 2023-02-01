@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vartool-config>
+	<window-command id="tomcatBackground" desc="tomcat background 실행">
+		<start>
+cd "C:\app\apache-tomcat-9.0.58\bin"
+set "CATALINA_HOME=C:\app\apache-tomcat-9.0.58"
+set "CATALINA_BASE=C:\app\apache-tomcat-9.0.58"
+
+@START /b cmd /c catalina.bat run
+		</start>
+		<stop>
+cd "C:\app\apache-tomcat-9.0.58\bin"
+set "CATALINA_HOME=C:\app\apache-tomcat-9.0.58"
+set "CATALINA_BASE=C:\app\apache-tomcat-9.0.58"
+
+cmd /c shutdown.bat
+		</stop>
+	</window-command>
+	
+	<linux-command id="tomcatBackground" desc="tomcat background 실행">
+		<start>
+#!/bin/sh
+ 
+export CATALINA_HOME=/app/tools/apache-tomcat-9.0.58
+export JAVA_OPTS="-Djava.awt.headless=true -server -Xms512m -Xmx1024m -XX:NewSize=256m -XX:MaxNewSize=256m -XX:PermSize=256m -XX:MaxPermSize=512m -XX:+DisableExplicitGC"
+export CATALINA_OPTS=$CATALINA_OPTS" -Dfile.encoding=UTF-8"
+
+cd $CATALINA_HOME/bin
+ 
+./startup.sh
+
+		</start>
+		<stop>
+#!/bin/sh
+ 
+ 
+export CATALINA_HOME=/app/tools/apache-tomcat-9.0.58
+ 
+$CATALINA_HOME/bin/./shutdown.sh
+
+		</stop>
+	</linux-command>
+	
+	<windowssh>
+		#openssh 설치
+		Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+		
+		# 서비스 시작
+		Start-Service sshd
+		
+		# 부팅시 시작되게 설정. 
+		Set-Service -Name sshd -StartupType 'Automatic'
+		
+		# default 커맨드를  powershell로 변경. 
+		New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force
+	</windowssh>
+	
+</vartool-config>
+

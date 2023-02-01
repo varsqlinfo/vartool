@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vartool-config>
+	<!-- window 로그 보기 -->
+	<log os="window">
+	powershell;d:;cd d:/logs;Get-Content "./vai-app.log" -Wait -Tail 10;
+	</log>
+	
+	<!-- linux 로그 보기 -->
+	<log os="linux">
+	tail -f 1000 ./vai-app.log
+	</log>
+</vartool-config>
+

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+	<contextListener class="com.vartool.web.configuration.LoggerListener"/>
+	
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n
+			</Pattern>
+		</layout>
+	</appender>
+	
+	<appender name="FILEOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_DIR}/vtool.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_DIR}/old/vtool.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>30mb</maxFileSize> <!-- kb , mb , gb 로 설정 가능. -->
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>30</maxHistory> <!-- 30일 이 자난 로그는 순서 대로 삭제.  -->
+		</rollingPolicy>
+		
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n
+			</Pattern>
+		</layout>
+	</appender>
+	
+	<logger name="org.springframework" level="info" additivity="false" >
+		<appender-ref ref="FILEOUT" />
+		<if condition='"local".equals("${runtime}")'>
+	        <then>
+				<appender-ref ref="STDOUT" />
+	        </then>
+	    </if>
+	</logger>
+	
+	<logger name="org.apache" level="info" additivity="false" >
+		<appender-ref ref="FILEOUT" />
+		<if condition='"local".equals("${runtime}")'>
+	        <then>
+				<appender-ref ref="STDOUT" />
+	        </then>
+	    </if>
+	</logger>
+	
+	<logger name="com.vartool" level="DEBUG" additivity="false">
+		<appender-ref ref="FILEOUT" />
+		<if condition='"local".equals("${runtime}")'>
+	        <then>
+				<appender-ref ref="STDOUT" />
+	        </then>
+	    </if>
+	</logger>
+	
+	<logger name="com.vartool.web.configuration" level="info" additivity="false">
+		<appender-ref ref="FILEOUT" />
+		<if condition='"local".equals("${runtime}")'>
+	        <then>
+				<appender-ref ref="STDOUT" />
+	        </then>
+	    </if>
+	</logger>
+	
+	<!-- connection 정보 보기. -->
+	<logger name="jdbc.connection" level="INFO" additivity="false">
+		<appender-ref ref="FILEOUT" />
+		<if condition='"local".equals("${runtime}")'>
+	        <then>
+				<appender-ref ref="STDOUT" />
+	        </then>
+	    </if>
+	</logger>
+
+	<!-- SQL문과 해당 SQL을 실행시키는데 수행된 시간 정보(milliseconds)를 포함-->
+	<logger name="jdbc.sqltiming" level="debug" additivity="false">
+		<appender-ref ref="FILEOUT" />
+		<if condition='"local".equals("${runtime}")'>
+	        <then>
+				<appender-ref ref="STDOUT" />
+	        </then>
+	    </if>
+	</logger>
+
+	<!-- SQL문만을 로그로 남기며, PreparedStatement일 경우 관련된 argument 값으로 대체된 SQL문이 출력 -->
+	<logger name="jdbc.sqlonly" level="debug" additivity="false">
+		<appender-ref ref="FILEOUT" />
+		<if condition='"local".equals("${runtime}")'>
+	        <then>
+				<appender-ref ref="STDOUT" />
+	        </then>
+	    </if>
+	</logger>
+
+	<!-- ResultSet을 제외한 모든 JDBC 호출 정보 -->
+	<logger name="jdbc.audit" level="debug" additivity="false">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILEOUT" />
+	</logger>
+
+	<!-- ResultSet을 포함한 모든 JDBC 호출 정보 -->
+	<logger name="jdbc.resultset" level="error" additivity="false">
+		<appender-ref ref="FILEOUT" />
+		<if condition='"local".equals("${runtime}")'>
+	        <then>
+				<appender-ref ref="STDOUT" />
+	        </then>
+	    </if>
+	</logger>
+	
+	
+	<logger name="org.hibernate" level="info" additivity="false">
+		<appender-ref ref="FILEOUT" />
+		<if condition='"local".equals("${runtime}")'>
+	        <then>
+				<appender-ref ref="STDOUT" />
+	        </then>
+	    </if>
+	</logger>
+	
+	<!-- result set 결과 보기. -->
+	<logger name="jdbc.resultsettable" level="error" additivity="false">
+		<appender-ref ref="FILEOUT" />
+		<if condition='"local".equals("${runtime}")'>
+	        <then>
+				<appender-ref ref="STDOUT" />
+	        </then>
+	    </if>
+	</logger>
+	
+	<logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+		<appender-ref ref="FILEOUT" />
+		<if condition='"local".equals("${runtime}")'>
+	        <then>
+				<appender-ref ref="STDOUT" />
+	        </then>
+	    </if>
+	</logger>
+	
+	<logger name="com.zaxxer.hikari" level="info" additivity="false">
+		<appender-ref ref="FILEOUT" />
+		<if condition='"local".equals("${runtime}")'>
+	        <then>
+				<appender-ref ref="STDOUT" />
+	        </then>
+	    </if>
+	</logger>
+	
+	<!-- quartz log // start -->
+	<logger name="org.quartz.core" level="info" additivity="false"/>
+	<logger name="org.quartz.simpl" level="info" additivity="false"/>
+	<logger name="org.quartz.impl.jdbcjobstore" level="info" additivity="false"/>
+	
+    <!-- quartz log // end -->
+    
+    <!-- jdbc driver log -->
+    <logger name="org.mariadb.jdbc" level="info" additivity="false"/>
+	
+	
+	<if condition='"local".equals("${runtime}")'>
+        <then>
+			<root level="debug">
+				<appender-ref ref="FILEOUT" />
+				<appender-ref ref="STDOUT" />
+			</root>
+        </then>
+        <else>
+            <root level="error">
+				<appender-ref ref="FILEOUT" />
+			</root>
+        </else>
+    </if>
+
+</configuration>
