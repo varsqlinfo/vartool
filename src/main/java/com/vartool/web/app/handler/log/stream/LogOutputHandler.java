@@ -1,18 +1,15 @@
 package com.vartool.web.app.handler.log.stream;
 
+import java.util.Deque;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.jknack.handlebars.internal.lang3.StringUtils;
 import com.vartool.web.app.handler.log.LogCmpManager;
-import com.vartool.web.app.handler.log.reader.FileReader;
 import com.vartool.web.app.handler.log.reader.LogReader;
-import com.vartool.web.app.handler.log.reader.SshReader;
 import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
-import com.vartool.web.constants.LogType;
-import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.dto.ReadLogInfo;
-import com.vartool.web.dto.websocket.LogMessageDTO;
+import com.vartool.web.module.LogUtils;
 import com.vartool.web.module.VartoolUtils;
 
 /**
@@ -24,7 +21,7 @@ import com.vartool.web.module.VartoolUtils;
 public class LogOutputHandler implements Runnable {
 	
 	private static final Logger logger = LoggerFactory.getLogger(LogOutputHandler.class);
-
+	
 	private final WebSocketServiceImpl webSocketServiceImpl;
 	private final long delayTime;
 	private final String cmpId;
@@ -49,10 +46,10 @@ public class LogOutputHandler implements Runnable {
 		
 		while (true) {
 			
-			String msg = this.logReader.getOutputStream().getLog();
-			if (!"".equals(msg)) {
+			Deque<String> msg = this.logReader.getOutputStream().getLog();
+			if (msg.size() > 0) {
 				LogCmpManager.getInstance().addLogInfo(cmpId, msg);
-				webSocketServiceImpl.sendMessage(LogMessageDTO.builder().log(msg).cmpId(this.cmpId).build(), VartoolUtils.getAppRecvId(this.cmpId));
+				LogUtils.sendCollectionMsg(this.cmpId, VartoolUtils.getAppRecvId(this.cmpId), msg, webSocketServiceImpl);
 			}
 			
 			if(this.logReader.isStop()) break; 

@@ -29,7 +29,7 @@
 								<th style="width: 120px;">
 									컴포넌트명
 								</th>
-								<th style="width:*;">
+								<th style="width:*;min-width:50px;">
 									로그 정보
 								</th>
 								<th style="width: 60px;">
@@ -91,10 +91,6 @@
 
 <script>
 (function() {
-function logSplit(log){
-	log = log.replace(/\n$/,'');
-	return log.split('\n'); 
-}
 	
 VartoolAPP.vueServiceBean({
 	el: '#appViewArea'
@@ -145,6 +141,7 @@ VartoolAPP.vueServiceBean({
 				url: {type:VARTOOL.uri.manager, url:'/cmpMonitoring/logLoad'}
 				,data : {
 					cmpId : item.cmpId
+					,cmpType : item.cmpType
 				}
 				,loadSelector : '#logViewer'
 				,success: function(resData) {
@@ -153,7 +150,7 @@ VartoolAPP.vueServiceBean({
 					try{
 						_this.logViewer.setStatus('start');
 						_this.logViewer.clearLog();
-						_this.logViewer.setData(logSplit(item.log));
+						_this.logViewer.setData(item.logList);
 					}catch(e){
 						console.log(e);
 					}

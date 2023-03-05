@@ -109,6 +109,21 @@
 											<input type="text" v-model="detailItem.charset" class="form-control input-init-type">
 										</div>
 									</div>
+									
+									<div class="row bottomHeight5">
+										<label class="col-lg-3 control-label" for="inputError">Log Pattern</label>
+										<div class="col-lg-9">
+											<input type="text" v-model="detailItem.logPattern" class="form-control input-init-type" placeholder="%d{yyyy-MM-dd HH:mm:ss} %level %c - %msg">
+											<div style="margin-top: 5px;background: #ebebeb;border: 1px solid #dddd;padding: 5px;border-radius: 4px;">
+												<span><span style="font-weight:bold;">Pattern word:</span> d=date, level, c=class, t=thread, method, msg, line, ip</span><br/>
+												<span><span style="font-weight:bold;">Sample pattern:</span> %d{yyyy-MM-dd HH:mm:ss} %level %c - %msg</span><br/>
+												<textarea rows="2" class="form-control" style="white-space: nowrap;">
+2023-02-28 13:03:17 DEBUG c.v.w.a.m.c.CredentialsProviderMgmtController - {POST [/mgmt/cred/list]}: deployList(HttpServletRequest,HttpServletResponse,ModelAndView)</textarea>
+											</div>
+											<div></div>
+										</div>
+									</div>
+									
 									<template v-if="detailItem.logType =='FILE'">
 										<div class="row bottomHeight5">
 											<label class="col-lg-3 control-label" for="inputError">Log path</label>

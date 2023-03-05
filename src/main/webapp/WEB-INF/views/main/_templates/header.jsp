@@ -317,7 +317,7 @@ setTimeout(function() {
 			$('#gnbSocketStatus').empty().html('<a href="" style="color: #ff3400;font-weight: bold;">Web Socket 연결이 해제 되었습니다. 새로고침 해주세요.</a>')
 		};
 	}, 5000);
-}, 10000);
+}, 60000);
 
 }());
 

@@ -4,8 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
-
-import com.vartool.web.constants.BlankConstants;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 /**
  * log component output stream
@@ -15,8 +16,6 @@ import com.vartool.web.constants.BlankConstants;
  */
 public class LogComponentOutputStream extends OutputStream {
 
-	private final boolean addNewLineChar;
-
 	private final Charset charset;
 
 	private boolean skip = false;
@@ -24,24 +23,14 @@ public class LogComponentOutputStream extends OutputStream {
 	private static final byte LINE_FEED = 0x0A;
 	private static final byte CARRIAGE_RETURN = 0x0D;
 
-	private final int LIMIT_CHAR = 20000;
+	public static final int LIMIT_CHAR = 20000;
 	private int charCount = 0;
 
 	private final CustomByteArrayOutputStream buffer = new CustomByteArrayOutputStream(132);
 
-	private StringBuilder sb = new StringBuilder();
-
-	public LogComponentOutputStream() {
-		this(false);
-	}
-
-	public LogComponentOutputStream(boolean addNewLineChar) {
-		this.addNewLineChar = addNewLineChar;
-		this.charset = Charset.defaultCharset();
-	}
-
-	public LogComponentOutputStream(boolean addNewLineChar, Charset charset) {
-		this.addNewLineChar = addNewLineChar;
+	private Deque<String> logQueue = new ConcurrentLinkedDeque<String>();
+	
+	public LogComponentOutputStream(Charset charset) {
 		this.charset = charset;
 	}
 
@@ -93,10 +82,14 @@ public class LogComponentOutputStream extends OutputStream {
 		buffer.reset();
 	}
 
-	public String getLog() {
-		String result = sb.toString();
-		sb.setLength(0);
-		return result;
+	public Deque<String> getLog() {
+		Deque<String> reval = new ArrayDeque<>();
+		
+		for(int i =0, len = logQueue.size();i < len;i++) {
+			reval.add(logQueue.poll());
+		}
+		
+		return reval;
 	}
 
 	@Override
@@ -105,10 +98,7 @@ public class LogComponentOutputStream extends OutputStream {
 	}
 
 	public void processLine(String log) {
-		sb.append(log);
-		if (this.addNewLineChar) {
-			sb.append(BlankConstants.NEW_LINE);
-		}
+		logQueue.add(log);
 	}
 
 	@Override

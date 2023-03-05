@@ -27,6 +27,7 @@ var _initialized = false
 		height: 19	// cell 높이
 		,paddingPixel : 4 // row padding
 	}
+	,logPattern :'%d{yyyy-MM-dd HH:mm:ss} %level %c - %msg%n'
 	,contextMenu : false // row(tr) contextmenu event
 	,headerOptions : {
 		view : true	// header 보기 여부
@@ -267,11 +268,15 @@ function objectMerge() {
 	return reval; 
 }
 
-function viewLogTemplate(log){
+function getViewLogTemplate(log, tokenList){
+	
 	log=(log||'');
 	log = escapeHtml(log);
-	log = log.split(' ').join('&nbsp;');
-	return log;
+	if(tokenList == null || tokenList.length < 1){
+		return replaceSpaceToNbsp(log);
+	}
+
+	return getLogTemplate(tokenList, log);
 }
 
 function allMatchWord(logText, schRegExp, matchType){
@@ -336,6 +341,142 @@ function cursorHide(thisObj, ele){
 	ele.hide();
 }
 
+function replaceSpaceToNbsp(log){
+	return log.replace(/\s/g,'&nbsp;');
+}
+
+var tokenParser ={
+	d : function (log, token, nextToken){
+		var endIdx = token.formatLen + nextToken.delimiterLen; 
+		var matchCont = log.substring(0, token.formatLen);
+
+		if(isNaN(Date.parse(matchCont))){
+			return false; 
+		}
+
+		return {
+			cont : '<span class="log0">'+ replaceSpaceToNbsp(matchCont)+'</span>'+ replaceSpaceToNbsp(nextToken.delimiter)
+			,log : log.substring(endIdx)
+		}
+	}
+	,c : function (log, token, nextToken){
+		var findIdx = log.indexOf(nextToken.delimiter); 
+		
+		var endIdx = findIdx+ nextToken.delimiterLen; 
+		var matchCont = log.substring(0, findIdx);
+
+		return {
+			cont : '<span class="log7">'+ replaceSpaceToNbsp(matchCont)+'</span>'+ replaceSpaceToNbsp(nextToken.delimiter)
+			,log : log.substring(endIdx)
+		}
+	}
+	,level: function (log, token, nextToken){
+		var findIdx = log.indexOf(nextToken.delimiter); 
+		
+		var endIdx = findIdx+ nextToken.delimiterLen; 
+		var matchCont = log.substring(0, findIdx);
+
+		var logStyleClass = {
+			TRACE : 'log1'
+			,DEBUG : 'log2'
+			,INFO : 'log3'
+			,WARN : 'log4'
+			,ERROR : 'log5'
+			,FATAL : 'log6'
+		}
+
+		var logClass = logStyleClass[matchCont.replace(/\s/g,'')]; 
+
+		if(logClass){
+			return {
+				cont : '<span class="'+logClass+'">'+ replaceSpaceToNbsp(matchCont)+'</span>'+ replaceSpaceToNbsp(nextToken.delimiter)
+				,log : log.substring(endIdx)
+			}
+		}
+
+		return false; 			
+	}
+	,other: function (log, token, nextToken){
+		var findIdx = log.indexOf(nextToken.delimiter); 
+
+		var endIdx = findIdx+ nextToken.delimiterLen; 
+		var matchCont = log.substring(0, findIdx);
+		return {
+			cont : matchCont+nextToken.delimiter
+			,log : log.substring(endIdx)
+		}
+	} 
+}
+                
+function getLogTemplate(tokenList, log){
+
+	var tokenInfo = {}, nextToken = {};
+	var viewLogInfo = [];
+	var reval ={};
+
+	if(/(^\s{0,}at\s)/.test(log)){
+		return '<span class="log5">'+ replaceSpaceToNbsp(log)+'</span>'
+	}
+
+	for(var i =0, len = tokenList.length; i < len; i++){
+		var tokenInfo = tokenList[i];
+		var token = tokenInfo.token; 
+		nextToken = i+1 < len ? tokenList[i+1] : {};
+		
+		if(token =='msg'){
+			viewLogInfo.push(replaceSpaceToNbsp(log));
+			continue; 
+		}else if(token =='n'){
+			break; 
+		}else {
+			var parserInfo = tokenParser[token];
+			if(typeof parserInfo !=='undefined'){
+				reval = parserInfo(log, tokenInfo, nextToken);
+			}else{
+				reval = tokenParser.other(log, tokenInfo, nextToken);
+			}
+			
+			if(reval === false){
+				viewLogInfo.push(log)
+				return viewLogInfo.join('');
+			}
+			viewLogInfo.push(reval.cont)
+			log = reval.log;
+		}
+	}
+	return viewLogInfo.join('');
+}
+
+function getTokenList(format){
+
+	if(!format){
+		return null;
+	}
+
+	var regexp = new RegExp(/%(-?(\d+))?(\.(\d+))?([a-zA-Z]+)(\{([^\}]+)\})?/,'g');
+
+	var tokenList = [];
+	var match = regexp.exec(format);
+	var beforeEndIdx = 0; 
+	while (match != null) {
+		var matchStr = match[0];
+		var tokenInfo = {token:match[5], format:match[7], delimiterLen:0};
+		tokenInfo.size = match[1]||0;
+		tokenInfo.formatLen = typeof tokenInfo.format ==='undefined' ? 0 : tokenInfo.format.length;
+
+		if(beforeEndIdx != 0){
+			tokenInfo.delimiter = format.substring(beforeEndIdx, match.index);
+			tokenInfo.delimiterLen = tokenInfo.delimiter.length;
+		}
+
+		tokenList.push(tokenInfo);
+		beforeEndIdx =  match.index+matchStr.length;
+
+		match = regexp.exec(format);
+	}
+	return tokenList; 
+}
+
 Plugin.prototype ={
 	/**
 	 * @method _initialize
@@ -361,6 +502,7 @@ Plugin.prototype ={
 			, search:{text : ''}
 			, cursorView :false
 			, filter :{text: '', line: 0, beforeAddLineCount: -1, searchOn: false}
+			, tokenList : []
 		};	
 
 		_this._setSelectionRangeInfo({},true);
@@ -385,11 +527,12 @@ Plugin.prototype ={
 	,setOptions : function(options , firstFlag){
 		var _this = this; 
 		
-		_this.options =objectMerge({}, _defaults, options)
+		_this.options = objectMerge({}, _defaults, options)
 
 		_this.options.items = options.items ? options.items : [];
 
 		_this.config.rowHeight = _this.options.rowOptions.height;
+		_this.setLogPattern(_this.options.logPattern);
 
 		_this.config.marginLength = Math.round(this.config.rowHeight/this.options.scroll.topMargin);
 
@@ -415,6 +558,10 @@ Plugin.prototype ={
 		}
 		
 		_this._setGridContainerWidth(_this.getGridWidth());
+	}
+	,setLogPattern:function(pattern){
+		this.options.logPattern = pattern;
+		this.config.tokenList = getTokenList(pattern);
 	}
 	,setItemLength : function (){
 		this.config.dataInfo.orginRowLen = this.options.items.length;
@@ -662,8 +809,8 @@ Plugin.prototype ={
 		for(var i =0 ; i < viewCount; i++){
 			logItem = items[itemIdx] ||{};
 
-			if(typeof logItem.viewText==='undefined'){
-				logItem['viewText'] = viewLogTemplate(logItem.orgin);
+			if(typeof logItem.viewHtmlTemplate==='undefined'){
+				logItem['viewHtmlTemplate'] = getViewLogTemplate(logItem.orgin, _this.config.tokenList);
 			}
 						
 			var overRowFlag = (itemIdx >= this.config.dataInfo.orginRowLen);
@@ -697,7 +844,7 @@ Plugin.prototype ={
 			if(overRowFlag){
 				addEle.innerHTML='';
 			}else{
-				addEle.innerHTML =  logItem.viewText;
+				addEle.innerHTML =  logItem.viewHtmlTemplate;
 			}
 									
 			rowEle= null; 
@@ -2170,8 +2317,6 @@ Plugin.prototype ={
 				console.log(e1);
 			}
 		}		
-			
-			
 	}
 	,clearLog : function (mode){
 		if(mode =='page'){
@@ -2586,9 +2731,8 @@ Plugin.prototype ={
 	 * @description set theme
 	 */
 	,setTheme : function (themeName){
-		this.logElement.removeClass('pub-theme-'+this.options.theme);
+		this.logElement.attr('pub-theme', themeName);
 		this.options.theme = themeName;
-		this.logElement.addClass('pub-theme-'+themeName);
 	}
 	
 	/**

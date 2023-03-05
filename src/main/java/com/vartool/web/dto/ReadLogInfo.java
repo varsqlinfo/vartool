@@ -10,6 +10,7 @@ public class ReadLogInfo {
 	private String cmpId;
 	private String name;
 	private String cmpType;
+	private String logPattern;
 	private String description;
 	private String cmpCredential;
 	

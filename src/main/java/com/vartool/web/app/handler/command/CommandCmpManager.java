@@ -1,5 +1,8 @@
 package com.vartool.web.app.handler.command;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Deque;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -48,17 +51,17 @@ public class CommandCmpManager implements CmpManager {
 		}
 	}
 	
-	public void addLogInfo(String cmpId, String logText) {
+	public void addLogInfo(String cmpId, Deque<String> logText) {
 		if(existsLog(cmpId)) {
 			ALL_LOG_INFO.get(cmpId).getLogInfo().add(logText);
 		}
 	}
 	
-	public String getLogContent(String cmpId) {
+	public Collection<String> getLogContent(String cmpId) {
 		if(existsLog(cmpId)) {
 			return ALL_LOG_INFO.get(cmpId).getLogInfo().allLog();
 		}
-		return "";
+		return Collections.EMPTY_LIST;
 	}
 	
 	public synchronized boolean isRunning(String cmpId) {

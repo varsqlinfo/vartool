@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Collection;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -102,21 +103,30 @@ public class LogDownloadService {
 			
 			return ; 
 		}else {
-			String downText ="";
+			StringBuilder downText = new StringBuilder();
 			if(ComponentConstants.TYPE.DEPLOY.equals(cmpType)) {
-				downText = DeployCmpManager.getInstance().getLogContent(cmpId);
+				Collection<String> logList = DeployCmpManager.getInstance().getLogContent(cmpId);
+				
+				logList.stream().forEach(item->{
+					downText.append(item);
+				});
+				
 			}else if(ComponentConstants.TYPE.COMMAND.equals(cmpType)) {
-				downText = CommandCmpManager.getInstance().getLogContent(cmpId);
+				Collection<String> logList = CommandCmpManager.getInstance().getLogContent(cmpId);
+				logList.stream().forEach(item->{
+					downText.append(item);
+				});
 			}
 			
 			try (ServletOutputStream output = res.getOutputStream();
 					BufferedWriter out = new BufferedWriter(new OutputStreamWriter(output, charset))) {
-				out.write(downText);
+				out.write(downText.toString());
 				out.close();
 			}
+			
+			downText.setLength(0);
 		}
 	}
-
 
 	private void logDownload(HttpServletResponse res, TYPE cmpType, String filePath) throws FileNotFoundException, IOException {
 		int bufferSize = 2048;

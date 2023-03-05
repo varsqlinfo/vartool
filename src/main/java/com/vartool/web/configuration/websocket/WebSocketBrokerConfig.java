@@ -29,7 +29,7 @@ public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer {
 	
 	private final Logger logger = LoggerFactory.getLogger(WebSocketBrokerConfig.class);
 	
-	public static final int MESSAGE_SIZE_LIMIT = 1024*1024*3; 
+	public static final int MESSAGE_SIZE_LIMIT = 1024*1024*1; 
 	 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -60,8 +60,7 @@ public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer {
 	 * buffer size 설정. 
 	 */
 	public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
-		registration.setMessageSizeLimit(MESSAGE_SIZE_LIMIT); // default : 64 * 1024
-		registration.setSendTimeLimit(100 * 10000); // default : 10 * 10000
+		registration.setSendTimeLimit(100 * 1000); // default : 10 * 1000
 		registration.setSendBufferSizeLimit(MESSAGE_SIZE_LIMIT); // default : 512 * 1024
 		registration.setDecoratorFactories(agentWebSocketHandlerDecoratorFactory());
 	}
@@ -79,13 +78,13 @@ public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer {
     			logger.debug("registerStompEndpoints : {}", type.getEndPoint());
     			if(type.equals(WebSocketConstants.Type.USER_QUEUE_LOG)) {
 	    			registry.addEndpoint(type.getEndPoint())
+	    			.setAllowedOriginPatterns("*")
 	    			.withSockJS()
-	    			.setHttpMessageCacheSize(300)
 	    			.setStreamBytesLimit(MESSAGE_SIZE_LIMIT); //5M
     			}else {
     				registry.addEndpoint(type.getEndPoint())
+    				.setAllowedOriginPatterns("*")
 	    			.withSockJS()
-	    			.setHttpMessageCacheSize(300)
 	    			.setStreamBytesLimit(MESSAGE_SIZE_LIMIT); //5M
     			}
     		}

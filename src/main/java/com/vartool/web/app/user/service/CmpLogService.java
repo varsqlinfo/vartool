@@ -57,7 +57,7 @@ public class CmpLogService {
 		
 		if(LogCmpManager.getInstance().existsLog(cmpId)) { // log 실행중일때. 
 			if(logReturnFlag) {
-				return ResponseResult.builder().item(LogMessageDTO.builder().cmpId(cmpId).log(LogCmpManager.getInstance().getLogContent(cmpId)).build()).build();
+				return ResponseResult.builder().item(LogMessageDTO.builder().cmpId(cmpId).logList(LogCmpManager.getInstance().getLogContent(cmpId)).build()).build();
 			}
 			
 			return null; 

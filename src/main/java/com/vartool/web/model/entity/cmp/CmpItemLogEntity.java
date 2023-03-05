@@ -45,8 +45,8 @@ public class CmpItemLogEntity extends CmpEntity{
     private CmpItemLogExtensionsEntity cmpItemLogExtensionsEntity;
 	
 	@Builder
-	public CmpItemLogEntity(String cmpId, String name, String cmpType, String description, String logCharset, String logType, String logPath, String cmpCredential, CmpItemLogExtensionsEntity cmpItemLogExtensionsEntity) {
-		super(cmpId, name, cmpType, description, cmpCredential);
+	public CmpItemLogEntity(String cmpId, String name, String cmpType, String logPattern, String description, String logCharset,  String logType, String logPath, String cmpCredential, CmpItemLogExtensionsEntity cmpItemLogExtensionsEntity) {
+		super(cmpId, name, cmpType, logPattern, description, cmpCredential);
 		this.logCharset = logCharset;
 		this.logType = logType;
 		this.logPath = logPath;

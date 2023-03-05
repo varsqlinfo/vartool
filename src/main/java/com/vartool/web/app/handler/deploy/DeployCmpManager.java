@@ -1,11 +1,14 @@
 package com.vartool.web.app.handler.deploy;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Deque;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.vartool.web.app.handler.CmpManager;
-import com.vartool.web.constants.CommandType;
 import com.vartool.web.constants.AppCode.LOG_STATE;
+import com.vartool.web.constants.CommandType;
 import com.vartool.web.dto.response.CmpMonitorDTO;
 import com.vartool.web.dto.vo.LogInfo;
 import com.vartool.web.dto.websocket.LogMessageDTO;
@@ -47,17 +50,17 @@ public class DeployCmpManager implements CmpManager {
 		}
 	}
 	
-	public void addLogInfo(String deployUid, String logText) {
+	public void addLogInfo(String deployUid, Deque<String> logText) {
 		if(existsLog(deployUid)) {
 			ALL_LOG_INFO.get(deployUid).getLogInfo().add(logText);
 		}
 	}
 	
-	public String getLogContent(String deployUid) {
+	public Collection<String> getLogContent(String deployUid) {
 		if(existsLog(deployUid)) {
 			return ALL_LOG_INFO.get(deployUid).getLogInfo().allLog();
 		}
-		return "";
+		return Collections.EMPTY_LIST;
 	}
 	
 	public synchronized boolean isRunning(String deployUid) {

@@ -67,6 +67,7 @@ public interface CmpItemLogRepository extends DefaultJpaRepository, JpaRepositor
 				dto.setCmpId(item.getCmpEntity().getCmpId());
 				dto.setName(item.getCmpEntity().getName());
 				dto.setCmpCredential(item.getCmpEntity().getCmpCredential());
+				dto.setLogPattern(item.getCmpEntity().getLogPattern());
 				dto.setDescription(item.getCmpEntity().getDescription());
 				
 				dto.setLogType(item.getCmpItemLogEntity().getLogType());
@@ -98,14 +99,18 @@ public interface CmpItemLogRepository extends DefaultJpaRepository, JpaRepositor
 			
 			ReadLogInfo readLogInfo = new ReadLogInfo();
 			
-			readLogInfo.setCmpId(customVo.getCmpEntity().getCmpId());
-			readLogInfo.setName(customVo.getCmpEntity().getName());
-			readLogInfo.setCmpCredential(customVo.getCmpEntity().getCmpCredential());
-			readLogInfo.setDescription(customVo.getCmpEntity().getDescription());
+			CmpEntity customCmpEntity = customVo.getCmpEntity();
+			CmpItemLogEntity costomCmpItemLogEntity = customVo.getCmpItemLogEntity();
 			
-			readLogInfo.setLogType(customVo.getCmpItemLogEntity().getLogType());
-			readLogInfo.setCharset(customVo.getCmpItemLogEntity().getLogCharset());
-			readLogInfo.setLogPath(customVo.getCmpItemLogEntity().getLogPath());
+			readLogInfo.setCmpId(customCmpEntity.getCmpId());
+			readLogInfo.setName(customCmpEntity.getName());
+			readLogInfo.setCmpCredential(customCmpEntity.getCmpCredential());
+			readLogInfo.setLogPattern(customCmpEntity.getLogPattern());
+			readLogInfo.setDescription(customCmpEntity.getDescription());
+			
+			readLogInfo.setLogType(costomCmpItemLogEntity.getLogType());
+			readLogInfo.setCharset(costomCmpItemLogEntity.getLogCharset());
+			readLogInfo.setLogPath(costomCmpItemLogEntity.getLogPath());
 			
 			CmpItemLogExtensionsEntity cile = customVo.getCmpItemLogExtensionsEntity();
 			
@@ -124,9 +129,7 @@ public interface CmpItemLogRepository extends DefaultJpaRepository, JpaRepositor
 					readLogInfo.setCredentialInfo(CredentialInfo.toDto(entity));
 				}
 			}
-			
 			return readLogInfo;
-				
 		}
 	}
 	

@@ -23,6 +23,7 @@ import com.vartool.web.app.handler.log.stream.LogComponentOutputStream;
 import com.vartool.web.dto.ReadLogInfo;
 import com.vartool.web.module.FileServiceUtils;
 import com.vartool.web.module.LogFilenameUtils;
+import com.vartool.web.module.Utils;
 
 /**
  * tail 
@@ -37,7 +38,7 @@ public class FileReader implements LogReader {
     private static final int TAIL_CHECK_INTERVAL_MILLIS = 500;
     
     private static final byte LINE_FEED = 0x0A;
-    private static final byte CARRIAGE_RETURN = 0x0D;
+    //private static final byte CARRIAGE_RETURN = 0x0D;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -68,7 +69,7 @@ public class FileReader implements LogReader {
     	
     	this.bytesToTail = bytesToTail;
         this.fileNamePattern = fileNamePattern;
-        this.output = new LogComponentOutputStream();
+        
         this.isIncludeDatePattern = LogFilenameUtils.isDatePattern(fileNamePattern);
         
         if(this.isIncludeDatePattern) {
@@ -82,6 +83,8 @@ public class FileReader implements LogReader {
         if(!StringUtils.isBlank(charset)) {
         	logCharset = Charset.forName(charset);
         }
+        
+        this.output = new LogComponentOutputStream(logCharset);
         
         logger.info("tail charset : {}, filePath : {}, logCharset : {}", charset, fileNamePattern, logCharset);
 	}
@@ -208,7 +211,25 @@ public class FileReader implements LogReader {
                 	afterLog ="";
                 }
                 
-                this.output.processLine(logInfo);
+                for(String str : Utils.getNewlineSplitToArray(logInfo)) {
+                	int strLen = str.length();
+                	if(strLen > LogComponentOutputStream.LIMIT_CHAR) {
+                		double loopCnt = Math.ceil(strLen / LogComponentOutputStream.LIMIT_CHAR);
+                		int startIdx = 0;
+                		int endIdx =LogComponentOutputStream.LIMIT_CHAR; 
+                		for(int i=0; i<=loopCnt; i++) {
+            				if(strLen > endIdx) {
+            					this.output.processLine(str.substring(startIdx,endIdx));
+                			}else {
+                				this.output.processLine(str.substring(startIdx));
+                			}
+                			startIdx = endIdx;
+                			endIdx = endIdx+LogComponentOutputStream.LIMIT_CHAR;
+                		}
+                	}else {
+                		this.output.processLine(str);
+                	}
+                }
                 
                 readBuffer.flip();
                 readBuffer.clear();

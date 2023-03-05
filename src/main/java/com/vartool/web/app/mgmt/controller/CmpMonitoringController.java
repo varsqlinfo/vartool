@@ -16,8 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.utils.HttpUtils;
+import com.vartool.web.app.handler.command.CommandCmpManager;
+import com.vartool.web.app.handler.deploy.DeployCmpManager;
 import com.vartool.web.app.handler.log.LogCmpManager;
 import com.vartool.web.app.mgmt.service.CmpMonitoringService;
+import com.vartool.web.constants.ComponentConstants;
 import com.vartool.web.dto.websocket.LogMessageDTO;
 import com.vartool.web.module.VartoolUtils;
 
@@ -131,9 +134,18 @@ public class CmpMonitoringController {
 	}
 	
 	@PostMapping({"/logLoad" })
-	public @ResponseBody ResponseResult logLoad(@RequestParam(value = "cmpId", required = true) String cmpId, 
+	public @ResponseBody ResponseResult logLoad(@RequestParam(value = "cmpId", required = true) String cmpId,
+			@RequestParam(value = "cmpType", required = true) String cmpType, 
 			HttpServletRequest req) throws Exception {
 		
-		return ResponseResult.builder().item(LogMessageDTO.builder().cmpId(cmpId).log(LogCmpManager.getInstance().getLogContent(cmpId)).build()).build();
+		if(ComponentConstants.TYPE.DEPLOY.equals(ComponentConstants.getComponentType(cmpType))) {
+			return ResponseResult.builder().item(LogMessageDTO.builder().cmpId(cmpId).logList(DeployCmpManager.getInstance().getLogContent(cmpId)).build()).build();
+		}else if(ComponentConstants.TYPE.COMMAND.equals( ComponentConstants.getComponentType(cmpType))) {
+			return ResponseResult.builder().item(LogMessageDTO.builder().cmpId(cmpId).logList(CommandCmpManager.getInstance().getLogContent(cmpId)).build()).build();
+		}else {
+			return ResponseResult.builder().item(LogMessageDTO.builder().cmpId(cmpId).logList(LogCmpManager.getInstance().getLogContent(cmpId)).build()).build();
+		}
+		
+		
 	}
 }

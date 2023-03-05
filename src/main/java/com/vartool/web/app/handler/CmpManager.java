@@ -1,5 +1,8 @@
 package com.vartool.web.app.handler;
 
+import java.util.Collection;
+import java.util.Deque;
+
 /**
  * component manager interface
 * 
@@ -10,9 +13,9 @@ public interface CmpManager {
 	
 	public boolean existsLog(String uid);
 
-	public String getLogContent(String uid);
+	public Collection<String> getLogContent(String uid);
 
-	public void addLogInfo(String uid, String logText);
+	public void addLogInfo(String uid, Deque<String> logText);
 
 	public void removeLogInfo(String uid);
 

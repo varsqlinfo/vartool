@@ -2,6 +2,8 @@ package com.vartool.web.module;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.UUID;
 
 public final class Utils {
@@ -89,5 +91,19 @@ public final class Utils {
     	}
 		
 		return Charset.defaultCharset();
+	}
+	
+	public static Deque<String> getNewlineSplitToDeque(String log){
+		Deque<String> reval = new ArrayDeque<>();
+		
+		for(String str : getNewlineSplitToArray(log)) {
+			reval.add(str);
+        }
+		
+		return reval; 
+	}
+	
+	public static String[] getNewlineSplitToArray(String log){
+		return log.split("\\R"); 
 	}
 }

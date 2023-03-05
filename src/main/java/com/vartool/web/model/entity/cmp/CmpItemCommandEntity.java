@@ -39,8 +39,8 @@ public class CmpItemCommandEntity extends CmpEntity{
 	private String cmdCharset;
 	
 	@Builder
-	public CmpItemCommandEntity (String cmpId, String name, String cmpType, String description, String startCmd ,String stopCmd, String cmdCharset, String cmpCredential) {
-		super(cmpId, name, cmpType, description, cmpCredential);
+	public CmpItemCommandEntity (String cmpId, String name, String cmpType, String logPattern, String description, String startCmd ,String stopCmd, String cmdCharset, String cmpCredential) {
+		super(cmpId, name, cmpType, logPattern, description, cmpCredential);
 		this.startCmd = startCmd;
 		this.stopCmd = stopCmd;
 		this.cmdCharset = cmdCharset;

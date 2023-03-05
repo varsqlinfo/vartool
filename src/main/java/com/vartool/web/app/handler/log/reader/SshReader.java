@@ -68,12 +68,11 @@ public class SshReader implements LogReader{
 		this.timeout = 10;
 		this.client = SshClient.setUpDefaultClient();
 		
-        
 		if (!StringUtils.isBlank(charset)) {
 			logCharset = Charset.forName(charset);
 		}
 		
-		this.output = new LogComponentOutputStream(true, logCharset);
+		this.output = new LogComponentOutputStream(logCharset);
 
         logger.info("conn : {}, cmd : {}, logCharset : {}", conn, cmd, logCharset);
 	}

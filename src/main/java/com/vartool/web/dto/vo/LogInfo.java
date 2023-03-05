@@ -1,5 +1,8 @@
 package com.vartool.web.dto.vo;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Deque;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,7 +26,7 @@ public class LogInfo {
 		
 		if (size == this.maxSize) {
 			logTextArr.poll();
-		}else if (size > this.maxSize) {
+		}else if (size >= this.maxSize) {
 			for (int i = this.maxSize; i < size; i++) {
 				logTextArr.poll();
 			}
@@ -32,16 +35,29 @@ public class LogInfo {
 		logTextArr.add(logStr);
 	}
 	
-	public String allLog() {
+	// 큐 rear에 데이터 등록
+	public void add(Deque<String> logList) {
+		int addLogSize = logList.size(); 
 		
-		StringBuffer sb = new StringBuffer();
-		
-		for (String str: logTextArr) {
-			sb.append(str);
+		if (addLogSize >= this.maxSize) {
+			logTextArr.clear();
+			logTextArr.addAll(new ArrayList<String>(logList).subList(addLogSize- this.maxSize, addLogSize));
+			return ;
 		}
 		
-		return sb.toString();
+		int size = logTextArr.size() + addLogSize;
 		
+		if (size > this.maxSize) {
+			for (int i = this.maxSize; i < size; i++) {
+				logTextArr.poll();
+			}
+		}
+		
+		logTextArr.addAll(logList);
+	}
+	
+	public Collection<String> allLog() {
+	    return new ArrayList<String>(logTextArr); 
 	}
 
 	public int getLogSize() {

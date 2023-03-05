@@ -52,7 +52,7 @@ public class CmpDeployService{
 	 */
 	public ResponseResult loadLog(String cmpId, DataMap allParameter) {
 		ResponseResult responseResult = new ResponseResult();
-		responseResult.setItemOne(LogMessageDTO.builder().cmpId(cmpId).log(DeployCmpManager.getInstance().getLogContent(cmpId)).build());
+		responseResult.setItemOne(LogMessageDTO.builder().cmpId(cmpId).logList(DeployCmpManager.getInstance().getLogContent(cmpId)).build());
 		return responseResult;
 	}
 	

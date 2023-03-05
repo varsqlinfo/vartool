@@ -281,6 +281,34 @@
     border:0px solid transparent;
     border-radius: 0px;
     overflow: initial;
+
+    >.log0{
+      color: colorInfo($g_default_theme_name , "log0");
+    }
+    >.log1{
+      color: colorInfo($g_default_theme_name , "log1");
+    }
+    >.log2{
+      color: colorInfo($g_default_theme_name , "log2");
+    }
+    >.log3{
+      color: colorInfo($g_default_theme_name , "log3");
+    }
+    >.log4{
+      color: colorInfo($g_default_theme_name , "log4");
+    }
+    >.log5{
+      font-weight: bold;
+      color: colorInfo($g_default_theme_name , "log5");
+    }
+    >.log6{
+      font-weight: bold;
+      color: colorInfo($g_default_theme_name , "log6");
+    }
+    >.log7{
+      color: colorInfo($g_default_theme_name , "log7");
+    }
+    
   }
 
   .pubLogViewer-hscroll {
@@ -638,6 +666,33 @@
       .pubLogViewer-statusbar{
         background-color: colorInfo($pThemeName , "status_bar_bg_color");
         border-top: 1px solid colorInfo($pThemeName , "border_thin_color");
+      }
+
+      .pubLog-body-cont-log{
+        >.log0{
+          color: colorInfo($pThemeName , "log0");
+        }
+        >.log1{
+          color: colorInfo($pThemeName , "log1");
+        }
+        >.log2{
+          color: colorInfo($pThemeName , "log2");
+        }
+        >.log3{
+          color: colorInfo($pThemeName , "log3");
+        }
+        >.log4{
+          color: colorInfo($pThemeName , "log4");
+        }
+        >.log5{
+          color: colorInfo($pThemeName , "log5");
+        }
+        >.log6{
+          color: colorInfo($pThemeName , "log6");
+        }
+        >.log7{
+          color: colorInfo($pThemeName , "log7");
+        }
       }
 	}
 }

@@ -26,6 +26,7 @@ public class CmpDeployRequestDTO extends CmpRequestDTO {
 			.name(getName())
 			.cmpCredential(getCmpCredential())
 			.cmpId(getCmpId())
+			.logPattern(getLogPattern())
 			.description(getDescription())
 			.scmType(scmType)
 			.scmUrl(scmUrl)

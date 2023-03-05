@@ -331,11 +331,9 @@ _ui.layout ={
 			var cmpInfo = _g_options.allCmpInfo[tabCfg.id]; 
 			
 			if(!VARTOOL.isUndefined(cmpInfo)){
-				if(tabCfg.title != cmpInfo.name){
-					tabCfg.title  = cmpInfo.name;
-					tabCfg.componentState = VARTOOL.util.objectMerge(tabCfg.componentState, cmpInfo);
-					tab.contentItem.tab.element.find('.lm_title').html(cmpInfo.name);
-				}
+				tabCfg.title  = cmpInfo.name;
+				tabCfg.componentState = VARTOOL.util.objectMerge(tabCfg.componentState, cmpInfo);
+				tab.contentItem.tab.element.find('.lm_title').html(cmpInfo.name);	
 			}
 		
 			tab.titleElement.on('dblclick', function (e){
@@ -360,14 +358,15 @@ _ui.layout ={
 		});
 		
 		var layoutSaveTimer;
-		var firstFlag = true;
+		var firstStateChanged = true; // 처음 로드시 설정 정보를 저장하지 않기 위해서 추가. 
 		
 		vartoolLayout.on('stateChanged', function(a1){
 			
-			if(firstFlag){
-				firstFlag = false;
+			if(firstStateChanged){
+				firstStateChanged = false;
 				return ;
 			}
+			
 			
 			if(!a1 || vartoolLayout._maximisedItem) return ; 
 			
@@ -411,6 +410,11 @@ _ui.layout ={
 		});
 		
 		vartoolLayout.init();
+		
+		// 자식 컨텐츠가 없을때
+		if(!vartoolLayout.config.content[0].content || vartoolLayout.config.content[0].content.length < 1){
+			firstStateChanged = false;
+		}
 		
 		this.layoutObj = vartoolLayout; 
 		
@@ -481,7 +485,7 @@ _ui.layout ={
 			    ,componentState: addItemInfo
 			})
 		}else{
-			var  addItem ={
+			var addItem ={
 				title: addItemInfo.title
 			    ,type: 'component'
 			    ,id : addItemInfo.id
@@ -560,6 +564,7 @@ _ui.registerComponent({
 				_this.logElement[logId] = $.pubLogViewer('[component-viewerid="'+logId+'"]',{
 					logFileName : logItem.name
 					,itemMaxCount : 10000
+					,logPattern: logItem.logPattern
 					,items : []
 					,setting:{
 						saveStateKey : logId
@@ -611,10 +616,10 @@ _ui.registerComponent({
 					}
 				}
 				
-				var log = logInfo.log; 
+				var logList = logInfo.logList; 
 				
-				if(log != null && log !=''){
-					logElement.setData(logSplit(log), 'addData', {focus: activeCmpFlag, onlyCalc : !activeCmpFlag});
+				if(logList != null && logList.length > 0){
+					logElement.setData(logList, 'addData', {focus: activeCmpFlag, onlyCalc : !activeCmpFlag});
 				}
 			}
 		}
@@ -681,6 +686,7 @@ _ui.registerComponent({
 				_this.logElement[logId] = $.pubLogViewer('[component-viewerid="'+logId+'"]',{
 					logFileName : logItem.name
 					,itemMaxCount : 10000
+					,logPattern: logItem.logPattern
 					,items : []
 					,setting:{
 						saveStateKey : logId
@@ -752,10 +758,10 @@ _ui.registerComponent({
 					}
 				}
 				
-				var log = logInfo.log; 
+				var logList = logInfo.logList; 
 				
-				if(log != null && log !=''){
-					logElement.setData(logSplit(log), 'addData', {focus: activeCmpFlag, onlyCalc : !activeCmpFlag});
+				if(logList != null && logList.length > 0){
+					logElement.setData(logList, 'addData', {focus: activeCmpFlag, onlyCalc : !activeCmpFlag});
 				}
 				
 				if(logInfo.item){
@@ -808,6 +814,7 @@ _ui.registerComponent({
 				_this.logElement[logId] = $.pubLogViewer('[component-viewerid="'+logId+'"]',{
 					logFileName : logItem.name
 					,itemMaxCount : 10000
+					,logPattern: logItem.logPattern
 					,items : []
 					,setting:{
 						saveStateKey : logId
@@ -879,9 +886,9 @@ _ui.registerComponent({
 			
 			var logElement = this.logElement[cmpId]; 
 			if(logElement){
-				var log = logInfo.log;
+				var logList = logInfo.logList;
 				 
-				logElement.setData(logSplit(log), 'addData' ,{focus: activeCmpFlag, onlyCalc : !activeCmpFlag});			
+				logElement.setData(logList, 'addData' ,{focus: activeCmpFlag, onlyCalc : !activeCmpFlag});			
 			}
 		}
 		,resize : function (dimension, componentState){
@@ -904,7 +911,7 @@ _ui.registerComponent({
 			VARTOOL.socket.unSubscribe('topic', componentId);
 			
 			delete this.logElement[componentId];
-			delete this.loadBeforeLog[cmpId];
+			delete this.loadBeforeLog[componentId];
 		}
 	}
 })

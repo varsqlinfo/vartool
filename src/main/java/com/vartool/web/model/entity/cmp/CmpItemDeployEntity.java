@@ -53,9 +53,9 @@ public class CmpItemDeployEntity extends CmpEntity{
 	private String buildScript;
 
 	@Builder
-	public CmpItemDeployEntity (String cmpId, String name, String cmpType, String description
+	public CmpItemDeployEntity (String cmpId, String name, String cmpType, String logPattern, String description
 			, String scmType, String scmUrl, String scmBranch, boolean useDeployPath, String dependencyPath, String deployPath ,String buildScript, String cmpCredential) {
-		super(cmpId, name, cmpType, description, cmpCredential);
+		super(cmpId, name, cmpType, logPattern, description, cmpCredential);
 		
 		this.scmType = scmType;
 		this.scmUrl = scmUrl;

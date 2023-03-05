@@ -24,6 +24,7 @@ public class CmpLogResponseDTO extends CmpResponseDTO {
 		dto.setName(entity.getName());
 		dto.setCmpCredential(entity.getCmpCredential());
 		dto.setCmpType(entity.getCmpType());
+		dto.setLogPattern(entity.getLogPattern());
 		dto.setLogType(entity.getLogType());
 		dto.setDescription(entity.getDescription());
 		dto.setRegDt(entity.getRegDt());

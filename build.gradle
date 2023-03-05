@@ -15,7 +15,7 @@ buildscript {
         mapstructVersion = "1.4.2.Final"
         lombokMapstructVersion = "0.2.0"
         
-        appVersion = '0.0.8'
+        appVersion = '0.0.9'
 	
 		webResourceConfig = [
 	        staticFilesDir : "src/main/webapp",

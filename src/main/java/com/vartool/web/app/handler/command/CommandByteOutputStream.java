@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -32,8 +35,8 @@ public class CommandByteOutputStream extends OutputStream {
 	
 	private final String charset;
 	
-	private StringBuffer sb = new StringBuffer();
-
+	private Deque<String> logQueue = new ConcurrentLinkedDeque<String>();
+	
 	public CommandByteOutputStream() {
 		this(VartoolConstants.CHAR_SET);
 	}
@@ -113,13 +116,17 @@ public class CommandByteOutputStream extends OutputStream {
 	}
 	
 	public void processLine(String line, int arg1) {
-		sb.append(line).append(BlankConstants.NEW_LINE_CHAR);
+		logQueue.add(line);
 	}
 	
-	public String getLog() {
-		String result = sb.toString();
-		sb.setLength(0);
-		return result;
+	public Deque<String> getLog() {
+		Deque<String> reval = new ArrayDeque<>();
+		
+		for(int i =0, len = logQueue.size();i < len;i++) {
+			reval.add(logQueue.poll());
+		}
+		
+		return reval;
 	}
 
 	public String getCharset() {

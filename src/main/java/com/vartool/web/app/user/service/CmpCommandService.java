@@ -34,7 +34,7 @@ public class CmpCommandService {
 	 */
 	public ResponseResult loadLog(String cmpId, DataMap param) {
 		ResponseResult responseResult = new ResponseResult();
-		responseResult.setItemOne(LogMessageDTO.builder().cmpId(cmpId).log(CommandCmpManager.getInstance().getLogContent(cmpId)).build());
+		responseResult.setItemOne(LogMessageDTO.builder().cmpId(cmpId).logList(CommandCmpManager.getInstance().getLogContent(cmpId)).build());
 		return responseResult;
 	}
 	

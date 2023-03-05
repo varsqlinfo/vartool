@@ -1,8 +1,10 @@
 package com.vartool.web.app.handler.deploy;
 
+import java.util.Deque;
+
 import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
-import com.vartool.web.constants.BlankConstants;
 import com.vartool.web.dto.websocket.LogMessageDTO;
+import com.vartool.web.module.Utils;
 
 /**
  * Abstract Deploy
@@ -19,7 +21,11 @@ public abstract class AbstractDeploy implements DeployInterface{
 	}
 	
 	public void sendLogMessage(LogMessageDTO msgData, String recvId) {
-		DeployCmpManager.getInstance().addLogInfo(msgData.getCmpId(), msgData.getLog().endsWith(BlankConstants.NEW_LINE_CHAR) ? msgData.getLog() : msgData.getLog()+BlankConstants.NEW_LINE_CHAR);
+		Deque<String> msg = Utils.getNewlineSplitToDeque(msgData.getLog());
+		msgData.setLog("");
+		
+		DeployCmpManager.getInstance().addLogInfo(msgData.getCmpId(), msg);
+		msgData.setLogList(msg);
 		webSocketServiceImpl.sendMessage(msgData, recvId);
 	}
 }

@@ -1,15 +1,17 @@
 package com.vartool.web.app.handler.log;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Deque;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.github.jknack.handlebars.internal.antlr.misc.FlexibleHashMap.Entry;
 import com.vartool.web.app.handler.CmpManager;
 import com.vartool.web.app.handler.log.reader.LogReader;
-import com.vartool.web.constants.AppCode.LOG_STATE;
 import com.vartool.web.dto.response.CmpMonitorDTO;
 import com.vartool.web.dto.vo.LogInfo;
 import com.vartool.web.dto.websocket.LogMessageDTO;
+import com.vartool.web.module.Utils;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.module.spring.SpringBeanFactory;
 
@@ -41,11 +43,11 @@ public class LogCmpManager implements CmpManager {
 		return TAIL_LOG_INFO.containsKey(cmpId);
 	}
 	
-	public String getLogContent(String cmpId) {
+	public Collection<String> getLogContent(String cmpId) {
 		if(existsLog(cmpId)) {
 			return TAIL_LOG_INFO.get(cmpId).getLogInfo().allLog();
 		}
-		return "";
+		return Collections.EMPTY_LIST;
 	}
 	
 	public synchronized void createLogInfo(String cmpId, LogReader tail) {
@@ -66,7 +68,7 @@ public class LogCmpManager implements CmpManager {
 		TAIL_LOG_INFO.put(cmpId, TailLogStatus.builder().logInfo(new LogInfo(1000)).logReader(tail).build());
 	}
 	
-	public void addLogInfo(String cmpId, String logText) {
+	public void addLogInfo(String cmpId, Deque<String> logText) {
 		if(existsLog(cmpId)) {
 			TAIL_LOG_INFO.get(cmpId).getLogInfo().add(logText);
 		}
@@ -93,8 +95,10 @@ public class LogCmpManager implements CmpManager {
 			
 			msg = msg+"\nlog restart\n";
 			
+			Deque<String> reval = Utils.getNewlineSplitToDeque(msg);
+			
 			SpringBeanFactory.getWebSocketService().sendMessage(
-				LogMessageDTO.builder().log(msg).cmpId(cmpId).build(), VartoolUtils.getAppRecvId(cmpId)
+				LogMessageDTO.builder().logList(reval).cmpId(cmpId).build(), VartoolUtils.getAppRecvId(cmpId)
 			);
 			
 			TailLogStatus info = TAIL_LOG_INFO.get(cmpId);
@@ -105,7 +109,7 @@ public class LogCmpManager implements CmpManager {
 				info.setLogReader(null);
 			}
 			
-			addLogInfo(cmpId, msg);
+			addLogInfo(cmpId, reval);
 		}
 	}
 	

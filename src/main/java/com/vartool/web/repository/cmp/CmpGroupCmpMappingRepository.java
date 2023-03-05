@@ -24,7 +24,7 @@ public interface CmpGroupCmpMappingRepository extends DefaultJpaRepository, JpaR
 
 
 	@Query(value = "select new com.vartool.web.dto.response.CmpGroupCmpMappingResponseDTO"
-			+ "(m."+CmpGroupMappingEntity.GROUP_ID+", m."+CmpGroupMappingEntity.CMP_ID+", c."+CmpEntity.NAME+", c."+CmpEntity.CMP_TYPE+", c."+CmpEntity.DESCRIPTION+") "
+			+ "(m."+CmpGroupMappingEntity.GROUP_ID+", m."+CmpGroupMappingEntity.CMP_ID+", c."+CmpEntity.NAME+", c."+CmpEntity.CMP_TYPE+", c."+CmpEntity.LOG_PATTERN+", c."+CmpEntity.DESCRIPTION+") "
 			+ "from CmpGroupMappingEntity m join m.cmpEntity c where m.groupId = :groupId order by c."+CmpEntity.CMP_TYPE+" asc, c."+CmpEntity.NAME+" asc")
 	List<CmpGroupCmpMappingResponseDTO> findComponentList(@Param(CmpGroupMappingEntity.GROUP_ID)String groupId);
 	

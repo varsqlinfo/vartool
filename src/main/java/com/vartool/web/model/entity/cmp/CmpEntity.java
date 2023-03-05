@@ -52,12 +52,16 @@ public class CmpEntity extends AabstractAuditorModel{
 	private String cmpCredential; 
 
 	@Column(name ="DESCRIPTION")
-	private String description; 
+	private String description;
 	
-	public CmpEntity (String cmpId, String name, String cmpType, String description, String cmpCredential) {
+	@Column(name ="LOG_PATTERN")
+	private String logPattern; 
+	
+	public CmpEntity (String cmpId, String name, String cmpType, String logPattern, String description, String cmpCredential) {
 		this.cmpId = cmpId;
 		this.name = name;
 		this.cmpType = cmpType;
+		this.logPattern = logPattern;
 		this.description = description;
 		this.cmpCredential = cmpCredential;
 	}
@@ -66,5 +70,6 @@ public class CmpEntity extends AabstractAuditorModel{
 	public final static String NAME="name";
 	public final static String CMP_TYPE="cmpType";
 	public final static String CMP_CREDENTIAL="cmpCredential";
+	public final static String LOG_PATTERN="logPattern";
 	public final static String DESCRIPTION="description";
 }

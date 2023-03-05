@@ -24,6 +24,7 @@ public class CmpLogRequestDTO extends CmpRequestDTO {
 			.cmpId(getCmpId())
 			.cmpCredential(getCmpCredential())
 			.description(getDescription())
+			.logPattern(getLogPattern())
 			.logType(logType)
 			.logCharset(charset)
 			.logPath(logPath)

@@ -1,5 +1,6 @@
 package com.vartool.web.dto.websocket;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,15 +30,17 @@ public class LogMessageDTO{
 
 	private String cmpId;
 	private String log;
+	private Collection<String> logList;
 	private int state;
 	
 	private Map<String,Object> item;
 
 	@Builder
-	public LogMessageDTO(String log, String cmpId, int state) {
+	public LogMessageDTO(String log, String cmpId, int state, Collection<String> logList) {
 		this.log = log;
 		this.cmpId = cmpId;
 		this.state = state;
+		this.logList = logList;
 	}
 
 	public LogMessageDTO addItem(String key, Object object) {

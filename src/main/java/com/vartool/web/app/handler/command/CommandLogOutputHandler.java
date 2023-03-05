@@ -1,5 +1,7 @@
 package com.vartool.web.app.handler.command;
 
+import java.util.Deque;
+
 import org.apache.commons.exec.ExecuteWatchdog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
 import com.vartool.web.dto.response.CmpCommandResponseDTO;
 import com.vartool.web.dto.websocket.LogMessageDTO;
+import com.vartool.web.module.LogUtils;
+import com.vartool.web.module.Utils;
 import com.vartool.web.module.VartoolUtils;
 
 /**
@@ -49,10 +53,11 @@ public class CommandLogOutputHandler implements Runnable {
 		
 		while (true) {
 			
-			String msg = output.getLog();
-			if (!"".equals(msg)) {
+			Deque<String> msg = output.getLog();
+			if (msg.size() > 0) {
 				CommandCmpManager.getInstance().addLogInfo(this.cmpId, msg);
-				webSocketServiceImpl.sendMessage(LogMessageDTO.builder().log(msg).cmpId(this.cmpId).build(), this.recvId);
+				
+				LogUtils.sendCollectionMsg(this.cmpId, this.recvId, msg, webSocketServiceImpl);
 			}
 			
 			if(isStop()) {

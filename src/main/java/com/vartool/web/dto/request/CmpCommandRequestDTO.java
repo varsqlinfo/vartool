@@ -24,6 +24,7 @@ public class CmpCommandRequestDTO extends CmpRequestDTO {
 			.name(getName())
 			.cmpId(getCmpId())
 			.cmpCredential(getCmpCredential())
+			.logPattern(getLogPattern())
 			.description(getDescription())
 			.stopCmd(stopCmd)
 			.startCmd(startCmd)
