@@ -86,7 +86,7 @@ public class CredentialsProviderMgmtService {
 			cpe = credentialsProviderRepository.findByCredId(dto.getCredId());
 			
 			if(cpe == null) {
-				throw new ComponentNotFoundException("log component id not found : "+ dto.getCredId());
+				throw new ComponentNotFoundException("credentials id not found : "+ dto.getCredId());
 			}
 			
 			if(!dto.isChangePassword()) {
@@ -118,7 +118,7 @@ public class CredentialsProviderMgmtService {
 		CredentialsProviderEntity deleteItem = credentialsProviderRepository.findByCredId(credId);
 		
 		if(deleteItem == null) {
-			throw new ComponentNotFoundException("log component id not found : "+ credId);
+			throw new ComponentNotFoundException("credentials id not found : "+ credId);
 		}
 		
 		credentialsProviderRepository.delete(deleteItem);

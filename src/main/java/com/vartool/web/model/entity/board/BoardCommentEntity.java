@@ -24,7 +24,7 @@ import org.hibernate.annotations.Where;
 
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.model.converter.BooleanToDelYnConverter;
-import com.vartool.web.model.entity.base.AabstractAuditorModel;
+import com.vartool.web.model.entity.base.AbstractAuditorModel;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -39,7 +39,7 @@ import lombok.ToString;
 @Entity
 @ToString
 @Table(name = BoardCommentEntity._TB_NAME)
-public class BoardCommentEntity extends AabstractAuditorModel{
+public class BoardCommentEntity extends AbstractAuditorModel{
 	
 	private static final long serialVersionUID = 1L;
 

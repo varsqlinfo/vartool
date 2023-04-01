@@ -12,7 +12,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.vartool.web.model.entity.base.AabstractAuditorModel;
+import com.vartool.web.model.entity.base.AbstractAuditorModel;
 import com.vartool.web.model.id.generator.AppUUIDGenerator;
 
 import lombok.Getter;
@@ -27,7 +27,7 @@ import lombok.Setter;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "CMP_TYPE")
 @Table(name = CmpEntity._TB_NAME)
-public class CmpEntity extends AabstractAuditorModel{
+public class CmpEntity extends AbstractAuditorModel{
 	public final static String _TB_NAME="VT_CMP";
 	
 	@Id

@@ -68,82 +68,81 @@
 			
 			<div class="panel-body">
 				<div>
-					<form id="writeForm" name="writeForm" role="form" class="form-horizontal bv-form eportalForm">
-						<div class="pull-right bottomHeight5">
-							<button type="button" class="btn btn-default btn_add" :class="detailFlag==true?'':'hidden'" @click="fieldClear()">Add</button>
-							<template v-if="detailFlag===true">
-								<button type="button" class="btn btn-default" @click="copyInfo()">Copy</button>
-							</template>
-							<button type="button" class="btn btn-primary btn_save" @click="saveInfo()">Save</button>
-						</div>
-						<div style="clear:both;"></div>
-						
-						<div class="panel-body">
-							<div class="form-horizontal">
-								<div class="form-group">
-									<div class="row bottomHeight5">
-										<label class="col-lg-3 control-label" for="inputError">Name</label>
-										<div class="col-lg-9">
-		           							<input type="text" name="credName" v-model="detailItem.credName" class="form-control input-init-type">
-										</div>
-									</div>
-									
-									<div class="row bottomHeight5">
-										<label class="col-lg-3 control-label" for="inputError">Type</label>
-										<div class="col-lg-9">
-											<select v-model="detailItem.credType" class="form-control input-init-type">
-												<c:forEach var="item" items="${credentialsTypeList}" varStatus="status">
-													<option value="${item.code}">${item.viewLabel}</option>
-												</c:forEach>
-											</select>
-										</div>
-									</div>
-									
-									<template v-if="detailItem.credType =='secretText'">
-										<div class="row bottomHeight5">
-											<label class="col-lg-3 control-label" for="inputError">Secret Text</label>
-											<div class="col-lg-9">
-												<textarea rows="5"  v-model="detailItem.secretText" class="form-control input-init-type"></textarea> 
-											</div>
-										</div>
+					<form id="addForm" name="addForm" class="form-horizontal" onsubmit="return false;">
+					
+						<div class="form-group" style="height: 34px;margin-bottom:10px;">
+							<div class="col-sm-12">
+								<div class="pull-right">
+									<button type="button" class="btn btn-default" :class="detailFlag==true?'':'hidden'" @click="fieldClear()"><spring:message code="btn.add" text="추가"/></button>
+									<button type="button" class="btn btn-primary" @click="saveInfo()"><spring:message code="btn.save" text="저장"/></button>
+									<template v-if="detailFlag===true">
+										<button type="button" class="btn btn-default" @click="copyInfo()"><spring:message code="copy" text="복사"/></button>
 									</template>
-									<template v-if="detailItem.credType =='idPw'">
-										<div class="row bottomHeight5">
-											<label class="col-lg-3 control-label" for="inputError">Username</label>
-											<div class="col-lg-9">
-												<input type="text" name="username" v-model="detailItem.username" class="form-control input-init-type">
-											</div>
-										</div>
-										<div class="row bottomHeight5">
-											<label class="col-lg-3 control-label" for="inputError"><spring:message code="join.form.password" /></label>
-											
-											
-											<div class="col-lg-9">
-												<input type="checkbox" v-model="detailItem.changePassword" v-if="detailFlag">
-												<template v-if="!detailFlag || detailItem.changePassword">
-													<input type="password" v-model="detailItem.password" class="form-control input-init-type" autocomplete="new-password" placeholder="<spring:message code="join.form.password" />">
-												</template>
-											</div>
-										</div>
-										
-										<div class="form-group bottomHeight5" v-if="!detailFlag || detailItem.changePassword">
-								            <label class="col-sm-3 control-label"><spring:message code="join.form.password.confirm"/></label>
-								
-								            <div class="col-lg-9">
-								                <input type="password" class="form-control" v-model="detailItem.confirmPassword" autocomplete="new-password" placeholder="<spring:message code="join.form.password.confirm" />" />
-								            </div>
-								        </div>
-								        
-									</template>
-									<div class="row bottomHeight5">
-										<label class="col-lg-3 control-label" for="inputError">Desc</label>
-										<div class="col-lg-9">
-											<textarea v-model="detailItem.description" class="form-control input-init-type" rows="3"></textarea>
-										</div>
-									</div>
 								</div>
 							</div>
 						</div>
+						
+						<div class="form-group" :class="errors.has('NAME') ? 'has-error' :''">
+							<label class="col-sm-4 control-label"><spring:message code="cred.name" text="자격명"/></label>
+							<div class="col-sm-8">
+								<input type="text" v-model="detailItem.credName" v-validate="'required'" name="NAME" class="form-control" />
+								<div v-if="errors.has('NAME')" class="help-block">{{ errors.first('NAME') }}</div>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-4 control-label"><spring:message code="cred.type" text="타입"/></label>
+							<div class="col-sm-8">
+								<select v-model="detailItem.credType" class="form-control input-init-type">
+									<c:forEach var="item" items="${credentialsTypeList}" varStatus="status">
+										<option value="${item.code}">${item.viewLabel}</option>
+									</c:forEach>
+								</select>
+							</div>
+						</div>
+						
+						<template v-if="detailItem.credType =='secretText'">
+							<div class="form-group">
+								<label class="col-sm-4 control-label"><spring:message code="cred.secret.text" text="Secret Text" /></label>
+								<div class="col-sm-8">
+									<textarea rows="5"  v-model="detailItem.secretText" class="form-control input-init-type"></textarea> 
+								</div>
+							</div>
+						</template>
+						<template v-if="detailItem.credType =='idPw'">
+							<div class="form-group" :class="errors.has('ID') ? 'has-error' :''">
+								<label class="col-sm-4 control-label"><spring:message code="cred.username" text="ID"/></label>
+								<div class="col-sm-8">
+									<input type="text" v-model="detailItem.username" v-validate="'required'" name="ID" class="form-control" />
+									<div v-if="errors.has('ID')" class="help-block">{{ errors.first('ID') }}</div>
+								</div>
+							</div>
+							<div class="form-group" :class="errors.has('PASSWORD') ? 'has-error' :''">
+								<label class="col-sm-4 control-label"><spring:message code="password" text="비밀번호"/></label>
+								<div class="col-sm-8">
+									<input type="checkbox" v-model="detailItem.changePassword" v-if="detailFlag">
+									
+									<template v-if="!detailFlag || detailItem.changePassword">
+										<input v-model="detailItem.password" v-validate="'confirmed:password_confirmation'" name="password" type="password" autocomplete="new-password" class="form-control" placeholder="Password" ref="password" data-vv-as="password_confirmation"  style="margin-bottom:5px;">
+										<input v-model="detailItem.confirmPassword" v-validate="" name="password_confirmation" type="password" class="form-control" autocomplete="false" placeholder="Password, Again" data-vv-as="password" ref="password_confirmation">
+									    <div class="help-block" v-if="errors.has('password')">
+									      {{ errors.first('password') }}
+									    </div>
+									    <div class="help-block" v-if="errors.has('password_confirmation')">
+									      {{ errors.first('password_confirmation') }}
+									    </div>
+						    		</template>
+								</div>
+							</div>
+						</template>
+						
+						<div class="form-group">
+				            <label class="col-sm-4 control-label"><spring:message code="description" text="설명"/></label>
+				
+				            <div class="col-sm-8">
+				                <textarea v-model="detailItem.description" class="form-control" rows="3"></textarea>
+				            </div>
+				        </div>
 					</form>
 				</div>
 			</div>
@@ -159,6 +158,7 @@
 	
 VartoolAPP.vueServiceBean({
 	el: '#appViewArea'
+	,validateCheck : true
 	,data: {
 		list_count :10
 		,searchVal : ''

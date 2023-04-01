@@ -14,7 +14,7 @@ import org.hibernate.annotations.Parameter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vartool.web.model.converter.BooleanToYnConverter;
 import com.vartool.web.model.converter.PasswordEncodeConverter;
-import com.vartool.web.model.entity.base.AabstractAuditorModel;
+import com.vartool.web.model.entity.base.AbstractAuditorModel;
 import com.vartool.web.model.id.generator.AppUUIDGenerator;
 
 import lombok.Builder;
@@ -28,7 +28,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = UserEntity._TB_NAME)
-public class UserEntity extends AabstractAuditorModel{
+public class UserEntity extends AbstractAuditorModel{
 	private static final long serialVersionUID = 1L;
 
 	public final static String _TB_NAME="VT_USER";

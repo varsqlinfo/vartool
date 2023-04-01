@@ -16,7 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.vartool.web.model.entity.base.AabstractAuditorModel;
+import com.vartool.web.model.entity.base.AbstractAuditorModel;
 import com.vartool.web.model.id.generator.AppUUIDGenerator;
 
 import lombok.Builder;
@@ -30,7 +30,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = CmpGroupEntity._TB_NAME)
-public class CmpGroupEntity extends AabstractAuditorModel{
+public class CmpGroupEntity extends AbstractAuditorModel{
 	private static final long serialVersionUID = 1L;
 
 	public final static String _TB_NAME = "VT_CMP_GROUP";

@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vartool.web.model.entity.base.AabstractAuditorModel;
+import com.vartool.web.model.entity.base.AbstractAuditorModel;
 import com.vartool.web.model.entity.cmp.CmpEntity;
 
 import lombok.Builder;
@@ -26,7 +26,7 @@ import lombok.ToString;
 @Entity
 @Table(name = JobScheduleEntity._TB_NAME)
 @ToString(exclude = {})
-public class JobScheduleEntity extends AabstractAuditorModel{
+public class JobScheduleEntity extends AbstractAuditorModel{
 
 	private static final long serialVersionUID = 1L;
 

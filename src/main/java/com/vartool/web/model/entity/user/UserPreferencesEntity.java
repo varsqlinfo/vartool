@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.vartool.web.model.entity.base.AabstractAuditorModel;
+import com.vartool.web.model.entity.base.AbstractAuditorModel;
 import com.vartool.web.model.id.UserPreferencesID;
 
 import lombok.Builder;
@@ -22,7 +22,7 @@ import lombok.Setter;
 @Entity
 @IdClass(UserPreferencesID.class)
 @Table(name = UserPreferencesEntity._TB_NAME)
-public class UserPreferencesEntity extends AabstractAuditorModel{
+public class UserPreferencesEntity extends AbstractAuditorModel{
 	
 	private static final long serialVersionUID = 1L;
 

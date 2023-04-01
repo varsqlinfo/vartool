@@ -9,7 +9,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.vartool.web.model.entity.base.AabstractAuditorModel;
+import com.vartool.web.model.entity.base.AbstractAuditorModel;
 import com.vartool.web.model.id.generator.AppUUIDGenerator;
 
 import lombok.Builder;
@@ -23,7 +23,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = CredentialsProviderEntity._TB_NAME)
-public class CredentialsProviderEntity extends AabstractAuditorModel{
+public class CredentialsProviderEntity extends AbstractAuditorModel{
 
 	private static final long serialVersionUID = 1L;
 

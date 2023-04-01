@@ -25,6 +25,7 @@ public class CmpResponseDTO {
 		this.name = name; 
 		this.cmpType = cmpType;
 		this.description = description;
+		this.logPattern = logPattern;
 		this.cmpCredential = cmpCredential;
 	}
 }

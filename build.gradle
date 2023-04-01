@@ -156,6 +156,7 @@ dependencies {
 		,[ group: 'org.springframework.boot' , name: 'spring-boot-starter-websocket']
 		,[ group: 'org.springframework.boot' , name: 'spring-boot-starter-cache']
 		,[ group: 'org.springframework.boot' , name: 'spring-boot-starter-mail']
+		,[ group: 'org.springframework.boot' , name: 'spring-boot-starter-validation']
 		// ,[ group: 'org.springframework.security' , name: 'spring-security-config' , version: def_version.springSecurity ]
 		,[ group: 'org.springframework.security' , name: 'spring-security-messaging' , version: def_version.springSecurity ] // websocket message �߰�.
 		,[ group: 'org.springframework.security' , name: 'spring-security-taglibs' , version: def_version.springSecurity ]

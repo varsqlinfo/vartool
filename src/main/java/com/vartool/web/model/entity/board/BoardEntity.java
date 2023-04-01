@@ -20,7 +20,7 @@ import org.hibernate.annotations.Where;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.vartool.web.constants.VartoolConstants;
-import com.vartool.web.model.entity.base.AabstractAuditorModel;
+import com.vartool.web.model.entity.base.AbstractAuditorModel;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -34,7 +34,7 @@ import lombok.Setter;
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property="articleId")
 @Table(name = BoardEntity._TB_NAME)
-public class BoardEntity extends AabstractAuditorModel {
+public class BoardEntity extends AbstractAuditorModel {
 
 	private static final long serialVersionUID = 1L;
 
