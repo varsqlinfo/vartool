@@ -63,7 +63,7 @@
 		<!--
 			properties 배포.
 		-->
-		<copy todir="${deploy.classes.dir}" verbose="true">
+		<copy todir="${deploy.classes.dir}" verbose="true" overwrite="true">
 			<mappedresources>
 		        <fileset dir="${src.dir}">
 		            <include name="**/*.properties.dev"/>
@@ -75,7 +75,7 @@
 		<!-- 
 			xml 배포
 		-->
-		<copy todir="${deploy.classes.dir}" verbose="true">
+		<copy todir="${deploy.classes.dir}" verbose="true" overwrite="true">
 			<mappedresources>
 		        <fileset dir="${src.dir}">
 		            <include name="**/*.xml.dev"/>
@@ -149,7 +149,7 @@
 		</copy>
 		
 		<!--
-			class 외 자원들 배포.
+			class 와 자원들 배포.
 		-->
 		<copy todir="${deploy.classes.dir}" verbose="true">
 			<fileset dir="${build.classes.dir}" includes="**/*.class" />
@@ -159,7 +159,7 @@
 		<!--
 			properties 배포.
 		-->
-		<copy todir="${deploy.classes.dir}" verbose="true">
+		<copy todir="${deploy.classes.dir}" verbose="true" overwrite="true">
 			<mappedresources>
 		        <fileset dir="${resource.dir}">
 		            <include name="**/*.properties.dev"/>
@@ -171,7 +171,7 @@
 		<!-- 
 			xml 배포
 		-->
-		<copy todir="${deploy.classes.dir}" verbose="true">
+		<copy todir="${deploy.classes.dir}" verbose="true" overwrite="true">
 			<mappedresources>
 		        <fileset dir="${resource.dir}">
 		            <include name="**/*.xml.dev"/>

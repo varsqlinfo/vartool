@@ -272,13 +272,13 @@ VartoolAPP.vueServiceBean({
 				,data:param
 				,success:function (resData){
 					if(resData.resultCode ==200){
-						VARTOOLUI.toast.open(VARTOOL.messageFormat('vartool.0027'));
+						VARTOOL.toastMessage('vartool.0027');
 						_this.search();
 
 						_this.viewItem(resData.item);
 						return
 					}else{
-						alert(resData.messageCode  +'\n'+ resData.message);
+						VARTOOL.alertMessage(resData.messageCode  +'\n'+ resData.message);
 					}
 				}
 			});

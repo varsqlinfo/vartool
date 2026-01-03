@@ -3,24 +3,26 @@
 
 <div class="display-off" id="vueArea">
 	<h1 style="width: 145px;display: inline-block;">
-		<a href="">상세보기</a>
+		<a href=""><spring:message code="detail.view" text="상세보기"/></a>
 	</h1>
-	<a href="#" class="fa fa-edit" target="_blank">새창보기</a>
+	<a href="#" class="fa fa-edit" target="_blank"><spring:message code="newwin.view" text="새창보기"/></a>
 	<div></div>
 	<div class="pull-right">
 		<a href="<vartool:boardUrl />" class="btn btn-default">목록</a>
-		<a @click="modifyInfo()"  class="btn btn-primary">수정</a>
-		<a href="javascript:;" @click="deleteItem()" class="btn btn-warning">삭제</a>
+		<template v-if="articleInfo.modifyAuth">
+			<a @click="modifyInfo()"  class="btn btn-primary">수정</a>
+			<a href="javascript:;" @click="deleteItem()" class="btn btn-warning">삭제</a>
+		</template>
 	</div>
 	<div style="clear:both;padding-top: 15px;"></div>
 	<div class="article-area">
 		<div class="title">
-			<h3>{{articleInfo.title}}</h3>
+			<h3 class="text-ellipsis" :title="articleInfo.title">{{articleInfo.title}}</h3>
 			<div>
 				{{articleInfo.authorName}} {{articleInfo.regDt}} 
 			</div>
 		</div>
-		<div class="file-list-area" v-if="articleInfo.fileList.length > 0">
+		<div class="file-list-area" v-if="articleInfo.fileList && articleInfo.fileList.length > 0">
 			<div>첨부파일</div>
 			<ul class="file-list">
 				<li v-for="(item, index) in articleInfo.fileList" class="file-list-item">
@@ -31,24 +33,23 @@
 			</ul>
 		</div>
 		
-		<div class="content">
-			<div style="width:100%" v-html="articleInfo.contents"></div>
-		</div>
+		<div id="contentViewer" style="width: 100%;padding: 5px;"></div>
 	</div>
 	
-	<strong class="comment-label">댓글</strong>
+	<div style="margin-top: 15px;border-top: 1px solid rgb(221, 221, 221);padding: 15px 0px 0px 10px;">
+		<strong class="comment-label">댓글</strong>
+	</div>
 	<div>
-		<div>	
-			<textarea id="commentFileDropArea" v-model="comment.contents" rows="5" style="width:100%"></textarea>
-		</div>
-		<div>
+		<div id="mainCommentContainer">
+			<div class="form-group">
+				<div id="commentContents" style="width:100%;margin-top:10px;height:150px;"></div>
+			</div>
 			<div id="commentFileUploadPreview" class="file-upload-area"></div>
 		</div>
-		
+	
 		<div class="pull-right">
-			<a @click="commentSave()" class="btn btn-default">저장</a>
+			<a @click="commentSave()" class="btn btn-success"><spring:message code="save" text="저장"/></a>
 		</div>
-		
 		<div style="clear:both;padding-top:5px;"></div>
 	</div>
 	<div class="comment-area">
@@ -58,85 +59,87 @@
 					<div class="comment-meta-info" v-if="!commentItem.delYn">
 						 <span class="text-ellipsis" :title="commentItem.fileName">{{commentItem.authorName}}({{commentItem.regDt}})</span>
 						 <span class="pull-right" v-if="commentItem.modifyAuth">
-							<button @click="commentModify(commentItem)" title="댓글 수정" class="btn btn-sm btn-default"><i class="fa fa-edit"></i>수정</button>
-							<button @click="commentDelete(commentItem)" title="댓글 삭제" class="btn btn-sm btn-warning"><i class="fa fa-trash"></i>삭제</button>
+							<button @click="commentModify(commentItem)" class="btn btn-sm btn-default"><i class="fa fa-edit"></i><spring:message code="modify" text="수정"/></button>
+							<button @click="commentDelete(commentItem)" class="btn btn-sm btn-warning"><i class="fa fa-trash"></i><spring:message code="delete" text="삭제"/></button>
 						</span>
 					</div>
-					
+
 					<template v-if="commentItem.commentId != modifyComment.commentId">
-						<div>
+						<div class="clearboth">
 							<div class="comment-content">
 								<template v-if="commentItem.delYn">
-									삭제된 메시지 입니다.
+									<spring:message code="delete.warning.msg" text="삭제된 메시지 입니다."/>
 								</template>
 								<template v-else>
-									<pre>{{commentItem.contents}}</pre>
+									<div class="toastui-editor-contents" v-html="commentItem.contents"></div>
 								</template>
 							</div>
 							<template v-if="commentItem.indent == 0">
 								<ul class="list-group list-group-flush" v-if="commentItem.fileList.length > 0">
 									<li v-for="(fileItem, index) in commentItem.fileList" class="list-group-item">
 										<div class="text-ellipsis" :title="fileItem.fileName">
-											<a href="javascript:;" @click="download(fileItem)"> 
-												<i class="fa fa-download"></i> {{fileItem.fileName}}({{fileItem.displaySize}}) 
+											<a href="javascript:;" @click="download(fileItem)">
+												<i class="fa fa-download"></i> {{fileItem.fileName}}({{fileItem.displaySize}})
 											</a>
 										</div>
 									</li>
 								</ul>
 								<div style="text-align:right;">
-									<button class="btn btn-sm btn-default" type="button" @click="reComment(commentItem)">대댓글</button>
+									<button class="btn btn-sm btn-default" type="button" @click="reComment(commentItem)"><spring:message code="re.comment" text="대댓글"/></button>
 								</div>
-								
+
 								<div class="form-group re-comment-btn" v-if="reCommentParent == commentItem">
 									<div class="input-group">
-										<input v-model="reCommentParent.reCommentText"  placeholder="입력..." class="form-control">
+										<input v-model="reCommentParent.reCommentText"  placeholder="<spring:message code="input.placeholder" text="입력..."/>" class="form-control">
 										<span class="input-group-btn">
-											<button type="button" class="btn btn-default search-btn" @click="commentSave('re')">저장</button>
+											<button type="button" class="btn btn-success" @click="commentSave('re')"><spring:message code="save" text="저장"/></button>
 										</span>
 									</div>
 								</div>
-								
+
 								<div class="re-comment-item" v-for="(reCommentItem, index) in commentItem.children">
 									<div class="re-comment-meta-info">
 										 <span class="text-ellipsis" :title="commentItem.fileName">{{reCommentItem.authorName}}({{reCommentItem.regDt}})</span>
 										 <span class="pull-right" v-if="reCommentItem.modifyAuth">
-										 	<button @click="reCommentModify(reCommentItem)" title="댓글 수정" class="btn btn-sm btn-default"><i class="fa fa-edit"></i></button>
-											<button @click="commentDelete(reCommentItem)" title="댓글 삭제" class="btn btn-sm btn-warning"><i class="fa fa-trash"></i></button>
+							
+										 	<button @click="reCommentModify(reCommentItem)" title="<spring:message code="modify" text="수정"/>" class="btn btn-sm btn-default"><i class="fa fa-edit"></i></button>
+											<button @click="commentDelete(reCommentItem)" title="<spring:message code="delete" text="삭제"/>" class="btn btn-sm btn-warning"><i class="fa fa-trash"></i></button>
 										</span>
 									</div>
 									<div class="re-comment-modify input-group" v-if="reModifyCommentInfo.commentId == reCommentItem.commentId">
-										<input v-model="reModifyCommentInfo.reCommentText"  placeholder="입력..." class="form-control">
+										<textarea v-model="reModifyCommentInfo.reCommentText" rows="2" placeholder="입력..." class="form-control"></textarea>
 										<span class="input-group-btn">
-											<button type="button" class="btn btn-default" @click="commentSave('re','modify')">저장</button>
-											<button type="button" class="btn btn-default" @click="reCommentModify({})">취소</button>
+											<button type="button" class="btn btn-success" @click="commentSave('re','modify')"><spring:message code="save" text="저장"/></button>
+											<button type="button" class="btn btn-default" @click="reCommentModify({})"><spring:message code="cancel" text="취소"/></button>
 										</span>
 									</div>
-									<div class="re-comment-content" v-else>{{reCommentItem.contents}}</div>
+									<div class="re-comment-content" v-else><pre>{{reCommentItem.contents}}</pre></div>
 								</div>
 							</template>
 						</div>
 					</template>
 					<template v-else>
-						<div>
-							<textarea id="modifyCommentFileDropArea" v-model="modifyComment.modifyContents" rows="5" style="width:100%"></textarea>
+						<div id="modifyCommentContainer">
+							<div class="form-group">
+								<div id="modifyContents" style="width:100%;margin-top:10px;"></div>
+							</div>
+							<div id="modifyCommentFileUploadPreview" class="file-upload-area"></div>
 						</div>
-						
-						<div id="modifyCommentFileUploadPreview" class="file-upload-area"></div>
-						
+
 						<div class="pull-right">
-							<a @click="commentModify('cancel')"  class="btn btn-default">취소</a>
-							<a @click="commentSave('modify')"  class="btn btn-default">저장</a>
+							<a @click="commentModify('cancel')"  class="btn btn-default"><spring:message code="cancel" text="취소"/></a>
+							<a @click="commentSave('modify')"  class="btn btn-success"><spring:message code="save" text="저장"/></a>
 						</div>
 						<div style="clear:both;padding-bottom:5px;"></div>
 					</template>
 				</div>
 			</li>
-		</ul>	
+		</ul>
 	</div>
 </div>
  
 <script>
-
+VARTOOL.loadResource(['fileupload',"toast.editor"]);
 VartoolAPP.vueServiceBean({
 	el: '#vueArea'
 	,data: {
@@ -148,7 +151,8 @@ VartoolAPP.vueServiceBean({
 		,modifyCommentFileUploadObj : {}
 		,reCommentParent : {}
 		,reModifyCommentInfo : {}
-		
+		,commentEditor: {}
+		,modifyCommentEditor: {}
 	}
 	,methods:{
 		commentReset : function(){
@@ -156,10 +160,84 @@ VartoolAPP.vueServiceBean({
 		}
 		,init : function (){
 			var _this =this;
+
+            this.$ajax({
+				url: '<vartool:boardUrl addUrl="viewContents" contextPath="false"/>'
+				,data: {
+					'articleId' : this.articleInfo.articleId
+					,boardCode : this.articleInfo.boardCode
+				}
+				,success: (resData) => {
+					this.articleInfo  = resData.item;
+			
+                    const viewer  = new toastui.Editor.factory({
+                        el: document.querySelector('#contentViewer'),
+                        height: 'auto',  
+                        linkAttributes:{target:"_blank"},
+                        viewer: true,
+                        initialValue : this.articleInfo.contents,
+                        plugins: [
+                            [toastui.Editor.plugin.chart],
+                            toastui.Editor.plugin.colorSyntax,
+                            toastui.Editor.plugin.tableMergedCell,
+                            [
+                                toastui.Editor.plugin.uml,
+                                { rendererURL: "http://www.plantuml.com/plantuml/svg/" }
+                            ]
+                        ],
+                    });
+                }
+            })
+			
+			setTimeout(()=>{
+				this.commentEditor = new toastui.Editor({
+		            el: document.querySelector('#commentContents'),
+		            height: 'auto',
+		            minHeight : '150px',
+		            initialEditType: 'markdown',
+		            autofocus:false,
+		            initialValue: '',
+		            linkAttributes:{target:"_blank"},
+		            //previewStyle: 'vertical'
+		            plugins: [
+	                    [toastui.Editor.plugin.chart],
+	                    toastui.Editor.plugin.tableMergedCell,
+	                    toastui.Editor.plugin.colorSyntax,
+	                    [
+	                        toastui.Editor.plugin.uml,
+	                        { rendererURL: "http://www.plantuml.com/plantuml/svg/" }
+	                    ]
+	                ],
+		            hooks: {
+		                async addImageBlobHook(blob, callback) { // 이미지 업로드 로직 커스텀
+		                    try {
+		                        const formData = new FormData();
+		                        formData.append('image', blob);
+
+		                        const response = await fetch(VARTOOL.url('/file/imageUpload'), {
+		                            method : 'POST',
+		                            body : formData,
+		                        });
+
+		                        const responseJson = await response.json();
+		                        const fileInfo = responseJson.item;
+		                        const fileContId = fileInfo.fileContId;
+		                        
+		                        // 4. addImageBlobHook의 callback 함수를 통해, 디스크에 저장된 이미지를 에디터에 추가
+		                        const imageUrl = VARTOOL.url( '/imageView/'+fileContId);
+		                        callback(imageUrl, fileInfo.fileName || 'image');
+
+		                    } catch (error) {
+		                        console.error('upload fail : ', error);
+		                    }
+		                }
+		            }
+		        });
+			},100); 
 			
 			this.commentList();
 			
-			this.commentFileUploadObj = VARTOOLUI.file.create('#commentFileDropArea',{
+			this.commentFileUploadObj = VARTOOLUI.file.create('#mainCommentContainer',{
 				options : {
 					url : '<vartool:boardUrl addUrl="commentSave"/>'
 					,params : {
@@ -170,6 +248,7 @@ VartoolAPP.vueServiceBean({
 				}
 				,callback : {
 					complete : function (file, resp){
+						_this.commentEditor.setHTML('');
 						_this.commentList();
 					}
 				}
@@ -218,12 +297,13 @@ VartoolAPP.vueServiceBean({
 			}else{
 				if(mode == 'modify'){
 					saveInfo = VARTOOL.util.objectMerge(this.modifyComment); 
-					saveInfo.contents = saveInfo.modifyContents;
+					saveInfo.contents = this.modifyCommentEditor.getHTML();
 					saveInfo.removeFileIds = saveInfo.removeFiles.join(',');
 					
 					fileUploadObj = this.modifyCommentFileUploadObj;
 				}else{
 					saveInfo = this.comment; 
+					saveInfo.contents = this.commentEditor.getHTML();
 					fileUploadObj = this.commentFileUploadObj;
 				}
 			}
@@ -313,11 +393,61 @@ VartoolAPP.vueServiceBean({
 			
 			this.modifyComment = item;
 			
+			if(_this.modifyCommentEditor && _this.modifyCommentEditor.destroy) _this.modifyCommentEditor.destroy();
+			
 			this.$nextTick(function (){
 				
 				if(VARTOOL.isUndefined(_this.modifyComment.commentId)) return ;
 				
-				this.modifyCommentFileUploadObj = VARTOOLUI.file.create('#modifyCommentFileDropArea',{
+				setTimeout(()=>{
+					
+					_this.modifyCommentEditor = new toastui.Editor({
+			            el: document.querySelector('#modifyContents'),
+			            height: 'auto',                        
+			            initialEditType: 'markdown',
+			            autofocus:false,
+			            initialValue: '',
+			            linkAttributes:{target:"_blank"},
+			            //previewStyle: 'vertical'
+			            plugins: [
+		                    [toastui.Editor.plugin.chart],
+		                    toastui.Editor.plugin.tableMergedCell,
+		                    toastui.Editor.plugin.colorSyntax,
+		                    [
+		                        toastui.Editor.plugin.uml,
+		                        { rendererURL: "http://www.plantuml.com/plantuml/svg/" }
+		                    ]
+		                ],
+			            hooks: {
+			                async addImageBlobHook(blob, callback) { // 이미지 업로드 로직 커스텀
+			                    try {
+			                        const formData = new FormData();
+			                        formData.append('image', blob);
+
+			                        const response = await fetch(VARTOOL.url('/file/imageUpload'), {
+			                            method : 'POST',
+			                            body : formData,
+			                        });
+
+			                        const responseJson = await response.json();
+			                        const fileInfo = responseJson.item;
+			                        const fileContId = fileInfo.fileContId;
+			                        
+			                        // 4. addImageBlobHook의 callback 함수를 통해, 디스크에 저장된 이미지를 에디터에 추가
+			                        const imageUrl = VARTOOL.url( '/imageView/'+fileContId);
+			                        callback(imageUrl, fileInfo.fileName || 'image');
+
+			                    } catch (error) {
+			                        console.error('upload fail : ', error);
+			                    }
+			                }
+			            }
+			        });
+					
+					_this.modifyCommentEditor.setHTML(item.contents);
+				},100); 
+				
+				this.modifyCommentFileUploadObj = VARTOOLUI.file.create('#modifyCommentContainer',{
 					files: _this.modifyComment.modifyFiles
 					,options : {
 						url : '<vartool:boardUrl addUrl="commentSave"/>'

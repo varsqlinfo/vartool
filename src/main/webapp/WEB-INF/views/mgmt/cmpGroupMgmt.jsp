@@ -81,7 +81,7 @@
 									<div class="form-group">
 										<label class="col-sm-4 control-label">그룹명</label>
 										<div class="col-sm-8">
-											<input class="form-control text required" v-model="detailItem.name">
+											<input type="text" class="form-control text required" v-model="detailItem.name">
 										</div>
 									</div>
 									<div class="form-group">
@@ -157,7 +157,7 @@ VartoolAPP.vueServiceBean({
 				,useDragSort : false
 				,duplicateCheck : true
 				,message :{
-					duplicate: VARTOOL.messageFormat('vartool.0018')
+					duplicate: VARTOOL.message('vartool.0018')
 				}
 				,sourceItem : {
 					optVal : 'cmpId'

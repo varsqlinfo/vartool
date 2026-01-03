@@ -31,6 +31,7 @@ import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.vartool.web.constants.ResourceConfigConstants;
+import com.vartool.web.constants.SecurityConstants;
 import com.vartool.web.security.UserService;
 import com.vartool.web.security.VartoolAccessDeniedHandler;
 import com.vartool.web.security.VartoolAuthenticationFailHandler;
@@ -127,10 +128,10 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 			.ignoringRequestMatchers(staticRequestMatcher, csrfIgnoreRequestMatcher)
 			.requireCsrfProtectionMatcher(ajaxRequestMatcher)
 		.and() //session
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
-			.sessionAuthenticationErrorUrl("/login")  // remmember me error 처리 페이지. 추가. 
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 세션 생성 방법 
+			.sessionFixation().newSession() // sessionFixation 세션 id 처리 방법
+			.sessionAuthenticationErrorUrl("/login")  // remmember me error 처리 페이지. 추가.
 			//.maximumSessions(1)	// 중복 로그인 카운트
-			.sessionFixation().changeSessionId()	// session 공격시 session id 변경.
 		.and() // login
 			.formLogin()
 	        .loginPage("/login")
@@ -162,7 +163,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	        .addLogoutHandler(vartoolAuthenticationLogoutHandler)
 	        .logoutSuccessHandler(vartoolAuthenticationLogoutSuccessHandler)
 	        .invalidateHttpSession(true)
-	        .deleteCookies("JSESSIONID").permitAll()
+	        .deleteCookies(SecurityConstants.JSESSION_ID_COOKIE_NAME).permitAll()
 	        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 
 		.and()

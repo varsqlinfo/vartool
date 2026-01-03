@@ -1,7 +1,9 @@
 package com.vartool.web.app.mgmt.service;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,6 +13,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
@@ -28,15 +34,20 @@ import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.app.beans.SearchParameter;
 import com.vartech.common.crypto.EncryptDecryptException;
 import com.vartech.common.utils.StringUtils;
+import com.vartool.core.common.CommonUtils;
 import com.vartool.core.crypto.PasswordCryptionFactory;
 import com.vartool.web.app.handler.deploy.git.GitSource;
 import com.vartool.web.constants.ResourceConfigConstants;
+import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.dto.CredentialInfo;
+import com.vartool.web.dto.DeployInfo;
 import com.vartool.web.dto.request.CmpDeployRequestDTO;
 import com.vartool.web.dto.response.CmpDeployResponseDTO;
 import com.vartool.web.exception.ComponentNotFoundException;
 import com.vartool.web.model.entity.base.AbstractRegAuditorModel;
+import com.vartool.web.model.entity.cmp.CmpEntity;
 import com.vartool.web.model.entity.cmp.CmpItemDeployEntity;
+import com.vartool.web.module.ComponentUtils;
 import com.vartool.web.module.VartoolBeanUtils;
 import com.vartool.web.module.VartoolUtils;
 import com.vartool.web.repository.cmp.CmpItemDeployRepository;
@@ -212,6 +223,30 @@ public class CmpDeployMgmtService {
 	    }
 	    String[] result = new String[emptyNames.size()];
 	    return emptyNames.toArray(result);
+	}
+
+	public void sourceDownload(String cmpId, String fileName, HttpServletRequest req, HttpServletResponse res) throws IOException {
+		CmpItemDeployEntity entity = cmpItemDeployRepository.findByCmpId(cmpId);
+		
+		if(entity == null) {
+			throw new ComponentNotFoundException("Component not found id : ["+ cmpId+"]");
+		}
+		
+		String charset =VartoolConstants.CHAR_SET; 
+		
+		res.setContentType("application/download; "+charset);
+		res.setHeader("Content-Type", "application/octet-stream;");
+		res.setHeader("Content-Transfer-Encoding", "binary");
+		res.setHeader("Content-Disposition", "attachment;fileName="+CommonUtils.getDownloadFileName(req, fileName)+ ";");
+		
+		
+		String source = ComponentUtils.getBuildScript(DeployInfo.toDto(entity, null)); 
+		
+		try (ServletOutputStream output = res.getOutputStream();
+				BufferedWriter out = new BufferedWriter(new OutputStreamWriter(output, charset))) {
+			out.write(source);
+			out.close();
+		}
 	}
 
 }

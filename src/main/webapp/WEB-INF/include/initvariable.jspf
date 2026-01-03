@@ -17,8 +17,8 @@ var $vartoolConfig = {
 	,logoutUrl : "${logoutUrl}"
 	,logoutUrl : "${logoutUrl}"
 	,file : {
-		maxUploadSize : 1000
-		,sizePerFile : 1000
+		maxUploadSize : ${fileUploadSize}
+		,sizePerFile : ${fileUploadSizePerFile}
 	}
 }
 </script>

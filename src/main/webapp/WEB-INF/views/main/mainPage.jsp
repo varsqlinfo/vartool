@@ -3,8 +3,8 @@
 <div id="mainPage" class="wh100">
 	<div id="mainContainer" class="main-container"></div>
 </div>
-<div id="boardWrapper" class="board-wrapper">
-	<iframe id="mainArticleFrame" src="" style="width: 100%;height: 100%;border: 0px solid transparent;"></iframe>
+<div id="boardWrapper" class="board-wrapper" style="width:60%;">
+	<iframe id="mainArticleFrame" src="" style="background: #ffffff;width: 100%;height: 100%;border: 0px solid transparent;"></iframe>
 </div>
 
 <%--app log component template --%>

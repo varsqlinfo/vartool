@@ -2,7 +2,6 @@ package com.vartool.core.config.vo;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * App config
@@ -13,6 +12,7 @@ import lombok.ToString;
 @Setter
 @Getter
 public class AppConfig {
+	private boolean dbInit;
 	private String charset;
 	private String javaHome;
 	private String commandSavePath;

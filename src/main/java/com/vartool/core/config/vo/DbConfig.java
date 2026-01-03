@@ -2,18 +2,13 @@ package com.vartool.core.config.vo;
 
 import java.io.File;
 
-import org.apache.commons.pool2.impl.BaseObjectPoolConfig;
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vartech.common.utils.StringUtils;
 import com.vartool.core.config.VartoolConfiguration;
-import com.vartool.core.config.vo.DbConfig.DbConfigBuilder;
+import com.vartool.web.constants.DBInitMode;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 /**
  * db conection config
@@ -24,6 +19,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 public class DbConfig {
+	private DBInitMode initMode;
 	private String type;
 	private String url;
 	private String username;
@@ -42,7 +38,7 @@ public class DbConfig {
 
 	@Builder
 	public DbConfig(String type, String url, String username, String password, String driverClass, 
-			int maxTotal, int minIdle, int maxIdle, int initialSize, long maxWaitMillis, String validationQuery, boolean testWhileIdle) {
+			int maxTotal, int minIdle, int maxIdle, int initialSize, long maxWaitMillis, String validationQuery, boolean testWhileIdle, String initMode) {
 		
 		this.type= type;
 		this.url= url;
@@ -57,6 +53,17 @@ public class DbConfig {
 		this.maxWaitMillis = maxWaitMillis;
 		this.validationQuery = validationQuery;
 		this.testWhileIdle = testWhileIdle;
+		setInitMode(initMode);
+	}
+	
+	
+	public void setInitMode(String initMode) {
+		this.initMode = DBInitMode.getInitMode(initMode);
+	}
+	
+	public DBInitMode getInitMode() {
+		return this.initMode==null? DBInitMode.NONE : this.initMode;
+			
 	}
 	
 	@Override
@@ -85,6 +92,7 @@ public class DbConfig {
 				.username("sa")
 				.password("sa")
 				.type("h2")
+				.initMode("ddl")
 			.build();
 		}else {
 			DbConfigBuilder builder = DbConfig.builder();
@@ -93,11 +101,11 @@ public class DbConfig {
 			builder.username(dbConfig.getUsername());
 			builder.password(dbConfig.getPassword());
 			builder.driverClass(dbConfig.getDriverClass());
+			builder.initMode(dbConfig.getInitMode().name());
 			
 			if(!StringUtils.isBlank(dbConfig.getUrl())) {
 				builder.url(dbConfig.getUrl().replace("#resourePath#", VartoolConfiguration.getConfigRootPath()));
 			}
-			
 			builder.initialSize(dbConfig.getInitialSize() < 1 ? 3 : dbConfig.getInitialSize());
 			builder.maxTotal(dbConfig.getMaxTotal() < 1 ? 10 : dbConfig.getMaxTotal());
 			builder.minIdle(dbConfig.getMinIdle() < 1 ? 2 : dbConfig.getMinIdle());

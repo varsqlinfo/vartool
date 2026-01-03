@@ -28,7 +28,16 @@
 <div class="container" style="margin: 20px auto 50px;">
     <h3 class="page-header" style="text-align:center;"><spring:message code="home.title"/></h3>
     <!-- form start -->
-    <div>가입 승인이 되지 않았습니다. <br> 관리자에게 문의 하세요.</div>
+    
+    <c:choose>
+    	<c:when test="${param.join_success eq 'Y'}">
+    		<div>회원 가입 되었습니다.<br>사용은 관리자 승인 후 사용 가능합니다.</div>
+    	</c:when>
+    	<c:otherwise>
+    		<div>가입 승인이 되지 않았습니다. <br> 관리자에게 문의 하세요.</div>
+    	</c:otherwise>
+    </c:choose>
+    	
     <div class="form-group">
           <div class="col-sm-12 text-center">
               <button type="button" class="btn btn-default btnMain"><spring:message code="btn.login"/></button>

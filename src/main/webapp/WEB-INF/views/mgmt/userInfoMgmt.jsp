@@ -300,7 +300,7 @@ VartoolAPP.vueServiceBean({
 		,initPassword :function(sItem){
 			var _self = this;
 
-			if(!confirm(VARTOOL.messageFormat('vartool.m.0009', {userName : sItem.uname}))){
+			if(!VARTOOL.confirmMessage('vartool.m.0009', {userName : sItem.uname})){
 				return ;
 			}
 

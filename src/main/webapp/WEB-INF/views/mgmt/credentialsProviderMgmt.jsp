@@ -228,7 +228,7 @@ VartoolAPP.vueServiceBean({
 		,saveInfo : function (){
 			
 			if(this.detailItem.password != this.detailItem.confirmPassword){
-				VARTOOLUI.toast.open(VARTOOL.messageFormat('비밀번호가 일치 하지 않습니다.'));
+				VARTOOL.toastMessage('비밀번호가 일치 하지 않습니다.');
 				return ; 
 			}
 				
@@ -265,13 +265,13 @@ VartoolAPP.vueServiceBean({
 				,data:param
 				,success:function (resData){
 					if(resData.resultCode ==200){
-						VARTOOLUI.toast.open(VARTOOL.messageFormat('vartool.0027'));
+						VARTOOL.toastMessage('vartool.0027');
 						_this.search();
 
 						_this.viewItem(resData.item);
 						return
 					}else{
-						alert(resData.messageCode  +'\n'+ resData.message);
+						VARTOOL.alertMessage(resData.messageCode  +'\n'+ resData.message);
 					}
 				}
 			});

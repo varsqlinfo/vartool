@@ -130,6 +130,14 @@ VARTOOL.ui.addComponent = function (type, opt){
 	_ui.layout.addComponent(type, opt)
 }
 
+// 컴포넌트 log start
+VARTOOL.ui.startComponentLog = function (cmpInfo){
+	var cmpLogViewInstance = $.pubLogViewer('[component-viewerid="'+cmpInfo.id+'"]');
+	if(cmpLogViewInstance){
+		cmpLogViewInstance.setStatus('start');
+	}
+}
+
 VARTOOL.ui.isActiveTab = function (id){
 	return _ui.layout.isActiveTab(id);
 }
@@ -412,7 +420,7 @@ _ui.layout ={
 		vartoolLayout.init();
 		
 		// 자식 컨텐츠가 없을때
-		if(!vartoolLayout.config.content[0].content || vartoolLayout.config.content[0].content.length < 1){
+		if(vartoolLayout.config.content.length > 0 && (!vartoolLayout.config.content[0].content || vartoolLayout.config.content[0].content.length < 1)){
 			firstStateChanged = false;
 		}
 		
@@ -583,7 +591,7 @@ _ui.registerComponent({
 
 							_ui.saveArticle(_g_options.articleSaveUrl,{
 								title : ('['+logItem.name+'] - '+selectionData.substring(0,100))
-								,contents : selectionData
+								,contents : '```\n'+selectionData+'\n```'
 							});
 						}}
 					]
@@ -616,7 +624,11 @@ _ui.registerComponent({
 					}
 				}
 				
-				var logList = logInfo.logList; 
+				var logList = logInfo.logList;
+				
+				if(logList==null){
+					logList = [logInfo.log];
+				}
 				
 				if(logList != null && logList.length > 0){
 					logElement.setData(logList, 'addData', {focus: activeCmpFlag, onlyCalc : !activeCmpFlag});
@@ -705,7 +717,7 @@ _ui.registerComponent({
 
 							_ui.saveArticle(_g_options.articleSaveUrl,{
 								title : ('['+logItem.name+'] - '+selectionData.substring(0,100))
-								,contents : selectionData
+								,contents : '```\n'+selectionData+'\n```'
 							});
 						}}
 					]
@@ -759,6 +771,10 @@ _ui.registerComponent({
 				}
 				
 				var logList = logInfo.logList; 
+				
+				if(logList==null){
+					logList = [logInfo.log];
+				}
 				
 				if(logList != null && logList.length > 0){
 					logElement.setData(logList, 'addData', {focus: activeCmpFlag, onlyCalc : !activeCmpFlag});
@@ -828,7 +844,7 @@ _ui.registerComponent({
 
 							_ui.saveArticle(_g_options.articleSaveUrl,{
 								title : ('['+logItem.name+'] - '+selectionData.substring(0,100))
-								,contents : selectionData
+								,contents : '```\n'+selectionData+'\n```'
 							});
 						}}
 					]
@@ -887,6 +903,10 @@ _ui.registerComponent({
 			var logElement = this.logElement[cmpId]; 
 			if(logElement){
 				var logList = logInfo.logList;
+				
+				if(logList==null){
+					logList = [logInfo.log];
+				}
 				 
 				logElement.setData(logList, 'addData' ,{focus: activeCmpFlag, onlyCalc : !activeCmpFlag});			
 			}

@@ -166,18 +166,18 @@ Vue.component('step-button', {
 	,data : function (){
 		return {
 			btnName : VARTOOL.util.objectMerge({
-				prev : VARTOOL.messageFormat('step.prev')
-				,next : VARTOOL.messageFormat('step.next')
-				,complete :VARTOOL.messageFormat('step.complete')
+				prev : VARTOOL.message('step.prev')
+				,next : VARTOOL.message('step.next')
+				,complete :VARTOOL.message('step.complete')
 			}, this.buttons)
 		};
 	}
 	,watch :{
 		buttons : function (newval){
 			this.btnName = VARTOOL.util.objectMerge({
-				prev : VARTOOL.messageFormat('step.prev')
-				,next : VARTOOL.messageFormat('step.next')
-				,complete :VARTOOL.messageFormat('step.complete')
+				prev : VARTOOL.message('step.prev')
+				,next : VARTOOL.message('step.next')
+				,complete :VARTOOL.message('step.complete')
 			}, this.buttons)
 		}
 	}
@@ -305,9 +305,9 @@ Vue.component('file-upload', {
 		,buttons :{
 			type: Object
 			, default :{
-				add : VARTOOL.messageFormat('file.add')
-				,upload : VARTOOL.messageFormat('file.upload')
-				,remove : VARTOOL.messageFormat('file.remove')
+				add : VARTOOL.message('file.add')
+				,upload : VARTOOL.message('file.upload')
+				,remove : VARTOOL.message('file.remove')
 			}
 		}
 		,isViewUploadFile : {

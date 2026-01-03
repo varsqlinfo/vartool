@@ -1,0 +1,2 @@
+-- 2023-02-28 추가
+alter table VT_CMP add column LOG_PATTERN  VARCHAR(1000);

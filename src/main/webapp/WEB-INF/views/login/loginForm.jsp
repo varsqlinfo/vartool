@@ -143,17 +143,10 @@ String pw = "";
 
 String remoteAddr = request.getRemoteAddr();
 if("127.0.0.1".equals(remoteAddr) 
-		|| "0:0:0:0:0:0:0:1".equals(remoteAddr) 
-		|| "10.47.77.53".equals(remoteAddr)){
+		|| "0:0:0:0:0:0:0:1".equals(remoteAddr) ){
 	id = "admin";
 	pw = "admin1234!";
 	
-}else if("10.47.77.168".equals(remoteAddr) ){
-	id = "yjlee";
-	pw = "yjlee";
-}else if("10.47.78.14".equals(remoteAddr) || "10.47.77.14".equals(remoteAddr)){
-	id = "shhan";
-	pw = "shhan";
 }
 
 if(!"".equals(id)){

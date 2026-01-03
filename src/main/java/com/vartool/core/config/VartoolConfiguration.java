@@ -44,7 +44,9 @@ public class VartoolConfiguration extends AbstractConfiguration {
 	
 	final private String APP_CONFIG_PATH  = CONFIG_DIR_PATH+"vartool-app-config.yaml";
 	
-	final private String VARSQL_QUARTZ_PROPERTIES_FILE= "config/vartoolQuartz.properties";
+	final private String APP_QUARTZ_PROPERTIES_FILE= "config/vartoolQuartz.properties";
+	
+	final private String APP_INITIALIZED_FILE= "initialized.dat";
 	
 	private String siteAddr; 
 	
@@ -80,9 +82,10 @@ public class VartoolConfiguration extends AbstractConfiguration {
 			
 			if (resources == null || !resources.exists()) {
 				resources =  ResourceUtils.getResource(ResourceUtils.CLASS_PREFIX+APP_CONFIG_PATH);
+				appConfig = mapper.readValue(resources.getInputStream(), AppConfig.class);
+			}else {
+				appConfig = mapper.readValue(resources.getFile(), AppConfig.class);
 			}
-		
-			appConfig = mapper.readValue(resources.getFile(), AppConfig.class);
 			
 			loadMainConfig();
 		} catch (IOException | ConfigurationLoadException e) {
@@ -281,7 +284,7 @@ public class VartoolConfiguration extends AbstractConfiguration {
 	}
 	
 	public Resource getQuartzConfig() {
-		return getResourceFile(VARSQL_QUARTZ_PROPERTIES_FILE);
+		return getResourceFile(APP_QUARTZ_PROPERTIES_FILE);
 	}
 	
 	private Resource getResourceFile(String filePath) {
@@ -298,4 +301,11 @@ public class VartoolConfiguration extends AbstractConfiguration {
 		return false;
 	}
 	
+	public boolean isInitialized() {
+		return new File(VartoolConfiguration.getConfigRootPath(), APP_INITIALIZED_FILE).exists();
+	}
+	
+	public String getInitializedFileName() {
+		return APP_INITIALIZED_FILE;
+	}
 }

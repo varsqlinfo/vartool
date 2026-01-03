@@ -141,6 +141,8 @@ public class GitSource {
 				git.checkout().setName(dto.getScmBranch()).call();
 			}catch(Exception e){
 				logger.error("execute is :{} ", e.getMessage() , e);
+				this.msgData.setLog("git error message : "+e.getMessage()+", git uri : "+ gitURI);
+				this.deployAbstract.sendLogMessage(this.msgData, this.recvId);
 			}
 		}else {
 			logger.info("gitPull localBranch: {} ", localBranch);

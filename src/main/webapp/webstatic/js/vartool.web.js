@@ -98,6 +98,26 @@ _$base.staticResource  ={
 			'/webstatic/js/plugins/file/dropzone.css',
 		]
 	}
+	, 'toast.editor': {
+		'js': [
+			'/webstatic/js/plugins/board/editor/toast/toastui-editor-all.min.js'
+			,"/webstatic/js/plugins/board/editor/toast/tui-color-picker.min.js"
+			,"/webstatic/js/plugins/board/editor/toast/toastui-editor-plugin-color-syntax.min.js"
+			,"/webstatic/js/plugins/board/editor/toast/toastui-editor-plugin-code-syntax-highlight-all.min.js"
+			,"/webstatic/js/plugins/board/editor/toast/toastui-chart.js"
+			,"/webstatic/js/plugins/board/editor/toast/toastui-editor-plugin-uml.min.js"
+			,"/webstatic/js/plugins/board/editor/toast/toastui-editor-plugin-chart.min.js"
+			,"/webstatic/js/plugins/board/editor/toast/toastui-editor-plugin-table-merged-cell.min.js"
+		]
+		, 'css': [
+			'/webstatic/js/plugins/board/editor/toast/toastui-editor.min.css'
+			,"/webstatic/js/plugins/board/editor/toast/toastui-chart.css"
+			,"/webstatic/js/plugins/board/editor/toast/toastui-editor-dark.css"
+			,"/webstatic/js/plugins/board/editor/toast/toastui-editor-plugin-code-syntax-highlight.min.css"
+			,"/webstatic/js/plugins/board/editor/toast/toastui-editor-plugin-color-syntax.min.css"
+			,"/webstatic/js/plugins/board/editor/toast/tui-color-picker.css"
+		]
+	}
 };
 
 var _defaultOption = {
@@ -281,19 +301,27 @@ _$base.localStorage =function (opt){
 /**
  * message
  */
-_$base.messageFormat =function (fmt,msgParam){
+_$base.confirmMessage = function (fmt, msgParam){
+	return confirm(_$base.message(fmt, msgParam));			
+}
+_$base.alertMessage = function (fmt, msgParam){
+	return VARTOOLUI.alert.open(_$base.message(fmt, msgParam));			
+}
+_$base.toastMessage = function (fmt, msgParam){
+	return VARTOOLUI.toast.open(_$base.message(fmt, msgParam));			
+}
+_$base.message =function (fmt, msgParam){
 
-	if(_$base.isUndefined(msgParam)){
-		var reval = VARTOOL_LANG[fmt];
-
-		if(!_$base.isUndefined(reval)){
-			return reval;
-		}
-	}else{
-		var tmpFmt = VARTOOL_LANG[fmt];
-		fmt = tmpFmt ? tmpFmt :fmt;
+	var msgFormat = VARTOOL_LANG[fmt];
+	
+	if(_$base.isUndefined(msgFormat)){
+		msgFormat = fmt;
 	}
-
+	
+	if(_$base.isUndefined(msgParam)){
+		return msgFormat;
+	}
+	
 	msgParam = msgParam||{};
 
 	var strFlag = false
@@ -312,7 +340,7 @@ _$base.messageFormat =function (fmt,msgParam){
 
     this.$$index = 0;
 
-    return fmt.replace(/\{{1,1}([A-Za-z0-9_.]*)\}{1,1}/g, function(match, key) {
+    return msgFormat.replace(/\{{1,1}([A-Za-z0-9_.]*)\}{1,1}/g, function(match, key) {
 		if(strFlag){
 			return msgParam;
 		}else if(arrFlag){
@@ -330,6 +358,7 @@ _$base.messageFormat =function (fmt,msgParam){
 		}
     });
 }
+
 //웹 로그 쌓기
 _$base.log={
 	debug : function (msg){
@@ -669,7 +698,7 @@ _$base.req ={
 		}
 
 		var contHtm = [];
-		contHtm.push('<form action="'+opts.url+'" method="post" name="vartool_hidden_down_form" target="vartool_hidden_down_iframe">');
+		contHtm.push('<form action="'+opts.url+'" method="'+tmpMethod+'" name="vartool_hidden_down_form" target="vartool_hidden_down_iframe">');
 
 		var tmpVal;
 
@@ -712,8 +741,17 @@ _$base.logout = function (callback){
 }
 
 // file upload size
-_$base.getFileMaxUploadSize = function (){
-	return $vartoolConfig.file.maxUploadSize || 1000;
+_$base.getFileMaxUploadSize = function (type){
+	if($vartoolConfig.file.maxUploadSize == -1){
+		return -1; 
+	}
+	
+	var calcSize =1; 
+	if(type =='M'){
+		calcSize = 1024*1024;
+	}
+	
+	return ($vartoolConfig.file.sizePerFile >0 ? $vartoolConfig.file.sizePerFile : 10485760) / calcSize
 }
 
 // file unit max size
@@ -742,7 +780,7 @@ _$base.socket ={
 
 		this.subscripeObj[subscribeId] = this.stompClient.subscribe(subscribeId, function (data) {
     		if(_$base.isFunction(callback)){
-          callback.call(null, parseJSON( data.body));
+          		callback.call(null, parseJSON( data.body));
     		}
     	}, headers);
 	}
@@ -1446,6 +1484,95 @@ _$base.util = {
 			width : (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth)
 			,height : (window.innerHeight || document.documentElement.clientHeight ||document.body.clientHeight)
 		}
+	}
+	, replaceParamUrl: function(url, param) {
+		var _this = this;
+		if (!url) return '';
+
+		var queryStr = [];
+
+		var urlArr = url.split('?');
+		if (urlArr.length > 1) {
+			queryStr.push(urlArr[0] + '?');
+			url = urlArr.splice(1).join('?');
+		}
+		var parameters = url.split('&');
+
+		var sParam, sParamArr;
+		for (var i = 0; i < parameters.length; i++) {
+			sParam = parameters[i];
+
+			if (i != 0) queryStr.push('&');
+
+			queryStr.push(_this.replaceParam(sParam, param));
+		}
+		return queryStr.join('');
+	}
+	/**
+	 * @method VARSQL.util.replageParam
+	 * @param str replace string
+	 * @param replaceParam 변경함 파라미터
+	 * @description get all attirbute
+	 */
+	, replaceParam: function(str, replaceParam) {
+		var matchObj = str.match(/#.*?#/g);
+
+		if (matchObj != null) {
+			var _paramVal = str, tmpKey = {}, matchKey, orginKey, paramObjFlag = (typeof replaceParam === 'object');
+
+			for (var j = 0, matchLen = matchObj.length; j < matchLen; j++) {
+				orginKey = matchObj[j];
+				var matchKey = orginKey;
+
+				var keyMatch = matchKey.match(/[*+$|^(){}\[\]]/gi);
+
+				if (keyMatch != null) {
+					var tmpReplaceKey = {}
+					for (var z = 0, matchKeyLen = keyMatch.length; z < matchKeyLen; z++) {
+						var specCh = keyMatch[z];
+
+						if (!tmpReplaceKey[specCh]) {
+							matchKey = matchKey.replace(new RegExp(speicalChar[specCh], 'g'), speicalChar[specCh]);
+							tmpReplaceKey[specCh] = specCh;
+						}
+					}
+				}
+
+				if (paramObjFlag) {
+					if (!tmpKey[orginKey]) {
+						_paramVal = _paramVal.replace(new RegExp(matchKey, 'g'), (replaceParam[orginKey.replace(/#/g, '')] || ''));
+						tmpKey[orginKey] = orginKey;
+					}
+				} else {
+					_paramVal = _paramVal.replace(new RegExp(matchKey, 'g'), replaceParam);
+				}
+			}
+			return _paramVal;
+		}
+
+		return str;
+	}
+	/**
+	 * number format
+	 */
+	, numberFormat: function(num) {
+		return num.toLocaleString();
+	}
+	/**
+	 * number format
+	 */
+	, fileDisplaySize: function(fileSize) {
+		var k = 1024.0;
+		if (fileSize < k) {
+			return fileSize + " bytes";
+		}
+
+		var units = [ "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+		var i = Math.floor(Math.log(fileSize) / Math.log(k));
+		var unit = k ** i;
+		var reval = (fileSize / unit); 
+		
+		return (reval != Math.ceil(reval) ? reval.toFixed(2) : reval) + " " + units[i-1];
 	}
 }
 

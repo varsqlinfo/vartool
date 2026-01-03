@@ -77,7 +77,7 @@ _$base.alert = {
 
 		var msg = opt;
 		if(VARTOOL.isObject(opt) && !VARTOOL.isUndefined(opt.key)){
-			msg = VARTOOL.messageFormat(opt.key, opt);
+			msg = VARTOOL.message(opt.key, opt);
 		}
 
 		return alert(msg);
@@ -356,9 +356,6 @@ function popupPosition(_w,_h , tr , lr, tmpName ,ieDualCenter){
 	}
 }
 
-
-
-var fileComponentBtnIdx = 0;
 function FileComponent(opt){
 	this.init(opt);
 	return this; 
@@ -383,10 +380,16 @@ FileComponent.prototype = {
 		var strHtm = [];
 		strHtm.push('	<ul class="file-row">');
 		strHtm.push('	  <li class="file-action-btn">');
-		strHtm.push('		<button data-dz-remove class="btn btn-warning cancel">');
-		strHtm.push('			<i class="glyphicon glyphicon-ban-circle"></i>');
-		strHtm.push('			<span>Cancel</span>');
+		strHtm.push('		<button type="button" data-dz-remove class="btn file-remove" title="Remove">');
+		strHtm.push('			<i class="fa fa-trash"></i>');
 		strHtm.push('		</button>');
+
+		if(opt.useDownloadBtn===true){
+			strHtm.push('		<button type="button" class="btn file-download" title="Download">');
+			strHtm.push('			<i class="fa fa-download"></i>');
+			strHtm.push('		</button>');
+		}
+
 		strHtm.push('	  </li>');
 		strHtm.push('	  <li class="file-info">');
 		strHtm.push('		<span class="file-name text-ellipsis" data-dz-name></span> <span class="file-size" data-dz-size></span>');
@@ -409,17 +412,20 @@ FileComponent.prototype = {
 				,complete : function (file ,resp){}
 				,addFile : function (file){}
 				,removeFile : function (file){}
+				,download : function (file){}
 			}
 			,options : {}
 		}, opt);
-
+	
+		var maxFileUploadSize = VARTOOL.getFileMaxUploadSize('M'); 
 		var dropzoneOpt = VARTOOL.util.objectMerge({
 			url: "http://www.vartool.com", // upload url
 			thumbnailWidth : 50,
 			thumbnailHeight : 50,
 			parallelUploads : 20,
 			uploadMultiple : true,
-			maxFilesize : VARTOOL.getFileMaxUploadSize(),
+			timeout: 3600000,
+			maxFilesize : (maxFileUploadSize < 0 ? 5000 : maxFileUploadSize),
 			headers : VARTOOL.req.getCsrf(),
 			autoQueue : false,
 			previewTemplate :  opt.previewTemplate||strHtm.join(''),
@@ -435,34 +441,110 @@ FileComponent.prototype = {
 		if(opt.mode=='template'){
 			
 		}else{
-			var btnClass = 'b-'+VARTOOL.generateUUID();
 			this._btnClear(opt);
-			var btnHtml = '<div class="file-add-btn-area wrapper-'+btnClass+'">첨부할 파일을 끌어다 놓거나<a href="javascript:;" class="file-add-btn '+btnClass+'">파일찾기</a>버튼을 클릭하세요</div>'; 
-			if(opt.btn == 'top'){
-				$(opt.el).before(btnHtml);
-			}else{
-				$(opt.el).after(btnHtml);
-			}
 			
-			if(dropzoneOpt.clickable === false){
-				dropzoneOpt.clickable = '.'+btnClass;
-			}else if(VARTOOL.isArray(dropzoneOpt.clickable)){
-				dropzoneOpt.clickable.push('.'+btnClass);
+			if(opt.btnEnabled !== false){
+				var btnClass = 'b-'+VARTOOL.generateUUID();
+				this.btnClassName = 'wrapper-'+btnClass;
+
+				var btnHtml = '<div class="file-add-btn-area wrapper-'+btnClass+'""><button type="button" class="file-add-btn '+btnClass+'">'+VARTOOL.message('file.add')+'</button></div>';
+				if(opt.btn == 'top'){
+					$(opt.el).prepend(btnHtml);
+				}else{
+					$(opt.el).append(btnHtml);
+				}
+
+				btnClass = '.'+btnClass;
+				if(VARTOOL.isString(dropzoneOpt.clickable)){
+					dropzoneOpt.clickable = dropzoneOpt.clickable+' '+btnClass;
+				}else if(VARTOOL.isArray(dropzoneOpt.clickable)){
+					dropzoneOpt.clickable.push(btnClass);
+				}else{
+					dropzoneOpt.clickable = btnClass;
+				}
+			}
+		}
+		
+		if(dropzoneOpt.previewsContainer != ''){
+			$(dropzoneOpt.previewsContainer).empty();
+		}
+		
+		var dropzone = new Dropzone(opt.el, dropzoneOpt);
+		
+		if(opt.useDownloadBtn===true){
+			var isDownload = $.isFunction(opt.callback.download);
+
+			$(dropzoneOpt.previewsContainer).off('click.download')
+			$(dropzoneOpt.previewsContainer).on('click.download','.file-download',function (e){
+				var fileRowEle = $(this).closest('.file-row');
+				var fileIdx = fileRowEle.index();
+
+				if(isDownload){
+					opt.callback.download(dropzone.files[fileIdx])
+				}
+			})
+		}
+		
+		dropzone.on("sending", function(file, xhr, formData) {
+	        xhr.ontimeout = function (){
+				VARTOOLUI.toast.open('File upload timeout');
+			}
+		});
+		
+		var isDuplCallback = $.isFunction(opt.callback.duplicateFile);
+		
+		dropzone.on("addedfile", function(file) {
+			var addFlag = true;
+
+			var fileName = file.name;
+			
+			if (VARTOOL.getFileMaxUploadSize() !=-1 && file.size > VARTOOL.getFileMaxUploadSize()) {
+				this.removeFile(file);
+				
+				VARTOOLUI.toast.open({
+					text:'add file size : '+ VARTOOL.util.fileDisplaySize(file.size) + '<br>'+'max upload file size : '+ VARTOOL.util.fileDisplaySize(VARTOOL.getFileMaxUploadSize())
+					, hideAfter:3000
+				})
+                return '';
+            }
+			
+			if(file.status == Dropzone.ADDED && !VARTOOL.isBlank(opt.accept)){
+				
+				var lastIdx = fileName.lastIndexOf('.');
+				var ext = lastIdx > -1 ? fileName.substring(lastIdx+1) : fileName;
+				
+				if(VARTOOL.inArray(_this.accept.split(','), ext) < 0){
+					this.removeFile(file);
+					return '';
+				}
 			}
 
-			this.btnClassName = 'wrapper-'+btnClass;
-		}
-		this.opts = opt;
+			if(opt.duplicateIgnore === true){
+				var len = this.files.length;
+				if(file.status=='added' && len > 0){
+					for(var i =0; i<len-1; i++){
+						if(this.files[i].name === fileName){
+							this.removeFile(file);
+							addFlag = false;
+							if(isDuplCallback){
+								opt.callback.duplicateFile(file);
+							}
+						}
+					}
+				}
+			}
 
-		var dropzone = new Dropzone(opt.el, dropzoneOpt);
-
-		dropzone.on("addedfile", function(file) {
-			opt.callback.addFile(file);
-			file.previewElement.querySelector('.file-name').title = file.name;
+			if(addFlag){
+				opt.callback.addFile(file);
+				file.previewElement.querySelector('.file-name').title = fileName;
+			}
 		});
 
+		var isCallback = $.isFunction(opt.callback.removeFile);
 		dropzone.on("removedfile", function(file) {
-			opt.callback.removeFile(file);
+			if(isCallback){
+				opt.callback.removeFile(file);
+			}
 		});
 
 		dropzone.on("maxfilesexceeded", function(file) {
@@ -497,7 +579,7 @@ FileComponent.prototype = {
 				dropzone.files.push(fileItem);
 			}
 		};
-		this._$fileObj = dropzone
+		this._$fileObj = dropzone;
 		return this; 
 	}
 	,_getFileObj : function (){
@@ -528,41 +610,38 @@ FileComponent.prototype = {
 	,getRejectedFiles : function (){
 		return this._$fileObj.getRejectedFiles();
 	}
-	,save : function (param, btnClear){
+	,getAddFiles : function (){
+		return this._$fileObj.getFilesWithStatus(Dropzone.ADDED);
+	}
+	,save : function (param, btnClear, noneFileSave){
 		var _this = this; 
 		var dropzoneObj = this._$fileObj; 
 		dropzoneObj.options.params = function (){
 			return VARTOOL.util.objectMerge({},_this.defaultParams,param);
 		}; 
-
-		var addFiles = dropzoneObj.getFilesWithStatus(Dropzone.ADDED); 
 		
-		if(addFiles.length > 0){
-			dropzoneObj.enqueueFiles(addFiles);
-			//dropzoneObj.processQueue();
-		}else{
+		var sumbitFlag = false;
+		if(noneFileSave !== true){
+			var addFiles = dropzoneObj.getFilesWithStatus(Dropzone.ADDED);
+
+			if(addFiles.length > 0){
+				dropzoneObj.enqueueFiles(addFiles);
+				sumbitFlag = true;
+			}
+		}
+		
+		if(sumbitFlag === false){
 			var blob = new Blob();
 			blob.upload = {'chunked' : dropzoneObj.defaultOptions.chunking};
 			dropzoneObj.uploadFile(blob);
 		}
-
+		
 		if(btnClear===true){
 			this._btnClear(this.opts);
 		}
 	}
 	,emptyFileSave : function(param, btnClear){
-		var _this = this; 
-		var dropzoneObj = this._$fileObj; 
-		dropzoneObj.options.params = function (){
-			return VARTOOL.util.objectMerge({},_this.defaultParams, param);
-		}
-		var blob = new Blob();
-		blob.upload = {'chunked' : dropzoneObj.defaultOptions.chunking};
-		dropzoneObj.uploadFile(blob);
-
-		if(btnClear===true){
-			this._clear();
-		}
+		this.save(param, btnClear, true);
 	}
 	,_btnClear : function (opt){
 		if(this.btnClassName){

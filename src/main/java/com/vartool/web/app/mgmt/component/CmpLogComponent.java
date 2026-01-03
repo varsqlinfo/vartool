@@ -44,9 +44,10 @@ public class CmpLogComponent {
 	
 	private LogMessageDTO startFileLog(String cmpId, ReadLogInfo readLogInfo) {
 		String logPath = readLogInfo.getLogPath(); 
-		if( !(!StringUtils.isBlank(logPath) 
-			&& (new File(logPath).exists() || LogFilenameUtils.isIncludePattern(logPath))) ) {
-			return LogMessageDTO.builder().cmpId(cmpId).log("log path not found : " + logPath).build();
+		if(!StringUtils.isBlank(logPath)){ 
+			if(!new File(logPath).exists() && !LogFilenameUtils.isIncludePattern(logPath)) {
+				return LogMessageDTO.builder().cmpId(cmpId).log("log path not found : " + logPath).build();
+			}
 		}
 		
 		LogCmpManager.getInstance().createLogInfo(cmpId, null);

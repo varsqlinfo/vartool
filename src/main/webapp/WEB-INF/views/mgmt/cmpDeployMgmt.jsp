@@ -77,7 +77,7 @@
 				<div>
 					<form id="writeForm" name="writeForm" role="form" class="form-horizontal bv-form eportalForm">
 						<div class="pull-right bottomHeight5">
-							<button type="button" class="btn btn-default btn_add" :class="detailFlag==true?'':'hidden'" @click="fieldClear()">Add</button>
+							<button type="button" class="btn btn-default btn_add" :class="detailFlag==true?'':'hidden'" @click="fieldClear()">New</button>
 							<template v-if="detailFlag===true">
 								<button type="button" class="btn btn-default" @click="copyInfo()">Copy</button>
 							</template>
@@ -162,7 +162,10 @@
 										<div>
 											<label class="col-lg-3 control-label" for="inputError">빌드 Source</label>
 											<div class="col-lg-9 control-value">
-												<button type="button" class="btn btn-sm btn-success" :class="detailFlag==true?'':'hidden'" @click="xmlDownload()">다운로드</button>
+												<div :class="detailFlag==true?'':'hidden'">
+													<button type="button" class="btn btn-sm btn-success" @click="buildSourceDownload()">빌드 소스 다운로드</button>
+													<button type="button" class="btn btn-sm btn-success" @click="orginSourceDownload()">원천 소스 다운로드</button>
+												</div>
 											</div>
 										</div>
 										<div class="col-lg-12">
@@ -393,7 +396,7 @@ VartoolAPP.vueServiceBean({
 						,success:function (resData){
 							if(VARTOOL.req.validationCheck(resData)){
 								if(resData.resultCode != 200){
-									alert(resData.message);
+									VARTOOL.alertMessage(resData.message);
 									return ;
 								}
 								_this.fieldClear();
@@ -405,7 +408,7 @@ VartoolAPP.vueServiceBean({
 					});
 				}else{
 					var errorItem = _this.errors.items[0];
-					alert(errorItem.msg);
+					VARTOOL.alertMessage(errorItem.msg);
 					return  ;
 				}
 			});
@@ -425,13 +428,13 @@ VartoolAPP.vueServiceBean({
 				,data:param
 				,success:function (resData){
 					if(resData.resultCode ==200){
-						VARTOOLUI.toast.open(VARTOOL.messageFormat('vartool.0027'));
+						VARTOOL.toastMessage('vartool.0027');
 						_this.search();
 
 						_this.viewItem(resData.item);
 						return
 					}else{
-						alert(resData.messageCode  +'\n'+ resData.message);
+						VARTOOL.alertMessage(resData.messageCode  +'\n'+ resData.message);
 					}
 				}
 			});
@@ -471,9 +474,22 @@ VartoolAPP.vueServiceBean({
 				}
 			})
 		}
-		,xmlDownload : function (){
+		,buildSourceDownload : function (){
+			var params = {
+				cmpId : this.detailItem.cmpId
+				,fileName : this.detailItem.name+'_build.xml'
+			}
+			
+			VARTOOL.req.download({
+				url : VARTOOL.url(VARTOOL.uri.manager, '/cmp/deployMgmt/sourceDownload' )
+				,method:'get'
+				,params : params
+			});
+		}
+		,orginSourceDownload : function (){
+			
 			var param = {
-				fileName : this.detailItem.name+'_build.xml'
+				fileName : this.detailItem.name+'_orgin_build.xml'
 				,type :'xml'
 				,content : this.xmlEditor.getValue()
 			}

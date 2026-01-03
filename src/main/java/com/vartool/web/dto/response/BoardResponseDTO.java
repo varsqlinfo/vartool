@@ -34,6 +34,8 @@ public class BoardResponseDTO {
 	private String authorName; 
 	private char noticeYn; 
 	
+	private boolean modifyAuth;
+	
 	@JsonFormat(shape = Shape.STRING, pattern=VartoolConstants.TIMESTAMP_FORMAT)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)

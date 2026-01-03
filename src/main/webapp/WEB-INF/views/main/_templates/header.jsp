@@ -1,6 +1,61 @@
 <%@ page language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/include/tagLib.jspf"%>
+<style>
+.header-menu {
+ 	min-width: 240px !important;
+}
+.header-menu td.name>div{
+   
+	max-width: calc(100% - 65px);
+}
 
+.header-layout-info {
+    min-width: 170px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* title */
+.header-layout-title {
+    font-weight: bold;
+    padding: 8px 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* row */
+.header-layout-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+}
+
+/* 왼쪽 텍스트 */
+.header-layout-row .name {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-right: 8px;
+}
+
+.header-layout-row:hover{
+	background: #f0f0f0;
+}
+
+/* 오른쪽 버튼 영역 */
+.header-layout-row .event-btn-area {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+/* 말줄임 */
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+</style>
 <sec:authorize var="isManager" access="hasAnyAuthority('MANAGER','ADMIN')"/>
 <div id="gnbArea">
 	
@@ -12,25 +67,28 @@
 	  <ul class="nav top-menu" style="float: left;">
 		<li role="layout-parent">
 			<a href="javascript:;" class="header-toggle-btn">Log</a>
-			<table class="header-layout-info header-menu" style="left:0px">
-	        	<tbody>
-	 			<c:forEach var="item" items="${userGroupList}" varStatus="status">
-					<tr>
-						<td class="name">
-							<c:choose>
-								<c:when test="${item.groupId eq cmpGroupInfo.groupId}">
-									<span>${item.groupName}</span>
-									<a href="javascript:;" @click="viewCmpGroup('${item.groupId}', 'new')" class="pull-right">새창보기</a>
-								</c:when>
-								<c:otherwise>
-									<a href="javascript:;" @click="viewCmpGroup('${item.groupId}')">${item.groupName}</a>
-								</c:otherwise>
-							</c:choose>
-						</td> 
-					</tr>
-				</c:forEach>
-				</tbody>
-	        </table>
+			
+			<ul class="header-layout-info" style="left:0px;">
+			  <c:forEach var="item" items="${userGroupList}" varStatus="status">
+			  <!-- row -->
+			  <li class="header-layout-row">
+			  	<c:choose>
+					<c:when test="${item.groupId eq cmpGroupInfo.groupId}">
+						<span class="name text-ellipsis" title="${item.groupName}">${item.groupName}</span>
+						
+						<div class="event-btn-area">
+					      <button @click="viewCmpGroup('${item.groupId}', 'new')" class="btn btn-success btn-sm">
+					        새창보기
+					      </button>
+					    </div>
+					</c:when>
+					<c:otherwise>
+						<div style="cursor:pointer;" class="name text-ellipsis" @click="viewCmpGroup('${item.groupId}')" title="${item.groupName}">${item.groupName}</div>
+					</c:otherwise>
+				</c:choose>
+			  </li>
+			  </c:forEach>
+			</ul>
 	    </li>
 	 </ul>
 	</c:if>
@@ -50,23 +108,20 @@
 	        	로그 <i class="fa fa-eye"></i>
 	        </a>
 	        
-	        <table class="header-layout-info">
-	        	<thead>
-	        		<tr>
-		        		<td colspan="2" class="header-layout-title">Log List</td>
-		        	</tr>
-	        	</thead>
-	        	
-	        	<tbody>
-		        	<tr v-for="(item,index) in logList">
-						<td class="name">- {{item.name}}</td> 
-						<td class="event-btn-area">
-							<button class="btn btn-default btn-sm" @click="downloadComponentItem('appLog',item)" title="Download"><i class="fa fa-download"></i></button>
-							<button class="btn btn-success btn-sm" @click="addComponentItem('appLog',item, 'view')" title="View">View</button>
-						</td>
-					</tr>
-				</tbody>
-	        </table>
+	        <ul class="header-layout-info" style="right:0px;">
+	          <li class="header-layout-title">
+			    Log List
+			  </li>	
+			  <!-- row -->
+			  <li class="header-layout-row" v-for="(item,index) in logList">
+				<span class="name text-ellipsis" :title="item.name">{{item.name}}</span>
+				
+				<div class="event-btn-area">
+			      <button class="btn btn-default btn-sm" @click="downloadComponentItem('appLog',item)" title="Download"><i class="fa fa-download"></i></button>
+				  <button class="btn btn-success btn-sm" @click="addComponentItem('appLog',item, 'view')" title="View">View</button>
+			    </div>
+			  </li>
+			</ul>
 	    </li>
 	    <%--log list end --%>
 	    
@@ -76,26 +131,24 @@
 	        	Deploy <i class="fa fa-cloud-upload"></i>
 	        </a>
 	        
-	        <table class="header-layout-info">
-	        	<thead>
-	        		<tr>
-		        		<td colspan="2" class="header-layout-title">Deploy</td>
-		        	</tr>
-	        	</thead>
-	        	<tbody>
-		        	<tr v-for="(item,index) in deployList">
-						<td class="name">- {{item.name}}</td> 
-						<td class="event-btn-area">
-							<button class="btn btn-default btn-sm" @click="downloadComponentItem('appLog',item)" title="Download"><i class="fa fa-download"></i></button>
-							<button class="btn btn-default btn-sm" @click="deployAction(item, 'view')" title="pull">보기</button>
-							<c:if test="${isManager}">
-								<button class="btn btn-success btn-sm" @click="deployAction(item, 'pull')" title="pull">pull</button>
-								<button class="btn btn-primary btn-sm" @click="deployAction(item, 'all')" title="pull and deploy">p&d</button>
-							</c:if>
-						</td>
-					</tr>
-				</tbody>
-	        </table>
+	        <ul class="header-layout-info" style="right:0px;">
+	          <li class="header-layout-title">
+			    Deploy
+			  </li>	
+			  <!-- row -->
+			  <li class="header-layout-row" v-for="(item,index) in deployList">
+				<span class="name text-ellipsis" :title="item.name">{{item.name}}</span>
+				
+				<div class="event-btn-area">
+			      	<button class="btn btn-default btn-sm" @click="downloadComponentItem('appLog',item)" title="Download"><i class="fa fa-download"></i></button>
+					<button class="btn btn-default btn-sm" @click="deployAction(item, 'view')" title="pull">보기</button>
+					<c:if test="${isManager}">
+						<button class="btn btn-success btn-sm" @click="deployAction(item, 'pull')" title="pull">pull</button>
+						<button class="btn btn-primary btn-sm" @click="deployAction(item, 'all')" title="pull and deploy">p&d</button>
+					</c:if>
+			    </div>
+			  </li>
+			</ul>
 	    </li>
 	    <%--deploy list end --%>
 	    
@@ -105,26 +158,25 @@
 	        	Command<i class="fa fa-wrench"></i>
 	        </a>
 	        
-	        <table class="header-layout-info">
-	        	<thead>
-	        		<tr>
-		        		<td colspan="2" class="header-layout-title">Command</td>
-		        	</tr>
-	        	</thead>
-	        	<tbody>
-	        		<tr v-for="(item,index) in commandList">
-						<td class="name">- {{item.name}}</td>
-						<td class="event-btn-area">
-							<button class="btn btn-default btn-sm" @click="downloadComponentItem('appLog',item)" title="Download"><i class="fa fa-download"></i></button>
-							<button class="btn btn-default btn-sm" @click="cmd(item, 'stop', 'view')">log</button>
-							<c:if test="${isManager}">
-								<button class="btn btn-danger btn-sm" @click="cmd(item, 'stop')">stop</button>
-								<button class="btn btn-success btn-sm" @click="cmd(item, 'start')">start</button>
-							</c:if>
-						</td>
-					</tr>
-				</tbody>
-	        </table>
+	        <ul class="header-layout-info" style="right:0px;">
+	          <li class="header-layout-title">
+			    Command
+			  </li>	
+			  <!-- row -->
+			  <li class="header-layout-row" v-for="(item,index) in commandList">
+				<span class="name text-ellipsis" :title="item.name">{{item.name}}</span>
+				
+				<div class="event-btn-area">
+			      	<button class="btn btn-default btn-sm" @click="downloadComponentItem('appLog',item)" title="Download"><i class="fa fa-download"></i></button>
+					<button class="btn btn-default btn-sm" @click="cmd(item, 'stop', 'view')">log</button>
+					<c:if test="${isManager}">
+						<button class="btn btn-danger btn-sm" @click="cmd(item, 'stop')">stop</button>
+						<button class="btn btn-success btn-sm" @click="cmd(item, 'start')">start</button>
+					</c:if>
+			    </div>
+			  </li>
+			</ul>
+	        
 	    </li>
 	    <%-- Command list end --%>
 	    
@@ -234,7 +286,10 @@ VartoolAPP.vueServiceBean({
 					
 					if(msg !=null  && msg !=''){
 						VARTOOLUI.toast.open({text : msg});
+						return ;
 					}
+					
+					VARTOOL.ui.startComponentLog({id: item.cmpId, title: item.name});
 				}
 			})
 		}
@@ -255,7 +310,10 @@ VartoolAPP.vueServiceBean({
 					
 					if(msg !=null  && msg !=''){
 						VARTOOLUI.toast.open({text : msg});
+						return ; 
 					}
+					
+					VARTOOL.ui.startComponentLog({id: item.cmpId, title: item.name});
 				}
 			})
 		}

@@ -42,9 +42,20 @@
 		
 		<echo message="build classes dir : ${build.classes.dir}"/>
 		
+		<!--
+			class 와 자원들 배포.
+		-->
 		<copy todir="${deploy.classes.dir}" verbose="true">
-			<fileset dir="${resource.dir}" includes="**/*.*" excludes="**/config/ep_config.properties,**/*.dev,**/*.test,**/*.prod"/>
+			<fileset dir="${build.classes.dir}" includes="**/*.class" />
+			<fileset dir="${src.dir}" includes="**/*.*" excludes="**/*.java,**/*.dev,**/*.test,**/*.prod" />
 		</copy>
+		
+		
+		<!-- resource 에 자원이 있는 경우.  주석 풀고 설정할것. 
+			<copy todir="${deploy.classes.dir}" verbose="true">
+				<fileset dir="${resource.dir}" includes="**/*.*" excludes="**/config/ep_config.properties,**/*.dev,**/*.test,**/*.prod"/>
+			</copy>
+		-->
 		
 		<!-- 
 			web.xml 배포 하지 않고 서버에 맞는 걸로 배포. 
@@ -59,7 +70,7 @@
 		<!--
 			properties 배포.
 		-->
-		<copy todir="${deploy.classes.dir}" verbose="true">
+		<copy todir="${deploy.classes.dir}" verbose="true" overwrite="true">
 			<mappedresources>
 		        <fileset dir="${src.dir}">
 		            <include name="**/*.properties.dev"/>
@@ -71,7 +82,7 @@
 		<!-- 
 			xml 배포
 		-->
-		<copy todir="${deploy.classes.dir}" verbose="true">
+		<copy todir="${deploy.classes.dir}" verbose="true" overwrite="true">
 			<mappedresources>
 		        <fileset dir="${src.dir}">
 		            <include name="**/*.xml.dev"/>

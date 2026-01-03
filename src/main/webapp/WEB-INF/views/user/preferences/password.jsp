@@ -82,27 +82,27 @@ response.setDateHeader ("Expires", -1);
 				fields: {
 					currPw: {
 		                validators: {
-		                    notEmpty: { message: VARTOOL.messageFormat('vartool.form.0001') }
+		                    notEmpty: { message: VARTOOL.message('vartool.form.0001') }
 		                }
 		            }
 					,upw : {
 		                validators: {
-		                	 notEmpty: { message: VARTOOL.messageFormat('vartool.form.0001')}
-	                    	,stringLength: {min: 4, max: 500, message:  VARTOOL.messageFormat('vartool.form.0002' , {len:4}) }
+		                	 notEmpty: { message: VARTOOL.message('vartool.form.0001')}
+	                    	,stringLength: {min: 4, max: 500, message:  VARTOOL.message('vartool.form.0002' , {len:4}) }
 		                    ,identical: {
 		                        field: 'confirmUpw',
-		                        message: VARTOOL.messageFormat('vartool.form.0003')
+		                        message: VARTOOL.message('vartool.form.0003')
 		                    }
 		                }
 		            }
 		            ,confirmUpw : {
 		                validators: {
 		                    notEmpty: {
-		                        message: VARTOOL.messageFormat('vartool.form.0001')
+		                        message: VARTOOL.message('vartool.form.0001')
 		                    }
 		                    ,identical: {
 		                        field: 'upw',
-		                        message: VARTOOL.messageFormat('vartool.form.0003')
+		                        message: VARTOOL.message('vartool.form.0003')
 		                    }
 		                }
 		            }
@@ -129,16 +129,16 @@ response.setDateHeader ("Expires", -1);
 					}
 
 					if(resData.resultCode == 50001){
-						VARTOOLUI.alert.open(VARTOOL.messageFormat('vartool.m.0007'));
+						VARTOOL.alertMessage('vartool.m.0007');
 						return ;
 					}else{
 						if(resData.resultCode != 200){
-							alert(resData.message);
+							VARTOOL.alertMessage(resData.message);
 							return ;
 						}
 					}
 
-					VARTOOLUI.alert.open(VARTOOL.messageFormat('vartool.m.0008'));
+					VARTOOL.alertMessage('vartool.m.0008');
 
 					location.href= location.href;
 				}

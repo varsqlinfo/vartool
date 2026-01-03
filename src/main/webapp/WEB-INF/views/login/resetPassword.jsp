@@ -137,16 +137,16 @@ VartoolAPP.vueServiceBean({
 	                    
                     if(item != 'success'){
                         if(item=='token'){
-                            alert('유효하지 않은 토근입니다.');
+                            VARTOOL.alertMessage('유효하지 않은 토근입니다.');
                         }else if(item=='password'){
-                            alert('패스워드를 정확히 입력해주세요.');
+                            VARTOOL.alertMessage('패스워드를 정확히 입력해주세요.');
                         }else{
-                            alert(item);
+                            VARTOOL.alertMessage(item);
                         }
                         
                         return ;
                     }else{
-                        alert('변경되었습니다.');
+                        VARTOOL.alertMessage('변경되었습니다.');
                         location.href='<c:url value="/" />';
                     }
 				},

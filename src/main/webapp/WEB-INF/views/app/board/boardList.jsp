@@ -10,7 +10,7 @@
 	<div>
 		<div class="form-group" style="width:300px;float:left;">
 			<div class="input-group"> 
-				<input class="form-control" v-model="searchVal" placeholder="Search..." @keyup.enter="search()"> 
+				<input type="text" class="form-control" v-model="searchVal" placeholder="Search..." @keyup.enter="search()"> 
 				<span class="input-group-btn"> <button class="btn btn-default search-btn" type="button" @click="search()">조회</button> 
 				</span> 
 			</div>
@@ -67,7 +67,7 @@ VartoolAPP.vueServiceBean({
 			var _this = this; 
 			
 			var param = {
-				page:no?no:1
+				pageNo:no?no:1
 				,rows: _this.list_count
 				,'searchVal':_this.searchVal
 			};

@@ -15,7 +15,7 @@ public abstract class AbstractConfiguration {
 		if (installRoot == null || "".equals(installRoot)) {
 			String catalinaHome = System.getProperty("catalina.home", "");
 			if (!"".equals(catalinaHome)) {
-				installRoot = System.getProperty("catalina.home") + File.separator + "vtool";
+				installRoot = catalinaHome + File.separator + "vtool";
 			} else {
 				installRoot = Thread.currentThread().getContextClassLoader().getResource("").getFile();
 			}

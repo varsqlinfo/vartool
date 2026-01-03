@@ -83,8 +83,9 @@
 
     <div style="display:none;">
 		<form name="f" action="${vartoolfn:loginUrl(pageContext.request)}" method="post" onsubmit="return false;">
-			<input type="text" id="vsql_login_id" name="vsql_login_id" value="">
-			<input type="password" id="vsql_login_password" name="vsql_login_password" value="">
+			<input type="text" id="vtool_login_id" name="vtool_login_id" value="">
+			<input type="password" id="vtool_login_password" name="vtool_login_password" value="">
+			<input type="hidden" id="join_success" name="join_success" value="Y">
 		</form>
 	</div>
     <!--/form-->
@@ -262,12 +263,13 @@ var joinForm = {
 					return ;
 				}else{
 					if(resData.code ==409){
-						alert('아이디  중복 입니다.');
+						VARTOOL.alertMessage('아이디  중복 입니다.');
 						return ;
 					}
 				}
-				$('#vsql_login_id').val( $('#uid').val());
-				$('#vsql_login_password').val($('#upw').val());
+				
+				$('#vtool_login_id').val( $('#uid').val());
+				$('#vtool_login_password').val($('#upw').val());
 
 				document.f.submit();
 			},

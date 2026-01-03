@@ -27,7 +27,10 @@ import org.springframework.core.io.UrlResource;
 import com.vartech.common.exception.VartechRuntimeException;
 import com.vartech.common.utils.FileUtils;
 import com.vartool.core.common.CommonUtils;
+import com.vartool.web.constants.SavePathType;
+import com.vartool.web.constants.UploadFileType;
 import com.vartool.web.constants.VartoolConstants;
+import com.vartool.web.exception.VartoolAppException;
 import com.vartool.web.model.entity.FileBaseEntity;
 import com.vartool.web.model.entity.board.BoardFileEntity;
 
@@ -38,6 +41,8 @@ import com.vartool.web.model.entity.board.BoardFileEntity;
 * @author	: ytkim
  */
 public final class FileServiceUtils {
+	
+	public final static int BUFFER_SIZE = 2048;
 
 	private FileServiceUtils() {};
 
@@ -63,12 +68,12 @@ public final class FileServiceUtils {
 	 * @param url
 	 * @return
 	 */
-	public static File getUploadFile(FileBaseEntity fileinfo){
+	public static File getFileInfoToFile(FileBaseEntity fileinfo){
 		Path filePath = getUploadRootPath().resolve(fileinfo.getFilePath()).normalize();
 		return filePath.toFile();
 	}
 	
-	public static File getUploadFile(BoardFileEntity fileinfo){
+	public static File getBoardFileInfoToFile(BoardFileEntity fileinfo){
 		Path filePath = getUploadRootPath().resolve(fileinfo.getFilePath()).normalize();
 		return filePath.toFile();
 	}
@@ -82,13 +87,50 @@ public final class FileServiceUtils {
 	 * @return
 	 * @throws IOException
 	 */
-	public static Path getSavePath(String div) throws IOException {
-		Path fileExportPath = getUploadRootPath().resolve(FileUtils.getSaveDayPath(div));
+	public static Path getSavePath(UploadFileType fileType) {
+		return getSavePath(fileType, null);
+	}
 
-		if (Files.notExists(fileExportPath)) {
-			Files.createDirectories(fileExportPath);
+	public static Path getSavePath(UploadFileType fileType, String contId) {
+		return getUploadRootPath().resolve(getSaveFilePathStr(fileType, contId, true));
+	}
+
+	public static String getSaveRelativePath(UploadFileType fileType) {
+		return getSaveRelativePath(fileType, null);
+	}
+	public static String getSaveRelativePath(UploadFileType fileType, String contId) {
+		return getSaveFilePathStr(fileType, contId, true);
+	}
+
+	private static String getSaveFilePathStr(UploadFileType fileType, String contId, boolean createFlag) {
+		String savePath = "";
+		if(SavePathType.DATE_YY_MM_DD.equals((fileType.getSavePathType()))) {
+			savePath =  FileUtils.getSaveDayPath(fileType.getSavePathRoot());
+		}else if(SavePathType.DATE_YY.equals((fileType.getSavePathType()))) {
+			savePath = FileUtils.getSaveYearPath(fileType.getSavePathRoot());
+		}else if(SavePathType.CONT_ID.equals((fileType.getSavePathType()))) {
+			savePath = FileUtils.pathConcat(fileType.getSavePathRoot(), contId);
+		}else if(SavePathType.BLANK.equals((fileType.getSavePathType()))) {
+			savePath = fileType.getSavePathRoot();
+		}else {
+			savePath = FileUtils.getSaveMonthPath(fileType.getSavePathRoot());
 		}
-		return fileExportPath;
+
+		if(createFlag) {
+			createDirPath(getUploadRootPath().resolve(savePath));
+		}
+
+		return savePath;
+	}
+	
+	private static void createDirPath(Path path) {
+		if (Files.notExists(path)) {
+			try {
+				Files.createDirectories(path);
+			} catch (IOException e) {
+				throw new VartoolAppException("Files.createDirectories exception  : "+ path.toAbsolutePath().toString(), e);
+			}
+		}
 	}
 
 	/**
@@ -189,7 +231,7 @@ public final class FileServiceUtils {
 				for(int idx=0; idx < fileLen; idx++){
 					FileBaseEntity fileInfo = fileArr[idx];	
 					
-					File file = FileServiceUtils.getUploadFile(fileInfo);
+					File file = FileServiceUtils.getFileInfoToFile(fileInfo);
 					
 					if (file.isFile()) {
 						
@@ -211,7 +253,7 @@ public final class FileServiceUtils {
 				if(zos != null) zos.close();
 			}
 		}else {
-			File file = FileServiceUtils.getUploadFile(fileArr[0]);
+			File file = FileServiceUtils.getFileInfoToFile(fileArr[0]);
 			
 			byte b[] = new byte[bufferSize];
 

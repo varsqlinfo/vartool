@@ -9,7 +9,6 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,9 +32,11 @@ import com.vartool.web.constants.AppCode;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.dto.request.BoardCommentRequestDTO;
 import com.vartool.web.dto.request.BoardRequestDTO;
+import com.vartool.web.dto.response.BoardResponseDTO;
 import com.vartool.web.model.entity.FileBaseEntity;
 import com.vartool.web.model.entity.board.BoardFileEntity;
 import com.vartool.web.module.FileServiceUtils;
+import com.vartool.web.module.MarkdownXssUtils;
 import com.vartool.web.module.VartoolUtils;
 
 
@@ -45,6 +46,7 @@ import com.vartool.web.module.VartoolUtils;
 * @fileName	: BoardController.java
 * @author	: ytkim
  */
+
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -52,8 +54,11 @@ public class BoardController {
 	/** The Constant logger. */
 	private final static Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
-	@Autowired
-	private BoardService boardService;
+	private final BoardService boardService;
+	
+	public BoardController(BoardService boardService) {
+		this.boardService = boardService; 
+	}
 	
 	@RequestMapping(value = "/{"+AppCode.BOARD_CODE+"}", method = RequestMethod.GET)
 	public ModelAndView mainpage(@PathVariable(required = true, name=AppCode.BOARD_CODE) String boardCode
@@ -103,6 +108,7 @@ public class BoardController {
 		
 		ModelMap model = mav.getModelMap();
 		model.addAttribute("param", HttpUtils.getServletRequestParam(req));
+        model.addAttribute("articleInfo", "{}");
 		
 		return new ModelAndView("/board/boardWrite", model);
 	}
@@ -147,10 +153,53 @@ public class BoardController {
 		
 		ModelMap model = mav.getModelMap();
 		model.addAttribute("param", HttpUtils.getServletRequestParam(req));
-		model.addAttribute("articleInfo", VartechUtils.objectToJsonString(boardService.viewBoardInfo(boardCode, articleId)));
+        BoardResponseDTO dto = new BoardResponseDTO();
+		dto.setBoardCode(boardCode);
+		dto.setArticleId(articleId);
+		
+		model.addAttribute("articleInfo", VartechUtils.objectToJsonString(dto));
 		
 		return new ModelAndView("/board/boardDetail", model);
 	}
+
+    
+	/**
+	 * xss 방어 컨텐츠 보기 
+	 * @param boardCode
+	 * @param articleId
+	 * @param req
+	 * @param mav
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/{"+AppCode.BOARD_CODE+"}/viewContents", method = RequestMethod.POST)
+	public  @ResponseBody ResponseResult viewContent(@PathVariable(required = true, name=AppCode.BOARD_CODE) String boardCode
+			, @RequestParam(value = "articleId" , required = true) long articleId
+			, HttpServletRequest req, ModelAndView mav) throws Exception {
+
+		BoardResponseDTO dto = boardService.viewBoardInfo(boardCode, articleId);
+		dto.setContents(MarkdownXssUtils.sanitizeAndSerializeHTML(dto.getContents()));
+
+		return ResponseResult.builder().item(dto).build();
+	}
+
+    /**
+	 * 컨텐츠 보기 
+	 * @param boardCode
+	 * @param articleId
+	 * @param req
+	 * @param mav
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping(value = "/{"+AppCode.BOARD_CODE+"}/contents")
+	public  @ResponseBody ResponseResult contents(@RequestParam(value = AppCode.BOARD_CODE, required = true) String boardCode
+			, @RequestParam(value = "articleId" , required = true) long articleId
+			, HttpServletRequest req, ModelAndView mav) throws Exception {
+		
+		return ResponseResult.builder().item(boardService.viewBoardInfo(boardCode, articleId)).build();
+	}
+	
 	
 	@RequestMapping(value = "/{"+AppCode.BOARD_CODE+"}/delete", method = RequestMethod.DELETE)
 	public @ResponseBody ResponseResult delete(@PathVariable(required = true, name=AppCode.BOARD_CODE) String boardCode
@@ -239,3 +288,4 @@ public class BoardController {
 	}
 	
 }
+

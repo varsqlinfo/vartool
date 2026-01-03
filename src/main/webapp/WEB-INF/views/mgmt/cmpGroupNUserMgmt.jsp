@@ -123,7 +123,7 @@ VartoolAPP.vueServiceBean({
 				,useDragSort : false
 				,duplicateCheck : true
 				,message :{
-					duplicate: VARTOOL.messageFormat('vartool.0018')
+					duplicate: VARTOOL.message('vartool.0018')
 				}
 				,sourceItem : {
 					optVal : 'viewid'

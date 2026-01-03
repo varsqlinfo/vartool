@@ -13,6 +13,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -56,7 +57,7 @@ public class CmpDeployMgmtController {
 		return new ModelAndView("/mgmt/cmpDeployMgmt", model);
 	}
 	
-	@PostMapping({"/list" })
+	@PostMapping("/list")
 	public @ResponseBody ResponseResult deployList(HttpServletRequest req,
 			HttpServletResponse res, ModelAndView mav) throws Exception {
 		
@@ -76,7 +77,7 @@ public class CmpDeployMgmtController {
 	 * @return
 	 * @throws Exception
 	 */
-	@PostMapping({"/save" })
+	@PostMapping("/save")
 	public @ResponseBody ResponseResult save(@Valid CmpDeployRequestDTO dto, BindingResult result, ModelAndView mav, HttpServletRequest req) throws Exception {
 		ResponseResult resultObject = new ResponseResult();
 		if (result.hasErrors()) {
@@ -101,7 +102,7 @@ public class CmpDeployMgmtController {
 	 * @return
 	 * @throws Exception
 	 */
-	@PostMapping({"/remove" })
+	@PostMapping("/remove")
 	public @ResponseBody ResponseResult remove(@RequestParam(value = "cmpId", required = true) String cmpId, HttpServletRequest req) throws Exception {
 		return cmpDeployMgmtService.remove(cmpId);
 	}
@@ -120,19 +121,35 @@ public class CmpDeployMgmtController {
 	 * @return
 	 * @throws Exception
 	 */
-	@PostMapping({"/connChk" })
+	@PostMapping("/connChk" )
 	public @ResponseBody ResponseResult connChk(@Valid CmpDeployRequestDTO dto, BindingResult result, ModelAndView mav, HttpServletRequest req) throws Exception {
 		return cmpDeployMgmtService.connChk(dto);
 	}
 	
-	@PostMapping({"/copy" })
+	@PostMapping("/copy" )
 	public @ResponseBody ResponseResult copy(@RequestParam(value = "cmpId", required = true) String cmpId, HttpServletRequest req) throws Exception {
 		return cmpDeployMgmtService.copyInfo(cmpId);
 	}
 	
-	@PostMapping({"/removeDeployDir" })
+	@PostMapping("/removeDeployDir" )
 	public @ResponseBody ResponseResult removeDeployDir(@RequestParam(value = "cmpId", required = true) String cmpId,
 			@RequestParam(value = "mode", required = true) String mode, HttpServletRequest req) throws Exception {
 		return cmpDeployMgmtService.removeDeployDir(cmpId, mode);
+	}
+	
+	/**
+	 * build source download
+	 * 
+	 * @param cmpId
+	 * @param mode
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(path="/sourceDownload" , method = {RequestMethod.POST, RequestMethod.GET} )
+	public void sourceDownload(@RequestParam(value = "cmpId", required = true) String cmpId,
+			@RequestParam(value = "fileName", required = true) String fileName, HttpServletRequest req, HttpServletResponse res) throws Exception {
+		cmpDeployMgmtService.sourceDownload(cmpId, fileName, req, res);
+			
 	}
 }

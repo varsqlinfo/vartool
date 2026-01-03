@@ -6,7 +6,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.vartech.common.utils.StringUtils;
 import com.vartech.common.utils.VartechUtils;
 import com.vartool.web.constants.ResourceConfigConstants;
 import com.vartool.web.constants.WebSocketConstants;

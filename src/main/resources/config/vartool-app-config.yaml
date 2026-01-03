@@ -12,6 +12,7 @@ schedulerEnable: false
 
 # db config
 db:
+  initMode : ddl  # ddl, data, none 
   type : h2
   url : jdbc:h2:file:#resourePath#/db/vartool;AUTO_SERVER=TRUE;CACHE_SIZE=131072;
   username : sa
@@ -33,7 +34,7 @@ passwordConfig:
 # customClass :
   
 userPassowrdResetConfig:
-  mode: email #default manager, email
+  mode: manager #default manager, email
   size: 8 
   type: LOWER_AND_VNUMBER 
  

@@ -624,11 +624,14 @@ Plugin.prototype ={
 		}else{
 			for (var i = 0; i < logDataLen; i++) {
 				var logText = logData[i]
-				logText = logText.split('\t').join('    ')
+				if(logText){
+					logText = logText.split('\t').join('    ')
 
-				data.push({
-					orgin : logText
-				});
+					data.push({
+						orgin : logText
+					});	
+				}
+				
 			}
 		}
 		

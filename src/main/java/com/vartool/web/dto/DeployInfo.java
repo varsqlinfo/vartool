@@ -1,7 +1,6 @@
 package com.vartool.web.dto;
 
 import com.vartool.web.model.entity.cmp.CmpItemDeployEntity;
-import com.vartool.web.model.entity.cmp.CredentialsProviderEntity;
 
 import lombok.Getter;
 import lombok.Setter;

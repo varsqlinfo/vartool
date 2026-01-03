@@ -12,6 +12,7 @@ public class CmpCommandResponseDTO extends CmpResponseDTO {
 	private String charset;
 	private String startCmd;
 	private String stopCmd;
+	private int	   watchSecond;
 	
 	public static CmpCommandResponseDTO toDto(CmpItemCommandEntity entity) {
 		CmpCommandResponseDTO dto= new CmpCommandResponseDTO();
@@ -26,6 +27,7 @@ public class CmpCommandResponseDTO extends CmpResponseDTO {
 		dto.setCharset(entity.getCmdCharset());
 		dto.setStartCmd(entity.getStartCmd());
 		dto.setStopCmd(entity.getStopCmd());
+		dto.setWatchSecond(60);
 		
 		return dto;
 	}

@@ -1,9 +1,11 @@
 package com.vartool.web.configuration;
 
-import javax.annotation.PostConstruct;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +31,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.app.common.interceptor.BoardAuthInterceptor;
 import com.vartool.web.app.common.interceptor.LanguageInterceptor;
+import com.vartool.web.constants.SecurityConstants;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.constants.ViewPageConstants;
 import com.vartool.web.module.VartoolUtils;
@@ -57,10 +60,6 @@ import com.vartool.web.module.VartoolUtils;
 public class AppWebMvcConfigurer extends AppWebConfigurer {
 
     private static final int CACHE_PERIOD = 31556926; // one year
-
-    @PostConstruct
-    public void init() {
-    }
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -158,5 +157,16 @@ public class AppWebMvcConfigurer extends AppWebConfigurer {
        multipartResolver.setDefaultEncoding(VartoolConstants.CHAR_SET);
        multipartResolver.setMaxInMemorySize(VartoolConfiguration.getInstance().getFileUploadMaxInMemorySize());
        return multipartResolver;
+    }
+    
+    @Bean
+    public ServletContextInitializer servletContextInitializer() {
+        return new ServletContextInitializer() {
+            @Override
+            public void onStartup(ServletContext servletContext) throws ServletException {
+            	servletContext.getSessionCookieConfig().setHttpOnly(true);
+                servletContext.getSessionCookieConfig().setName(SecurityConstants.JSESSION_ID_COOKIE_NAME);
+            }
+        };
     }
 }

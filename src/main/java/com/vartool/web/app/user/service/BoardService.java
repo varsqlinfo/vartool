@@ -17,8 +17,8 @@ import com.vartech.common.app.beans.ResponseResult;
 import com.vartech.common.app.beans.SearchParameter;
 import com.vartech.common.utils.StringUtils;
 import com.vartool.web.app.common.service.FileUploadService;
-import com.vartool.web.constants.FilePathCode;
 import com.vartool.web.constants.ResourceConfigConstants;
+import com.vartool.web.constants.UploadFileType;
 import com.vartool.web.dto.request.BoardCommentRequestDTO;
 import com.vartool.web.dto.request.BoardRequestDTO;
 import com.vartool.web.dto.response.BoardCommentResponseDTO;
@@ -58,6 +58,9 @@ public class BoardService{
 	
 	@Autowired
 	private FileUploadService fileUploadService;
+	
+	private final String BOARD_CONT_TYPE = "board";
+	private final String COMMENT_CONT_TYPE = "comment";
 	
 	/**
 	 * 목록
@@ -99,7 +102,7 @@ public class BoardService{
 		}else {
 			boardEntity = boardEntityRepository.findByArticleId(boardRequestDTO.getArticleId());
 			
-			if(!SecurityUtils.isAdmin() && !boardEntity.getRegId().equals(SecurityUtils.userViewId()) ) {
+			if(!isModify(boardEntity)) {
 				throw new BoardPermissionException("no permission");
 			}
 			
@@ -117,10 +120,10 @@ public class BoardService{
 		
 		if(boardRequestDTO.getFile() !=null && boardRequestDTO.getFile().size() > 0) {
 			List<BoardFileEntity> boardFileList= boardEntity.getFileList();
-			fileUploadService.uploadFiles(boardRequestDTO.getFile(), FilePathCode.BOARD.getDiv(), boardRequestDTO.getArticleId()+"", boardRequestDTO.getBoardCode(),"file", false).forEach(item->{
+			fileUploadService.uploadFiles(UploadFileType.BOARD, boardRequestDTO.getFile(), boardRequestDTO.getArticleId()+"", boardRequestDTO.getBoardCode(),"file", false, false).forEach(item->{
 				BoardFileEntity entity= BoardFileEntity.toBoardFileEntity(item);
 				entity.setArticle(boardEntity);
-				entity.setContType("board");
+				entity.setContType(BOARD_CONT_TYPE);
 				boardFileList.add(entity);
 			});
 			boardEntity.setFileList(boardFileList);
@@ -149,7 +152,7 @@ public class BoardService{
 		
 		BoardEntity board = boardEntityRepository.findByArticleId(articleId);
 		
-		if(board == null || (!SecurityUtils.isAdmin() && !board.getRegId().equals(SecurityUtils.userViewId()))) {
+		if(board == null || !isModify(board)) {
 			throw new PermissionDeniedException("no permission");
 		}
 		
@@ -176,7 +179,10 @@ public class BoardService{
 			throw new BoardNotFoundException("not found : "+ articleId);
 		}
 		
-		return BoardResponseDTO.toDto(boardEntity, true);
+		BoardResponseDTO  dto = BoardResponseDTO.toDto(boardEntity, true);
+		dto.setModifyAuth(isModify(boardEntity));
+
+		return dto;
 	}
 	
 	/**
@@ -189,6 +195,12 @@ public class BoardService{
 	 */
 	@Transactional(transactionManager=ResourceConfigConstants.APP_TRANSMANAGER, rollbackFor=Throwable.class)
 	public ResponseResult commentSave(long articleId, BoardCommentRequestDTO boardCommentRequestDTO) {
+		
+		BoardEntity boardEntity = boardEntityRepository.findByArticleId(articleId);
+		
+		if(boardEntity == null) {
+			throw new BoardNotFoundException("article id not found : "+ articleId);
+		}
 		
 		BoardCommentEntity boardCommentEntity;
 		boolean isNew = NumberUtils.isNullOrZero(boardCommentRequestDTO.getCommentId()); 
@@ -218,7 +230,7 @@ public class BoardService{
 		}else {
 			boardCommentEntity = boardCommentEntityRepository.findByArticleIdAndCommentId(articleId, boardCommentRequestDTO.getCommentId());
 			
-			if(!SecurityUtils.isAdmin() && !boardCommentEntity.getRegId().equals(SecurityUtils.userViewId())){
+			if( !isCommentModify(boardCommentEntity)){
 				throw new BoardPermissionException("no permission");
 			}
 			
@@ -235,10 +247,10 @@ public class BoardService{
 		
 		if(boardCommentRequestDTO.getFile().size() > 0) {
 			List<BoardFileEntity> boardFileList= boardCommentEntity.getFileList();
-			fileUploadService.uploadFiles(boardCommentRequestDTO.getFile(), FilePathCode.BOARD.getDiv(), boardCommentRequestDTO.getCommentId()+"", boardCommentRequestDTO.getBoardCode(),"file", false).forEach(item->{
+			fileUploadService.uploadFiles(UploadFileType.BOARD, boardCommentRequestDTO.getFile(), boardCommentRequestDTO.getCommentId()+"", boardCommentRequestDTO.getBoardCode(),"file", false, false).forEach(item->{
 				BoardFileEntity entity= BoardFileEntity.toBoardFileEntity(item);
 				entity.setComment(boardCommentEntity);
-				entity.setContType("comment");
+				entity.setContType(COMMENT_CONT_TYPE);
 				boardFileList.add(entity);
 			});
 			boardCommentEntity.setFileList(boardFileList);
@@ -247,6 +259,15 @@ public class BoardService{
 		BoardCommentEntity saveEntity = boardCommentEntityRepository.save(boardCommentEntity);
 		
 		if(isNew) {
+			
+			if(boardEntity.getCommentCnt() > 0) {
+				boardEntity.setCommentCnt(boardEntity.getCommentCnt() +1);
+			}else {
+				boardEntity.setCommentCnt(1);
+			}
+			
+			boardEntityRepository.save(boardEntity);
+			
 			if(!isReComment){
 				saveEntity.setGrpCommentId(saveEntity.getCommentId());
 				boardCommentEntityRepository.save(saveEntity);
@@ -288,24 +309,38 @@ public class BoardService{
 	 */
 	public ResponseResult commentDelete(long articleId, long commentId) {
 		
+		BoardEntity boardEntity = boardEntityRepository.findByArticleId(articleId);
+		
+		if(boardEntity == null) {
+			throw new BoardNotFoundException("article id not found : "+ articleId);
+		}
+		
 		BoardCommentEntity boardCommentEntity = boardCommentEntityRepository.findByArticleIdAndCommentId(articleId, commentId);
 		
-		if(boardCommentEntity == null || (!SecurityUtils.isAdmin() && !boardCommentEntity.getRegId().equals(SecurityUtils.userViewId()))) {
-			throw new PermissionDeniedException("no permission");
+		if( !isCommentModify(boardCommentEntity)){
+			throw new BoardPermissionException("no permission");
 		}
 		
 		if(boardCommentEntity.getChildren().size() > 0) {
 			boardCommentEntity.setDelYn(true);
 			boardCommentEntityRepository.save(boardCommentEntity);
 		}else {
-			BoardCommentEntity parentCommentEntity = boardCommentEntity.getParent(); 
 			boardCommentEntityRepository.delete(boardCommentEntity);
 			
-			// 상위 comment 삭제 처리 
-			if(parentCommentEntity != null && parentCommentEntity.isDelYn() && parentCommentEntity.getChildren().size() < 1) {
+            BoardCommentEntity parentCommentEntity = boardCommentEntity.getParent(); 
+			// 상위 comment 삭제 처리
+			if(parentCommentEntity != null && parentCommentEntity.isDelYn() && parentCommentEntity.getChildren().size() ==1 && parentCommentEntity.getChildren().get(0).getCommentId() ==boardCommentEntity.getCommentId() ) {
 				boardCommentEntityRepository.delete(parentCommentEntity);
 			}
 		}
+		
+		if(boardEntity.getCommentCnt() > 0) {
+			boardEntity.setCommentCnt(boardEntity.getCommentCnt() - 1);
+		}else {
+			boardEntity.setCommentCnt(0);
+		}
+		
+		boardEntityRepository.save(boardEntity);
 		
 		return VartoolUtils.getResponseResultItemOne(1);
 	}
@@ -320,6 +355,14 @@ public class BoardService{
 	 */
 	public List<BoardFileEntity> findFileList(long articleId, long fileId) {
 		return boardFileEntityRepository.findAllByArticleAndFileId(BoardEntity.builder().articleId(articleId).build(), fileId);
+	}
+	
+	private boolean isModify(BoardEntity boardEntity) {
+		return SecurityUtils.isAdmin() || SecurityUtils.isManager() || boardEntity.getRegId().equals(SecurityUtils.userViewId());
+	}
+
+	private boolean isCommentModify(BoardCommentEntity boardCommentEntity) {
+		return SecurityUtils.isAdmin() || SecurityUtils.isManager() || boardCommentEntity.getRegId().equals(SecurityUtils.userViewId());
 	}
 	
 }

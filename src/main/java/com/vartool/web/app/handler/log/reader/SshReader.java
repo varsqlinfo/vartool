@@ -1,7 +1,9 @@
 package com.vartool.web.app.handler.log.reader;
 import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
+import java.security.KeyPair;
 import java.time.Duration;
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -12,9 +14,12 @@ import org.apache.sshd.client.channel.ClientChannelEvent;
 import org.apache.sshd.client.future.ConnectFuture;
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.common.SshException;
+import org.apache.sshd.common.config.keys.FilePasswordProvider;
+import org.apache.sshd.common.config.keys.loader.KeyPairResourceLoader;
 import org.apache.sshd.common.future.WaitableFuture;
 import org.apache.sshd.common.session.SessionHeartbeatController.HeartbeatType;
 import org.apache.sshd.common.util.io.output.NoCloseOutputStream;
+import org.apache.sshd.common.util.security.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +27,7 @@ import com.vartech.common.utils.StringUtils;
 import com.vartool.core.crypto.PasswordCryptionFactory;
 import com.vartool.web.app.handler.log.LogCmpManager;
 import com.vartool.web.app.handler.log.stream.LogComponentOutputStream;
+import com.vartool.web.constants.CredentialsType;
 import com.vartool.web.dto.CredentialInfo;
 import com.vartool.web.dto.ReadLogInfo;
 
@@ -45,6 +51,7 @@ public class SshReader implements LogReader{
 	private ReadLogInfo readLogInfo;
 	
 	private ConnectFuture connectFuture;
+	private CredentialInfo credentialInfo;
 	
 	public SshReader(ReadLogInfo readLogInfo) {
 		
@@ -56,6 +63,7 @@ public class SshReader implements LogReader{
 				.build();
 		
 		if(credentialInfo != null) {
+			this.credentialInfo = credentialInfo; 
 			conn.setUsername(credentialInfo.getUsername());
 			conn.setPassword(PasswordCryptionFactory.getInstance().decrypt(readLogInfo.getCredentialInfo().getPassword()));
 		}
@@ -87,9 +95,17 @@ public class SshReader implements LogReader{
 
 			connectFuture  = client.connect(conn.getUsername(), conn.getHostname(), conn.getPort());
 			connectFuture.await();
-
+			
 			try (ClientSession session = connectFuture.verify().getSession()) {
-				session.addPasswordIdentity(conn.getPassword());
+				
+				if(this.credentialInfo != null && CredentialsType.SECRET_TEXT.equals(CredentialsType.getLogType(this.credentialInfo.getCredType()))) {
+					KeyPairResourceLoader loader = SecurityUtils.getKeyPairResourceParser();
+					Collection<KeyPair> kps = loader.loadKeyPairs(null, null, FilePasswordProvider.of(""), this.credentialInfo.getSecretText());
+					session.addPublicKeyIdentity(kps.stream().findFirst().get());
+				}else {
+					session.addPasswordIdentity(conn.getPassword());
+				}
+				
 				session.auth().verify(TimeUnit.SECONDS.toMillis(timeout));
 
 				// Create the exec and channel its output/error streams

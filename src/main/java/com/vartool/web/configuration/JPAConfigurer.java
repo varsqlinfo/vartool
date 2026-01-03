@@ -1,4 +1,6 @@
 package com.vartool.web.configuration;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
@@ -9,15 +11,19 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.init.DatabasePopulator;
+import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -28,6 +34,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.core.config.vo.DbConfig;
+import com.vartool.web.constants.DBInitMode;
 import com.vartool.web.constants.ResourceConfigConstants;
 
 /**
@@ -77,9 +84,28 @@ public class JPAConfigurer {
 		
 		logger.info("=================datasourceconfig info====================");
 		logger.info(" datasourceconfig : {}", dbConfig);
+		logger.info(" DBInitMode : {}", dbConfig.getInitMode());
+		logger.info(" is initialized : {}", VartoolConfiguration.getInstance().isInitialized());
 		logger.info("=================datasourceconfig info====================");
 		
+		
 		this.mainDataSource = dataSource;
+		
+		// init schema, data
+		if(!dbConfig.getInitMode().equals(DBInitMode.NONE)) {
+			if(!VartoolConfiguration.getInstance().isInitialized()) {
+				
+				List<Resource> initResource = new LinkedList<>();
+				
+				if(dbConfig.getInitMode().equals(DBInitMode.DDL)){
+					initResource.add(new ClassPathResource("config/db/vartool-app.sql"));
+				}
+		        
+				initResource.add(new ClassPathResource("config/db/vartool-app-init-data.sql"));
+		        DatabasePopulator databasePopulator = new ResourceDatabasePopulator(initResource.toArray(new Resource[0]));
+		        DatabasePopulatorUtils.execute(databasePopulator, this.mainDataSource);
+			}
+		}
 	}
 
     @Bean
@@ -87,6 +113,10 @@ public class JPAConfigurer {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(mainDataSource);
         em.setPackagesToScan(new String[] {"com.vartool.web.model.entity" });
+        
+        
+        
+        
 
         final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);

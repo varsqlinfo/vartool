@@ -2,27 +2,22 @@ package com.vartool.web.app.handler.deploy.git;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vartech.common.app.beans.ResponseResult;
-import com.vartech.common.utils.StringUtils;
 import com.vartool.core.config.VartoolConfiguration;
 import com.vartool.web.app.handler.deploy.AbstractDeploy;
 import com.vartool.web.app.handler.deploy.DeployCmpManager;
 import com.vartool.web.app.websocket.service.WebSocketServiceImpl;
-import com.vartool.web.constants.TemplateConvertKeyCode;
 import com.vartool.web.constants.VartoolConstants;
 import com.vartool.web.dto.DeployInfo;
 import com.vartool.web.dto.websocket.LogMessageDTO;
-import com.vartool.web.module.LogFilenameUtils;
+import com.vartool.web.module.ComponentUtils;
 import com.vartool.web.module.VartoolUtils;
-import com.vartool.web.template.DeploySourceReplaceUtils;
 
 /**
  * git deploy component
@@ -67,30 +62,11 @@ public class GitDeployComponent extends AbstractDeploy{
 			}
 			
 			if("deploy".equals(actionMode)||"all".equals(actionMode)){
-				String buildScript = dto.getBuildScript();
-				
-				buildScript = buildScript.trim();
+				String buildScript = ComponentUtils.getBuildScript(dto);
 				
 				String createPath = VartoolConfiguration.getInstance().getDeployConfig().getBuildFileCreatePath();
 				String antExeFile = VartoolConfiguration.getInstance().getDeployConfig().getAntExeFile();
-				
-				String outputBuildFile = createPath + File.separator +  cmpId+"build.xml"; 
-				
-				ObjectMapper mapper = new ObjectMapper();
-				
-				Map replaceInfo = mapper.convertValue(dto, Map.class);
-				
-				String dependencyPath = dto.getDependencyPath();
-				
-				if(StringUtils.isBlank(dependencyPath)) {
-					dependencyPath = VartoolConfiguration.getInstance().getDeployConfig().getDefaultDependencyPath();
-				}
-				
-				replaceInfo.put(TemplateConvertKeyCode.DEPLOY.DEFAULT_DEPENDENCY_PATH.getKey(), dependencyPath);
-				replaceInfo.put(TemplateConvertKeyCode.DEPLOY.SOURCE_PATH.getKey(), LogFilenameUtils.getDeploySourcePath(dto).getAbsolutePath());
-				replaceInfo.put(TemplateConvertKeyCode.DEPLOY.BUILD_PATH.getKey(), LogFilenameUtils.getDeployBuildPath(dto).getAbsolutePath());
-				
-				buildScript  = DeploySourceReplaceUtils.getInstance().getBuildSource(buildScript, replaceInfo);
+				String outputBuildFile = createPath + File.separator +  dto.getCmpId()+"build.xml"; 
 				
 				FileUtils.write(new File(outputBuildFile), buildScript, VartoolConstants.CHAR_SET);
 				
@@ -116,6 +92,7 @@ public class GitDeployComponent extends AbstractDeploy{
 		
 		return result;
 	}
+
 
 	@Override
 	public ResponseResult autoDeploy(DeployInfo dto) {
